@@ -1,2 +1,4 @@
 .originals/
 .DS_Store
+scripts/
+*.bak
