@@ -85,7 +85,7 @@
           "name": "כמה עולה אתר לעסק קטן?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך. בכל החבילות יש גם 39 ₪ לחודש דמי תחזוקה, אחסון ודומיין."
+            "text": "אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך."
           }
         },
         {
@@ -101,7 +101,23 @@
           "name": "האתר באמת שלי, בלי מנוי חודשי?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "כן. חוץ מ-39 ₪ לחודש דמי תחזוקה, אחסון ודומיין, אין תשלום נוסף. האתר נשאר שלכם."
+            "text": "כן. בסיום הפרויקט כל קוד המקור בחזקתכם, בלי עלות נוספת ובלי שום התחייבות חודשית. תוכלו לארח את האתר בכל מקום שתרצו."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ואם אני לא רוצה לנהל את התשתית בעצמי?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "יש מסלול אקספרס: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "אפשר לחבר דומיין קיים שכבר יש לי?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "כן, במסלול אתר תדמית יש אפשרות לחיבור דומיין קיים. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר."
           }
         },
         {
@@ -110,6 +126,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "אתר תדמית הוא עמוד נוכחות פשוט. אתר עם ממשק ניהול מרכז לידים, הזמנות ופניות במקום אחד, עם ממשק ניהול מאובטח עם סיסמה."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "מה קורה אם אני צריך שינויים אחרי שהאתר עולה לאוויר?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "כל חבילה כוללת חודש ליווי אחרי העלייה לאוויר, כולל תיקונים ושינויים קטנים. מעבר לזה אפשר לתאם המשך עבודה לפי הצורך."
           }
         },
         {
@@ -398,7 +422,9 @@ a:hover{color:#ff6fd8;}
 @keyframes stickyPop{from{transform:scale(.94);opacity:.55}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition-duration:.001ms !important;opacity:1 !important}}
 @media (max-width:640px){[data-sticky-header],[data-sticky-header-spacer]{display:none !important}}
-[data-tooltip-trigger]:hover [data-tooltip-bubble]{opacity:1 !important;visibility:visible !important}
+summary::-webkit-details-marker{display:none}
+summary{list-style:none}
+details[open] > summary [data-chevron]{transform:rotate(180deg)}
 @media (max-width:640px){
   [data-hero-exit]{padding:40px 0 48px !important;min-height:100vh !important;box-sizing:border-box !important;display:flex !important;flex-direction:column !important;justify-content:center !important}
   [data-hero-exit] h1{margin-top:14px !important}
@@ -506,10 +532,12 @@ a:hover{color:#ff6fd8;}
           <div style="display:flex;align-items:baseline;gap:8px;font-family:Heebo,sans-serif;"><span style="font-size:14px;color:rgba(232,236,255,.55);">החל מ־</span><span style="font-size:34px;font-weight:900;letter-spacing:-.03em;">1,800 ₪</span></div>
           <div style="height:1px;background:rgba(255,255,255,.1);margin:22px 0;"></div>
           <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:rgba(232,236,255,.78);">
-            <span>עד 5 עמודים, עיצוב מותאם</span>
-            <span>פרטי יצירת קשר וטלפון בולטים בעמוד</span>
-            <span>נמצא בגוגל ונטען מהר</span>
-            <span>עלייה לאוויר תוך ימים ספורים</span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עמודים ללא הגבלה</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עיצוב מותאם אישית</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>פרטי יצירת קשר וטלפון בולטים בעמוד</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>נמצא בגוגל ונטען מהר</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עלייה לאוויר תוך ימים ספורים</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>אפשרות לחיבור דומיין קיים</span></span>
           </div>
           </div>
           <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%AA%D7%93%D7%9E%D7%99%D7%AA%20%D7%91-1%2C800%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:Heebo,sans-serif;font-weight:700;font-size:15px;color:#05081f;background:linear-gradient(120deg,#5ff0ff,#a5f7ff);padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 14px 34px rgba(95,240,255,.4);color:#05081f;">בואו נדבר</a>
@@ -526,10 +554,10 @@ a:hover{color:#ff6fd8;}
           <div style="display:flex;align-items:baseline;gap:8px;font-family:Heebo,sans-serif;"><span style="font-size:14px;color:rgba(232,236,255,.55);">החל מ־</span><span style="font-size:34px;font-weight:900;letter-spacing:-.03em;">4,500 ₪</span></div>
           <div style="height:1px;background:rgba(255,255,255,.1);margin:22px 0;"></div>
           <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:rgba(232,236,255,.78);">
-            <span>טופס פנייה שלא מפספס לידים</span>
-            <span>ממשק ניהול מאובטח עם סיסמה</span>
-            <span>ייצוא לאקסל והתראות</span>
-            <span>אתר תדמית כלול</span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>כל מה שמקבלים במסלול אתר תדמית</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>טופס פנייה שלא מפספס לידים</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>ממשק ניהול מאובטח עם סיסמה</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(95,240,255,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#5ff0ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>ייצוא לאקסל והתראות</span></span>
           </div>
           </div>
           <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A2%D7%9D%20%D7%9E%D7%9E%D7%A9%D7%A7%20%D7%A0%D7%99%D7%94%D7%95%D7%9C%20%D7%91-4%2C500%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:Heebo,sans-serif;font-weight:700;font-size:15px;color:#05081f;background:linear-gradient(120deg,#5ff0ff,#a5f7ff);padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 14px 34px rgba(95,240,255,.4);color:#05081f;">בואו נדבר</a>
@@ -542,25 +570,27 @@ a:hover{color:#ff6fd8;}
           <div style="font-family:Heebo,sans-serif;font-size:26px;font-weight:900;letter-spacing:-.03em;line-height:1.2;">הצעת מחיר בהתאמה</div>
           <div style="height:1px;background:rgba(255,255,255,.1);margin:22px 0;"></div>
           <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:rgba(232,236,255,.78);">
-            <span>צד לקוח + צד ניהול</span>
-            <span>תשלומים, הרשאות, דוחות</span>
-            <span>עובד מהנייד כמו אפליקציה</span>
-            <span>אפיון ותמחור אחרי שיחה</span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(143,125,255,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#8f7dff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>צד לקוח + צד ניהול</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(143,125,255,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#8f7dff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>תשלומים, הרשאות, דוחות</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(143,125,255,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#8f7dff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עובד מהנייד כמו אפליקציה</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(143,125,255,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#8f7dff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>אפיון ותמחור אחרי שיחה</span></span>
           </div>
           </div>
           <a href="https://cal.com/ori-afias-jtbb4a/15min" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:Heebo,sans-serif;font-weight:700;font-size:15px;color:#05081f;background:linear-gradient(120deg,#8f7dff,#c4b8ff);padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 14px 34px rgba(143,125,255,.4);color:#05081f;">אני רוצה לקבוע שיחת היכרות</a>
         </div>
       </div>
 
-      <p style="text-align:center;margin:22px 0 0;">
-        <span style="display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;color:rgba(232,236,255,.5);font-style:italic;">
-          <span data-tooltip-trigger="" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;flex:none;border-radius:50%;border:1px solid rgba(232,236,255,.55);font-style:normal;font-size:11px;line-height:1;cursor:default;">
-            i
-            <span data-tooltip-bubble="" style="position:absolute;bottom:calc(100% + 10px);right:50%;transform:translateX(50%);white-space:nowrap;background:rgba(5,8,31,.96);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:8px 14px;font-size:13px;font-style:normal;font-weight:400;color:rgba(232,236,255,.85);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;box-shadow:0 12px 30px rgba(0,0,0,.4);">תשתית ואחסון, דומיין ותחזוקה שוטפת</span>
-          </span>
-          <span>דמי תחזוקה בגובה 39 ₪ בחודש לא כלולים</span>
-        </span>
-      </p>
+      <p style="text-align:center;margin:22px 0 0;font-size:14px;color:rgba(232,236,255,.5);font-style:italic;">כל המחירים המוצגים משקפים עלות חד-פעמית לבניית הפרויקט</p>
+
+      <div style="position:relative;overflow:hidden;border-radius:28px;border:1px solid rgba(125,255,168,.3);background:linear-gradient(120deg,rgba(125,255,168,.08),rgba(95,240,255,.08));backdrop-filter:blur(20px);padding:clamp(28px,4vw,44px);margin-top:28px;">
+        <div style="font-family:Heebo,sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;margin:0 0 10px;">מסלול אקספרס</div>
+        <p style="color:rgba(232,236,255,.72);font-size:15px;line-height:1.6;margin:0 0 18px;max-width:60ch;">רוצים שגם התפעול השוטף יהיה מטופל? אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה, כך שכל התשתית מטופלת ואתם מתמקדים בעסק שלכם.</p>
+        <div style="display:flex;align-items:baseline;gap:8px;font-family:Heebo,sans-serif;margin:0 0 18px;">
+          <span style="font-size:26px;font-weight:900;letter-spacing:-.03em;">39 ₪ לחודש</span>
+          <span style="font-size:14px;color:rgba(232,236,255,.55);">בחיוב שנתי מראש</span>
+        </div>
+        <p style="color:rgba(232,236,255,.55);font-size:14px;line-height:1.6;margin:0;font-style:italic;">מעדיפים לנהל בעצמכם? בסיום הפרויקט תקבלו את כל קוד המקור, ותוכלו לארח בכל מקום שתרצו, בלי עלות נוספת.</p>
+      </div>
     </section>
 
     <div style="position:relative;overflow:hidden;margin:0 0 74px;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:16px 0;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);">
@@ -837,30 +867,66 @@ a:hover{color:#ff6fd8;}
       </div>
     </section>
 
-    <section data-reveal="" style="padding:14px 0 90px;">
-      <h2 data-parallax="" style="font-family:Heebo,sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">שאלות שכיחות</h2>
+        <section data-reveal="" style="padding:14px 0 90px;">
+      <h2 data-parallax="" style="font-family:Heebo,sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">שאלות נפוצות</h2>
       <p style="max-width:none;color:rgba(232,236,255,.65);font-size:17px;line-height:1.6;margin:0 0 30px;">התשובות הכי נשאלות, בלי לכתוב הודעה.</p>
       <div style="max-width:760px;">
-    <div style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
-      <div style="font-family:Heebo,sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">כמה עולה אתר לעסק קטן?</div>
-      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:0;">אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך. בכל החבילות יש גם 39 ₪ לחודש דמי תחזוקה, אחסון ודומיין.</p>
-    </div>
-    <div style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
-      <div style="font-family:Heebo,sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">כמה זמן לוקח לבנות אתר?</div>
-      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:0;">אתר תדמית עולה לאוויר תוך ימים ספורים. מערכת מלאה יורדת לפרטים בשיחת אפיון, אבל גם שם מדובר בימים ולא בשבועות.</p>
-    </div>
-    <div style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
-      <div style="font-family:Heebo,sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">האתר באמת שלי, בלי מנוי חודשי?</div>
-      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:0;">כן. חוץ מ-39 ₪ לחודש דמי תחזוקה, אחסון ודומיין, אין תשלום נוסף. האתר נשאר שלכם.</p>
-    </div>
-    <div style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
-      <div style="font-family:Heebo,sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">מה ההבדל בין אתר תדמית לאתר עם ממשק ניהול?</div>
-      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:0;">אתר תדמית הוא עמוד נוכחות פשוט. אתר עם ממשק ניהול מרכז לידים, הזמנות ופניות במקום אחד, עם ממשק ניהול מאובטח עם סיסמה.</p>
-    </div>
-    <div style="padding:22px 0;">
-      <div style="font-family:Heebo,sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">איך מתחילים?</div>
-      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:0;">שולחים הודעה בוואטסאפ עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות.</p>
-    </div>
+    <details style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>כמה עולה אתר לעסק קטן?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך.</p>
+    </details>
+    <details style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>כמה זמן לוקח לבנות אתר?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">אתר תדמית עולה לאוויר תוך ימים ספורים. מערכת מלאה יורדת לפרטים בשיחת אפיון, אבל גם שם מדובר בימים ולא בשבועות.</p>
+    </details>
+    <details style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>האתר באמת שלי, בלי מנוי חודשי?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">כן. בסיום הפרויקט כל קוד המקור בחזקתכם, בלי עלות נוספת ובלי שום התחייבות חודשית. תוכלו לארח את האתר בכל מקום שתרצו.</p>
+    </details>
+    <details style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>ואם אני לא רוצה לנהל את התשתית בעצמי?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">יש מסלול אקספרס: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש.</p>
+    </details>
+    <details style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>אפשר לחבר דומיין קיים שכבר יש לי?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">כן, במסלול אתר תדמית יש אפשרות לחיבור דומיין קיים. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר.</p>
+    </details>
+    <details style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>מה ההבדל בין אתר תדמית לאתר עם ממשק ניהול?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">אתר תדמית הוא עמוד נוכחות פשוט. אתר עם ממשק ניהול מרכז לידים, הזמנות ופניות במקום אחד, עם ממשק ניהול מאובטח עם סיסמה.</p>
+    </details>
+    <details style="padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1);">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>מה קורה אם אני צריך שינויים אחרי שהאתר עולה לאוויר?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">כל חבילה כוללת חודש ליווי אחרי העלייה לאוויר, כולל תיקונים ושינויים קטנים. מעבר לזה אפשר לתאם המשך עבודה לפי הצורך.</p>
+    </details>
+    <details style="padding:22px 0;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Heebo,sans-serif;font-weight:700;font-size:18px;">
+        <span>איך מתחילים?</span>
+        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(232,236,255,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <p style="color:rgba(232,236,255,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">שולחים הודעה בוואטסאפ עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות.</p>
+    </details>
       </div>
     </section>
 
