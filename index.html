@@ -120,7 +120,7 @@
           "name": "אפשר לחבר דומיין קיים שכבר יש לי?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "כן, במסלול אתר תדמית יש אפשרות לחיבור דומיין קיים. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר."
+            "text": "כן, בכל החבילות כלול חיבור דומיין קיים ללא עלות נוספת. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר."
           }
         },
         {
@@ -160,269 +160,14 @@
 <body>
 <x-dc>
 <helmet data-dc-atomics="">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<style>/* hebrew */
-@font-face {
-  font-family: 'Assistant';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/c32f46df-6990-4f7a-8afe-0c35eeb4690f.woff2") format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Assistant';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/3a3ebb39-8899-45b4-917d-4162c5e9c193.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Assistant';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/15c28f1a-0752-4a3e-b7bf-32103341a636.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* hebrew */
-@font-face {
-  font-family: 'Assistant';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/fonts/c32f46df-6990-4f7a-8afe-0c35eeb4690f.woff2") format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Assistant';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/fonts/3a3ebb39-8899-45b4-917d-4162c5e9c193.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Assistant';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/fonts/15c28f1a-0752-4a3e-b7bf-32103341a636.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* hebrew */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/fefb443d-8bdc-4e53-ac81-0f7fc352bc1f.woff2") format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-/* math */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/542a6a45-14c0-4442-842e-d99cb06e5a1a.woff2") format('woff2');
-  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
-}
-/* symbols */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/ec0a6643-d3a8-4bcb-857c-46a63e4b4a3d.woff2") format('woff2');
-  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/5de040d9-3813-432c-8ffd-eb0df8b02615.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/21db0ff4-01ed-43d3-89f8-67f10aee3a93.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* hebrew */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/fonts/fefb443d-8bdc-4e53-ac81-0f7fc352bc1f.woff2") format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-/* math */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/fonts/542a6a45-14c0-4442-842e-d99cb06e5a1a.woff2") format('woff2');
-  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
-}
-/* symbols */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/fonts/ec0a6643-d3a8-4bcb-857c-46a63e4b4a3d.woff2") format('woff2');
-  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/fonts/5de040d9-3813-432c-8ffd-eb0df8b02615.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/fonts/21db0ff4-01ed-43d3-89f8-67f10aee3a93.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* hebrew */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/fonts/fefb443d-8bdc-4e53-ac81-0f7fc352bc1f.woff2") format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-/* math */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/fonts/542a6a45-14c0-4442-842e-d99cb06e5a1a.woff2") format('woff2');
-  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
-}
-/* symbols */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/fonts/ec0a6643-d3a8-4bcb-857c-46a63e4b4a3d.woff2") format('woff2');
-  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/fonts/5de040d9-3813-432c-8ffd-eb0df8b02615.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/fonts/21db0ff4-01ed-43d3-89f8-67f10aee3a93.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* hebrew */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url("assets/fonts/fefb443d-8bdc-4e53-ac81-0f7fc352bc1f.woff2") format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-/* math */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url("assets/fonts/542a6a45-14c0-4442-842e-d99cb06e5a1a.woff2") format('woff2');
-  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
-}
-/* symbols */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url("assets/fonts/ec0a6643-d3a8-4bcb-857c-46a63e4b4a3d.woff2") format('woff2');
-  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url("assets/fonts/5de040d9-3813-432c-8ffd-eb0df8b02615.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Heebo';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url("assets/fonts/21db0ff4-01ed-43d3-89f8-67f10aee3a93.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-</style>
 <style>
 html,body{margin:0;padding:0;background:#FAF8F3;}
 *{box-sizing:border-box;}
 a{color:#B8862B;text-decoration:none;}
 a:hover{color:#D7A53F;}
-@keyframes drift1{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(7vw,-6vh,0) scale(1.18)}100%{transform:translate3d(0,0,0) scale(1)}}
-@keyframes drift2{0%{transform:translate3d(0,0,0) scale(1.1)}50%{transform:translate3d(-8vw,7vh,0) scale(.92)}100%{transform:translate3d(0,0,0) scale(1.1)}}
-@keyframes drift3{0%{transform:translate3d(0,0,0) scale(.95)}50%{transform:translate3d(5vw,9vh,0) scale(1.25)}100%{transform:translate3d(0,0,0) scale(.95)}}
 @keyframes rise{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
-@keyframes revealUp{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 @keyframes curtain{0%{transform:scaleY(1)}100%{transform:scaleY(0)}}
-@keyframes sheen{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(184,134,43,.45)}70%{box-shadow:0 0 0 18px rgba(184,134,43,0)}100%{box-shadow:0 0 0 0 rgba(184,134,43,0)}}
-@keyframes spinRing{to{transform:rotate(1turn)}}
-@keyframes sweepSheen{0%{transform:translateX(-130%)}60%,100%{transform:translateX(240%)}}
-@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(50%)}}
-@keyframes gridPan{to{transform:translate3d(72px,72px,0)}}
-@keyframes beam{0%{transform:translateX(-60%) skewX(-18deg);opacity:0}25%{opacity:.85}100%{transform:translateX(160%) skewX(-18deg);opacity:0}}
-@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes parY{from{transform:translateY(10px)}to{transform:translateY(-10px)}}
-@keyframes zoomIn{from{transform:scale(1.14);filter:saturate(.6)}to{transform:scale(1);filter:saturate(1)}}
-@keyframes heroExit{from{opacity:1;transform:scale(1) translateY(0);filter:blur(0)}to{opacity:.12;transform:scale(.88) translateY(-70px);filter:blur(7px)}}
-@keyframes card3d{from{opacity:0;transform:perspective(1200px) rotateX(24deg) rotateZ(-3deg) translateY(70px) scale(.9)}to{opacity:1;transform:perspective(1200px) rotateX(0) rotateZ(0) translateY(0) scale(1)}}
-@keyframes slideInEnd{from{opacity:0;transform:translateX(-90px) rotate(2deg)}to{opacity:1;transform:none}}
-@keyframes slideInStart{from{opacity:0;transform:translateX(90px) rotate(-2deg)}to{opacity:1;transform:none}}
-@keyframes stickyPop{from{transform:scale(.94);opacity:.55}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition-duration:.001ms !important;opacity:1 !important}}
 @media (max-width:640px){[data-sticky-header],[data-sticky-header-spacer]{display:none !important}}
 summary::-webkit-details-marker{display:none}
@@ -444,7 +189,7 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
 
-<div role="main" dir="rtl" style="position:relative;min-height:100vh;overflow-x:hidden;background:#FAF8F3;font-family:'Rubik',Assistant,system-ui,sans-serif;color:#1C1E24;">
+<div role="main" dir="rtl" style="position:relative;min-height:100vh;overflow-x:hidden;background:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;color:#1C1E24;">
 
   <div style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
     <div style="position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 0%, rgba(184,134,43,.06) 0%, rgba(184,134,43,0) 60%);"></div>
@@ -458,8 +203,8 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
 
     <header data-sticky-header="" style="position:fixed;top:16px;left:0;right:0;z-index:50;max-width:1180px;margin:0 auto;padding:0 24px;pointer-events:none;">
       <div data-sticky-header-pill="" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;border-radius:999px;background:rgba(250,248,243,.85);backdrop-filter:blur(18px);border:1px solid #e5ddc9;box-shadow:0 8px 24px rgba(28,25,20,.08);pointer-events:none;opacity:0;transform:translateY(-14px);will-change:opacity,transform;">
-        <div style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:19px;direction:ltr;display:inline-flex;align-items:baseline;gap:1px;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;color:#B8862B;">.dev</span></div>
-        <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:14px;color:#3A2C0F;background:#B8862B;padding:11px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 10px 22px rgba(184,134,43,.3);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
+        <div style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:#B8862B;">.dev</span></div>
+        <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:'Rubik',sans-serif;font-weight:700;font-size:14px;color:#3A2C0F;background:#B8862B;padding:11px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 10px 22px rgba(184,134,43,.3);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
       </div>
     </header>
     <div data-sticky-header-spacer="" style="height:94px;" aria-hidden="true"></div>
@@ -487,23 +232,23 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     })();
     </script>
 
-    <section data-hero-exit="" style="padding:76px 0 92px;">
-      <h1 style="font-family:'Rubik',Heebo,sans-serif;font-weight:500;font-size:clamp(34px,5.6vw,64px);line-height:1.12;letter-spacing:-.02em;margin:26px 0 0;max-width:16ch;color:#1C1E24;">
+    <section data-hero-exit="" style="min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;padding:110px 0 60px;">
+      <h1 style="font-family:'Rubik',sans-serif;font-weight:500;font-size:clamp(40px,6.4vw,72px);line-height:1.12;letter-spacing:-.02em;margin:26px 0 0;max-width:16ch;color:#1C1E24;">
         <span style="display:block;">אתר אחד.</span>
         <span style="display:block;">עשוי היטב.</span>
         <span style="display:block;">בלי רעש מיותר.</span>
       </h1>
 
-      <p style="font-size:clamp(17px,2vw,21px);line-height:1.6;max-width:52ch;color:rgba(28,30,36,.72);margin:28px 0 0;text-wrap:pretty;opacity:1;">
-האתר שלך יכול להיות באוויר עוד לפני שהמתחרה קיבל הצעת מחיר. אני בונה אותו לבד, בלי סטודיו וגלגלים מיותרים, והקוד נשאר נקי ומתוחזק.
+      <p style="font-size:clamp(19px,2.2vw,23px);line-height:1.62;max-width:54ch;color:rgba(28,30,36,.75);margin:28px 0 0;text-wrap:pretty;opacity:1;">
+המתחרים שלכם כבר עולים לאוויר, ולרוב עם עוד אתר גנרי שכלי AI הפיק תוך דקות. את זה קל לזהות, וגם הלקוחות שלכם יזהו. אני בונה לבד, בעיצוב מותאם אישית שבאמת מייצג אתכם.
       </p>
 
       <div data-hero-cta="" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;opacity:1;">
-        <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:16px 30px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;box-shadow:0 8px 24px rgba(184,134,43,.22);" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו הצעה תוך 24 שעות</a>
-        <a href="#portfolio" style="font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:16px;color:#1C1E24;border:1px solid #e5ddc9;background:#ffffff;padding:16px 30px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .28s,background .28s;" style-hover="transform:translateY(-4px);border-color:#B8862B;background:#f1ede3;color:#1C1E24;">מה כבר בניתי</a>
+        <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="font-family:'Rubik',sans-serif;font-weight:700;font-size:17px;color:#3A2C0F;background:#B8862B;padding:17px 32px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;box-shadow:0 8px 24px rgba(184,134,43,.22);" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו הצעה תוך 24 שעות</a>
+        <a href="#portfolio" style="font-family:'Rubik',sans-serif;font-weight:700;font-size:17px;color:#1C1E24;border:1px solid #e5ddc9;background:#ffffff;padding:17px 32px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .28s,background .28s;" style-hover="transform:translateY(-4px);border-color:#B8862B;background:#f1ede3;color:#1C1E24;">מה כבר בניתי</a>
       </div>
 
-      <div data-hero-badges="" style="display:flex;flex-wrap:wrap;gap:28px;margin-top:52px;font-size:14px;color:rgba(28,30,36,.55);opacity:1;">
+      <div data-hero-badges="" style="display:flex;flex-wrap:wrap;gap:28px;margin-top:44px;font-size:16px;color:rgba(28,30,36,.58);opacity:1;">
         <span>מחיר סגור מראש, בלי הפתעות</span>
         <span>האתר נשאר שלכם, בלי מנוי חודשי</span>
         <span>מותאם לנייד ולגוגל מהיום הראשון</span>
@@ -511,17 +256,17 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     </section>
 
     <section data-reveal="" style="padding:14px 0 90px;">
-      <h2 data-parallax="" style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">בחרו לפי מה שהעסק צריך למכור</h2>
+      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">בחרו לפי מה שהעסק צריך למכור</h2>
       <p style="max-width:none;color:rgba(28,30,36,.65);font-size:17px;line-height:1.6;margin:0 0 40px;">כל חבילה כוללת אפיון, עיצוב, עלייה לאוויר וחודש ליווי.</p>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px;">
         <div data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.55);background:rgba(184,134,43,.08);box-shadow:0 24px 60px rgba(184,134,43,.18);">
           <div style="flex:1;">
-          <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר תדמית</div>
-          <p style="color:rgba(28,30,36,.62);font-size:15px;line-height:1.6;margin:10px 0 22px;">עמוד תדמית פשוט שנותן לכם נוכחות מסודרת ברשת. מתאים למי שכבר מביא לקוחות בהמלצה או בטלפון, וצריך רק מקום שמייצג אתכם נכון כשמחפשים אתכם בגוגל.</p>
-          <div style="display:flex;align-items:baseline;gap:8px;font-family:'Rubik',Heebo,sans-serif;"><span style="font-size:14px;color:rgba(28,30,36,.55);">החל מ־</span><span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">1,800 ₪</span></div>
+          <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר תדמית</div>
+          <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">עמוד תדמית פשוט שנותן לכם נוכחות מסודרת ברשת. מתאים למי שכבר מביא לקוחות בהמלצה או בטלפון, וצריך רק מקום שמייצג אתכם נכון כשמחפשים אתכם בגוגל.</p>
+          <div style="display:flex;align-items:baseline;gap:8px;font-family:'Rubik',sans-serif;"><span style="font-size:14px;color:rgba(28,30,36,.55);">החל מ־</span><span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">1,800 ₪</span></div>
           <div style="height:1px;background:#e5ddc9;margin:22px 0;"></div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:rgba(28,30,36,.78);">
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:rgba(28,30,36,.78);">
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עמודים ללא הגבלה</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עיצוב מותאם אישית</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>פרטי יצירת קשר וטלפון בולטים בעמוד</span></span>
@@ -530,104 +275,106 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>אפשרות לחיבור דומיין קיים</span></span>
           </div>
           </div>
-          <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%AA%D7%93%D7%9E%D7%99%D7%AA%20%D7%91-1%2C800%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:15px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
+          <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%AA%D7%93%D7%9E%D7%99%D7%AA%20%D7%91-1%2C800%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
         </div>
 
-        <div data-card3d="" style="position:relative;background:#ffffff;border:1px solid #B8862B;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;" style-hover="transform:translateY(-8px);box-shadow:0 20px 44px -20px rgba(184,134,43,.4);">
+        <div data-card3d="" style="position:relative;background:#ffffff;border:1px solid #B8862B;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s;" style-hover="transform:translateY(-8px);background:rgba(184,134,43,.06);box-shadow:0 24px 60px -16px rgba(184,134,43,.45);">
           <div style="position:absolute;top:-11px;inset-inline-start:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.02em;padding:5px 12px;border-radius:999px;background:#B8862B;color:#3A2C0F;">הנבחרת ביותר</div>
           <div style="flex:1;">
-          <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר עם ממשק ניהול</div>
-          <p style="color:rgba(28,30,36,.62);font-size:15px;line-height:1.6;margin:10px 0 22px;">כל ליד, הזמנה או פנייה נכנס למקום אחד, ואתם רואים תמונת מצב במקום לחפש באקסלים.</p>
-          <div style="display:flex;align-items:baseline;gap:8px;font-family:'Rubik',Heebo,sans-serif;"><span style="font-size:14px;color:rgba(28,30,36,.55);">החל מ־</span><span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">4,500 ₪</span></div>
+          <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר עם ממשק ניהול</div>
+          <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">כל ליד, הזמנה או פנייה נכנס למקום אחד, ואתם רואים תמונת מצב במקום לחפש באקסלים.</p>
+          <div style="display:flex;align-items:baseline;gap:8px;font-family:'Rubik',sans-serif;"><span style="font-size:14px;color:rgba(28,30,36,.55);">החל מ־</span><span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">4,500 ₪</span></div>
           <div style="height:1px;background:#e5ddc9;margin:22px 0;"></div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:rgba(28,30,36,.78);">
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:rgba(28,30,36,.78);">
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>כל מה שמקבלים במסלול אתר תדמית</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>טופס פנייה שלא מפספס לידים</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>ממשק ניהול מאובטח עם סיסמה</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>ייצוא לאקסל והתראות</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>חיבור דומיין קיים כלול</span></span>
           </div>
           </div>
-          <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A2%D7%9D%20%D7%9E%D7%9E%D7%A9%D7%A7%20%D7%A0%D7%99%D7%94%D7%95%D7%9C%20%D7%91-4%2C500%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:15px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
+          <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A2%D7%9D%20%D7%9E%D7%9E%D7%A9%D7%A7%20%D7%A0%D7%99%D7%94%D7%95%D7%9C%20%D7%91-4%2C500%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
         </div>
 
         <div data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.6);background:rgba(184,134,43,.1);box-shadow:0 24px 60px rgba(184,134,43,.2);">
           <div style="flex:1;">
-          <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">מערכת מלאה</div>
-          <p style="color:rgba(28,30,36,.62);font-size:15px;line-height:1.6;margin:10px 0 22px;">התהליך שגוזל לכם את היום (הזמנות, מועדון לקוחות, צוות) הופך למערכת שעובדת בשבילכם.</p>
-          <div style="font-family:'Rubik',Heebo,sans-serif;font-size:26px;font-weight:900;letter-spacing:-.03em;line-height:1.2;">הצעת מחיר בהתאמה</div>
+          <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">מערכת מלאה</div>
+          <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">התהליך שגוזל לכם את היום (הזמנות, מועדון לקוחות, צוות) הופך למערכת שעובדת בשבילכם.</p>
+          <div style="font-family:'Rubik',sans-serif;font-size:26px;font-weight:900;letter-spacing:-.03em;line-height:1.2;">הצעת מחיר בהתאמה</div>
           <div style="height:1px;background:#e5ddc9;margin:22px 0;"></div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:rgba(28,30,36,.78);">
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:rgba(28,30,36,.78);">
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>צד לקוח + צד ניהול</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>תשלומים, הרשאות, דוחות</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עובד מהנייד כמו אפליקציה</span></span>
             <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>אפיון ותמחור אחרי שיחה</span></span>
+            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>חיבור דומיין קיים כלול</span></span>
           </div>
           </div>
-          <a href="https://cal.com/ori-afias-jtbb4a/15min" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:15px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">אני רוצה לקבוע שיחת היכרות</a>
+          <a href="https://cal.com/ori-afias-jtbb4a/15min" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">אני רוצה לקבוע שיחת היכרות</a>
         </div>
       </div>
 
       <p style="text-align:center;margin:22px 0 0;font-size:14px;color:rgba(28,30,36,.5);font-style:italic;">כל המחירים המוצגים משקפים עלות חד-פעמית לבניית הפרויקט</p>
 
       <div style="position:relative;overflow:hidden;border-radius:28px;border:1px solid #e5ddc9;background:#f1ede3;padding:clamp(28px,4vw,44px);margin-top:28px;">
-        <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:500;font-size:22px;letter-spacing:-.02em;margin:0 0 10px;color:#1C1E24;">מסלול אקספרס</div>
-        <p style="color:rgba(28,30,36,.72);font-size:15px;line-height:1.6;margin:0 0 18px;max-width:60ch;">רוצים שגם התפעול השוטף יהיה מטופל? אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה, כך שכל התשתית מטופלת ואתם מתמקדים בעסק שלכם.</p>
+        <div style="font-family:'Rubik',sans-serif;font-weight:500;font-size:22px;letter-spacing:-.02em;margin:0 0 10px;color:#1C1E24;">מסלול אקספרס</div>
+        <p style="color:rgba(28,30,36,.72);font-size:16px;line-height:1.6;margin:0 0 18px;max-width:60ch;">רוצים שגם התפעול השוטף יהיה מטופל? אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה, כך שכל התשתית מטופלת ואתם מתמקדים בעסק שלכם.</p>
         <div style="display:flex;align-items:baseline;gap:8px;margin:0 0 18px;">
           <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em;color:#B8862B;">39 ₪ / לחודש</span>
-          <span style="font-family:'Rubik',Heebo,sans-serif;font-size:14px;color:rgba(28,30,36,.55);">בחיוב שנתי מראש</span>
+          <span style="font-family:'Rubik',sans-serif;font-size:14px;color:rgba(28,30,36,.55);">בחיוב שנתי מראש</span>
         </div>
         <p style="color:rgba(28,30,36,.55);font-size:14px;line-height:1.6;margin:0;font-style:italic;">מעדיפים לנהל בעצמכם? בסיום הפרויקט תקבלו את כל קוד המקור, ותוכלו לארח בכל מקום שתרצו, בלי עלות נוספת.</p>
       </div>
     </section>
 
     <div style="position:relative;overflow:hidden;margin:0 0 74px;border-top:1px solid #e5ddc9;border-bottom:1px solid #e5ddc9;padding:16px 0;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);">
-      <div style="display:flex;width:max-content;gap:46px;animation:marquee 26s linear infinite;font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:15px;letter-spacing:.08em;color:rgba(28,30,36,.4);white-space:nowrap;">
+      <div style="display:flex;width:max-content;gap:46px;animation:marquee 26s linear infinite;font-family:'Rubik',sans-serif;font-weight:900;font-size:16px;letter-spacing:.08em;color:rgba(28,30,36,.4);white-space:nowrap;">
         <span>אפיון בשיחה אחת</span><span style="color:#B8862B;">✦</span><span>עלייה לאוויר בימים</span><span style="color:#B8862B;">✦</span><span>קוד נקי ומתוחזק</span><span style="color:#B8862B;">✦</span><span>מחיר סגור מראש</span><span style="color:#B8862B;">✦</span>
         <span>אפיון בשיחה אחת</span><span style="color:#B8862B;">✦</span><span>עלייה לאוויר בימים</span><span style="color:#B8862B;">✦</span><span>קוד נקי ומתוחזק</span><span style="color:#B8862B;">✦</span><span>מחיר סגור מראש</span><span style="color:#B8862B;">✦</span>
       </div>
     </div>
 
     <section id="portfolio" data-reveal="" style="padding:14px 0 90px;scroll-margin-top:24px;">
-      <h2 data-parallax="" style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 40px;">מערכות שכבר רצות בשטח</h2>
+      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 40px;">מערכות שכבר רצות בשטח</h2>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;">
         <div data-slide-end="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="0" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',Heebo,sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
+          <div data-zoom="" data-project-index="0" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
           <div style="padding:24px;">
-            <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:20px;">Evently</div>
-            <p style="color:rgba(28,30,36,.65);font-size:15px;line-height:1.6;margin:8px 0 0;">מכירה והנפקה של כרטיסים וחשבוניות, ניהול תשלומים מרוכז, וסריקת כרטיסים בכניסה לאירוע עם זיהוי מיידי של כרטיסים כפולים.</p>
+            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">Evently</div>
+            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מכירה והנפקה של כרטיסים וחשבוניות, ניהול תשלומים מרוכז, וסריקת כרטיסים בכניסה לאירוע עם זיהוי מיידי של כרטיסים כפולים.</p>
           </div>
         </div>
 
         <div data-slide-start="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="1" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',Heebo,sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
+          <div data-zoom="" data-project-index="1" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
           <div style="padding:24px;">
-            <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:20px;">Spoti</div>
-            <p style="color:rgba(28,30,36,.65);font-size:15px;line-height:1.6;margin:8px 0 0;">מכירת כרטיסי כניסה למסלול, צפייה אינטראקטיבית במסלול וקבלת מידע על נקודות לאורך הדרך, בזיהוי לפי מיקום על מפה חיה.</p>
+            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">Spoti</div>
+            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מכירת כרטיסי כניסה למסלול, צפייה אינטראקטיבית במסלול וקבלת מידע על נקודות לאורך הדרך, בזיהוי לפי מיקום על מפה חיה.</p>
           </div>
         </div>
 
         <div data-slide-end="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.55);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="2" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.08);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',Heebo,sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
+          <div data-zoom="" data-project-index="2" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.08);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
           <div style="padding:24px;">
-            <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:20px;">Exclusive Club</div>
-            <p style="color:rgba(28,30,36,.65);font-size:15px;line-height:1.6;margin:8px 0 0;">מועדון לקוחות עם צד לקוח וצד ניהול: הטבות, חברים חוזרים ובקרה מלאה מהמשרד. אפשר לשלוח מבצע לכל החברים בלחיצה.</p>
+            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">Exclusive Club</div>
+            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מועדון לקוחות עם צד לקוח וצד ניהול: הטבות, חברים חוזרים ובקרה מלאה מהמשרד. אפשר לשלוח מבצע לכל החברים בלחיצה.</p>
           </div>
         </div>
 
         <div data-slide-start="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="3" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',Heebo,sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
+          <div data-zoom="" data-project-index="3" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
           <div style="padding:24px;">
-            <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:20px;">מערכת אירוח למסעדה</div>
-            <p style="color:rgba(28,30,36,.65);font-size:15px;line-height:1.6;margin:8px 0 0;">מערכת לניהול שולחנות שמורים במסעדה. גם הלקוח וגם הצוות יכולים לשריין שולחן, ואפשר לעדכן או לשנות הזמנה בכל רגע נתון.</p>
+            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">מערכת אירוח למסעדה</div>
+            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מערכת לניהול שולחנות שמורים במסעדה. גם הלקוח וגם הצוות יכולים לשריין שולחן, ואפשר לעדכן או לשנות הזמנה בכל רגע נתון.</p>
           </div>
         </div>
 
         <div data-slide-end="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="4" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',Heebo,sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
+          <div data-zoom="" data-project-index="4" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
           <div style="padding:24px;">
-            <div style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:20px;">חנות תכשיטים: בהקמה</div>
-            <p style="color:rgba(28,30,36,.65);font-size:15px;line-height:1.6;margin:8px 0 0;">חנות אונליין לתכשיטים עם עיצוב הניתן להתאמה אישית לפי המותג, ניהול מלאי ומשלוחים, הגדרת מבצעים והנחות, ותהליך רכישה מאובטח מקצה לקצה.</p>
+            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">חנות תכשיטים: בהקמה</div>
+            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">חנות אונליין לתכשיטים עם עיצוב הניתן להתאמה אישית לפי המותג, ניהול מלאי ומשלוחים, הגדרת מבצעים והנחות, ותהליך רכישה מאובטח מקצה לקצה.</p>
           </div>
         </div>
       </div>
@@ -840,104 +587,100 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     <section data-reveal="" style="padding:14px 0 90px;">
       <div data-sticky-pop="" style="position:relative;overflow:hidden;border-radius:28px;border:1px solid #e5ddc9;background:#f1ede3;backdrop-filter:blur(20px);padding:clamp(28px,4vw,52px);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center;" data-guide-grid="">
         <div data-guide-info="">
-          <h3 style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:clamp(26px,3.4vw,40px);letter-spacing:-.03em;line-height:1.12;margin:14px 0 12px;">חושבים שאתם יכולים לבד? קדימה, תוכיחו.</h3>
+          <h3 style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(26px,3.4vw,40px);letter-spacing:-.03em;line-height:1.12;margin:14px 0 12px;">חושבים שאתם יכולים לבד? קדימה, תוכיחו.</h3>
           <p style="color:rgba(28,30,36,.72);font-size:16px;line-height:1.65;margin:0;max-width:46ch;">המדריך "בניית אתר עם vibecoding" נותן לכם את התהליך המדויק שלי, צעד־צעד: הפרומפטים, הכלים, הטעויות שכבר עשיתי בשבילכם והעלייה לאוויר. אם בסוף תחליטו שעדיף שאני אבנה, אני כאן.</p>
         </div>
         <div data-guide-price="" style="display:flex;flex-direction:column;gap:16px;align-items:flex-end;text-align:left;">
-          <div style="display:flex;align-items:baseline;gap:12px;font-family:'Rubik',Heebo,sans-serif;">
+          <div style="display:flex;align-items:baseline;gap:12px;font-family:'Rubik',sans-serif;">
             <span style="font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">49 ₪</span>
             <span style="font-family:'JetBrains Mono',monospace;font-size:18px;color:rgba(28,30,36,.4);text-decoration:line-through;">249 ₪</span>
           </div>
-          <a href="https://oriafias.gumroad.com/l/vibecoding" target="_blank" rel="noopener" style="font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:16px 30px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו את המדריך</a>
+          <a href="https://oriafias.gumroad.com/l/vibecoding" target="_blank" rel="noopener" style="font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:16px 30px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו את המדריך</a>
           <span style="font-size:13px;color:rgba(28,30,36,.55);">מחיר השקה · גישה מיידית להורדה</span>
         </div>
       </div>
     </section>
 
         <section data-reveal="" style="padding:14px 0 90px;">
-      <h2 data-parallax="" style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">שאלות נפוצות</h2>
+      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">שאלות נפוצות</h2>
       <p style="max-width:none;color:rgba(28,30,36,.65);font-size:17px;line-height:1.6;margin:0 0 30px;">התשובות הכי נשאלות, בלי לכתוב הודעה.</p>
       <div>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>כמה עולה אתר לעסק קטן?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך.</p>
     </details>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>כמה זמן לוקח לבנות אתר?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">אתר תדמית עולה לאוויר תוך ימים ספורים. מערכת מלאה יורדת לפרטים בשיחת אפיון, אבל גם שם מדובר בימים ולא בשבועות.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">אתר תדמית עולה לאוויר תוך ימים ספורים. מערכת מלאה יורדת לפרטים בשיחת אפיון, אבל גם שם מדובר בימים ולא בשבועות.</p>
     </details>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>האתר באמת שלי, בלי מנוי חודשי?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">כן. בסיום הפרויקט כל קוד המקור בחזקתכם, בלי עלות נוספת ובלי שום התחייבות חודשית. תוכלו לארח את האתר בכל מקום שתרצו.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">כן. בסיום הפרויקט כל קוד המקור בחזקתכם, בלי עלות נוספת ובלי שום התחייבות חודשית. תוכלו לארח את האתר בכל מקום שתרצו.</p>
     </details>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>ואם אני לא רוצה לנהל את התשתית בעצמי?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">יש מסלול אקספרס: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">יש מסלול אקספרס: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש.</p>
     </details>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>אפשר לחבר דומיין קיים שכבר יש לי?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">כן, במסלול אתר תדמית יש אפשרות לחיבור דומיין קיים. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">כן, בכל החבילות כלול חיבור דומיין קיים ללא עלות נוספת. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר.</p>
     </details>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>מה ההבדל בין אתר תדמית לאתר עם ממשק ניהול?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">אתר תדמית הוא עמוד נוכחות פשוט. אתר עם ממשק ניהול מרכז לידים, הזמנות ופניות במקום אחד, עם ממשק ניהול מאובטח עם סיסמה.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">אתר תדמית הוא עמוד נוכחות פשוט. אתר עם ממשק ניהול מרכז לידים, הזמנות ופניות במקום אחד, עם ממשק ניהול מאובטח עם סיסמה.</p>
     </details>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>מה קורה אם אני צריך שינויים אחרי שהאתר עולה לאוויר?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">כל חבילה כוללת חודש ליווי אחרי העלייה לאוויר, כולל תיקונים ושינויים קטנים. מעבר לזה אפשר לתאם המשך עבודה לפי הצורך.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">כל חבילה כוללת חודש ליווי אחרי העלייה לאוויר, כולל תיקונים ושינויים קטנים. מעבר לזה אפשר לתאם המשך עבודה לפי הצורך.</p>
     </details>
     <details style="padding:22px 0;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:18px;">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
         <span>איך מתחילים?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:15px;line-height:1.6;margin:12px 0 0;">שולחים הודעה בוואטסאפ עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">שולחים הודעה בוואטסאפ עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות.</p>
     </details>
       </div>
     </section>
 
     <section data-reveal="" style="padding:14px 0 96px;text-align:center;">
-      <h2 data-sticky-pop="" style="font-family:'Rubik',Heebo,sans-serif;font-weight:900;font-size:clamp(30px,5vw,60px);letter-spacing:-.035em;line-height:1.06;margin:0 auto 18px;max-width:22ch;">נשארה שאלה אחת: כמה זמן עוד תחכו?</h2>
+      <h2 data-sticky-pop="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(30px,5vw,60px);letter-spacing:-.035em;line-height:1.06;margin:0 auto 18px;max-width:22ch;">נשארה שאלה אחת: כמה זמן עוד תחכו?</h2>
       <p style="color:rgba(28,30,36,.68);font-size:18px;line-height:1.6;max-width:44ch;margin:0 auto 34px;">שלחו הודעה עם שתי שורות על העסק, ואחזור עם הצעה, לוח זמנים ומחיר סגור.</p>
-      <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;font-family:'Rubik',Heebo,sans-serif;font-weight:700;font-size:clamp(18px,2.4vw,22px);color:#3A2C0F;background:#B8862B;padding:20px 40px;border-radius:999px;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;box-shadow:0 10px 28px rgba(184,134,43,.28);" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(184,134,43,.4);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
+      <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;font-family:'Rubik',sans-serif;font-weight:700;font-size:clamp(18px,2.4vw,22px);color:#3A2C0F;background:#B8862B;padding:20px 40px;border-radius:999px;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;box-shadow:0 10px 28px rgba(184,134,43,.28);" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(184,134,43,.4);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
     </section>
 
     <footer style="border-top:1px solid #e5ddc9;padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:rgba(28,30,36,.5);">
-      <span style="display:inline-flex;align-items:baseline;gap:4px;">© {{ year }} <span style="font-family:'Frank Ruhl Libre',serif;font-weight:700;direction:ltr;">afias<span style="font-family:'JetBrains Mono',monospace;color:#B8862B;">.dev</span></span></span>
+      <span style="display:inline-flex;align-items:baseline;gap:6px;">© {{ year }} <span style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:22px;direction:ltr;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#B8862B;">.dev</span></span></span>
       <span>הדף הזה עצמו נבנה בזמן קצר וללא עלות: <a href="https://oriafias.gumroad.com/l/vibecoding" target="_blank" rel="noopener" style="color:#B8862B;">ככה עושים את זה</a>.</span>
     </footer>
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;phone&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;054-253-3533&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;guideUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://oriafias.gumroad.com/l/vibecoding&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;brandName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;אורי אפיאס · פתרונות תוכנה לעסקים&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script="">
 class Component extends DCLogic {
   renderVals() {
-    const phone = this.props.phone ?? "054-253-3533";
     return {
-      brandName: this.props.brandName ?? "אורי אפיאס · פתרונות תוכנה לעסקים",
-      guideUrl: this.props.guideUrl ?? "https://oriafias.gumroad.com/l/vibecoding",
-      waLink: "https://wa.me/972" + phone.replace(/\D/g, "").replace(/^0/, "") + "?text=" + encodeURIComponent("היי, ראיתי את הדף ואני מעניין/ת בפרויקט"),
       year: new Date().getFullYear()
     };
   }
