@@ -1,0 +1,65 @@
+name: Deploy
+
+# Builds a minified copy of the site and publishes it to GitHub Pages.
+# The source (index.html, assets/, etc.) stays exactly as committed —
+# only the deployed copy in `dist/` gets minified.
+#
+# One-time setup after this file is merged:
+#   Repo Settings -> Pages -> Build and deployment -> Source
+#   change from "Deploy from a branch" to "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Assemble dist/ (everything tracked, minus repo-only files)
+        run: |
+          mkdir dist
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='dist' \
+            ./ dist/
+
+      - name: Minify index.html
+        run: |
+          npx --yes html-minifier-terser@7 dist/index.html \
+            --collapse-whitespace \
+            --remove-comments \
+            --minify-css true \
+            --minify-js true \
+            --output dist/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
