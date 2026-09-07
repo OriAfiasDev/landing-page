@@ -635,6 +635,33 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     })();
     </script>
 
+    <script>
+    (function(){
+      document.addEventListener('click', function(e){
+        var link = e.target.closest && e.target.closest('a[href^="/demo"]');
+        if (!link) return;
+        if (typeof fbq !== 'function') return;
+        // Custom rather than a standard event: Lead is already fired by the demo
+        // page's own form, and ViewContent is taken by the guide. Reusing either
+        // would merge two different intents into one number.
+        if (link.target === '_blank') {
+          fbq('trackCustom', 'DemoPageClick');
+        } else {
+          e.preventDefault();
+          fbq('trackCustom', 'DemoPageClick');
+          var href = link.href;
+          setTimeout(function(){ window.location.href = href; }, 150);
+        }
+      });
+    })();
+    </script>
+
+    <section data-reveal="" style="padding:14px 0 90px;text-align:center;">
+      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px auto 12px;max-width:20ch;">לא בטוחים? קודם תראו דמו אמיתי</h2>
+      <p style="color:rgba(28,30,36,.65);font-size:17px;line-height:1.6;max-width:52ch;margin:0 auto 30px;">בלי לשלוח הודעה, בלי התחייבות - נבנה לכם דמו עובד של האתר שלכם, בחינם, ונשלח לכם קישור תוך יום-יומיים.</p>
+      <a href="/demo/" style="display:inline-flex;align-items:center;gap:10px;font-family:'Rubik',sans-serif;font-weight:700;font-size:17px;color:#3A2C0F;background:#B8862B;padding:17px 32px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;box-shadow:0 8px 24px rgba(184,134,43,.22);" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו דמו בחינם</a>
+    </section>
+
     <section data-reveal="" style="padding:14px 0 90px;">
       <div data-sticky-pop="" style="position:relative;overflow:hidden;border-radius:28px;border:1px solid #e5ddc9;background:#f1ede3;backdrop-filter:blur(20px);padding:clamp(28px,4vw,52px);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center;" data-guide-grid="">
         <div data-guide-info="">
