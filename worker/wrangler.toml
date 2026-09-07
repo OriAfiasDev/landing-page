@@ -1,0 +1,9 @@
+name = "afias-demo"
+main = "src/index.js"
+compatibility_date = "2026-09-06"
+
+# Endpoint only. The page itself is a static file on GitHub Pages at
+# https://afias.dev/demo/ — the two are deployed independently on purpose.
+
+# No vars here — LINEAR_API_KEY, LINEAR_TEAM_ID and LINEAR_PROJECT_ID are all
+# set as secrets so they never land in git. See README.md.

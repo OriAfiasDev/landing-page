@@ -43,7 +43,6 @@ jobs:
             --exclude='backups' \
             --exclude='scripts' \
             --exclude='.originals' \
-            --exclude='demo' \
             ./ dist/
 
       - name: Minify HTML

@@ -1,10 +1,9 @@
 /**
- * POST /api/demo-request  —  the "free demo" funnel at https://demo.afias.dev
+ * POST https://afias-demo.afias.workers.dev/api/demo-request
  *
- * A Cloudflare Pages Function, so it is served from the same origin as the
- * static page in ../../public. Same origin means the browser never sends a
- * cross-origin request and never preflights; the origin check below is
- * anti-abuse only.
+ * The endpoint behind the free-demo form (AFI-24). The form itself is a plain
+ * static page on GitHub Pages at https://afias.dev/demo/, so this is a genuine
+ * cross-origin call and CORS below is load-bearing.
  *
  * Submissions become one Linear issue. There is no database.
  *
@@ -13,7 +12,7 @@
  *               Responds with { ok: true, issueId } so the browser can hold onto it.
  *   step 2  ->  commentCreate on that same issue with the contact details.
  *
- * Secrets (Pages project -> Settings -> Variables and Secrets):
+ * Secrets (set with `wrangler secret put <NAME>`):
  *   LINEAR_API_KEY, LINEAR_TEAM_ID, LINEAR_PROJECT_ID
  */
 
@@ -21,43 +20,37 @@ const LINEAR_API = 'https://api.linear.app/graphql';
 const LABEL_NAME = 'בקשת דמו';
 const DUE_DAYS = 3;
 
+const API_PATH = '/api/demo-request';
+
 /* ------------------------------------------------------------------ */
 /* helpers                                                             */
 /* ------------------------------------------------------------------ */
 
-/**
- * The page is served by this same Worker, so a legitimate submission is always
- * same-origin. Deriving that from the request beats hardcoding a hostname:
- * it works on workers.dev, on demo.afias.dev and under `wrangler dev` without
- * anyone remembering to update a list.
- *
- * A missing Origin is allowed — same-origin form posts and curl both omit it.
- * An Origin that is present and different is a cross-site caller.
- */
-function isAllowedOrigin(origin, request) {
-  if (!origin) return true;
-  try {
-    return origin === new URL(request.url).origin;
-  } catch {
-    return false;
-  }
-}
+// The page lives on GitHub Pages, so submissions are cross-origin by design.
+const ALLOWED_ORIGINS = [
+  'https://afias.dev',
+  'https://www.afias.dev',
+  'http://localhost:8000',
+  'http://127.0.0.1:8000',
+];
 
-function corsHeaders(origin, allowed) {
+function corsHeaders(origin) {
   const headers = {
     'Vary': 'Origin',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
   };
-  if (allowed && origin) headers['Access-Control-Allow-Origin'] = origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    headers['Access-Control-Allow-Origin'] = origin;
+  }
   return headers;
 }
 
-function json(body, status, origin, allowed) {
+function json(body, status, origin) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin, allowed) },
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
   });
 }
 
@@ -255,41 +248,40 @@ async function handleStep2(env, data) {
 /* entrypoint                                                          */
 /* ------------------------------------------------------------------ */
 
-export async function onRequest(context) {
-  const { request, env } = context;
+export default {
+  async fetch(request, env) {
+    const origin = request.headers.get('Origin') || '';
 
-  const origin = request.headers.get('Origin') || '';
-  const allowed = isAllowedOrigin(origin, request);
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers: corsHeaders(origin) });
+    }
+    if (request.method !== 'POST') {
+      return json({ ok: false, error: 'method not allowed' }, 405, origin);
+    }
+    if (!ALLOWED_ORIGINS.includes(origin)) {
+      return json({ ok: false, error: 'origin not allowed' }, 403, origin);
+    }
 
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders(origin, allowed) });
-  }
-  if (!allowed) {
-    return json({ ok: false, error: 'origin not allowed' }, 403, origin, allowed);
-  }
-  if (request.method !== 'POST') {
-    return json({ ok: false, error: 'method not allowed' }, 405, origin, allowed);
-  }
+    let data;
+    try {
+      data = await request.json();
+    } catch {
+      return json({ ok: false, error: 'invalid JSON' }, 400, origin);
+    }
 
-  let data;
-  try {
-    data = await request.json();
-  } catch {
-    return json({ ok: false, error: 'invalid JSON' }, 400, origin, allowed);
-  }
+    // Honeypot: a real person never fills a field they cannot see. Answer 200 so
+    // the bot believes it succeeded and doesn't come back to retry.
+    if (clean(data.company_url, 200)) {
+      return json({ ok: true, issueId: null }, 200, origin);
+    }
 
-  // Honeypot: a real person never fills a field they cannot see. Answer 200 so
-  // the bot believes it succeeded and doesn't come back to retry.
-  if (clean(data.company_url, 200)) {
-    return json({ ok: true, issueId: null }, 200, origin, allowed);
-  }
-
-  try {
-    const { status, body } =
-      data.step === 2 ? await handleStep2(env, data) : await handleStep1(env, data);
-    return json(body, status, origin, allowed);
-  } catch (err) {
-    console.error('demo form failed:', err.message);
-    return json({ ok: false, error: 'internal error' }, 500, origin, allowed);
-  }
-}
+    try {
+      const { status, body } =
+        data.step === 2 ? await handleStep2(env, data) : await handleStep1(env, data);
+      return json(body, status, origin);
+    } catch (err) {
+      console.error('demo form failed:', err.message);
+      return json({ ok: false, error: 'internal error' }, 500, origin);
+    }
+  },
+};

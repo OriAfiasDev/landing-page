@@ -9,7 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="canonical" href="https://demo.afias.dev/" />
+    <link rel="canonical" href="https://afias.dev/demo/" />
     <title>דמו חינם לאתר שלכם | afias.dev</title>
     <meta
       name="description"
@@ -19,7 +19,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="afias.dev" />
     <meta property="og:locale" content="he_IL" />
-    <meta property="og:url" content="https://demo.afias.dev/" />
+    <meta property="og:url" content="https://afias.dev/demo/" />
     <meta property="og:title" content="נבנה לכם דמו אמיתי, בחינם." />
     <meta
       property="og:description"
@@ -972,9 +972,9 @@
       (function () {
         "use strict";
 
-        // Same-origin: the page and this endpoint are both served by the
-        // afias-demo Worker, so a relative path is all that's needed.
-        var ENDPOINT = "/api/demo-request";
+        // The page is a static file on GitHub Pages; the endpoint is a
+        // Cloudflare Worker. Deployed separately, hence the absolute URL.
+        var ENDPOINT = "https://afias-demo.afias.workers.dev/api/demo-request";
 
         document.getElementById("year").textContent = new Date().getFullYear();
 
