@@ -28,7 +28,47 @@ contact details are filed as their own issue rather than dropped.
 the zone has to move before `demo.afias.dev` can point at this Worker.
 
 Moving it does **not** disturb the main site — `afias.dev` keeps its existing
-GitHub Pages records, just served from Cloudflare's nameservers:
+GitHub Pages records, just served from Cloudflare's nameservers.
+
+### The complete zone as it stands today
+
+Everything below must exist in Cloudflare, verbatim, **before** the nameservers
+change. This is the whole zone — if something here is missing afterwards, it is
+broken.
+
+| type | name | value | TTL |
+| --- | --- | --- | --- |
+| A | `@` | `185.199.108.153` | Auto |
+| A | `@` | `185.199.109.153` | Auto |
+| A | `@` | `185.199.110.153` | Auto |
+| A | `@` | `185.199.111.153` | Auto |
+| CNAME | `www` | `oriafiasdev.github.io` | Auto |
+| MX | `@` | `aspmx.l.google.com` | priority 1 |
+| MX | `@` | `alt1.aspmx.l.google.com` | priority 5 |
+| MX | `@` | `alt2.aspmx.l.google.com` | priority 5 |
+| MX | `@` | `alt3.aspmx.l.google.com` | priority 10 |
+| MX | `@` | `alt4.aspmx.l.google.com` | priority 10 |
+| TXT | `@` | `v=spf1 include:_spf.google.com ~all` | Auto |
+| TXT | `google._domainkey` | the DKIM key — see the warning below | Auto |
+
+All five A/CNAME records must be **DNS only** (grey cloud), not proxied.
+
+Do **not** add `demo` by hand. Cloudflare creates that record itself when the
+Worker custom domain is attached.
+
+**The DKIM record is the one that breaks.** Its value is far longer than the
+255-character limit for a single DNS string, so it is published as three quoted
+chunks. Copy it from Google Cloud DNS as a single unbroken value into
+Cloudflare's TXT field and let Cloudflare do the chunking — do not paste the
+quotes or the spaces between chunks. A mangled DKIM record does not bounce mail;
+it silently fails authentication and pushes your mail toward spam folders, which
+is far harder to notice than an outage.
+
+There is no DMARC record and no CAA record today. Absent CAA is fine — it means
+no restriction on who may issue certificates, so Cloudflare can issue for
+`demo.afias.dev` without one.
+
+### The move
 
 1. Cloudflare dashboard → **Add a site** → `afias.dev` → Free plan.
 2. Let it import the existing records, then **check them against Google Cloud DNS
@@ -41,6 +81,11 @@ GitHub Pages records, just served from Cloudflare's nameservers:
 4. At the registrar, replace the nameservers with the two Cloudflare gives you.
 5. Wait for Cloudflare to report the zone as Active (usually minutes, but the TTL
    on the old delegation can stretch it out).
+6. **Leave the Google Cloud DNS zone in place for about a week.** Nameserver
+   changes propagate for up to 48 hours, and during that window some resolvers
+   still ask Google. If the old zone is deleted while it is still being consulted,
+   those resolvers get nothing. Delete it only once `dig NS afias.dev` returns
+   Cloudflare from several networks.
 
 Only then will step 4 of the deploy below succeed.
 
