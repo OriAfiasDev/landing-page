@@ -2,3 +2,6 @@
 .DS_Store
 scripts/
 *.bak
+
+# wrangler's local state from `wrangler dev` (miniflare caches, account cache)
+.wrangler/

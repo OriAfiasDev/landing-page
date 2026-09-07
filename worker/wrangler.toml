@@ -1,0 +1,13 @@
+name = "afias-demo"
+main = "src/index.js"
+compatibility_date = "2026-09-06"
+
+# The demo landing page ships with the Worker, so the page and the form endpoint
+# share one origin (no CORS, no preflight) and one deploy.
+# Assets matching a request are served directly; everything else — i.e.
+# POST /api/demo-request — falls through to src/index.js.
+[assets]
+directory = "../demo"
+
+# No vars here on purpose — LINEAR_API_KEY, LINEAR_TEAM_ID and LINEAR_PROJECT_ID
+# are all set as secrets so they never land in git. See README.md.

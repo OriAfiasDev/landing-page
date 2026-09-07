@@ -39,16 +39,23 @@ jobs:
             --exclude='.git' \
             --exclude='.github' \
             --exclude='dist' \
+            --exclude='worker' \
+            --exclude='backups' \
+            --exclude='scripts' \
+            --exclude='.originals' \
+            --exclude='demo' \
             ./ dist/
 
-      - name: Minify index.html
+      - name: Minify HTML
         run: |
-          npx --yes html-minifier-terser@7 dist/index.html \
-            --collapse-whitespace \
-            --remove-comments \
-            --minify-css true \
-            --minify-js true \
-            --output dist/index.html
+          find dist -name '*.html' -print0 | while IFS= read -r -d '' f; do
+            npx --yes html-minifier-terser@7 "$f" \
+              --collapse-whitespace \
+              --remove-comments \
+              --minify-css true \
+              --minify-js true \
+              --output "$f"
+          done
 
       - uses: actions/upload-pages-artifact@v3
         with:

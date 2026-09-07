@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="canonical" href="https://demo.afias.dev/" />
+    <title>דמו חינם לאתר שלכם | afias.dev</title>
+    <meta
+      name="description"
+      content="נבנה לכם דמו אמיתי של אתר לעסק, בחינם ובלי התחייבות. לא סקיצה - אתר עובד. ממלאים פרטים בפחות משתי דקות ומקבלים קישור תוך יום-יומיים."
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="afias.dev" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:url" content="https://demo.afias.dev/" />
+    <meta property="og:title" content="נבנה לכם דמו אמיתי, בחינם." />
+    <meta
+      property="og:description"
+      content="לא סקיצה, לא הדמיה - אתר עובד אמיתי, מותאם לעסק שלכם. אתם מחליטים אם ממשיכים משם."
+    />
+    <meta property="og:image" content="https://afias.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="afias.dev - דמו חינם לאתר שלכם" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="נבנה לכם דמו אמיתי, בחינם." />
+    <meta
+      name="twitter:description"
+      content="לא סקיצה, לא הדמיה - אתר עובד אמיתי, מותאם לעסק שלכם."
+    />
+    <meta name="twitter:image" content="https://afias.dev/og-image.png" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-HZJD8EPHXJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-HZJD8EPHXJ");
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "1990961434890890");
+      fbq("track", "PageView");
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
+    /></noscript>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "ycejr76xq8");
+    </script>
+
+    <style>
+      :root {
+        --paper: #faf8f3;
+        --ink: #1c1e24;
+        --brass: #b8862b;
+        --brass-light: #d7a53f;
+        --brass-text: #3a2c0f;
+        --line: #e5ddc9;
+        --muted: rgba(28, 30, 36, 0.65);
+        --muted-soft: rgba(28, 30, 36, 0.55);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--paper);
+      }
+      body {
+        font-family: "Rubik", system-ui, sans-serif;
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--brass);
+        text-decoration: none;
+      }
+      a:hover {
+        color: var(--brass-light);
+      }
+
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .glow {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .glow > div {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          120% 70% at 50% 0%,
+          rgba(184, 134, 43, 0.06) 0%,
+          rgba(184, 134, 43, 0) 60%
+        );
+      }
+      main {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ---------- header ---------- */
+      .site-header {
+        padding: 28px 0 0;
+      }
+      .wordmark {
+        font-family: "Frank Ruhl Libre", serif;
+        font-weight: 700;
+        font-size: 26px;
+        direction: ltr;
+        display: inline-flex;
+        align-items: baseline;
+        gap: 2px;
+        color: var(--ink);
+      }
+      .wordmark span {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 17px;
+        color: var(--brass);
+      }
+
+      /* ---------- hero ---------- */
+      .hero {
+        padding: 64px 0 8px;
+      }
+      .hero h1 {
+        font-family: "Rubik", sans-serif;
+        font-weight: 500;
+        font-size: clamp(34px, 5.4vw, 60px);
+        line-height: 1.14;
+        letter-spacing: -0.02em;
+        margin: 0;
+        max-width: 20ch;
+        text-wrap: balance;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: var(--brass);
+      }
+      .hero .sub {
+        font-size: clamp(18px, 2.2vw, 22px);
+        line-height: 1.62;
+        color: var(--muted);
+        max-width: 52ch;
+        margin: 26px 0 0;
+        text-wrap: pretty;
+      }
+
+      .btn {
+        display: inline-block;
+        font-family: "Rubik", sans-serif;
+        font-weight: 700;
+        font-size: 17px;
+        color: var(--brass-text);
+        background: var(--brass);
+        padding: 17px 32px;
+        border-radius: 999px;
+        border: 0;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(184, 134, 43, 0.22);
+        transition:
+          transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.28s;
+      }
+      .btn:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 18px 34px rgba(184, 134, 43, 0.35);
+        color: var(--brass-text);
+      }
+      .btn:disabled {
+        opacity: 0.55;
+        cursor: default;
+        transform: none;
+        box-shadow: none;
+      }
+      .hero .btn {
+        margin-top: 34px;
+      }
+
+      /* ---------- sections ---------- */
+      section {
+        padding: 70px 0;
+      }
+      h2 {
+        font-family: "Rubik", sans-serif;
+        font-weight: 900;
+        font-size: clamp(26px, 3.6vw, 40px);
+        letter-spacing: -0.03em;
+        line-height: 1.14;
+        margin: 0 0 14px;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+        margin: 0 0 36px;
+      }
+
+      /* ---------- steps ---------- */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+      .step {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 28px;
+        transition:
+          transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.35s,
+          border-color 0.35s;
+      }
+      .step:hover {
+        transform: translateY(-8px);
+        border-color: rgba(184, 134, 43, 0.55);
+        box-shadow: 0 24px 60px rgba(184, 134, 43, 0.18);
+      }
+      .step .n {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--brass);
+        display: block;
+        margin-bottom: 12px;
+      }
+      .step h3 {
+        font-size: 19px;
+        font-weight: 700;
+        margin: 0 0 8px;
+        letter-spacing: -0.01em;
+      }
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      /* ---------- before/after showcase ---------- */
+      .showcase-tabs {
+        display: flex;
+        gap: 10px;
+        margin: 0 0 16px;
+      }
+      .showcase-tabs button {
+        font-family: "Rubik", sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--muted);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 10px 24px;
+        cursor: pointer;
+        transition:
+          background 0.25s,
+          border-color 0.25s,
+          color 0.25s;
+      }
+      .showcase-tabs button:hover {
+        border-color: rgba(184, 134, 43, 0.55);
+        color: var(--ink);
+      }
+      .showcase-tabs button[aria-selected="true"] {
+        background: var(--brass);
+        border-color: var(--brass);
+        color: var(--brass-text);
+      }
+      .showcase-tabs button:focus-visible {
+        outline: 3px solid var(--brass-light);
+        outline-offset: 2px;
+      }
+
+      .showcase {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: #111;
+        /* Starting shape only. JS retunes this to whichever recording is showing,
+           so a portrait capture doesn't sit in a letterboxed strip. */
+        aspect-ratio: 16/9;
+        max-height: 78vh;
+        transition: aspect-ratio 0.4s ease;
+      }
+      .showcase video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        /* contain, never cover: the whole frame has to be visible, and the two
+           recordings may not share an aspect ratio. */
+        object-fit: contain;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+      .showcase video[data-active] {
+        opacity: 1;
+      }
+      /* The old site reads as the duller one without being misrepresented. */
+      .showcase video.before {
+        filter: saturate(0.55) brightness(0.94);
+      }
+
+      .showcase .playpause {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 0;
+        background: rgba(17, 17, 17, 0.7);
+        backdrop-filter: blur(6px);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 0;
+        z-index: 2;
+      }
+      .showcase .playpause:focus-visible {
+        outline: 3px solid var(--brass-light);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 640px) {
+        .showcase-tabs button {
+          flex: 1;
+          padding: 10px 12px;
+        }
+      }
+
+      /* ---------- notes ---------- */
+      .notes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+      }
+      .note {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 28px;
+      }
+      .note h3 {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 10px;
+        letter-spacing: -0.01em;
+      }
+      .note p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.62;
+      }
+
+      /* ---------- form ---------- */
+      .form-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        padding: clamp(24px, 4vw, 40px);
+        box-shadow: 0 24px 60px rgba(28, 25, 20, 0.06);
+      }
+      .field {
+        margin-bottom: 20px;
+      }
+      .field label {
+        display: block;
+        font-weight: 700;
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      .field .opt {
+        font-weight: 400;
+        color: var(--muted-soft);
+        font-size: 14px;
+      }
+      .field input,
+      .field textarea {
+        width: 100%;
+        font-family: "Rubik", sans-serif;
+        font-size: 16px;
+        color: var(--ink);
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px 16px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .field input:focus,
+      .field textarea:focus {
+        outline: none;
+        border-color: var(--brass);
+        box-shadow: 0 0 0 3px rgba(184, 134, 43, 0.15);
+      }
+      .field textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .hp {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .form-error {
+        margin: 0 0 18px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        font-size: 15px;
+        line-height: 1.55;
+        background: rgba(176, 58, 46, 0.08);
+        border: 1px solid rgba(176, 58, 46, 0.25);
+        color: #8e2f26;
+      }
+      .form-note {
+        margin: 16px 0 0;
+        font-size: 14px;
+        color: var(--muted-soft);
+        line-height: 1.6;
+      }
+
+      .success {
+        background: rgba(184, 134, 43, 0.08);
+        border: 1px solid rgba(184, 134, 43, 0.45);
+        border-radius: 24px;
+        padding: 28px;
+        margin-bottom: 28px;
+      }
+      .success h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
+      .success p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.62;
+      }
+
+      .done {
+        background: rgba(184, 134, 43, 0.08);
+        border: 1px solid rgba(184, 134, 43, 0.45);
+        border-radius: 24px;
+        padding: 28px;
+        text-align: center;
+      }
+      .done h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
+      .done p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.62;
+      }
+
+      /* ---------- footer ---------- */
+      footer {
+        padding: 60px 0 48px;
+        border-top: 1px solid var(--line);
+        margin-top: 40px;
+      }
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      footer .muted {
+        color: var(--muted-soft);
+        font-size: 15px;
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding: 44px 0 0;
+        }
+        section {
+          padding: 52px 0;
+        }
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.001ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="glow"><div></div></div>
+
+    <main dir="rtl">
+      <header class="site-header">
+        <div class="wrap">
+          <a href="/" class="wordmark" style="color: inherit"
+            >afias<span>.dev</span></a
+          >
+        </div>
+      </header>
+
+      <div class="wrap">
+        <section class="hero">
+          <h1>
+            רוצים לראות איך האתר שלכם יכול להיראות?
+            <em>נבנה לכם דמו אמיתי, בחינם.</em>
+          </h1>
+          <p class="sub">
+            לא סקיצה, לא הדמיה - אתר עובד אמיתי, מותאם לעסק שלכם. אתם מחליטים אם
+            ממשיכים משם.
+          </p>
+          <a href="#form" class="btn">בואו נתחיל</a>
+        </section>
+
+        <section>
+          <h2>איך זה עובד</h2>
+          <div class="steps">
+            <div class="step">
+              <span class="n">01</span>
+              <h3>מספרים לנו קצת על העסק</h3>
+              <p>פחות משתי דקות, בלי התחייבות.</p>
+            </div>
+            <div class="step">
+              <span class="n">02</span>
+              <h3>בונים לכם דמו אמיתי</h3>
+              <p>תוך יום-יומיים, אתר עובד ולא מצגת.</p>
+            </div>
+            <div class="step">
+              <span class="n">03</span>
+              <h3>שולחים לכם קישור</h3>
+              <p>אתם מחליטים אם ממשיכים.</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>כדי שתבינו על מה מדובר</h2>
+          <!--
+            Before/after showcase. Drop two screen recordings into demo/media/:
+              before.mp4  - the old / generic site
+              after.mp4   - the new one
+            Only one plays at a time and each is shown whole (object-fit:contain),
+            so they do not need to share an aspect ratio, a length or a pace.
+          -->
+          <div class="showcase-tabs" role="tablist" aria-label="השוואה בין האתר החדש לישן">
+            <button type="button" role="tab" data-tab="after" aria-selected="true">
+              אחרי
+            </button>
+            <button type="button" role="tab" data-tab="before" aria-selected="false">
+              לפני
+            </button>
+          </div>
+
+          <div class="showcase" data-showcase>
+            <video
+              class="after"
+              data-active
+              src="media/after.mp4"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="האתר החדש"
+            ></video>
+            <video
+              class="before"
+              src="media/before.mp4"
+              muted
+              loop
+              playsinline
+              preload="none"
+              aria-label="האתר הישן"
+            ></video>
+
+            <button type="button" class="playpause" aria-label="השהיית הסרטון">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                <rect x="2" y="1.5" width="3.5" height="11" rx="1"></rect>
+                <rect x="8.5" y="1.5" width="3.5" height="11" rx="1"></rect>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+        <section>
+          <h2>אין קאץ'</h2>
+          <p class="lead">
+            לא תתבקשו לשלם שום דבר כדי לראות את הדמו, ואין שום התחייבות אחרי זה.
+            אם זה ימצא חן בעיניכם - נדבר. אם לא - לא קרה כלום.
+          </p>
+          <div class="notes">
+            <div class="note">
+              <h3>למה זה בחינם?</h3>
+              <p>
+                אני מפתח תוכנה ואדם של מעשים ולא של דיבורים. הרבה יותר קל לי
+                לבנות דמו מאשר לבצע שיחת מכירה תאורטית, ואני מאמין בהוכחות לפני
+                הבטחות.
+              </p>
+            </div>
+            <div class="note">
+              <h3>כמה זמן זה לוקח?</h3>
+              <p>תוך יום-יומיים תקבלו קישור לדמו האמיתי שלכם.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="form">
+          <h2>בואו נתחיל - זה לוקח פחות משתי דקות</h2>
+          <p class="lead">שדה אחד בלבד הוא חובה. את השאר אפשר להשלים אחר כך.</p>
+
+          <div class="form-card">
+            <!-- ===== step 1 ===== -->
+            <form id="step1" novalidate>
+              <div id="err1" class="form-error" hidden></div>
+
+              <div class="field">
+                <label for="business">שם העסק</label>
+                <input
+                  id="business"
+                  name="business"
+                  type="text"
+                  required
+                  autocomplete="organization"
+                  placeholder="לדוגמה: מאפיית שקד"
+                />
+              </div>
+
+              <div class="field">
+                <label for="website"
+                  >כתובת אתר קיים
+                  <span class="opt"
+                    >- אופציונלי, אפשר להשאיר ריק אם אין</span
+                  ></label
+                >
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  autocomplete="url"
+                  placeholder="example.co.il"
+                />
+              </div>
+
+              <div class="field">
+                <label for="about"
+                  >כמה מילים על העסק <span class="opt">- אופציונלי</span></label
+                >
+                <textarea
+                  id="about"
+                  name="about"
+                  placeholder="במה אתם עוסקים, מי הלקוחות שלכם, ומה הכי חשוב שיופיע באתר"
+                ></textarea>
+              </div>
+
+              <div class="hp" aria-hidden="true">
+                <label for="company_url">אל תמלאו שדה זה</label>
+                <input
+                  id="company_url"
+                  name="company_url"
+                  type="text"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+
+              <button type="submit" class="btn" id="submit1">שלח בקשה</button>
+              <p class="form-note">
+                הפרטים נשמרים אצלי בלבד ומשמשים רק לבניית הדמו.
+              </p>
+            </form>
+
+            <!-- ===== step 2 ===== -->
+            <div id="step2wrap" hidden>
+              <div class="success">
+                <h3>הבקשה התקבלה!</h3>
+                <p>נעדכן אותך כשהדמו מוכן.</p>
+              </div>
+
+              <p class="lead" style="margin-bottom: 24px">
+                כדי שנוכל לשלוח לכם את הקישור, השאירו פרטי קשר. אם תדלגו על זה -
+                ננסה למצוא אתכם דרך האתר שציינתם.
+              </p>
+
+              <form id="step2" novalidate>
+                <div id="err2" class="form-error" hidden></div>
+
+                <div class="field">
+                  <label for="name">שם מלא</label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    autocomplete="name"
+                  />
+                </div>
+
+                <div class="field">
+                  <label for="email">אימייל</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autocomplete="email"
+                    dir="ltr"
+                  />
+                </div>
+
+                <div class="field">
+                  <label for="phone">טלפון</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    autocomplete="tel"
+                    dir="ltr"
+                  />
+                </div>
+
+                <button type="submit" class="btn" id="submit2">
+                  שלח פרטי קשר
+                </button>
+              </form>
+            </div>
+
+            <!-- ===== done ===== -->
+            <div id="done" class="done" hidden>
+              <h3>תודה, הכל אצלנו.</h3>
+              <p>נחזור אליכם עם קישור לדמו תוך יום-יומיים.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        <div class="wrap footer-inner">
+          <a href="/" class="wordmark" style="color: inherit"
+            >afias<span>.dev</span></a
+          >
+          <span class="muted">© <span id="year"></span> אורי אפיאס</span>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      /* ---------- before/after showcase ---------- */
+      (function () {
+        "use strict";
+
+        var root = document.querySelector("[data-showcase]");
+        if (!root) return;
+
+        var tabs = Array.prototype.slice.call(
+          document.querySelectorAll(".showcase-tabs [data-tab]"),
+        );
+        var videos = {
+          after: root.querySelector("video.after"),
+          before: root.querySelector("video.before"),
+        };
+        var toggle = root.querySelector(".playpause");
+
+        var PLAY_ICON =
+          '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3 1.8v10.4a1 1 0 0 0 1.53.85l8.2-5.2a1 1 0 0 0 0-1.7l-8.2-5.2A1 1 0 0 0 3 1.8z"></path></svg>';
+        var PAUSE_ICON = toggle.innerHTML;
+
+        var current = "after";
+        var userPaused = false;
+
+        function activeVideo() {
+          return videos[current];
+        }
+
+        /* Match the frame to the recording rather than the other way round —
+           the two captures need not share a shape, and cropping either one
+           defeats the point of showing the site whole. */
+        function fitFrame(v) {
+          if (v.videoWidth && v.videoHeight) {
+            root.style.aspectRatio = v.videoWidth + " / " + v.videoHeight;
+          }
+        }
+
+        Object.keys(videos).forEach(function (key) {
+          videos[key].addEventListener("loadedmetadata", function () {
+            if (current === key) fitFrame(videos[key]);
+          });
+        });
+
+        function play() {
+          userPaused = false;
+          var v = activeVideo();
+          var p = v.play();
+          if (p && p.catch) {
+            p.catch(function () {
+              v.addEventListener("canplay", function retry() {
+                v.removeEventListener("canplay", retry);
+                if (!userPaused && activeVideo() === v) {
+                  var q = v.play();
+                  if (q && q.catch) q.catch(function () {});
+                }
+              });
+            });
+          }
+          toggle.innerHTML = PAUSE_ICON;
+          toggle.setAttribute("aria-label", "השהיית הסרטון");
+        }
+
+        function pause() {
+          activeVideo().pause();
+          toggle.innerHTML = PLAY_ICON;
+          toggle.setAttribute("aria-label", "הפעלת הסרטון");
+        }
+
+        function show(which) {
+          if (which === current) return;
+
+          var outgoing = videos[current];
+          outgoing.pause();
+          outgoing.removeAttribute("data-active");
+
+          current = which;
+          var incoming = videos[which];
+          incoming.setAttribute("data-active", "");
+          // Always start the newly revealed recording from the top — these are
+          // two unrelated timelines, so resuming mid-way shows nothing useful.
+          try {
+            incoming.currentTime = 0;
+          } catch (e) {}
+
+          fitFrame(incoming);
+
+          tabs.forEach(function (t) {
+            t.setAttribute("aria-selected", String(t.dataset.tab === which));
+          });
+
+          if (!userPaused) play();
+        }
+
+        tabs.forEach(function (t) {
+          t.addEventListener("click", function () {
+            show(t.dataset.tab);
+          });
+        });
+
+        toggle.addEventListener("click", function () {
+          if (activeVideo().paused) {
+            play();
+          } else {
+            userPaused = true;
+            pause();
+          }
+        });
+
+        /* Play immediately — muted autoplay is allowed, and gating it on
+           IntersectionObserver risks a frozen frame if the observer never
+           delivers. The observer is only an optimisation on top of that. */
+        var wantsCalm =
+          window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (wantsCalm) {
+          userPaused = true;
+          pause();
+        } else {
+          play();
+
+          if ("IntersectionObserver" in window) {
+            new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) {
+                    if (!userPaused) play();
+                  } else {
+                    activeVideo().pause();
+                  }
+                });
+              },
+              { threshold: 0.35 },
+            ).observe(root);
+          }
+        }
+      })();
+
+      /* ---------- demo request form ---------- */
+      (function () {
+        "use strict";
+
+        // Same-origin: the page and this endpoint are both served by the
+        // afias-demo Worker, so a relative path is all that's needed.
+        var ENDPOINT = "/api/demo-request";
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        var step1 = document.getElementById("step1");
+        var step2 = document.getElementById("step2");
+        var step2wrap = document.getElementById("step2wrap");
+        var doneBox = document.getElementById("done");
+        var err1 = document.getElementById("err1");
+        var err2 = document.getElementById("err2");
+        var submit1 = document.getElementById("submit1");
+        var submit2 = document.getElementById("submit2");
+
+        var issueId = null;
+
+        function showError(box, msg) {
+          box.textContent = msg;
+          box.hidden = false;
+        }
+        function clearError(box) {
+          box.hidden = true;
+          box.textContent = "";
+        }
+        function val(id) {
+          return (document.getElementById(id).value || "").trim();
+        }
+
+        function post(payload) {
+          return fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }).then(function (res) {
+            return res
+              .json()
+              .catch(function () {
+                return {};
+              })
+              .then(function (data) {
+                if (!res.ok || !data.ok) {
+                  throw new Error(data.error || "request failed");
+                }
+                return data;
+              });
+          });
+        }
+
+        var FALLBACK =
+          "משהו השתבש בשליחה. אפשר לנסות שוב, או פשוט לכתוב לי בוואטסאפ ל-054-2533533.";
+
+        step1.addEventListener("submit", function (e) {
+          e.preventDefault();
+          clearError(err1);
+
+          var business = val("business");
+          if (!business) {
+            showError(err1, "צריך למלא את שם העסק כדי להמשיך.");
+            document.getElementById("business").focus();
+            return;
+          }
+
+          submit1.disabled = true;
+          submit1.textContent = "שולח...";
+
+          post({
+            step: 1,
+            business: business,
+            website: val("website"),
+            about: val("about"),
+            company_url: val("company_url"), // honeypot
+          })
+            .then(function (data) {
+              issueId = data.issueId || null;
+
+              if (window.fbq) fbq("track", "Lead");
+              if (window.gtag) gtag("event", "demo_request_step1");
+
+              step1.hidden = true;
+              step2wrap.hidden = false;
+              step2wrap.scrollIntoView({ behavior: "smooth", block: "center" });
+            })
+            .catch(function () {
+              showError(err1, FALLBACK);
+              submit1.disabled = false;
+              submit1.textContent = "שלח בקשה";
+            });
+        });
+
+        step2.addEventListener("submit", function (e) {
+          e.preventDefault();
+          clearError(err2);
+
+          var name = val("name"),
+            email = val("email"),
+            phone = val("phone");
+          if (!name || !email || !phone) {
+            showError(err2, "צריך למלא שם, אימייל וטלפון.");
+            return;
+          }
+          if (email.indexOf("@") < 1) {
+            showError(err2, "כתובת האימייל לא נראית תקינה.");
+            document.getElementById("email").focus();
+            return;
+          }
+
+          submit2.disabled = true;
+          submit2.textContent = "שולח...";
+
+          post({
+            step: 2,
+            issueId: issueId,
+            business: val("business"),
+            name: name,
+            email: email,
+            phone: phone,
+          })
+            .then(function () {
+              if (window.fbq) fbq("track", "CompleteRegistration");
+              if (window.gtag) gtag("event", "demo_request_step2");
+
+              step2wrap.hidden = true;
+              doneBox.hidden = false;
+              doneBox.scrollIntoView({ behavior: "smooth", block: "center" });
+            })
+            .catch(function () {
+              showError(err2, FALLBACK);
+              submit2.disabled = false;
+              submit2.textContent = "שלח פרטי קשר";
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

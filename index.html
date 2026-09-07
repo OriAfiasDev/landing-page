@@ -204,8 +204,6 @@ src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
 }
 </script>
 </script>
-<link rel="preload" href="assets/fonts/fefb443d-8bdc-4e53-ac81-0f7fc352bc1f.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/c32f46df-6990-4f7a-8afe-0c35eeb4690f.woff2" as="font" type="font/woff2" crossorigin>
 <script src="assets/js/97fbb41c-001f-4822-9331-725d15fe781d.js" defer></script>
 </head>
 <body>
@@ -432,7 +430,9 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     </section>
     <script>
     (function(){
-      var EXTS = ['webp','png'];
+      // webp only: the png masters live in backups/pngs/, never at the site root,
+      // so probing for them was a guaranteed 404 per image on every page load.
+      var EXTS = ['webp'];
       var MAX_PER_PROJECT = 12;
 
       function probeImage(src){
