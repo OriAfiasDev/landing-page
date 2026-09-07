@@ -1,33 +1,25 @@
 /**
- * afias-demo
+ * POST /api/demo-request  —  the "free demo" funnel at https://demo.afias.dev
  *
- * The "free demo" funnel at https://demo.afias.dev.
+ * A Cloudflare Pages Function, so it is served from the same origin as the
+ * static page in ../../public. Same origin means the browser never sends a
+ * cross-origin request and never preflights; the origin check below is
+ * anti-abuse only.
  *
- * This Worker serves two things from one origin: the static landing page (via
- * [assets] -> ../demo in wrangler.toml) and the form endpoint below. Because the
- * page and the endpoint share an origin, the browser never sends a cross-origin
- * request and never preflights — the origin check here is anti-abuse only.
+ * Submissions become one Linear issue. There is no database.
  *
- * It takes the two form submissions and turns them into one Linear issue.
- *
- *   step 1  ->  issueCreate  ("בקשת דמו - <business>"), dueDate = today + 3 days,
+ *   step 1  ->  issueCreate   ("בקשת דמו - <business>"), dueDate = today + 3 days,
  *               labelled "בקשת דמו" (the label is created on first use).
  *               Responds with { ok: true, issueId } so the browser can hold onto it.
  *   step 2  ->  commentCreate on that same issue with the contact details.
  *
- * Both arrive as POST /api/demo-request.
- *
- * There is no database. Linear is the only store.
- *
- * Secrets (set with `wrangler secret put <NAME>`):
+ * Secrets (Pages project -> Settings -> Variables and Secrets):
  *   LINEAR_API_KEY, LINEAR_TEAM_ID, LINEAR_PROJECT_ID
  */
 
 const LINEAR_API = 'https://api.linear.app/graphql';
 const LABEL_NAME = 'בקשת דמו';
 const DUE_DAYS = 3;
-
-const API_PATH = '/api/demo-request';
 
 /* ------------------------------------------------------------------ */
 /* helpers                                                             */
@@ -263,49 +255,41 @@ async function handleStep2(env, data) {
 /* entrypoint                                                          */
 /* ------------------------------------------------------------------ */
 
-export default {
-  async fetch(request, env) {
-    const url = new URL(request.url);
+export async function onRequest(context) {
+  const { request, env } = context;
 
-    // Anything that is not the API is a static asset; the assets binding has
-    // already had its chance, so a request reaching here is a genuine 404.
-    if (url.pathname !== API_PATH) {
-      return new Response('Not found', { status: 404 });
-    }
+  const origin = request.headers.get('Origin') || '';
+  const allowed = isAllowedOrigin(origin, request);
 
-    const origin = request.headers.get('Origin') || '';
-    const allowed = isAllowedOrigin(origin, request);
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: corsHeaders(origin, allowed) });
+  }
+  if (!allowed) {
+    return json({ ok: false, error: 'origin not allowed' }, 403, origin, allowed);
+  }
+  if (request.method !== 'POST') {
+    return json({ ok: false, error: 'method not allowed' }, 405, origin, allowed);
+  }
 
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: corsHeaders(origin, allowed) });
-    }
-    if (!allowed) {
-      return json({ ok: false, error: 'origin not allowed' }, 403, origin, allowed);
-    }
-    if (request.method !== 'POST') {
-      return json({ ok: false, error: 'method not allowed' }, 405, origin, allowed);
-    }
+  let data;
+  try {
+    data = await request.json();
+  } catch {
+    return json({ ok: false, error: 'invalid JSON' }, 400, origin, allowed);
+  }
 
-    let data;
-    try {
-      data = await request.json();
-    } catch {
-      return json({ ok: false, error: 'invalid JSON' }, 400, origin, allowed);
-    }
+  // Honeypot: a real person never fills a field they cannot see. Answer 200 so
+  // the bot believes it succeeded and doesn't come back to retry.
+  if (clean(data.company_url, 200)) {
+    return json({ ok: true, issueId: null }, 200, origin, allowed);
+  }
 
-    // Honeypot: a real person never fills a field they cannot see. Answer 200 so
-    // the bot believes it succeeded and doesn't come back to retry.
-    if (clean(data.company_url, 200)) {
-      return json({ ok: true, issueId: null }, 200, origin, allowed);
-    }
-
-    try {
-      const { status, body } =
-        data.step === 2 ? await handleStep2(env, data) : await handleStep1(env, data);
-      return json(body, status, origin, allowed);
-    } catch (err) {
-      console.error('demo form failed:', err.message);
-      return json({ ok: false, error: 'internal error' }, 500, origin, allowed);
-    }
-  },
-};
+  try {
+    const { status, body } =
+      data.step === 2 ? await handleStep2(env, data) : await handleStep1(env, data);
+    return json(body, status, origin, allowed);
+  } catch (err) {
+    console.error('demo form failed:', err.message);
+    return json({ ok: false, error: 'internal error' }, 500, origin, allowed);
+  }
+}
