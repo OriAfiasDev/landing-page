@@ -12,15 +12,39 @@
  *               Responds with { ok: true, issueId } so the browser can hold onto it.
  *   step 2  ->  commentCreate on that same issue with the contact details.
  *
+ * A second, independent route handles Meta Conversions API:
+ *
+ *   POST /track  ->  mirrors a browser Pixel event server-side, sharing the
+ *                    browser's event_id so Meta deduplicates the pair.
+ *
  * Secrets (set with `wrangler secret put <NAME>`):
  *   LINEAR_API_KEY, LINEAR_TEAM_ID, LINEAR_PROJECT_ID
+ *   META_PIXEL_ID, META_ACCESS_TOKEN
+ *   META_TEST_EVENT_CODE  — optional; set it to send to Test Events, and
+ *                           `wrangler secret delete` it to go live. Keeping the
+ *                           switch in configuration means shipping to production
+ *                           never depends on remembering to edit this file.
  */
 
 const LINEAR_API = 'https://api.linear.app/graphql';
 const LABEL_NAME = 'בקשת דמו';
 const DUE_DAYS = 3;
 
-const API_PATH = '/api/demo-request';
+const TRACK_PATH = '/track';
+const META_API_VERSION = 'v21.0';
+
+// An open endpoint that forwards to the Pixel is an open door to poisoning ad
+// optimisation with fake conversions, so only the events this site actually
+// sends are accepted.
+const ALLOWED_EVENTS = new Set([
+  'PageView',
+  'ViewContent',
+  'Contact',
+  'Schedule',
+  'Lead',
+  'CompleteRegistration',
+  'DemoPageClick',
+]);
 
 /* ------------------------------------------------------------------ */
 /* helpers                                                             */
@@ -248,6 +272,128 @@ async function handleStep2(env, data) {
 /* entrypoint                                                          */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/* Meta Conversions API                                                */
+/* ------------------------------------------------------------------ */
+
+/** SHA-256 hex, which is the only form Meta accepts for PII. */
+async function sha256(value) {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+/**
+ * Meta matches on normalised values, so normalisation has to happen before
+ * hashing — hashing "Ori@Afias.dev" and "ori@afias.dev" gives two different
+ * digests and the second one never matches anybody.
+ */
+const NORMALISE = {
+  em: (v) => v.trim().toLowerCase(),
+  fn: (v) => v.trim().toLowerCase(),
+  ln: (v) => v.trim().toLowerCase(),
+  ph: (v) => {
+    const digits = v.replace(/\D/g, '');
+    // Meta wants a country code. Israeli numbers are typed locally as 05X…,
+    // so a leading 0 is rewritten to 972 rather than being sent unmatched.
+    if (/^0\d{8,9}$/.test(digits)) return '972' + digits.slice(1);
+    return digits;
+  },
+};
+
+/** Map the client's field names onto Meta's, normalise, hash. */
+async function buildUserData(request, input) {
+  const source = input && typeof input === 'object' ? input : {};
+  const out = {};
+
+  const pii = [
+    ['em', source.email],
+    ['ph', source.phone],
+    ['fn', source.first_name],
+    ['ln', source.last_name],
+  ];
+
+  for (const [key, raw] of pii) {
+    const value = clean(raw, 300);
+    if (!value) continue;
+    const normalised = NORMALISE[key](value);
+    if (normalised) out[key] = [await sha256(normalised)];
+  }
+
+  // Not PII in Meta's model, and never hashed: the Pixel's own cookies plus the
+  // request's own IP and UA. These carry most of the match quality for anonymous
+  // visitors, which is exactly the PageView case.
+  const fbp = clean(source.fbp, 200);
+  const fbc = clean(source.fbc, 400);
+  if (fbp) out.fbp = fbp;
+  if (fbc) out.fbc = fbc;
+
+  const ip = request.headers.get('CF-Connecting-IP');
+  const ua = request.headers.get('User-Agent');
+  if (ip) out.client_ip_address = ip;
+  if (ua) out.client_user_agent = ua;
+
+  return out;
+}
+
+async function handleTrack(request, env, data, origin) {
+  if (!env.META_PIXEL_ID || !env.META_ACCESS_TOKEN) {
+    console.error('/track called but META_PIXEL_ID / META_ACCESS_TOKEN are not set');
+    return json({ ok: false }, 200, origin);
+  }
+
+  const eventName = clean(data.event_name, 60);
+  if (!ALLOWED_EVENTS.has(eventName)) {
+    return json({ ok: false }, 400, origin);
+  }
+
+  const eventId = clean(data.event_id, 100);
+  if (!eventId) {
+    // Without it Meta cannot pair this with the browser event and would count
+    // the conversion twice.
+    return json({ ok: false }, 400, origin);
+  }
+
+  const event = {
+    event_name: eventName,
+    event_time: Math.floor(Date.now() / 1000),
+    event_id: eventId,
+    action_source: 'website',
+    user_data: await buildUserData(request, data.user_data),
+  };
+
+  const sourceUrl = clean(data.event_source_url, 800);
+  if (sourceUrl) event.event_source_url = sourceUrl;
+
+  if (data.custom_data && typeof data.custom_data === 'object') {
+    event.custom_data = data.custom_data;
+  }
+
+  const payload = { data: [event] };
+  if (env.META_TEST_EVENT_CODE) payload.test_event_code = env.META_TEST_EVENT_CODE;
+
+  const res = await fetch(
+    `https://graph.facebook.com/${META_API_VERSION}/${env.META_PIXEL_ID}/events?access_token=${encodeURIComponent(env.META_ACCESS_TOKEN)}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }
+  );
+
+  if (!res.ok) {
+    // Logged for us, never returned: Meta's errors quote back the payload and
+    // can echo the access token, and none of it is the browser's business.
+    const detail = await res.text().catch(() => '');
+    console.error('Meta CAPI rejected the event:', res.status, detail.slice(0, 500));
+    return json({ ok: false }, 200, origin);
+  }
+
+  return json({ ok: true }, 200, origin);
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -267,6 +413,17 @@ export default {
       data = await request.json();
     } catch {
       return json({ ok: false, error: 'invalid JSON' }, 400, origin);
+    }
+
+    // The Conversions API mirror. Everything else falls through to the demo
+    // form exactly as before.
+    if (new URL(request.url).pathname === TRACK_PATH) {
+      try {
+        return await handleTrack(request, env, data, origin);
+      } catch (err) {
+        console.error('track failed:', err.message);
+        return json({ ok: false }, 200, origin);
+      }
     }
 
     // Honeypot: a real person never fills a field they cannot see. Answer 200 so

@@ -5,3 +5,6 @@ scripts/
 
 # wrangler's local state from `wrangler dev` (miniflare caches, account cache)
 .wrangler/
+
+# wrangler local secrets — never commit
+.dev.vars

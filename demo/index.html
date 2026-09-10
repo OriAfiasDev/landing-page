@@ -77,7 +77,66 @@
         "https://connect.facebook.net/en_US/fbevents.js",
       );
       fbq("init", "1990961434890890");
-      fbq("track", "PageView");
+
+      /* Pixel + Conversions API side by side. Both legs carry the same event_id
+         so Meta pairs them and counts one conversion, not two. */
+      window.afiasTrack = (function () {
+        var ENDPOINT = "https://afias-demo.afias.workers.dev/track";
+
+        function newId() {
+          try {
+            if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+          } catch (e) {}
+          return (
+            "e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 12)
+          );
+        }
+        function cookie(name) {
+          var m = document.cookie.match("(^|; )" + name + "=([^;]*)");
+          return m ? decodeURIComponent(m[2]) : "";
+        }
+
+        return function (name, opts) {
+          opts = opts || {};
+          var id = newId();
+
+          if (typeof fbq === "function") {
+            fbq(opts.custom ? "trackCustom" : "track", name, opts.custom_data || {}, {
+              eventID: id,
+            });
+          }
+
+          var user = {};
+          var given = opts.user_data || {};
+          for (var k in given) if (given[k]) user[k] = given[k];
+          var fbp = cookie("_fbp");
+          if (fbp) user.fbp = fbp;
+          var fbc = cookie("_fbc");
+          if (fbc) user.fbc = fbc;
+
+          // Fire and forget. keepalive lets the request outlive the navigation
+          // that usually follows, and a failure must never block the user.
+          try {
+            fetch(ENDPOINT, {
+              method: "POST",
+              mode: "cors",
+              keepalive: true,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                event_name: name,
+                event_id: id,
+                event_source_url: location.href,
+                user_data: user,
+                custom_data: opts.custom_data || {},
+              }),
+            })["catch"](function () {});
+          } catch (e) {}
+
+          return id;
+        };
+      })();
+
+      afiasTrack("PageView");
     </script>
     <noscript
       ><img
@@ -1048,7 +1107,7 @@
             .then(function (data) {
               issueId = data.issueId || null;
 
-              if (window.fbq) fbq("track", "Lead");
+              afiasTrack("Lead");
               if (window.gtag) gtag("event", "demo_request_step1");
 
               step1.hidden = true;
@@ -1091,7 +1150,15 @@
             phone: phone,
           })
             .then(function () {
-              if (window.fbq) fbq("track", "CompleteRegistration");
+              var space = name.trim().indexOf(" ");
+              afiasTrack("CompleteRegistration", {
+                user_data: {
+                  email: email,
+                  phone: phone,
+                  first_name: space > 0 ? name.trim().slice(0, space) : name.trim(),
+                  last_name: space > 0 ? name.trim().slice(space + 1) : "",
+                },
+              });
               if (window.gtag) gtag("event", "demo_request_step2");
 
               step2wrap.hidden = true;

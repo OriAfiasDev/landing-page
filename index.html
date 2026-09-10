@@ -42,7 +42,58 @@
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '1990961434890890');
-  fbq('track', 'PageView');
+
+  /* Pixel + Conversions API side by side. Both legs carry the same event_id so
+     Meta pairs them and counts one conversion, not two. */
+  window.afiasTrack = (function(){
+    var ENDPOINT = 'https://afias-demo.afias.workers.dev/track';
+
+    function newId(){
+      try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+      return 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+    }
+    function cookie(name){
+      var m = document.cookie.match('(^|; )' + name + '=([^;]*)');
+      return m ? decodeURIComponent(m[2]) : '';
+    }
+
+    return function(name, opts){
+      opts = opts || {};
+      var id = newId();
+
+      if (typeof fbq === 'function') {
+        fbq(opts.custom ? 'trackCustom' : 'track', name, opts.custom_data || {}, { eventID: id });
+      }
+
+      var user = {};
+      var given = opts.user_data || {};
+      for (var k in given) if (given[k]) user[k] = given[k];
+      var fbp = cookie('_fbp'); if (fbp) user.fbp = fbp;
+      var fbc = cookie('_fbc'); if (fbc) user.fbc = fbc;
+
+      // Fire and forget. keepalive lets the request outlive the navigation that
+      // usually follows a click, and a failure here must never block the user.
+      try {
+        fetch(ENDPOINT, {
+          method: 'POST',
+          mode: 'cors',
+          keepalive: true,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event_name: name,
+            event_id: id,
+            event_source_url: location.href,
+            user_data: user,
+            custom_data: opts.custom_data || {}
+          })
+        })['catch'](function(){});
+      } catch (e) {}
+
+      return id;
+    };
+  })();
+
+  afiasTrack('PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
@@ -594,12 +645,11 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       document.addEventListener('click', function(e){
         var link = e.target.closest && e.target.closest('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
         if (!link) return;
-        if (typeof fbq !== 'function') return;
         if (link.target === '_blank') {
-          fbq('track', 'Contact');
+          afiasTrack('Contact');
         } else {
           e.preventDefault();
-          fbq('track', 'Contact');
+          afiasTrack('Contact');
           var href = link.href;
           setTimeout(function(){ window.location.href = href; }, 150);
         }
@@ -612,12 +662,11 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       document.addEventListener('click', function(e){
         var link = e.target.closest && e.target.closest('a[href*="gumroad.com"]');
         if (!link) return;
-        if (typeof fbq !== 'function') return;
         if (link.target === '_blank') {
-          fbq('track', 'ViewContent');
+          afiasTrack('ViewContent');
         } else {
           e.preventDefault();
-          fbq('track', 'ViewContent');
+          afiasTrack('ViewContent');
           var href = link.href;
           setTimeout(function(){ window.location.href = href; }, 150);
         }
@@ -630,12 +679,11 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       document.addEventListener('click', function(e){
         var link = e.target.closest && e.target.closest('a[href*="cal.com"]');
         if (!link) return;
-        if (typeof fbq !== 'function') return;
         if (link.target === '_blank') {
-          fbq('track', 'Schedule');
+          afiasTrack('Schedule');
         } else {
           e.preventDefault();
-          fbq('track', 'Schedule');
+          afiasTrack('Schedule');
           var href = link.href;
           setTimeout(function(){ window.location.href = href; }, 150);
         }
@@ -648,15 +696,14 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       document.addEventListener('click', function(e){
         var link = e.target.closest && e.target.closest('a[href^="/demo"]');
         if (!link) return;
-        if (typeof fbq !== 'function') return;
         // Custom rather than a standard event: Lead is already fired by the demo
         // page's own form, and ViewContent is taken by the guide. Reusing either
         // would merge two different intents into one number.
         if (link.target === '_blank') {
-          fbq('trackCustom', 'DemoPageClick');
+          afiasTrack('DemoPageClick', { custom: true });
         } else {
           e.preventDefault();
-          fbq('trackCustom', 'DemoPageClick');
+          afiasTrack('DemoPageClick', { custom: true });
           var href = link.href;
           setTimeout(function(){ window.location.href = href; }, 150);
         }

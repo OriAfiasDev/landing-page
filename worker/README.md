@@ -1,6 +1,15 @@
 # afias-demo
 
-The endpoint behind the free-demo form (AFI-24).
+Two routes on one Worker.
+
+| route | what it does |
+| --- | --- |
+| `POST /api/demo-request` | the free-demo form (AFI-24) -> a Linear issue |
+| `POST /track` | mirrors a browser Pixel event to Meta's Conversions API |
+
+They share only CORS and the origin allowlist; neither knows about the other.
+
+## The demo form
 
 Two independent pieces, deliberately:
 
@@ -42,6 +51,8 @@ your shell history:
 npx wrangler secret put LINEAR_API_KEY
 npx wrangler secret put LINEAR_TEAM_ID      # e4614b83-64d6-4487-815a-331a4643f7c5
 npx wrangler secret put LINEAR_PROJECT_ID   # 31c37a9a-8c57-4794-92f0-8a95edc5fdd5
+npx wrangler secret put META_PIXEL_ID       # 1990961434890890
+npx wrangler secret put META_ACCESS_TOKEN   # Events Manager -> Settings -> Conversions API
 ```
 
 ```bash
@@ -50,6 +61,91 @@ npx wrangler deploy
 
 The page deploys separately, by pushing to `main` — GitHub Actions publishes the
 site. Changing one never requires redeploying the other.
+
+## Conversions API (`POST /track`)
+
+The browser fires every Pixel event twice: once through `fbq()` and once, in
+parallel, to this route. Both legs carry the **same `event_id`**, which is the
+only thing that stops Meta counting one conversion as two — it deduplicates on
+that id and keeps whichever leg arrives first.
+
+The point of the server leg is that it still arrives when the browser one does
+not: ad blockers, tracking prevention, a tab closed mid-navigation.
+
+### What it accepts
+
+```json
+{
+  "event_name": "Lead",
+  "event_id": "9f1c…",
+  "event_source_url": "https://afias.dev/demo/",
+  "user_data": { "email": "…", "phone": "…", "first_name": "…", "last_name": "…",
+                 "fbp": "…", "fbc": "…" },
+  "custom_data": { }
+}
+```
+
+`event_name` must be one of `ALLOWED_EVENTS` in `src/index.js`. That allowlist is
+not bureaucracy: this endpoint is public, and without it anyone could inject
+fabricated conversions and quietly wreck the ad account's optimisation.
+
+### PII
+
+`email`, `phone`, `first_name` and `last_name` are **normalised and then SHA-256
+hashed in the Worker**; the raw values never reach Meta. Normalisation has to
+happen before hashing or the digests match nobody — `Ori@Afias.dev` and
+`ori@afias.dev` hash differently, and only the second matches.
+
+Phone numbers get a country code. Israeli numbers are typed locally (`050-…`),
+so a leading `0` is rewritten to `972`. A number sent without a country code is
+simply never matched.
+
+`fbp` / `fbc` (the Pixel's own cookies) and the request's IP and user-agent are
+sent unhashed — Meta treats them as non-PII, and for anonymous visitors they
+carry most of the match quality.
+
+### Testing before going live
+
+`META_TEST_EVENT_CODE` is a secret, not a code change:
+
+```bash
+npx wrangler secret put META_TEST_EVENT_CODE   # from Events Manager -> Test Events
+npx wrangler deploy
+```
+
+Load the site, trigger events, and watch Test Events: each should appear twice —
+once from the browser, once from the server — flagged **Deduplicated**. If they
+appear as two separate events, the `event_id` is not matching.
+
+Going live is deleting the secret, so production never depends on someone
+remembering to strip a constant out of this file:
+
+```bash
+npx wrangler secret delete META_TEST_EVENT_CODE
+```
+
+### Local development
+
+```bash
+cd worker
+cat > .dev.vars <<'VARS'
+META_PIXEL_ID=1990961434890890
+META_ACCESS_TOKEN=…
+META_TEST_EVENT_CODE=…
+VARS
+npx wrangler dev
+```
+
+`.dev.vars` is gitignored. Point `ENDPOINT` (top of the inline script in
+`index.html` and `demo/index.html`) at `http://localhost:8787/track` while
+testing, and put it back before committing.
+
+### Failure behaviour
+
+`/track` answers `{ "ok": false }` and never explains why. Meta's errors quote
+the payload back and can echo the access token, so they are logged
+(`wrangler tail`) and never returned. Analytics must not be able to break a page,
+so the client fires it and ignores the result entirely.
 
 ## Local testing
 
@@ -77,6 +173,9 @@ python3 -m http.server 8000            # from the repo root, site on :8000
 - **Due date is 3 calendar days, not 3 business days.** The spec says "+ 3 ימים"
   while AFI-24's body says "3 ימי עסקים"; the literal calendar version is what is
   implemented, so a Friday submission lands on Monday.
+- **`/track` has no rate limit.** The event allowlist blocks the worst abuse
+  (fabricated `Purchase` events), but a determined actor could still flood real
+  event names. Cloudflare's free rate limiting is the fix if that ever happens.
 - **Spam protection is a honeypot only** (`company_url`, hidden via CSS). This
   endpoint creates a Linear issue per request, so if it is ever found by a real
   spammer, add Turnstile or a rate limit.
