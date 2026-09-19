@@ -165,6 +165,7 @@ a{color:var(--brass);text-decoration:none}a:hover{color:var(--brass-light)}
 .wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass)}
 article{padding:56px 0 80px}
 .meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.meta .back{color:var(--brass)}.meta .back::before{content:"→ "}
 h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
 .lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
 .hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
@@ -200,6 +201,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
   <main class="wrap">
     <article>
       <div class="meta">
+        <a href="/blog/" class="back">כל המאמרים</a>
         <time datetime="${escapeHtml(publishedIso)}">${hebrewDate(publishedIso)}</time>
         <span>${author}</span>
       </div>

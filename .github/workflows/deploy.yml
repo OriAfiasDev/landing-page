@@ -45,6 +45,12 @@ jobs:
             --exclude='.originals' \
             ./ dist/
 
+      # The listing is derived from the article pages themselves, so it can never
+      # drift from what is actually published. Runs before minification so the
+      # generated page is minified like everything else.
+      - name: Build blog index
+        run: python3 .github/build/blog-index.py dist
+
       - name: Minify HTML
         run: |
           find dist -name '*.html' -print0 | while IFS= read -r -d '' f; do
@@ -64,8 +70,13 @@ jobs:
         run: |
           [ -d dist/blog ] || { echo "no blog/ yet"; exit 0; }
           entries=""
+          if [ -f dist/blog/index.html ]; then
+            entries="  <url>\n    <loc>https://afias.dev/blog/</loc>\n    <lastmod>$(date -u +%F)</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n"
+          fi
           for f in dist/blog/*/index.html; do
             [ -f "$f" ] || continue
+            # same test the index builder uses: an article page carries og:title
+            grep -q 'property="og:title"' "$f" || continue
             slug=$(basename "$(dirname "$f")")
             lastmod=$(grep -o 'article:published_time" content="[^"]*' "$f" | head -1 | sed 's/.*content="//' | cut -c1-10)
             [ -n "$lastmod" ] || lastmod=$(date -u +%F)

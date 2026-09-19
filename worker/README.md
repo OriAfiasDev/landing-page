@@ -230,10 +230,20 @@ The committed `sitemap.xml` only knows the hand-written pages. The deploy
 workflow appends every `blog/*/index.html` it finds at build time, using the
 article's `article:published_time` as `lastmod`. Nothing to maintain by hand.
 
-### Not built
+### The listing page
 
-A blog index page (`/blog/`) — articles are reachable by URL and via the
-sitemap, but there is no listing. Worth adding once there are a few.
+`https://afias.dev/blog/` is **generated at deploy time**, by
+`.github/build/blog-index.py`, from the article pages themselves: it reads each
+one's `og:title`, `description`, `og:image`, `article:published_time` and
+`article:tag` metas and renders them newest-first. It is not committed and the
+Worker does not know it exists — every article push triggers a build, so it can
+never be stale, and there is nothing to keep in sync.
+
+The sitemap step uses the same test (`og:title` present) to decide what counts
+as an article, so the two never disagree.
+
+It exists only once `blog/` holds at least one article. Until the first one
+lands, `/blog/` is a 404.
 
 ## Local testing
 
