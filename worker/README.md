@@ -1,13 +1,16 @@
 # afias-demo
 
-Two routes on one Worker.
+Three routes on one Worker.
 
 | route | what it does |
 | --- | --- |
 | `POST /api/demo-request` | the free-demo form (AFI-24) -> a Linear issue |
 | `POST /track` | mirrors a browser Pixel event to Meta's Conversions API |
+| `POST /api/hoox-webhook` | receives published articles from Hoox -> `blog/<slug>/` in the repo |
 
-They share only CORS and the origin allowlist; neither knows about the other.
+The first two are browser-facing and share the CORS allowlist. The webhook is
+server-to-server, authenticates with an HMAC instead, and is dispatched before
+the allowlist ever runs. None of the three knows about the others.
 
 ## The demo form
 
@@ -146,6 +149,91 @@ testing, and put it back before committing.
 the payload back and can echo the access token, so they are logged
 (`wrangler tail`) and never returned. Analytics must not be able to break a page,
 so the client fires it and ignores the result entirely.
+
+## Article webhook (`POST /api/hoox-webhook`)
+
+Public URL to register in the Hoox dashboard:
+
+```
+https://afias-demo.afias.workers.dev/api/hoox-webhook
+```
+
+### Why the repo is the database
+
+This project has no database — it is a static site, and the Worker was built
+without a store on purpose. So an article is "persisted" the only way a static
+site persists anything: **as a file in the repo.** The webhook renders the
+article into `blog/<slug>/index.html` and upserts it through the GitHub Contents
+API. That push triggers the existing Pages deploy, and the article is live at
+`https://afias.dev/blog/<slug>/` a minute later.
+
+This is also why it is *not* served from the Worker itself, which would have
+been simpler: SEO articles on `workers.dev` would sit on a domain with no
+authority, which defeats the point of them.
+
+### Security
+
+- The signature is verified over the **raw request bytes**, before any JSON
+  parsing. Re-serialised JSON would differ in whitespace and key order.
+- `expected = "sha256=" + HMAC-SHA256(HOOX_WEBHOOK_SECRET, rawBody)`, compared
+  with `crypto.subtle.timingSafeEqual`. A plain `===` short-circuits at the first
+  wrong character and leaks how much of a forgery is right.
+- Anything that fails is a `401` with no detail. The secret is never logged.
+- `content_html` and `json_ld` are injected verbatim, as the contract requires.
+  That is safe *because* of the signature: the HMAC is what makes the content
+  trusted. Everything that lands in an attribute is escaped regardless, and the
+  JSON-LD is refused if it tries to close `<head>` early.
+- The slug becomes a directory name, so it is validated to `[a-z0-9-]` and
+  nothing else — `../` cannot happen.
+
+### Idempotency
+
+Hoox retries on failure, so the write is an upsert: the Contents API is asked
+for the existing file's sha and overwrites in place. The same article arriving
+twice lands on the same path.
+
+The commit happens **before** the `200`, deliberately. It is the persistence,
+and if GitHub is down the right answer is a `5xx` so Hoox retries — not a `200`
+followed by a silently lost article. The slow part (the deploy) already runs
+asynchronously on GitHub's side.
+
+One known edge: dedup is by path (slug), and `data.id` is recorded in the file
+rather than indexed. If Hoox ever re-publishes the same `id` under a *new*
+slug, that is a second page, not an update. Unlikely, and a manual delete.
+
+### Responses
+
+| status | meaning |
+| --- | --- |
+| `200 { received: true, outcome, url }` | published; `outcome` is `created` or `updated` |
+| `200 { received: true, ignored: true }` | validly signed, but not `article.published` |
+| `401` | bad or missing signature |
+| `400` | valid signature over non-JSON |
+| `422` | missing `id` / `slug` / `title` / `content_html`, or unsafe slug — will not succeed on retry |
+| `500` | GitHub unreachable or `GITHUB_TOKEN` unset — Hoox should retry |
+
+### Secrets
+
+```bash
+npx wrangler secret put HOOX_WEBHOOK_SECRET   # from the Hoox dashboard, after registering the URL
+npx wrangler secret put GITHUB_TOKEN          # see below
+```
+
+`GITHUB_TOKEN` should be a **fine-grained** personal access token scoped to this
+one repository with a single permission, **Contents: Read and write**. Nothing
+else. A classic token with `repo` scope would work but hands the Worker every
+repository on the account.
+
+### Sitemap
+
+The committed `sitemap.xml` only knows the hand-written pages. The deploy
+workflow appends every `blog/*/index.html` it finds at build time, using the
+article's `article:published_time` as `lastmod`. Nothing to maintain by hand.
+
+### Not built
+
+A blog index page (`/blog/`) — articles are reachable by URL and via the
+sitemap, but there is no listing. Worth adding once there are a few.
 
 ## Local testing
 

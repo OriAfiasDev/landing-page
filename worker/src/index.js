@@ -17,20 +17,36 @@
  *   POST /track  ->  mirrors a browser Pixel event server-side, sharing the
  *                    browser's event_id so Meta deduplicates the pair.
  *
+ * A third route receives published articles from the Hoox publishing service:
+ *
+ *   POST /api/hoox-webhook  ->  verifies the HMAC over the raw body, renders the
+ *                               article into blog/<slug>/index.html and upserts
+ *                               it into the GitHub repo. The push triggers the
+ *                               existing Pages deploy — for a static site, the
+ *                               repo is the database and the push is the publish.
+ *
  * Secrets (set with `wrangler secret put <NAME>`):
  *   LINEAR_API_KEY, LINEAR_TEAM_ID, LINEAR_PROJECT_ID
  *   META_PIXEL_ID, META_ACCESS_TOKEN
+ *   HOOX_WEBHOOK_SECRET   — the signing secret from the Hoox dashboard
+ *   GITHUB_TOKEN          — fine-grained PAT, Contents: read+write, this repo only
  *   META_TEST_EVENT_CODE  — optional; set it to send to Test Events, and
  *                           `wrangler secret delete` it to go live. Keeping the
  *                           switch in configuration means shipping to production
  *                           never depends on remembering to edit this file.
  */
 
+import { renderArticlePage } from './article-page.js';
+
 const LINEAR_API = 'https://api.linear.app/graphql';
 const LABEL_NAME = 'בקשת דמו';
 const DUE_DAYS = 3;
 
 const TRACK_PATH = '/track';
+const HOOX_PATH = '/api/hoox-webhook';
+
+const GITHUB_REPO = 'OriAfiasDev/landing-page';
+const GITHUB_BRANCH = 'main';
 const META_API_VERSION = 'v21.0';
 
 // An open endpoint that forwards to the Pixel is an open door to poisoning ad
@@ -394,8 +410,171 @@ async function handleTrack(request, env, data, origin) {
   return json({ ok: true }, 200, origin);
 }
 
+/* ------------------------------------------------------------------ */
+/* Hoox article webhook                                                */
+/* ------------------------------------------------------------------ */
+
+function hex(bytes) {
+  return Array.from(new Uint8Array(bytes)).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Verify `X-Hoox-Signature: sha256=<hex>` against HMAC-SHA256(secret, rawBody).
+ *
+ * Two things here are deliberate and easy to get subtly wrong:
+ *  - the MAC is computed over the raw request bytes, never over re-serialised
+ *    JSON — any whitespace or key-order difference would break it;
+ *  - the comparison is constant-time. A plain `===` on hex strings short-circuits
+ *    at the first differing character, which leaks how much of a forged
+ *    signature is correct, one byte at a time.
+ */
+async function verifyHooxSignature(secret, rawBody, header) {
+  if (!secret || typeof header !== 'string' || !header.startsWith('sha256=')) return false;
+
+  const key = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+  );
+  const expected = 'sha256=' + hex(await crypto.subtle.sign('HMAC', key, rawBody));
+
+  const a = new TextEncoder().encode(expected);
+  const b = new TextEncoder().encode(header);
+  // timingSafeEqual throws on unequal lengths; a length mismatch is simply a
+  // wrong signature and reveals nothing about the secret.
+  if (a.byteLength !== b.byteLength) return false;
+  return crypto.subtle.timingSafeEqual(a, b);
+}
+
+function githubHeaders(env) {
+  return {
+    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'User-Agent': 'afias-demo-worker',
+    'Content-Type': 'application/json',
+  };
+}
+
+/** Base64 of a UTF-8 string, the way the GitHub Contents API wants file bodies. */
+function base64Utf8(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(bin);
+}
+
+/**
+ * Upsert one file in the repo. The Contents API needs the existing blob's sha
+ * to overwrite, so a GET comes first; a 404 there means "create". That makes
+ * a retried webhook idempotent: same slug, same path, overwritten in place.
+ */
+async function upsertRepoFile(env, path, content, message) {
+  const base = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`;
+
+  let sha;
+  const existing = await fetch(`${base}?ref=${GITHUB_BRANCH}`, { headers: githubHeaders(env) });
+  if (existing.ok) {
+    sha = (await existing.json()).sha;
+  } else if (existing.status !== 404) {
+    throw new Error(`GitHub GET ${path}: HTTP ${existing.status}`);
+  }
+
+  const res = await fetch(base, {
+    method: 'PUT',
+    headers: githubHeaders(env),
+    body: JSON.stringify({
+      message,
+      branch: GITHUB_BRANCH,
+      content: base64Utf8(content),
+      ...(sha ? { sha } : {}),
+    }),
+  });
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => '');
+    throw new Error(`GitHub PUT ${path}: HTTP ${res.status} ${detail.slice(0, 300)}`);
+  }
+  return sha ? 'updated' : 'created';
+}
+
+/** A slug becomes a directory name and a URL segment; it has to be boring. */
+function safeSlug(value) {
+  const s = clean(value, 120).toLowerCase();
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s) ? s : '';
+}
+
+function jsonResponse(body, status) {
+  return new Response(JSON.stringify(body), {
+    status, headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+async function handleHooxWebhook(request, env) {
+  // Signature first, on the raw bytes, before anything reads the body as JSON.
+  const rawBody = await request.arrayBuffer();
+  const valid = await verifyHooxSignature(
+    env.HOOX_WEBHOOK_SECRET, rawBody, request.headers.get('X-Hoox-Signature')
+  );
+  if (!valid) return jsonResponse({ error: 'invalid signature' }, 401);
+
+  let payload;
+  try {
+    payload = JSON.parse(new TextDecoder().decode(rawBody));
+  } catch {
+    return jsonResponse({ error: 'invalid JSON' }, 400);
+  }
+
+  // Anything other than a publish is acknowledged and ignored — a 200 here
+  // stops the service retrying an event we have no handler for.
+  if (payload.event !== 'article.published' || !payload.data) {
+    return jsonResponse({ received: true, ignored: true }, 200);
+  }
+
+  const a = payload.data;
+  const slug = safeSlug(a.slug);
+  const id = clean(a.id, 200);
+  if (!slug || !id || !clean(a.title, 500) || typeof a.content_html !== 'string') {
+    // A 4xx is the right answer to a malformed article: it will not become
+    // well-formed on retry.
+    return jsonResponse({ error: 'missing or invalid id, slug, title or content_html' }, 422);
+  }
+
+  if (!env.GITHUB_TOKEN) {
+    console.error('hoox webhook: GITHUB_TOKEN is not set, cannot publish');
+    return jsonResponse({ error: 'publishing not configured' }, 500);
+  }
+
+  // The commit *is* the persistence, so it happens before the 200: if GitHub
+  // is down we answer 5xx and the service retries, instead of acknowledging an
+  // article we then silently lost. The slow part — the deploy the push
+  // triggers — already runs asynchronously on GitHub's side.
+  const html = renderArticlePage({ ...a, slug, id });
+  const outcome = await upsertRepoFile(
+    env,
+    `blog/${slug}/index.html`,
+    html,
+    `Publish article: ${clean(a.title, 80)}\n\nhoox id ${id}`
+  );
+
+  return jsonResponse({ received: true, outcome, url: `https://afias.dev/blog/${slug}/` }, 200);
+}
+
 export default {
   async fetch(request, env) {
+    // Server-to-server, signed, never browser-originated — so it is dispatched
+    // before the browser-origin allowlist and before anything reads the body as
+    // JSON. It authenticates with its HMAC, not with CORS.
+    if (new URL(request.url).pathname === HOOX_PATH) {
+      if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+      try {
+        return await handleHooxWebhook(request, env);
+      } catch (err) {
+        console.error('hoox webhook failed:', err.message);
+        return jsonResponse({ error: 'internal error' }, 500);
+      }
+    }
+
     const origin = request.headers.get('Origin') || '';
 
     if (request.method === 'OPTIONS') {

@@ -56,6 +56,31 @@ jobs:
               --output "$f"
           done
 
+      # Articles are pushed into blog/<slug>/ by the Hoox webhook (see
+      # worker/README.md). The committed sitemap.xml only knows the hand-written
+      # pages, so the blog entries are appended here, at build time, from
+      # whatever is actually in the tree — nothing to keep in sync by hand.
+      - name: Add blog articles to sitemap
+        run: |
+          [ -d dist/blog ] || { echo "no blog/ yet"; exit 0; }
+          entries=""
+          for f in dist/blog/*/index.html; do
+            [ -f "$f" ] || continue
+            slug=$(basename "$(dirname "$f")")
+            lastmod=$(grep -o 'article:published_time" content="[^"]*' "$f" | head -1 | sed 's/.*content="//' | cut -c1-10)
+            [ -n "$lastmod" ] || lastmod=$(date -u +%F)
+            entries="$entries  <url>\n    <loc>https://afias.dev/blog/$slug/</loc>\n    <lastmod>$lastmod</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>\n"
+          done
+          [ -n "$entries" ] || { echo "no articles"; exit 0; }
+          python3 - "$entries" <<'PY'
+          import sys, io
+          p = 'dist/sitemap.xml'
+          s = io.open(p, encoding='utf-8').read()
+          block = sys.argv[1].encode().decode('unicode_escape')
+          io.open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', block + '</urlset>'))
+          PY
+          echo "sitemap now lists $(grep -c '<loc>' dist/sitemap.xml) urls"
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
