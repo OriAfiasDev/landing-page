@@ -274,22 +274,350 @@ summary::-webkit-details-marker{display:none}
 summary{list-style:none}
 details[open] > summary [data-chevron]{transform:rotate(180deg)}
 @media (max-width:640px){
-  [data-hero-exit]{padding:40px 0 48px !important;min-height:100vh !important;box-sizing:border-box !important;display:flex !important;flex-direction:column !important;justify-content:center !important}
-  [data-hero-exit] h1{margin-top:14px !important}
-  [data-hero-exit] p{margin-top:16px !important}
-  [data-hero-cta]{flex-direction:column !important;align-items:stretch !important;margin-top:24px !important}
-  [data-hero-cta] a{width:100% !important;text-align:center !important;box-sizing:border-box}
-  [data-hero-badges]{flex-direction:column !important;align-items:flex-start !important;gap:10px !important;margin-top:26px !important}
   [data-guide-grid]{text-align:center !important}
   [data-guide-info] p{margin-left:auto !important;margin-right:auto !important}
   [data-guide-price]{align-items:center !important;text-align:center !important}
   [data-guide-price] > div{justify-content:center !important}
 }
 </style>
+<style>
+/* ---------- hero ----------
+   Two stages in one pinned screen: first who I am, then the offer. The
+   headline in each is set as large as its column allows. The cursor-
+   following glow and the name it uncovers are the only ornament, and both
+   stay inside the paper/ink/brass palette. */
+
+/* The scroll runway. The hero is pinned for the extra 90vh; scrolling through
+   it drives the handover between the stages (see the scene script). */
+.hero-scene{
+  position:relative;
+  height:190vh;height:190svh;
+  margin-top:-94px;              /* reclaim the header spacer: the pill is invisible up here */
+}
+.hero{
+  /* Sticky only works because the root wrapper uses overflow-x:clip —
+     overflow-x:hidden would make it a scroll container and kill this. */
+  position:sticky;top:0;
+  height:100vh;height:100svh;
+  /* Break out of the 1180px column on wide screens so the headline can grow;
+     min(0, …) means this only ever widens, never narrows. */
+  margin-inline:min(0px,calc(50% - min(50vw - 48px,760px)));
+  padding:clamp(32px,6.5vh,96px) 0 24px;
+  display:grid;grid-template-rows:1fr;
+  /* Crop the portrait at the fold, but only vertically: the glow behind is
+     full-bleed and must still spill past the sides. clip (unlike hidden)
+     allows the other axis to stay visible. */
+  overflow-x:visible;overflow-y:clip;
+}
+
+/* Full-bleed background, independent of the 1180px column. */
+.hero-bg{
+  position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;
+  overflow:hidden;pointer-events:none;z-index:0;
+  --mx:24vw;--my:34vh;           /* resting spot, in the headline's empty end; JS moves it with the cursor */
+}
+.hero-glow{
+  position:absolute;left:0;top:0;
+  width:min(820px,130vw);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(184,134,43,.16),rgba(184,134,43,.055) 50%,rgba(184,134,43,0));
+  transform:translate3d(calc(var(--mx) - 50%),calc(var(--my) - 50%),0);
+  will-change:transform;
+}
+/* The name, present all along but only visible where the glow is. */
+.hero-name{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-weight:900;font-size:clamp(150px,27vw,430px);line-height:.8;letter-spacing:-.045em;
+  color:rgba(184,134,43,.30);white-space:nowrap;user-select:none;
+  -webkit-mask-image:radial-gradient(closest-side,#000 38%,transparent);
+          mask-image:radial-gradient(closest-side,#000 38%,transparent);
+  -webkit-mask-size:540px 540px;mask-size:540px 540px;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-position:calc(var(--mx) - 270px) calc(var(--my) - 270px);
+          mask-position:calc(var(--mx) - 270px) calc(var(--my) - 270px);
+  opacity:0;transition:opacity .6s ease;
+}
+.hero.is-lit .hero-name{opacity:1}
+
+/* Both stages share the hero's single grid cell and are cross-faded by
+   scroll. --p1 (intro leaving) and --p2 (offer arriving) run 0→1, set by the
+   scene script. Each element's own progress is offset by --k, so the lines
+   peel away one after another instead of moving as a block. */
+.hero-stage{grid-area:1/1;display:grid;grid-template-rows:1fr;min-height:0;position:relative;z-index:1}
+.hero[data-active="intro"] .hero-stage--offer,
+.hero[data-active="offer"] .hero-stage--intro{pointer-events:none}
+.hero-title > :nth-child(2){--k:1}
+.hero-title > :nth-child(3){--k:2}
+.hero-title > :nth-child(4){--k:3}
+.hero-foot,.hero-scroll--band{--k:4}
+.hero-stage--intro .hero-title > *,
+.hero-stage--intro .hero-foot{
+  opacity:calc(1 - clamp(0, var(--p1,0) * 1.6 - var(--k,0) * .14, 1));
+  transform:translateY(calc(clamp(0, var(--p1,0) * 1.6 - var(--k,0) * .14, 1) * -80px));
+}
+.hero-stage--offer .hero-eyebrow,
+.hero-stage--offer .hero-title > *,
+.hero-stage--offer .hero-foot,
+.hero-stage--offer .hero-scroll--band{
+  opacity:clamp(0, var(--p2,0) * 1.6 - var(--k,0) * .14, 1);
+  transform:translateY(calc((1 - clamp(0, var(--p2,0) * 1.6 - var(--k,0) * .14, 1)) * 80px));
+}
+
+.hero-main{position:relative;z-index:1;align-self:center;container-type:inline-size}
+
+/* Intro stage: text on the right 60%, the avatar owns the left. */
+.hero-main--intro{justify-self:start;width:60%}
+.hero-hello{
+  display:block;margin:0 0 clamp(10px,1.8vh,20px);
+  font-size:clamp(20px,2.2vw,30px);font-weight:400;line-height:1.3;letter-spacing:-.005em;
+  color:rgba(28,30,36,.72);
+}
+.hero-stage--intro .hero-title{font-size:clamp(54px,min(16.2cqi,calc(27vh - 48px)),230px)}
+/* Here the frame rests on the last line, so its size tag hangs into the gap
+   above the foot (with the offer's spacing it touched the subtitle). */
+.hero-stage--intro .hero-foot{margin-top:clamp(46px,7vh,84px)}
+.hero-next{
+  display:inline-flex;align-items:center;gap:10px;padding:10px 0;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:16px;font-weight:700;color:#1C1E24;
+}
+.hero-next:hover{color:rgba(28,30,36,.7)}
+.hero-next:focus-visible{outline:3px solid #D7A53F;outline-offset:4px;border-radius:6px}
+.hero-next svg{animation:heroNudge 2.4s ease-in-out infinite}
+.hero-eyebrow{
+  margin:0 0 clamp(12px,2vh,22px);
+  font-size:clamp(18px,1.9vw,26px);font-weight:400;color:rgba(28,30,36,.72);letter-spacing:-.005em;
+}
+.hero-title{
+  margin:0;color:#1C1E24;
+  /* width- and height-capped: three lines must still leave room for the CTA on a laptop */
+  font-weight:900;font-size:clamp(54px,min(13.4cqi,calc(27vh - 48px)),230px);line-height:.98;letter-spacing:-.035em;
+}
+.hero-line{display:block;white-space:nowrap}
+.hero-line--quiet{color:#93897A}
+.hero-chunk{display:inline}
+.hero-word{transition:color .35s ease}
+/* ---- the avatar ----
+   Each stage's spot is an invisible anchor box. The avatar itself is laid
+   out at roughly the intro size, and the scene script maps it onto the
+   anchors with a transform — so the anchors can be placed or sized any way
+   a breakpoint needs, and the avatar follows. Its own box is kept at least
+   as large as either spot, so the image is only ever scaled down.
+   Everything stands on the bottom edge with the disc cropped by the fold.
+   Geometry, with W = box width:
+     box    W wide, 1.15W tall
+     disc   W across, sitting on the bottom edge (centre at 0.65W)
+     image  1.25W square, bottom-aligned, so the head rises above the disc
+   The mask shows the disc plus everything above the disc's centre line —
+   which is how the head and the raised hand break out of the circle while
+   the shoulders stay inside it. */
+.hero-anchor{position:absolute;visibility:hidden;pointer-events:none;aspect-ratio:1/1.15}
+/* The intro anchor is positioned in the stage, which ends 24px (the hero's
+   bottom padding) above the hero — hence -50 here for the same -26 spot. */
+.hero-anchor--intro{left:24px;bottom:-50px;width:min(36%,68vh,560px)}
+.hero-avatar{left:24px;bottom:-26px;width:min(36%,68vh,560px)}
+/* Steeper than a plain vw: the foot doesn't shrink as fast as the screen,
+   so the offer portrait has to give way sooner on small laptops (at 1280 a
+   flat 23vw ran into "מה כבר בניתי"). */
+.hero-anchor--offer{left:32px;bottom:-26px;width:clamp(220px,32vw - 150px,400px)}
+
+.hero-avatar{
+  position:absolute;aspect-ratio:1/1.15;z-index:0;pointer-events:none;
+  transform-origin:0 100%;will-change:transform;
+}
+.hero-avatar::before{
+  content:"";position:absolute;left:0;right:0;bottom:0;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 50% 38%,#F4EBD8,#E4D2AC);
+}
+.hero-avatar-img{
+  position:absolute;bottom:0;left:50%;width:125%;max-width:none;height:auto;transform:translateX(-50%);
+  -webkit-mask-image:radial-gradient(40% 40% at 50% 60%,#000 99.4%,transparent 100%),linear-gradient(#000,#000);
+          mask-image:radial-gradient(40% 40% at 50% 60%,#000 99.4%,transparent 100%),linear-gradient(#000,#000);
+  -webkit-mask-size:100% 100%,100% 60%;mask-size:100% 100%,100% 60%;
+  -webkit-mask-position:0 0,0 0;mask-position:0 0,0 0;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+}
+/* Waves hello in the intro, points up at the headline in the offer. */
+.hero-avatar-img--wave{opacity:calc(1 - var(--pose,0))}
+.hero-avatar-img--point{opacity:var(--pose,0)}
+
+/* Face chip beside the eyebrow: where the avatar lands on screens with no
+   room for the offer portrait (shown per breakpoint below). */
+.hero-face{
+  display:none;position:relative;flex:none;width:34px;height:34px;border-radius:50%;overflow:hidden;
+  background:radial-gradient(circle at 50% 38%,#F4EBD8,#E4D2AC);
+  opacity:var(--chip,1);
+}
+.hero-face img{position:absolute;width:190%;max-width:none;height:auto;left:-53%;top:-14%}
+.hero-word.is-selected{color:#1C1E24}   /* a selected word in the quiet line wakes up */
+
+/* The selection frame: what a word looks like when it's clicked in a design
+   tool. JS sizes and moves it; the transitions make it glide between words. */
+.hero-select{
+  position:absolute;left:0;top:0;width:0;height:0;z-index:2;pointer-events:none;
+  border:1.5px solid #B8862B;opacity:0;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1),opacity .3s ease;
+}
+.hero-select.is-on{opacity:1}
+.hero.is-moving .hero-select.is-on{opacity:0}   /* the words are in flight; the frame would lag */
+.hero-select i{position:absolute;width:10px;height:10px;background:#FAF8F3;border:1.5px solid #B8862B}
+.hero-select i:nth-child(1){top:-6px;left:-6px}
+.hero-select i:nth-child(2){top:-6px;right:-6px}
+.hero-select i:nth-child(3){bottom:-6px;left:-6px}
+.hero-select i:nth-child(4){bottom:-6px;right:-6px}
+/* Bottom-left, not centered: in both resting states the line below is
+   shorter, so that corner is over empty paper instead of over letters. */
+.hero-select-size{
+  position:absolute;top:100%;left:-1px;transform:translateY(8px);
+  direction:ltr;white-space:nowrap;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.02em;
+  color:#3A2C0F;background:#B8862B;padding:3px 8px;border-radius:5px;
+}
+
+/* Actions follow the subtitle instead of being pushed to the far edge: one
+   reading path (headline → subtitle → CTA), and the bottom-left corner stays
+   free for the WhatsApp bubble. */
+.hero-foot{
+  display:grid;grid-template-columns:minmax(0,44ch) auto;
+  justify-content:start;align-items:end;gap:28px clamp(40px,5vw,88px);
+  margin-top:clamp(24px,4.5vh,56px);
+}
+.hero-sub{margin:0;font-size:clamp(18px,1.75vw,22px);line-height:1.62;color:rgba(28,30,36,.74);text-wrap:pretty}
+.hero-cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:14px;white-space:nowrap;
+  font-weight:700;font-size:clamp(17px,1.5vw,19px);color:#3A2C0F;background:#B8862B;
+  padding:21px 36px 21px 30px;border-radius:999px;
+  box-shadow:0 10px 28px rgba(184,134,43,.28);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
+}
+.hero-cta:hover{color:#3A2C0F;transform:translateY(-3px);box-shadow:0 18px 38px rgba(184,134,43,.38)}
+.hero-cta:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
+.hero-cta svg{flex:none;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.hero-cta:hover svg{transform:translateX(-4px)}
+
+/* The secondary link rides next to the CTA rather than taking a row of its
+   own — that row was the largest fixed cost in the height budget. */
+.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:14px 30px}
+.hero-scroll{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 0;
+  font-size:15px;font-weight:500;color:rgba(28,30,36,.55);
+}
+.hero-scroll:hover{color:#1C1E24}
+.hero-scroll--band{display:none}
+.hero-scroll svg{animation:heroNudge 2.4s ease-in-out infinite}
+@keyframes heroNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* ---------- WhatsApp, always within reach ---------- */
+.wa-float{
+  position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:55;
+  display:flex;align-items:center;height:56px;min-width:56px;padding:0 16px;border-radius:999px;
+  background:#1C1E24;color:#FAF8F3;
+  box-shadow:0 10px 30px rgba(28,30,36,.26);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
+}
+.wa-float:hover{color:#FAF8F3;transform:translateY(-2px);box-shadow:0 16px 38px rgba(28,30,36,.32)}
+.wa-float:focus-visible{outline:3px solid #D7A53F;outline-offset:3px}
+.wa-float svg{width:24px;height:24px;flex:none}
+.wa-float-label{
+  max-width:0;overflow:hidden;white-space:nowrap;
+  font-weight:700;font-size:15px;
+  transition:max-width .35s ease,margin .35s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  .wa-float:hover .wa-float-label,.wa-float:focus-visible .wa-float-label{max-width:170px;margin-inline-start:10px}
+}
+
+@media (max-width:900px){
+  .hero-foot{grid-template-columns:1fr;align-items:start}
+  .hero-sub{max-width:42ch}
+  /* Intro stacks: text on top, and the avatar standing bottom-right in
+     whatever height the text leaves — opposite the WhatsApp bubble. The
+     anchor fills the second grid row, then reaches down through the hero's
+     bottom padding to stand just past the fold (--below). */
+  .hero-stage--intro{grid-template-rows:auto minmax(0,1fr)}
+  .hero-main--intro{width:auto;justify-self:stretch;align-self:start}
+  .hero-anchor--intro{
+    --below:44px;                        /* 24px padding + 20px past the fold */
+    position:relative;left:auto;bottom:auto;grid-row:2;
+    justify-self:start;align-self:end;   /* start is the right edge in RTL */
+    width:auto;max-width:min(100%,460px);
+    height:calc(100% + var(--below) - 20px);
+    margin:20px 0 calc(0px - var(--below));
+  }
+  .hero-avatar{left:auto;right:0;bottom:-20px;width:min(100%,460px)}   /* at least as wide as the anchor can get */
+}
+/* 901–1279: the offer's foot is still two columns but spans nearly the full
+   width, so there is no bottom-left corner for the portrait (measured: at
+   1024 it sat on top of "מה כבר בניתי", at 1260 it cleared it by only 9px;
+   1280 clears by 21px). The avatar lands in the face chip instead. */
+@media (min-width:901px) and (max-width:1279px){
+  .hero-anchor--offer,.hero-avatar-img--point{display:none}   /* no portrait, so no pointing pose: display:none keeps the lazy image from loading */
+  .hero-eyebrow{display:flex;align-items:center;gap:12px}
+  .hero-face{display:block;width:40px;height:40px}
+}
+@media (max-width:640px){
+  /* margin: the header spacer is hidden here. padding-bottom: the band the
+     WhatsApp bubble lives in (16 + 54 + breathing room). The full-width CTA
+     always crosses the bubble's column, so it must end above this band. */
+  .hero-scene{margin-top:0}
+  .hero{padding:40px 0 calc(84px + env(safe-area-inset-bottom,0px))}
+  /* The intro has nothing in the bubble's band, so the avatar may stand in
+     it — it's on the other side from the bubble. */
+  .hero-anchor--intro{--below:calc(104px + env(safe-area-inset-bottom,0px));max-width:calc(100% - 48px)}   /* narrower, so the disc curves away before the bubble */
+  .hero-eyebrow{font-size:15px}
+  .hero-hello{font-size:18px}
+  /* Offer: five stacked lines instead of three, so the type can be much
+     bigger. Capped by height as well as width: on a short phone, width-only
+     sizing overflows the screen and pushes the CTA under the bubble. */
+  .hero-title{font-size:clamp(40px,min(21.5cqi,8.8vh),110px);font-size:clamp(40px,min(21.5cqi,8.8svh),110px);line-height:1}
+  /* Intro: three lines of about equal length, capped so the avatar keeps
+     its share of the screen below them. */
+  .hero-stage--intro .hero-title{font-size:clamp(38px,min(17cqi,7.4vh),100px);font-size:clamp(38px,min(17cqi,7.4svh),100px)}
+  .hero-line{white-space:normal}
+  .hero-chunk{display:block}
+  /* No room for the offer portrait beside five full-width lines, and phones
+     are height-bound — so the avatar lands in the face chip, which costs
+     nothing vertically. */
+  .hero-anchor--offer,.hero-avatar-img--point{display:none}
+  .hero-eyebrow{display:flex;align-items:center;gap:10px}
+  .hero-face{display:block}
+  .hero-sub{font-size:17px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-stage--intro .hero-actions{align-items:flex-start}
+  .hero-cta{display:flex;width:100%}
+  .hero-scroll--inline{display:none}
+  .hero-scroll--band{
+    display:inline-flex;position:absolute;right:0;z-index:1;font-size:14px;
+    bottom:-58px;   /* centred on the bubble: 26px above the hero's bottom, and the stage ends 84px above it */
+  }
+  .wa-float{left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));height:54px;min-width:54px;padding:0 15px}
+}
+@media (max-width:640px) and (max-height:720px){
+  .hero{padding-top:26px}
+  .hero-eyebrow,.hero-hello{margin-bottom:10px}
+  .hero-face{width:28px;height:28px}   /* no taller than the text line: every px here comes out of the CTA's clearance */
+  .hero-foot{margin-top:22px;gap:20px}
+}
+/* Reduced motion: no pointer-following reveal, and no handover animation.
+   The hero still pins, but the stages switch with a cut at the halfway
+   point, and the avatar stays in the intro (the offer shows the chip).
+   Visibility, not opacity: the site's global reduced-motion rule forces
+   opacity:1 on everything, which would show both stages at once. */
+@media (prefers-reduced-motion:reduce){
+  .hero-name{display:none}
+  .hero[data-active="intro"] .hero-stage--offer,
+  .hero[data-active="offer"] .hero-stage--intro,
+  .hero[data-active="offer"] .hero-avatar{visibility:hidden}
+  .hero-stage *{transform:none !important}   /* the avatar keeps its placing transform (the scene script pins it to the intro) */
+  .hero-avatar-img--point{display:none}
+  .hero-stage--offer .hero-eyebrow{display:flex;align-items:center;gap:12px}
+  .hero-stage--offer .hero-face{display:block}
+  .hero-select:not(.is-on),.hero.is-moving .hero-select{visibility:hidden}   /* same reason: it can't fade out */
+}
+</style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
 
-<div role="main" dir="rtl" style="position:relative;min-height:100vh;overflow-x:hidden;background:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;color:#1C1E24;">
+<div role="main" dir="rtl" style="position:relative;min-height:100vh;overflow-x:hidden;overflow-x:clip;background:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;color:#1C1E24;">
 
   <div style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
     <div style="position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 0%, rgba(184,134,43,.06) 0%, rgba(184,134,43,0) 60%);"></div>
@@ -332,28 +660,435 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     })();
     </script>
 
-    <section data-hero-exit="" style="min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;padding:110px 0 60px;">
-      <h1 style="font-family:'Rubik',sans-serif;font-weight:500;font-size:clamp(40px,6.4vw,72px);line-height:1.12;letter-spacing:-.02em;margin:26px 0 0;max-width:16ch;color:#1C1E24;">
-        <span style="display:block;">אתר אחד.</span>
-        <span style="display:block;">עשוי היטב.</span>
-        <span style="display:block;">בלי רעש מיותר.</span>
-      </h1>
+    <!-- Outside the hero on purpose: the scroll runtime puts transform/filter on
+         [data-hero-exit], which would turn a fixed child into an absolute one. -->
+    <a class="wa-float" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" aria-label="דברו איתי בוואטסאפ">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      <span class="wa-float-label">דברו איתי</span>
+    </a>
 
-      <p style="font-size:clamp(19px,2.2vw,23px);line-height:1.62;max-width:54ch;color:rgba(28,30,36,.75);margin:28px 0 0;text-wrap:pretty;opacity:1;">
-המתחרים שלכם כבר עולים לאוויר, ולרוב עם עוד אתר גנרי שכלי AI הפיק תוך דקות. את זה קל לזהות, וגם הלקוחות שלכם יזהו. אני בונה לבד, בעיצוב מותאם אישית שבאמת מייצג אתכם.
-      </p>
-
-      <div data-hero-cta="" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;opacity:1;">
-        <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="font-family:'Rubik',sans-serif;font-weight:700;font-size:17px;color:#3A2C0F;background:#B8862B;padding:17px 32px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;box-shadow:0 8px 24px rgba(184,134,43,.22);" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו הצעה תוך 24 שעות</a>
-        <a href="#portfolio" style="font-family:'Rubik',sans-serif;font-weight:700;font-size:17px;color:#1C1E24;border:1px solid #e5ddc9;background:#ffffff;padding:17px 32px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .28s,background .28s;" style-hover="transform:translateY(-4px);border-color:#B8862B;background:#f1ede3;color:#1C1E24;">מה כבר בניתי</a>
+    <!-- The hero is a two-stage scene. The scene is the scroll runway; the
+         hero inside it is sticky, so it stays pinned while the first stage
+         (who I am) hands over to the second (the offer). -->
+    <div class="hero-scene" data-hero-scene>
+    <section data-hero-exit="" class="hero" data-active="intro">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <div class="hero-name"><span>אורי</span><span>אפיאס</span></div>
       </div>
 
-      <div data-hero-badges="" style="display:flex;flex-wrap:wrap;gap:28px;margin-top:44px;font-size:16px;color:rgba(28,30,36,.58);opacity:1;">
-        <span>מחיר סגור מראש, בלי הפתעות</span>
-        <span>האתר נשאר שלכם, בלי מנוי חודשי</span>
-        <span>מותאם לנייד ולגוגל מהיום הראשון</span>
+      <!-- Stage 1: who I am and what I build. -->
+      <div class="hero-stage hero-stage--intro" data-stage="intro">
+        <div class="hero-main hero-main--intro">
+          <h1 class="hero-title">
+            <span class="hero-hello">נעים להכיר, אני אורי,</span>
+            <span class="hero-line"><span class="hero-chunk"><span class="hero-word">בונה</span> <span class="hero-word">אתרים</span></span></span>
+            <span class="hero-line hero-line--quiet"><span class="hero-chunk"><span class="hero-word">ואפליקציות</span></span></span>
+            <span class="hero-line"><span class="hero-chunk"><span class="hero-word" data-rest>שמוכרים.</span></span></span>
+          </h1>
+          <div class="hero-foot">
+            <p class="hero-sub">לעסקים קטנים ובינוניים. עיצוב מותאם אישית, קוד נקי, ומחיר סגור מראש.</p>
+            <div class="hero-actions">
+              <button type="button" class="hero-next" data-hero-next>
+                איך זה עובד
+                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" aria-hidden="true"><path d="M6 1v13M1.5 9.5 6 14l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Where the avatar stands in this stage (an invisible box; see CSS). -->
+        <div class="hero-anchor hero-anchor--intro" aria-hidden="true"></div>
+      </div>
+
+      <!-- Stage 2: the offer. -->
+      <div class="hero-stage hero-stage--offer" data-stage="offer">
+      <div class="hero-main">
+        <p class="hero-eyebrow"><span class="hero-face" aria-hidden="true"><img src="assets/img/ori.webp" alt="" width="1040" height="1040"></span>ככה זה עובד</p>
+
+        <h2 class="hero-title">
+          <span class="hero-line"><span class="hero-chunk"><span class="hero-word">קודם</span> <span class="hero-word">תראו</span></span></span>
+          <span class="hero-line"><span class="hero-chunk"><span class="hero-word">את</span> <span class="hero-word" data-rest>האתר</span></span> <span class="hero-chunk"><span class="hero-word" data-rest>שלכם.</span></span></span>
+          <span class="hero-line hero-line--quiet"><span class="hero-chunk"><span class="hero-word">אחר</span> <span class="hero-word">כך</span></span> <span class="hero-chunk"><span class="hero-word">נדבר.</span></span></span>
+        </h2>
+
+        <div class="hero-foot">
+          <p class="hero-sub">מספרים לי על העסק בפגישת היכרות חינם, כמה זמן שתרצו. אני בונה לכם דמו אמיתי של האתר תוך יום-יומיים, ורק אז מדברים על מחיר. בלי התחייבות ובלי כרטיס אשראי.</p>
+          <div class="hero-actions">
+            <a class="hero-cta" href="/demo/">
+              קבלו דמו בחינם
+              <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M19 7H2M7.5 1.5 2 7l5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="hero-scroll hero-scroll--inline" href="#portfolio">
+              מה כבר בניתי
+              <svg width="12" height="16" viewBox="0 0 12 16" fill="none" aria-hidden="true"><path d="M6 1v13M1.5 9.5 6 14l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phones only: the same link, parked in the bottom band beside the
+           WhatsApp bubble instead of costing the headline a row. It lives out
+           here because .hero-main is a query container, and a container is the
+           containing block for anything absolutely positioned inside it. -->
+      <a class="hero-scroll hero-scroll--band" href="#portfolio">
+        מה כבר בניתי
+        <svg width="12" height="16" viewBox="0 0 12 16" fill="none" aria-hidden="true"><path d="M6 1v13M1.5 9.5 6 14l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      </div>
+
+      <!-- Shared by both stages: the design-tool selection frame. -->
+      <div class="hero-select" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="hero-select-size"></span></div>
+
+      <!-- Where the avatar stands in the offer. The intro's twin lives inside
+           the intro stage, where it can size itself to the space left. -->
+      <div class="hero-anchor hero-anchor--offer" aria-hidden="true"></div>
+
+      <!-- The avatar: waving in the intro, pointing up at the headline in the
+           offer. Its head and hand break out of the top of the disc. -->
+      <div class="hero-avatar">
+        <img class="hero-avatar-img hero-avatar-img--wave" src="assets/img/ori.webp" alt="אורי אפיאס" width="1040" height="1040" fetchpriority="high">
+        <img class="hero-avatar-img hero-avatar-img--point" src="assets/img/ori-point.webp" alt="" width="1040" height="1040" loading="lazy">
       </div>
     </section>
+    </div>
+
+    <script>
+    /* The hero scene. While the hero is pinned, scroll position becomes
+       --p1 (intro leaving) and --p2 (offer arriving) on .hero, and the avatar
+       travels from its intro anchor to its offer anchor — or, where the offer
+       has no room for a portrait, shrinks into the face chip. Nodes are looked
+       up live on every frame; see the glow script below for why. */
+    (function(){
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+      function range(a, b, v){ return clamp01((v - a) / (b - a)); }
+      function ease(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(2 - 2 * t, 3) / 2; }
+      // The intro accelerates away and the offer decelerates in, so the two
+      // meet in the middle instead of leaving an empty screen between them.
+      function easeIn(t){ return t * t; }
+      function easeOut(t){ return 1 - (1 - t) * (1 - t); }
+
+      // Where along the runway each stage is at rest. In between, the words
+      // are in flight and the selection frame stays out of the way. The last
+      // tenth is dwell: the offer sits still for a moment before it scrolls on.
+      var INTRO_REST = .04, OFFER_REST = .9;
+
+      var raf = 0, settled = null;
+
+      function nodes(){
+        var scene = document.querySelector('[data-hero-scene]');
+        var hero = scene && scene.querySelector('.hero');
+        return hero ? { scene: scene, hero: hero } : null;
+      }
+      // Runway = how long the hero stays pinned: the scene's extra height.
+      function runway(n){ return Math.max(0, n.scene.offsetHeight - n.hero.offsetHeight); }
+
+      function update(){
+        raf = 0;
+        var n = nodes(); if (!n) return;
+        var run = runway(n);
+        var p = run ? clamp01(-n.scene.getBoundingClientRect().top / run) : 0;
+        var hero = n.hero;
+
+        hero.style.setProperty('--p1', easeIn(range(.02, .45, p)).toFixed(4));
+        hero.style.setProperty('--p2', easeOut(range(.4, OFFER_REST, p)).toFixed(4));
+        hero.setAttribute('data-active', p < .43 ? 'intro' : 'offer');   // where the two cross
+
+        var state = p <= INTRO_REST ? 'intro' : p >= OFFER_REST ? 'offer' : null;
+        hero.classList.toggle('is-moving', !state);
+        if (state !== settled) {
+          settled = state;
+          document.dispatchEvent(new CustomEvent(state ? 'hero:settled' : 'hero:moving', { detail: { stage: state } }));
+        }
+
+        // Under reduced motion the avatar still needs placing on its intro
+        // spot; it just never travels (CSS hides it in the offer).
+        avatar(hero, calm ? 0 : ease(range(.08, OFFER_REST, p)));
+      }
+
+      function avatar(hero, t){
+        var av = hero.querySelector('.hero-avatar');
+        var from = hero.querySelector('.hero-anchor--intro');
+        var to = hero.querySelector('.hero-anchor--offer');
+        if (!av || !from || !to || !av.offsetWidth) return;
+        if (!from.offsetWidth) { av.style.transform = 'scale(0)'; return; }   // the text left no room at all
+        var chip = !to.offsetWidth;          // the offer anchor is display:none at this size
+        if (chip) to = hero.querySelector('.hero-stage--offer .hero-face');
+        if (!to || !to.offsetWidth) { to = from; t = 0; }
+
+        // The spot for this t: the anchors' bottom-left corners and widths,
+        // interpolated. Both are measured live, so the avatar lands on the
+        // chip even while the chip is still rising with its line.
+        var a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+        var h = hero.getBoundingClientRect();
+        var k = (h.width / hero.offsetWidth) || 1;   // the scroll runtime scales the hero as it leaves
+        var left   = (a.left   + (b.left   - a.left)   * t - h.left) / k;
+        var bottom = (a.bottom + (b.bottom - a.bottom) * t - h.top)  / k;
+        var width  = (a.width  + (b.width  - a.width)  * t) / k;
+        // Map the avatar's own (untransformed) box onto that spot. The origin
+        // is its bottom-left, so moving that corner and scaling is enough: the
+        // disc sits on the box's bottom edge, just as the chip's circle does.
+        av.style.transform = 'translate(' + (left - av.offsetLeft).toFixed(2) + 'px,' +
+                                            (bottom - av.offsetTop - av.offsetHeight).toFixed(2) + 'px) scale(' +
+                                            (width / av.offsetWidth).toFixed(4) + ')';
+        if (calm) return;
+        if (chip) {
+          // Hand over to the chip by distance, not by t: the ease's long tail
+          // leaves the avatar tens of px short for a good stretch of scroll,
+          // and a t-based fade showed two faces. The fades overlap so there
+          // is never a frame with neither.
+          var near = 1 - clamp01((1 - t) * Math.hypot(b.left - a.left, b.bottom - a.bottom) / k / 40);
+          av.style.setProperty('--pose', 0);
+          av.style.opacity = (1 - range(.6, 1, near)).toFixed(3);
+          hero.style.setProperty('--chip', range(.4, .9, near).toFixed(3));
+        } else {
+          // Waving hello turns into pointing up at the headline, mid-flight.
+          av.style.setProperty('--pose', range(.3, .7, t).toFixed(3));
+          av.style.opacity = '';
+          hero.style.setProperty('--chip', 1);
+        }
+      }
+
+      function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      window.addEventListener('load', schedule);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);   // the chip moves when the font swaps in
+      // The DC runtime swaps the page for a React-rendered copy after this
+      // runs. The fresh hero carries none of the state set here, so catch it.
+      new MutationObserver(function(){
+        var hero = document.querySelector('.hero');
+        if (hero && !hero.style.getPropertyValue('--p1')) schedule();
+      }).observe(document.body, { childList: true, subtree: true });
+      update();
+
+      // Moving between stages without scrolling: the intro's button, and
+      // keyboard focus landing in the stage that isn't showing.
+      function goTo(stage){
+        var n = nodes(); if (!n) return;
+        var top = n.scene.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: top + (stage === 'offer' ? runway(n) : 0), behavior: calm ? 'instant' : 'smooth' });
+      }
+      document.addEventListener('click', function(e){
+        if (e.target.closest && e.target.closest('[data-hero-next]')) goTo('offer');
+      });
+      document.addEventListener('focusin', function(e){
+        var stage = e.target.closest && e.target.closest('.hero-stage');
+        var hero = stage && stage.closest('.hero');
+        if (hero && hero.getAttribute('data-active') !== stage.getAttribute('data-stage')) goTo(stage.getAttribute('data-stage'));
+      });
+    })();
+    </script>
+
+    <script>
+    /* Hero glow follows the pointer and uncovers the name underneath it.
+       Fine pointers only, and not at all under reduced motion — on touch the
+       glow simply rests where the CSS puts it. */
+    (function(){
+      if (!window.matchMedia) return;
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      // Never hold on to the hero's nodes: the DC runtime re-renders the page
+      // after this script runs and swaps them for fresh copies, so anything
+      // captured now would be a detached original. Listen on document and
+      // look the live nodes up each time instead.
+      function liveBg(){ return document.querySelector('.hero-bg'); }
+
+      var x = null, y = null, tx = 0, ty = 0, raf = 0;
+
+      function paint(){
+        var bg = liveBg();
+        if (!bg) { raf = 0; return; }
+        x += (tx - x) * 0.14;
+        y += (ty - y) * 0.14;
+        // On .hero-bg rather than the section: the scroll runtime rewrites the
+        // section's inline style every frame.
+        bg.style.setProperty('--mx', x.toFixed(1) + 'px');
+        bg.style.setProperty('--my', y.toFixed(1) + 'px');
+        raf = (Math.abs(tx - x) > 0.4 || Math.abs(ty - y) > 0.4) ? requestAnimationFrame(paint) : 0;
+      }
+
+      function unlight(){
+        var hero = document.querySelector('.hero');
+        if (hero) hero.classList.remove('is-lit');
+      }
+
+      document.addEventListener('pointermove', function(e){
+        var hero = e.target.closest && e.target.closest('.hero');
+        if (!hero) { unlight(); return; }
+        var bg = hero.querySelector('.hero-bg');
+        if (!bg) return;
+
+        var r = bg.getBoundingClientRect();
+        // The runtime scales the hero while it scrolls away; map client
+        // coordinates back into the unscaled layer.
+        var sx = bg.offsetWidth / r.width, sy = bg.offsetHeight / r.height;
+        tx = (e.clientX - r.left) * sx;
+        ty = (e.clientY - r.top) * sy;
+
+        // First contact: start from the CSS resting spot so the glow glides
+        // over rather than jumping to the cursor.
+        if (x === null) { x = bg.offsetWidth * 0.24; y = window.innerHeight * 0.34; }
+
+        hero.classList.add('is-lit');
+        if (!raf) raf = requestAnimationFrame(paint);
+      }, { passive: true });
+
+      // Pointer left the window entirely.
+      document.addEventListener('mouseout', function(e){ if (!e.relatedTarget) unlight(); });
+    })();
+    </script>
+
+    <script>
+    /* The selection frame. It works on whichever stage is showing and stays
+       out of the way while the scene is between stages (the scene script
+       above announces both). Like the glow, every node is looked up live:
+       the DC runtime re-renders the page after load. */
+    (function(){
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var canHover = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      var current = null;            // indices into the active stage's word list
+      var restTimer = 0, introTimer = 0;
+      var ready = false;             // the curtain is up and the real font is in
+      var toured = {};               // stages that have had their opening pass
+
+      function parts(){
+        var hero = document.querySelector('.hero');
+        if (!hero) return null;
+        var name = hero.getAttribute('data-active') || 'intro';
+        var stage = hero.querySelector('.hero-stage--' + name);
+        if (!stage) return null;
+        return {
+          hero: hero,
+          name: name,
+          title: stage.querySelector('.hero-title'),
+          sel: hero.querySelector('.hero-select'),
+          size: hero.querySelector('.hero-select-size'),
+          words: Array.prototype.slice.call(stage.querySelectorAll('.hero-word'))
+        };
+      }
+      function moving(p){ return p.hero.classList.contains('is-moving'); }
+
+      function select(indices){
+        var p = parts();
+        if (!p || !p.sel || !p.title || moving(p) || !indices.length) return;
+        var targets = indices.map(function(i){ return p.words[i]; }).filter(Boolean);
+        if (!targets.length) return;
+        current = indices;
+
+        var m = p.hero.getBoundingClientRect();
+        // The scroll runtime scales the hero as it leaves; work in unscaled px.
+        var s = (m.width / p.hero.offsetWidth) || 1;
+        var L = Infinity, T = Infinity, R = -Infinity, B = -Infinity;
+        targets.forEach(function(w){
+          var r = w.getBoundingClientRect();
+          L = Math.min(L, r.left);  T = Math.min(T, r.top);
+          R = Math.max(R, r.right); B = Math.max(B, r.bottom);
+        });
+        // Padding scales with the type: 8px suits 145px letters but crowds the
+        // neighbouring lines at 65px.
+        var fs = parseFloat(getComputedStyle(p.title).fontSize) || 100;
+        var pad = Math.max(4, Math.round(fs * 0.055)), w = (R - L) / s, h = (B - T) / s;
+
+        // Coming back from hidden (first show, or a new stage), appear in
+        // place rather than gliding over from wherever it was last.
+        var jump = !p.sel.classList.contains('is-on');
+        if (jump) p.sel.style.transition = 'none';
+        p.sel.style.transform = 'translate(' + ((L - m.left) / s - pad).toFixed(1) + 'px,' + ((T - m.top) / s - pad).toFixed(1) + 'px)';
+        p.sel.style.width  = (w + pad * 2).toFixed(1) + 'px';
+        p.sel.style.height = (h + pad * 2).toFixed(1) + 'px';
+        p.size.textContent = Math.round(w) + ' × ' + Math.round(h);
+        if (jump) { void p.sel.offsetWidth; p.sel.style.transition = ''; }
+        p.sel.classList.add('is-on');
+
+        Array.prototype.forEach.call(p.hero.querySelectorAll('.hero-word.is-selected'), function(el){
+          if (targets.indexOf(el) < 0) el.classList.remove('is-selected');
+        });
+        targets.forEach(function(el){ el.classList.add('is-selected'); });
+      }
+
+      function hide(){
+        var p = parts(); if (!p || !p.sel) return;
+        p.sel.classList.remove('is-on');
+        Array.prototype.forEach.call(p.hero.querySelectorAll('.hero-word.is-selected'), function(el){ el.classList.remove('is-selected'); });
+      }
+
+      // Where the frame rests: the words marked data-rest in each stage. When
+      // a narrow screen has put two of them on different lines, a box around
+      // both would swallow the line between, so it rests on the first alone.
+      function restIndices(){
+        var p = parts(); if (!p) return [];
+        var rest = [];
+        p.words.forEach(function(w, i){ if (w.hasAttribute('data-rest')) rest.push(i); });
+        if (rest.length > 1) {
+          var t0 = p.words[rest[0]].getBoundingClientRect().top;
+          var sameLine = rest.every(function(i){ return Math.abs(p.words[i].getBoundingClientRect().top - t0) < 4; });
+          if (!sameLine) rest = [rest[0]];
+        }
+        return rest;
+      }
+      function rest(){ select(restIndices()); }
+
+      // The first time each stage comes to rest: a quick editing pass across
+      // its headline, ending on the rest words. After that, straight to rest.
+      function tour(){
+        var p = parts(); if (!p || moving(p)) return;
+        clearTimeout(introTimer); clearTimeout(restTimer);
+        if (calm || toured[p.name]) { rest(); return; }
+        toured[p.name] = true;
+        var name = p.name, n = p.words.length, i = 0;
+        (function step(){
+          var q = parts();
+          if (!q || q.name !== name || moving(q)) return;   // scrolled away mid-pass
+          if (i < n) { select([i++]); introTimer = setTimeout(step, 380); }
+          else rest();
+        })();
+      }
+
+      document.addEventListener('hero:settled', function(){ if (ready) tour(); });
+      document.addEventListener('hero:moving', function(){
+        clearTimeout(introTimer); clearTimeout(restTimer);
+        hide();
+      });
+
+      // Measure only once the real font is in: a word's box in the fallback
+      // font is a different size, and the frame would be drawn around nothing.
+      function start(){ ready = true; tour(); }
+      function boot(){ fontsReady.then(function(){ setTimeout(start, 1150); }); }   // after the curtain lifts
+      var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+      if (document.readyState === 'complete') boot();
+      else window.addEventListener('load', boot);
+
+      if (canHover) {
+        document.addEventListener('pointerover', function(e){
+          var word = e.target.closest && e.target.closest('.hero-word');
+          if (!word) return;
+          var p = parts(); if (!p || moving(p)) return;
+          var i = p.words.indexOf(word);
+          if (i < 0) return;                                // a word in the stage that isn't showing
+          clearTimeout(introTimer); clearTimeout(restTimer);
+          select([i]);
+        });
+        document.addEventListener('pointerout', function(e){
+          if (!e.target.closest || !e.target.closest('.hero-title')) return;
+          var to = e.relatedTarget;
+          if (to && to.closest && to.closest('.hero-title')) return;   // still inside the headline
+          clearTimeout(restTimer);
+          restTimer = setTimeout(rest, 900);
+        });
+      }
+
+      // Word boxes move whenever the layout does.
+      var resizeTimer = 0;
+      window.addEventListener('resize', function(){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function(){ if (current) rest(); }, 150);
+      });
+    })();
+    </script>
 
     <section data-reveal="" style="padding:14px 0 90px;">
       <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">בחרו לפי מה שהעסק צריך למכור</h2>
