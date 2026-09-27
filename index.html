@@ -614,6 +614,122 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
   .hero-select:not(.is-on),.hero.is-moving .hero-select{visibility:hidden}   /* same reason: it can't fade out */
 }
 </style>
+<style>
+/* ---------- process ----------
+   The seven steps as a deck of cards. The column is laid out fully spread;
+   the deck script stacks every card that hasn't been reached yet behind the
+   last one that has, and deals them down into their slots as you scroll. */
+.process{padding:clamp(56px,10vh,120px) 0 clamp(64px,10vh,110px)}
+/* Heading and deck get a wrapper of their own because a sticky element is
+   held inside its parent box, not its grid cell: with the section as the
+   parent, the heading rode on over the CTA below the deck. */
+.process-body{
+  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:clamp(40px,6vw,96px);align-items:start;
+}
+/* Below the sticky header pill (16px + its ~62px height), with air. */
+.process-head{position:sticky;top:120px;container-type:inline-size}
+.process-eyebrow{
+  margin:0 0 16px;display:flex;align-items:center;gap:10px;
+  font-size:15px;font-weight:700;color:#B8862B;   /* Rubik: the mono face has no Hebrew, and its tracking lands on a fallback */
+}
+.process-eyebrow::before{content:"";width:28px;height:1.5px;background:currentColor}
+/* Two lines, split where the sentence breaks: sized to the column so the
+   first line never wraps on its own (it is ~9.4em wide). */
+.process-title{
+  margin:0;color:#1C1E24;
+  font-weight:900;font-size:clamp(30px,10.4cqi,56px);line-height:1.04;letter-spacing:-.035em;
+}
+.process-title span{display:block}
+.process-title-quiet{color:#93897A}
+.process-sub{margin:18px 0 0;max-width:36ch;font-size:clamp(17px,1.4vw,19px);line-height:1.6;color:rgba(28,30,36,.7);text-wrap:pretty}
+
+/* The steps again, as a table of contents that follows the deck. */
+.process-index{list-style:none;margin:clamp(28px,5vh,52px) 0 0;padding:0}
+.process-index a{
+  display:flex;align-items:baseline;gap:14px;padding:6px 0;
+  font-size:16px;font-weight:500;color:rgba(28,30,36,.38);transition:color .3s ease;
+}
+.process-index a:hover{color:#1C1E24}
+.process-index a:focus-visible{outline:2px solid #D7A53F;outline-offset:3px;border-radius:4px}
+.process-index span{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700}
+.process-index .is-done a{color:rgba(28,30,36,.7)}
+.process-index .is-current a{color:#1C1E24}
+.process-index .is-current span{color:#B8862B}
+
+/* The deck. Equal rows, so every card is the same height: a stacked card
+   taller than the one in front of it would stick out above it. */
+.process-deck{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-auto-rows:1fr;gap:20px}
+.process-card{
+  position:relative;display:flex;flex-direction:column;
+  background:#fff;border:1px solid #e5ddc9;border-radius:24px;
+  padding:clamp(24px,2.6vw,34px);
+  padding-inline-end:clamp(56px,5vw,76px);        /* keeps text clear of the corner index */
+  box-shadow:0 1px 0 rgba(28,25,20,.03),0 22px 44px -30px rgba(28,25,20,.32);
+  transform-origin:50% 100%;                        /* stacked cards shrink towards their bottom edge, which is what peeks out */
+  scroll-margin-top:140px;
+}
+/* Rank and suit, like the corner of a playing card; mirrored bottom-left. */
+.process-rank,.process-corner{
+  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.02em;color:#B8862B;
+}
+.process-rank{margin:0 0 14px}
+.process-rank::after,.process-corner::after{content:" ✦";font-size:11px}
+.process-corner{position:absolute;bottom:20px;inset-inline-end:24px;transform:rotate(180deg);opacity:.55}
+.process-name{margin:0 0 10px;font-size:clamp(24px,2.3vw,30px);font-weight:900;line-height:1.15;letter-spacing:-.025em}
+.process-text{margin:0;max-width:54ch;font-size:17px;line-height:1.65;color:rgba(28,30,36,.72);text-wrap:pretty}
+.process-tags{list-style:none;margin:auto 0 0;padding:20px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.process-tags li{
+  padding:8px 12px;border-radius:999px;background:#F5F0E5;
+  font-size:13px;font-weight:500;line-height:1;color:rgba(28,30,36,.72);
+}
+/* The last card is the one the others lead up to: paying only at the end. */
+.process-card--last{background:#1C1E24;border-color:#1C1E24;color:#FAF8F3}
+.process-card--last .process-rank,.process-card--last .process-corner{color:#D7A53F}
+.process-card--last .process-text{color:rgba(250,248,243,.72)}
+.process-card--last .process-tags li{background:rgba(250,248,243,.08);color:rgba(250,248,243,.8)}
+
+/* The section's close, full width below both columns: the question reads
+   as the answer to the whole deck. */
+.process-cta{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px 48px;
+  margin-top:clamp(48px,9vh,112px);padding-top:clamp(32px,5vh,52px);border-top:1px solid #e5ddc9;
+  container-type:inline-size;
+}
+.process-cta-text{
+  margin:0;color:#1C1E24;
+  /* The first line is ~13.6em wide; 7cqi keeps it on one line down to a 360px phone. */
+  font-weight:900;font-size:clamp(22px,7cqi,40px);line-height:1.12;letter-spacing:-.03em;
+}
+.process-cta-text span{display:block}
+.process-cta-text span + span{color:#93897A}
+.process-cta-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;flex:none;white-space:nowrap;
+  font-weight:700;font-size:clamp(17px,1.5vw,19px);color:#3A2C0F;background:#B8862B;
+  padding:20px 34px;border-radius:999px;
+  box-shadow:0 10px 28px rgba(184,134,43,.28);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
+}
+.process-cta-btn:hover{color:#3A2C0F;transform:translateY(-3px);box-shadow:0 18px 38px rgba(184,134,43,.38)}
+.process-cta-btn:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
+.process-cta-btn svg{width:22px;height:22px;flex:none}
+
+@media (max-width:1023px){
+  .process-body{grid-template-columns:1fr;gap:36px}
+  .process-head{position:static}
+  .process-index{display:none}
+}
+@media (max-width:640px){
+  .process{padding:64px 0 72px}
+  .process-deck{gap:16px}
+  .process-card{padding:24px 22px;scroll-margin-top:24px}
+  .process-corner{display:none}
+  .process-name{font-size:24px}
+  .process-text{font-size:16px}
+  .process-cta{flex-direction:column;align-items:stretch;margin-top:36px}
+  .process-cta-btn{width:100%}
+}
+</style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
 
@@ -1087,6 +1203,149 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function(){ if (current) rest(); }, 150);
       });
+    })();
+    </script>
+
+    <section class="process" id="process" aria-labelledby="process-title">
+      <div class="process-body">
+      <div class="process-head">
+        <p class="process-eyebrow">התהליך</p>
+        <h2 class="process-title" id="process-title"><span>כל אתר מתחיל בשיחה,</span> <span class="process-title-quiet">לא בתבנית.</span></h2>
+        <p class="process-sub">שבעה שלבים, מהפגישה הראשונה ועד שאתם מתפעלים את האתר לבד.</p>
+        <ol class="process-index" data-process-index>
+          <li><a href="#process-step-1"><span>01</span>פגישת היכרות</a></li>
+          <li><a href="#process-step-2"><span>02</span>אסטרטגיית מסרים</a></li>
+          <li><a href="#process-step-3"><span>03</span>עיצוב</a></li>
+          <li><a href="#process-step-4"><span>04</span>תנועה וחיים</a></li>
+          <li><a href="#process-step-5"><span>05</span>פונקציונליות</a></li>
+          <li><a href="#process-step-6"><span>06</span>בדיקות ואיכות</a></li>
+          <li><a href="#process-step-7"><span>07</span>תשלום, השקה והדרכה</a></li>
+        </ol>
+      </div>
+
+      <ol class="process-deck" data-process-deck>
+        <li class="process-card" id="process-step-1">
+          <p class="process-rank" aria-hidden="true">01</p>
+          <h3 class="process-name">פגישת היכרות</h3>
+          <p class="process-text">יושבים יחד ומבינים את העסק לעומק: מה הוא צריך, לאן הוא רוצה להגיע, מה האתר צריך לעשות, ואיך הוא צריך להרגיש ולהישמע.</p>
+          <ul class="process-tags"><li>צרכים</li><li>מטרות</li><li>פונקציונליות</li><li>פיצ'רים</li><li>אווירה</li><li>טון</li></ul>
+          <span class="process-corner" aria-hidden="true">01</span>
+        </li>
+        <li class="process-card" id="process-step-2">
+          <p class="process-rank" aria-hidden="true">02</p>
+          <h3 class="process-name">אסטרטגיית מסרים</h3>
+          <p class="process-text">לפני שמעצבים פיקסל אחד, מחליטים מה אומרים: למי האתר מדבר, מה צריך להבין ממנו תוך כמה שניות, ולמה שיבחרו דווקא בכם.</p>
+          <ul class="process-tags"><li>קהל יעד</li><li>מסרים</li><li>בידול</li></ul>
+          <span class="process-corner" aria-hidden="true">02</span>
+        </li>
+        <li class="process-card" id="process-step-3">
+          <p class="process-rank" aria-hidden="true">03</p>
+          <h3 class="process-name">עיצוב</h3>
+          <p class="process-text">העיצוב נבנה מכל מה שלמדתי על העסק. אתר שמספר סיפור או אתר שמוסר מידע, אפקט וואו או פשטות מדויקת: מה שנכון לכם. בכל מקרה ברמה הגבוהה ביותר, ולטובת מי שישתמש בו.</p>
+          <ul class="process-tags"><li>סיפור או מידע</li><li>וואו או פשטות</li><li>תמיד ברמה גבוהה</li></ul>
+          <span class="process-corner" aria-hidden="true">03</span>
+        </li>
+        <li class="process-card" id="process-step-4">
+          <p class="process-rank" aria-hidden="true">04</p>
+          <h3 class="process-name">תנועה וחיים</h3>
+          <p class="process-text">אנימציות ומעברים שמכניסים לאתר חיים: דברים שזזים כשגוללים, מגיבים כשנוגעים, ומכוונים את העין למקום הנכון. בדיוק כמו הכרטיסים האלה.</p>
+          <ul class="process-tags"><li>אנימציות</li><li>מעברים</li><li>מיקרו־אינטראקציות</li></ul>
+          <span class="process-corner" aria-hidden="true">04</span>
+        </li>
+        <li class="process-card" id="process-step-5">
+          <p class="process-rank" aria-hidden="true">05</p>
+          <h3 class="process-name">פונקציונליות</h3>
+          <p class="process-text">האתר לא רק נראה טוב, הוא עובד: טפסים שלא מפספסים אף פנייה, חיבור למערכות שאתם כבר עובדים איתן, תשלומים, ממשק ניהול. מה שהעסק צריך.</p>
+          <ul class="process-tags"><li>טפסים</li><li>אינטגרציות</li><li>תשלומים</li><li>ממשק ניהול</li></ul>
+          <span class="process-corner" aria-hidden="true">05</span>
+        </li>
+        <li class="process-card" id="process-step-6">
+          <p class="process-rank" aria-hidden="true">06</p>
+          <h3 class="process-name">בדיקות ואיכות</h3>
+          <p class="process-text">כל עמוד נבדק בכל גודל מסך ובכל דפדפן: טלפון, טאבלט ומחשב. אני מוודא שהאתר נטען מהר, ושכל כפתור וכל טופס עושים בדיוק מה שהם אמורים.</p>
+          <ul class="process-tags"><li>רספונסיביות</li><li>מהירות טעינה</li><li>דפדפנים</li><li>בדיקות</li></ul>
+          <span class="process-corner" aria-hidden="true">06</span>
+        </li>
+        <li class="process-card process-card--last" id="process-step-7">
+          <p class="process-rank" aria-hidden="true">07</p>
+          <h3 class="process-name">תשלום, השקה והדרכה</h3>
+          <p class="process-text">רק עכשיו, כשהאתר מוכן, מגיע התשלום. האתר עולה לאוויר, אתם מקבלים הדרכה אישית כדי לעדכן ולתפעל הכל לבד, ובחודש הליווי אני זמין לכל שאלה.</p>
+          <ul class="process-tags"><li>תשלום בסוף</li><li>עלייה לאוויר</li><li>הדרכה אישית</li><li>חודש ליווי</li></ul>
+          <span class="process-corner" aria-hidden="true">07</span>
+        </li>
+      </ol>
+      </div>
+
+      <div class="process-cta">
+        <p class="process-cta-text"><span>רוצים שגם לעסק שלכם יהיה אתר</span> <span>שלא מפסיק להמיר?</span></p>
+        <a class="process-cta-btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%A2%D7%9C%20%D7%94%D7%AA%D7%94%D7%9C%D7%99%D7%9A%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%93%D7%91%D7%A8%20%D7%A2%D7%9C%20%D7%90%D7%AA%D7%A8%20%D7%9C%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          בואו נדבר
+        </a>
+      </div>
+    </section>
+
+    <script>
+    /* The process deck. Every card has its slot in the spread-out column (the
+       layout, untouched); this script moves the ones not yet reached back
+       into a deck tucked behind the last card that was, each peeking a few
+       px lower and a little smaller, and deals them down into their slots as
+       their slots come up the screen. Nodes are looked up live on every
+       frame: the DC runtime re-renders the page after load. */
+    (function(){
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var PEEK = 10;          // px of each stacked card showing below the one in front
+      var SHRINK = .04;       // and how much narrower each one is
+      var TILT = [0, -1.1, .9, -.7, 1.2, -.8, .6];   // deg, so the deck looks handled rather than printed
+      // A card is dealt while its slot travels from 82% to 50% of the screen
+      // height, which on a laptop lets one card land just as the next starts.
+      var START = .82, SPAN = .32;
+
+      function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+      function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+
+      var raf = 0;
+      function update(){
+        raf = 0;
+        var deck = document.querySelector('[data-process-deck]');
+        if (!deck) return;
+        deck.setAttribute('data-ready', '');
+        var cards = deck.children, vh = window.innerHeight;
+        var deckTop = deck.getBoundingClientRect().top;
+        var prevBottom = 0, prevScale = 1, current = 0;
+
+        for (var i = 0; i < cards.length; i++) {
+          var c = cards[i];
+          var slotBottom = c.offsetTop + c.offsetHeight;
+          var d = (i === 0 || calm) ? 1 : easeOut(clamp01((vh * START - (deckTop + c.offsetTop)) / (vh * SPAN)));
+          // Stacked: bottom edge PEEK px below the card in front, one size smaller.
+          var bottom = i ? prevBottom + PEEK + (slotBottom - prevBottom - PEEK) * d : slotBottom;
+          var scale  = i ? Math.max(.7, prevScale - SHRINK) + (1 - Math.max(.7, prevScale - SHRINK)) * d : 1;
+          c.style.zIndex = cards.length - i;      // the deck's top card is the earliest one
+          c.style.transform = d >= 1 ? '' :
+            'translateY(' + (bottom - slotBottom).toFixed(1) + 'px) scale(' + scale.toFixed(4) + ') rotate(' + (TILT[i % TILT.length] * (1 - d)).toFixed(2) + 'deg)';
+          prevBottom = bottom; prevScale = scale;
+          if (d > .5) current = i;
+        }
+
+        var index = document.querySelector('[data-process-index]');
+        if (index) for (var j = 0; j < index.children.length; j++) {
+          index.children[j].classList.toggle('is-done', j < current);
+          index.children[j].classList.toggle('is-current', j === current);
+        }
+      }
+
+      function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      window.addEventListener('load', schedule);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);   // card heights change when the font swaps in
+      new MutationObserver(function(){
+        var deck = document.querySelector('[data-process-deck]');
+        if (deck && !deck.hasAttribute('data-ready')) schedule();
+      }).observe(document.body, { childList: true, subtree: true });
+      update();
     })();
     </script>
 
