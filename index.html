@@ -214,7 +214,7 @@ src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
           "name": "ואם אני לא רוצה לנהל את התשתית בעצמי?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "יש מסלול אקספרס: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש."
+            "text": "יש מסלול ליווי שוטף: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש."
           }
         },
         {
@@ -924,6 +924,117 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
 @media (prefers-reduced-motion:reduce){
   .work-inner,.work-media,.work-text > *{transform:none !important}
   .work-shade{display:none}
+}
+</style>
+<style>
+/* ---------- pricing ----------
+   Deliberately quiet after the portfolio: no pinning, no scroll theatre.
+   The only motion is a short fade-up as the cards come into view (CSS
+   scroll-driven, so browsers without it just show them) and a slight lift
+   on hover. */
+.pricing{padding:clamp(72px,12vh,140px) 0 clamp(64px,10vh,110px)}
+.pricing-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px 48px;margin:0 0 clamp(36px,6vh,56px)}
+.pricing-title{margin:0;max-width:16ch;font-weight:900;font-size:clamp(34px,4.4vw,60px);line-height:1.04;letter-spacing:-.035em;color:#1C1E24;text-wrap:balance}
+.pricing-included{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;font-size:15px;color:rgba(28,30,36,.6)}
+.pricing-included ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.pricing-included li{
+  display:flex;align-items:center;gap:7px;padding:8px 14px 8px 12px;border-radius:999px;
+  background:#fff;border:1px solid #e5ddc9;font-weight:500;color:#1C1E24;
+}
+.pricing-included li::before,.price-features li::before{
+  content:"";flex:none;width:18px;height:18px;border-radius:50%;
+  background:rgba(184,134,43,.14) center/11px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.3l2.2 2.2L9.5 3.5' fill='none' stroke='%23B8862B' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Every card has the same five rows (name, who it's for, price, button,
+   features), shared through subgrid, so the prices and buttons line up
+   across the three however long each description runs. */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.price-card{
+  position:relative;grid-row:span 5;display:grid;grid-template-rows:subgrid;row-gap:0;
+  padding:clamp(26px,2.6vw,34px);border-radius:24px;
+  background:#fff;border:1px solid #e5ddc9;
+  box-shadow:0 1px 0 rgba(28,25,20,.03),0 24px 48px -36px rgba(28,25,20,.3);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .35s ease;
+  scroll-margin-top:120px;
+}
+.price-card:hover{transform:translateY(-4px);border-color:rgba(184,134,43,.45);box-shadow:0 1px 0 rgba(28,25,20,.03),0 30px 60px -34px rgba(28,25,20,.38)}
+/* Arrived from a portfolio hashtag: say which card it meant. */
+.price-card:target{border-color:#B8862B;box-shadow:0 0 0 3px rgba(184,134,43,.22),0 24px 48px -36px rgba(28,25,20,.3)}
+.price-name{margin:0 0 10px;font-size:clamp(22px,1.9vw,26px);font-weight:900;letter-spacing:-.02em;line-height:1.2}
+.price-for{margin:0;font-size:16px;line-height:1.6;color:rgba(28,30,36,.64);text-wrap:pretty}
+.price-amount{
+  margin:24px 0 0;padding:22px 0 0;border-top:1px solid #ece5d5;
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;
+}
+.price-from{font-size:14px;color:rgba(28,30,36,.55)}
+.price-num{font-size:clamp(34px,3vw,42px);font-weight:900;letter-spacing:-.03em;line-height:1;color:#1C1E24}
+.price-once{font-size:13px;font-weight:500;color:rgba(28,30,36,.5)}
+.price-amount--quote{flex-direction:column;align-items:flex-start;gap:8px}
+.price-amount--quote .price-num{font-size:clamp(24px,2.1vw,30px);letter-spacing:-.025em}
+.price-cta{
+  margin:22px 0 0;display:flex;align-items:center;justify-content:center;text-align:center;
+  min-height:52px;padding:12px 20px;border-radius:999px;
+  font-size:16px;font-weight:700;color:#1C1E24;background:transparent;border:1.5px solid #1C1E24;
+  transition:background-color .25s ease,color .25s ease,border-color .25s ease;
+}
+.price-cta:hover{background:#1C1E24;color:#FAF8F3}
+.price-cta:focus-visible{outline:3px solid #D7A53F;outline-offset:3px}
+.price-features{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:16px;color:rgba(28,30,36,.8)}
+.price-features li{display:flex;align-items:flex-start;gap:10px;line-height:1.45}
+.price-features li::before{margin-top:1px}
+.price-features .price-plus{font-weight:700;color:inherit}
+.price-features .price-plus::before{display:none}
+
+/* The one most people pick: ink, like the last card of the process deck. */
+.price-card--featured{background:#1C1E24;border-color:#1C1E24;color:#FAF8F3;box-shadow:0 30px 60px -30px rgba(28,25,20,.55)}
+.price-card--featured:hover{border-color:#1C1E24;box-shadow:0 36px 70px -30px rgba(28,25,20,.6)}
+.price-card--featured .price-for{color:rgba(250,248,243,.66)}
+.price-card--featured .price-amount{border-top-color:rgba(250,248,243,.12)}
+.price-card--featured .price-from,.price-card--featured .price-once{color:rgba(250,248,243,.55)}
+.price-card--featured .price-num{color:#D7A53F}
+.price-card--featured .price-cta{background:#B8862B;border-color:#B8862B;color:#3A2C0F}
+.price-card--featured .price-cta:hover{background:#D7A53F;border-color:#D7A53F;color:#3A2C0F}
+.price-card--featured .price-features{color:rgba(250,248,243,.85)}
+.price-card--featured .price-features li::before{background-color:rgba(215,165,63,.16)}
+.price-badge{
+  position:absolute;top:-13px;inset-inline-start:28px;margin:0;
+  padding:6px 12px;border-radius:999px;background:#B8862B;color:#3A2C0F;
+  font-size:13px;font-weight:700;line-height:1;
+}
+
+/* Ongoing care: a monthly add-on, so a different shape from the three. */
+.price-care{
+  margin-top:20px;padding:clamp(24px,3vw,36px) clamp(26px,3.2vw,40px);border-radius:24px;
+  background:#F1EDE3;border:1px solid #e5ddc9;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px 48px;
+}
+.price-care-text{flex:1 1 420px;max-width:64ch}
+.price-care-name{margin:0 0 8px;font-size:22px;font-weight:900;letter-spacing:-.02em}
+.price-care-desc{margin:0;font-size:16px;line-height:1.6;color:rgba(28,30,36,.72)}
+.price-care-note{margin:12px 0 0;font-size:14px;line-height:1.6;color:rgba(28,30,36,.55)}
+.price-care-amount{margin:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;flex:none}
+.price-care-amount .price-num{font-size:clamp(32px,2.8vw,40px)}
+.price-per{font-size:16px;font-weight:700;color:#1C1E24}
+.price-care-amount .price-once{flex-basis:100%}
+
+@supports (animation-timeline: view()){
+  .price-card,.price-care{animation:priceRise linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+  .price-card:nth-child(2){animation-range:entry 8% entry 63%}
+  .price-card:nth-child(3){animation-range:entry 16% entry 71%}
+}
+@keyframes priceRise{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+
+@media (max-width:980px){
+  .pricing-grid{grid-template-columns:1fr;max-width:560px;margin-inline:auto}
+  .price-card--featured{margin-top:8px}   /* room for its badge */
+}
+@media (max-width:640px){
+  .pricing{padding:64px 0 72px}
+  .pricing-grid{gap:16px}
+  .price-card{padding:26px 22px}
+  .price-care{padding:24px 22px}
+  .price-care-amount .price-once{flex-basis:auto}
 }
 </style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
@@ -1711,75 +1822,68 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     })();
     </script>
 
-    <section data-reveal="" style="padding:14px 0 90px;">
-      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">בחרו לפי מה שהעסק צריך למכור</h2>
-      <p style="max-width:none;color:rgba(28,30,36,.65);font-size:17px;line-height:1.6;margin:0 0 40px;">כל חבילה כוללת אפיון, עיצוב, עלייה לאוויר וחודש ליווי.</p>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px;">
-        <div id="price-tadmit" data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.55);background:rgba(184,134,43,.08);box-shadow:0 24px 60px rgba(184,134,43,.18);">
-          <div style="flex:1;">
-          <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר תדמית</div>
-          <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">עמוד תדמית פשוט שנותן לכם נוכחות מסודרת ברשת. מתאים למי שכבר מביא לקוחות בהמלצה או בטלפון, וצריך רק מקום שמייצג אתכם נכון כשמחפשים אתכם בגוגל.</p>
-          <div style="display:flex;align-items:baseline;gap:8px;font-family:'Rubik',sans-serif;"><span style="font-size:14px;color:rgba(28,30,36,.55);">החל מ־</span><span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">1,800 ₪</span></div>
-          <div style="height:1px;background:#e5ddc9;margin:22px 0;"></div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:rgba(28,30,36,.78);">
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עמודים ללא הגבלה</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עיצוב מותאם אישית</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>פרטי יצירת קשר וטלפון בולטים בעמוד</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>נמצא בגוגל ונטען מהר</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עלייה לאוויר תוך ימים ספורים</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>אפשרות לחיבור דומיין קיים</span></span>
-          </div>
-          </div>
-          <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%AA%D7%93%D7%9E%D7%99%D7%AA%20%D7%91-1%2C800%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
-        </div>
-
-        <div id="price-admin" data-card3d="" style="position:relative;background:#ffffff;border:1px solid #B8862B;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s;" style-hover="transform:translateY(-8px);background:rgba(184,134,43,.06);box-shadow:0 24px 60px -16px rgba(184,134,43,.45);">
-          <div style="position:absolute;top:-11px;inset-inline-start:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.02em;padding:5px 12px;border-radius:999px;background:#B8862B;color:#3A2C0F;">הנבחרת ביותר</div>
-          <div style="flex:1;">
-          <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר עם ממשק ניהול</div>
-          <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">כל ליד, הזמנה או פנייה נכנס למקום אחד, ואתם רואים תמונת מצב במקום לחפש באקסלים.</p>
-          <div style="display:flex;align-items:baseline;gap:8px;font-family:'Rubik',sans-serif;"><span style="font-size:14px;color:rgba(28,30,36,.55);">החל מ־</span><span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">4,500 ₪</span></div>
-          <div style="height:1px;background:#e5ddc9;margin:22px 0;"></div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:rgba(28,30,36,.78);">
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>כל מה שמקבלים במסלול אתר תדמית</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>טופס פנייה שלא מפספס לידים</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>ממשק ניהול מאובטח עם סיסמה</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>ייצוא לאקסל והתראות</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>חיבור דומיין קיים כלול</span></span>
-          </div>
-          </div>
-          <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A2%D7%9D%20%D7%9E%D7%9E%D7%A9%D7%A7%20%D7%A0%D7%99%D7%94%D7%95%D7%9C%20%D7%91-4%2C500%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
-        </div>
-
-        <div id="price-full" data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.6);background:rgba(184,134,43,.1);box-shadow:0 24px 60px rgba(184,134,43,.2);">
-          <div style="flex:1;">
-          <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">מערכת מלאה</div>
-          <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">התהליך שגוזל לכם את היום (הזמנות, מועדון לקוחות, צוות) הופך למערכת שעובדת בשבילכם.</p>
-          <div style="font-family:'Rubik',sans-serif;font-size:26px;font-weight:900;letter-spacing:-.03em;line-height:1.2;">הצעת מחיר בהתאמה</div>
-          <div style="height:1px;background:#e5ddc9;margin:22px 0;"></div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:rgba(28,30,36,.78);">
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>צד לקוח + צד ניהול</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>תשלומים, הרשאות, דוחות</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>עובד מהנייד כמו אפליקציה</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.18)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>אפיון ותמחור אחרי שיחה</span></span>
-            <span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;"><circle cx="8" cy="8" r="8" fill="rgba(184,134,43,.15)"></circle><path d="M4.5 8.3l2.2 2.2L11.5 5.5" stroke="#B8862B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>חיבור דומיין קיים כלול</span></span>
-          </div>
-          </div>
-          <a href="https://cal.com/ori-afias-jtbb4a/15min" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">אני רוצה לקבוע שיחת היכרות</a>
+    <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+      <div class="pricing-head">
+        <h2 class="pricing-title" id="pricing-title">בחרו לפי מה שהעסק צריך למכור</h2>
+        <div class="pricing-included">
+          <span>בכל חבילה:</span>
+          <ul><li>אפיון</li><li>עיצוב</li><li>עלייה לאוויר</li><li>חודש ליווי</li></ul>
         </div>
       </div>
 
-      <p style="text-align:center;margin:22px 0 0;font-size:14px;color:rgba(28,30,36,.5);font-style:italic;">כל המחירים המוצגים משקפים עלות חד-פעמית לבניית הפרויקט</p>
+      <div class="pricing-grid">
+        <article class="price-card" id="price-tadmit" aria-labelledby="price-tadmit-name">
+          <h3 class="price-name" id="price-tadmit-name">אתר תדמית</h3>
+          <p class="price-for">עמוד תדמית פשוט שנותן לכם נוכחות מסודרת ברשת. מתאים למי שכבר מביא לקוחות בהמלצה או בטלפון, וצריך רק מקום שמייצג אתכם נכון כשמחפשים אתכם בגוגל.</p>
+          <p class="price-amount"><span class="price-from">החל מ־</span><span class="price-num">1,800 ₪</span><span class="price-once">חד־פעמי</span></p>
+          <a class="price-cta" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%AA%D7%93%D7%9E%D7%99%D7%AA%20%D7%91-1%2C800%20%E2%82%AA" target="_blank" rel="noopener">בואו נדבר</a>
+          <ul class="price-features">
+            <li>עמודים ללא הגבלה</li>
+            <li>עיצוב מותאם אישית</li>
+            <li>פרטי יצירת קשר וטלפון בולטים בעמוד</li>
+            <li>נמצא בגוגל ונטען מהר</li>
+            <li>עלייה לאוויר תוך ימים ספורים</li>
+            <li>אפשרות לחיבור דומיין קיים</li>
+          </ul>
+        </article>
 
-      <div style="position:relative;overflow:hidden;border-radius:28px;border:1px solid #e5ddc9;background:#f1ede3;padding:clamp(28px,4vw,44px);margin-top:28px;">
-        <div style="font-family:'Rubik',sans-serif;font-weight:500;font-size:22px;letter-spacing:-.02em;margin:0 0 10px;color:#1C1E24;">מסלול אקספרס</div>
-        <p style="color:rgba(28,30,36,.72);font-size:16px;line-height:1.6;margin:0 0 18px;max-width:60ch;">רוצים שגם התפעול השוטף יהיה מטופל? אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה, כך שכל התשתית מטופלת ואתם מתמקדים בעסק שלכם.</p>
-        <div style="display:flex;align-items:baseline;gap:8px;margin:0 0 18px;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em;color:#B8862B;">39 ₪ / לחודש</span>
-          <span style="font-family:'Rubik',sans-serif;font-size:14px;color:rgba(28,30,36,.55);">בחיוב שנתי מראש</span>
+        <article class="price-card price-card--featured" id="price-admin" aria-labelledby="price-admin-name">
+          <p class="price-badge">הנבחרת ביותר</p>
+          <h3 class="price-name" id="price-admin-name">אתר עם ממשק ניהול</h3>
+          <p class="price-for">כל ליד, הזמנה או פנייה נכנס למקום אחד, ואתם רואים תמונת מצב במקום לחפש באקסלים.</p>
+          <p class="price-amount"><span class="price-from">החל מ־</span><span class="price-num">4,500 ₪</span><span class="price-once">חד־פעמי</span></p>
+          <a class="price-cta" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A2%D7%9D%20%D7%9E%D7%9E%D7%A9%D7%A7%20%D7%A0%D7%99%D7%94%D7%95%D7%9C%20%D7%91-4%2C500%20%E2%82%AA" target="_blank" rel="noopener">בואו נדבר</a>
+          <ul class="price-features">
+            <li class="price-plus">כל מה שמקבלים במסלול אתר תדמית, ובנוסף:</li>
+            <li>טופס פנייה שלא מפספס לידים</li>
+            <li>ממשק ניהול מאובטח עם סיסמה</li>
+            <li>ייצוא לאקסל והתראות</li>
+            <li>חיבור דומיין קיים כלול</li>
+          </ul>
+        </article>
+
+        <article class="price-card" id="price-full" aria-labelledby="price-full-name">
+          <h3 class="price-name" id="price-full-name">מערכת מלאה</h3>
+          <p class="price-for">התהליך שגוזל לכם את היום (הזמנות, מועדון לקוחות, צוות) הופך למערכת שעובדת בשבילכם.</p>
+          <p class="price-amount price-amount--quote"><span class="price-num">הצעת מחיר בהתאמה</span><span class="price-once">אחרי שיחת היכרות</span></p>
+          <a class="price-cta" href="https://cal.com/ori-afias-jtbb4a/15min" target="_blank" rel="noopener">אני רוצה לקבוע שיחת היכרות</a>
+          <ul class="price-features">
+            <li>צד לקוח + צד ניהול</li>
+            <li>תשלומים, הרשאות, דוחות</li>
+            <li>עובד מהנייד כמו אפליקציה</li>
+            <li>אפיון ותמחור אחרי שיחה</li>
+            <li>חיבור דומיין קיים כלול</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="price-care">
+        <div class="price-care-text">
+          <h3 class="price-care-name">מסלול ליווי שוטף</h3>
+          <p class="price-care-desc">רוצים שגם התפעול השוטף יהיה מטופל? אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה, כך שכל התשתית מטופלת ואתם מתמקדים בעסק שלכם.</p>
+          <p class="price-care-note">מעדיפים לנהל בעצמכם? בסיום הפרויקט תקבלו את כל קוד המקור, ותוכלו לארח בכל מקום שתרצו, בלי עלות נוספת.</p>
         </div>
-        <p style="color:rgba(28,30,36,.55);font-size:14px;line-height:1.6;margin:0;font-style:italic;">מעדיפים לנהל בעצמכם? בסיום הפרויקט תקבלו את כל קוד המקור, ותוכלו לארח בכל מקום שתרצו, בלי עלות נוספת.</p>
+        <p class="price-care-amount"><span class="price-num">39 ₪</span><span class="price-per">לחודש</span><span class="price-once">בחיוב שנתי מראש</span></p>
       </div>
     </section>
 
@@ -1954,7 +2058,7 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
         <span>ואם אני לא רוצה לנהל את התשתית בעצמי?</span>
         <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">יש מסלול אקספרס: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש.</p>
+      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">יש מסלול ליווי שוטף: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש.</p>
     </details>
     <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
       <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
