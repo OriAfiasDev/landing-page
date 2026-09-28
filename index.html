@@ -195,6 +195,14 @@ src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
         },
         {
           "@type": "Question",
+          "name": "הדמו באמת בחינם?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "כן. לא תתבקשו לשלם שום דבר כדי לראות את הדמו, ואין שום התחייבות אחרי זה. אם הוא ימצא חן בעיניכם, נדבר. אם לא, לא קרה כלום."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "כמה זמן לוקח לבנות אתר?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -246,7 +254,7 @@ src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
           "name": "איך מתחילים?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "שולחים הודעה בוואטסאפ עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות."
+            "text": "מבקשים דמו חינם, ותוך יום-יומיים מקבלים קישור לדמו אמיתי של האתר שלכם. מעדיפים לדבר קודם? שולחים הודעה בוואטסאפ עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות."
           }
         }
       ]
@@ -271,7 +279,6 @@ a:hover{color:#D7A53F;}
 @media (max-width:640px){[data-sticky-header],[data-sticky-header-spacer]{display:none !important}}
 summary::-webkit-details-marker{display:none}
 summary{list-style:none}
-details[open] > summary [data-chevron]{transform:rotate(180deg)}
 </style>
 <style>
 /* ---------- hero ----------
@@ -1111,6 +1118,56 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
 /* The site's reduced-motion rule forces opacity:1 on everything, which would
    show both videos at once; hide the inactive one outright instead. */
 @media (prefers-reduced-motion:reduce){.demo-video:not(.is-active){visibility:hidden}}
+</style>
+<style>
+/* ---------- faq ----------
+   Same frame as the process section: the heading held on one side, the
+   questions on the other. Answers open smoothly where the browser can
+   animate to height:auto, and simply open everywhere else. */
+.faq{
+  padding:clamp(72px,12vh,140px) 0 clamp(64px,10vh,110px);
+  display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:start;
+}
+.faq-head{position:sticky;top:120px}
+.faq-title{margin:0;font-weight:900;font-size:clamp(34px,4.4vw,60px);line-height:1.04;letter-spacing:-.035em;color:#1C1E24}
+.faq-sub{margin:16px 0 0;max-width:28ch;font-size:clamp(17px,1.4vw,19px);line-height:1.6;color:rgba(28,30,36,.65)}
+.faq-list{border-top:1px solid #e5ddc9}
+.faq-item{border-bottom:1px solid #e5ddc9}
+.faq-item summary{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 0;cursor:pointer;
+  font-size:clamp(17px,1.4vw,19px);font-weight:700;line-height:1.4;color:#1C1E24;
+}
+.faq-item summary:focus-visible{outline:2px solid #D7A53F;outline-offset:4px;border-radius:6px}
+/* A plus that turns into a minus. */
+.faq-icon{
+  flex:none;position:relative;width:34px;height:34px;border-radius:50%;
+  border:1px solid #e5ddc9;color:#1C1E24;
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease;
+}
+.faq-icon::before,.faq-icon::after{
+  content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;border-radius:1px;background:currentColor;
+  transform:translate(-50%,-50%);
+}
+.faq-icon::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s ease}
+.faq-item summary:hover .faq-icon{border-color:#B8862B}
+.faq-item[open] .faq-icon{background:#1C1E24;border-color:#1C1E24;color:#FAF8F3}
+.faq-item[open] .faq-icon::after{transform:translate(-50%,-50%) rotate(0deg)}
+.faq-answer p{margin:0;padding:0 0 26px;max-width:60ch;font-size:16px;line-height:1.7;color:rgba(28,30,36,.72)}
+.faq-answer a{color:#8A6420;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.faq-answer a:hover{color:#B8862B}
+@supports (interpolate-size: allow-keywords) and selector(::details-content){
+  .faq-item{interpolate-size:allow-keywords}
+  .faq-item::details-content{height:0;overflow:clip;transition:height .35s ease,content-visibility .35s allow-discrete}
+  .faq-item[open]::details-content{height:auto}
+}
+@media (max-width:1023px){
+  .faq{grid-template-columns:1fr;gap:28px}
+  .faq-head{position:static}
+}
+@media (max-width:640px){
+  .faq{padding:64px 0 72px}
+  .faq-item summary{padding:20px 0}
+}
 </style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
@@ -2141,66 +2198,48 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     </script>
 
 
-        <section data-reveal="" style="padding:14px 0 90px;">
-      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">שאלות נפוצות</h2>
-      <p style="max-width:none;color:rgba(28,30,36,.65);font-size:17px;line-height:1.6;margin:0 0 30px;">התשובות הכי נשאלות, בלי לכתוב הודעה.</p>
-      <div>
-    <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>כמה עולה אתר לעסק קטן?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך.</p>
-    </details>
-    <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>כמה זמן לוקח לבנות אתר?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">אתר תדמית עולה לאוויר תוך ימים ספורים. מערכת מלאה יורדת לפרטים בשיחת אפיון, אבל גם שם מדובר בימים ולא בשבועות.</p>
-    </details>
-    <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>האתר באמת שלי, בלי מנוי חודשי?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">כן. בסיום הפרויקט כל קוד המקור בחזקתכם, בלי עלות נוספת ובלי שום התחייבות חודשית. תוכלו לארח את האתר בכל מקום שתרצו.</p>
-    </details>
-    <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>ואם אני לא רוצה לנהל את התשתית בעצמי?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">יש מסלול ליווי שוטף: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש.</p>
-    </details>
-    <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>אפשר לחבר דומיין קיים שכבר יש לי?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">כן, בכל החבילות כלול חיבור דומיין קיים ללא עלות נוספת. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר.</p>
-    </details>
-    <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>מה ההבדל בין אתר תדמית לאתר עם ממשק ניהול?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">אתר תדמית הוא עמוד נוכחות פשוט. אתר עם ממשק ניהול מרכז לידים, הזמנות ופניות במקום אחד, עם ממשק ניהול מאובטח עם סיסמה.</p>
-    </details>
-    <details style="padding:22px 0;border-bottom:1px solid #e5ddc9;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>מה קורה אם אני צריך שינויים אחרי שהאתר עולה לאוויר?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">כל חבילה כוללת חודש ליווי אחרי העלייה לאוויר, כולל תיקונים ושינויים קטנים. מעבר לזה אפשר לתאם המשך עבודה לפי הצורך.</p>
-    </details>
-    <details style="padding:22px 0;">
-      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;">
-        <span>איך מתחילים?</span>
-        <svg data-chevron="" width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;color:rgba(28,30,36,.55);transition:transform .25s;"><path d="M5 7l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </summary>
-      <p style="color:rgba(28,30,36,.7);font-size:16px;line-height:1.6;margin:12px 0 0;">שולחים הודעה בוואטסאפ עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות.</p>
-    </details>
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="faq-head">
+        <h2 class="faq-title" id="faq-title">שאלות נפוצות</h2>
+        <p class="faq-sub">התשובות הכי נשאלות, בלי לכתוב הודעה.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>כמה עולה אתר לעסק קטן?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>אתר תדמית מתחיל ב-1,800 ₪, אתר עם ממשק ניהול ב-4,500 ₪, ומערכת מלאה מקבלת הצעת מחיר לפי הצורך.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>הדמו באמת בחינם?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>כן. לא תתבקשו לשלם שום דבר כדי לראות את הדמו, ואין שום התחייבות אחרי זה. אם הוא ימצא חן בעיניכם, נדבר. אם לא, לא קרה כלום.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>כמה זמן לוקח לבנות אתר?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>אתר תדמית עולה לאוויר תוך ימים ספורים. מערכת מלאה יורדת לפרטים בשיחת אפיון, אבל גם שם מדובר בימים ולא בשבועות.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>האתר באמת שלי, בלי מנוי חודשי?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>כן. בסיום הפרויקט כל קוד המקור בחזקתכם, בלי עלות נוספת ובלי שום התחייבות חודשית. תוכלו לארח את האתר בכל מקום שתרצו.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>ואם אני לא רוצה לנהל את התשתית בעצמי?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>יש מסלול ליווי שוטף: אנחנו מנהלים עבורכם את האחסון, הדומיין, הגיבויים ועדכוני האבטחה תמורת 39 ₪ לחודש בחיוב שנתי מראש.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>אפשר לחבר דומיין קיים שכבר יש לי?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>כן, בכל החבילות כלול חיבור דומיין קיים ללא עלות נוספת. אם אין לכם דומיין עדיין, אפשר גם לרכוש אחד ולחבר אותו לאתר.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>מה ההבדל בין אתר תדמית לאתר עם ממשק ניהול?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>אתר תדמית הוא עמוד נוכחות פשוט. אתר עם ממשק ניהול מרכז לידים, הזמנות ופניות במקום אחד, עם ממשק ניהול מאובטח עם סיסמה.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>מה קורה אם אני צריך שינויים אחרי שהאתר עולה לאוויר?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p>כל חבילה כוללת חודש ליווי אחרי העלייה לאוויר, כולל תיקונים ושינויים קטנים. מעבר לזה אפשר לתאם המשך עבודה לפי הצורך.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>איך מתחילים?<i class="faq-icon" aria-hidden="true"></i></summary>
+          <div class="faq-answer"><p><a href="/demo/">מבקשים דמו חינם</a>, ותוך יום-יומיים מקבלים קישור לדמו אמיתי של האתר שלכם. מעדיפים לדבר קודם? <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener">שולחים הודעה בוואטסאפ</a> עם שתי שורות על העסק, ומקבלים הצעת מחיר ולוח זמנים תוך 24 שעות.</p></div>
+        </details>
       </div>
     </section>
 
