@@ -629,11 +629,6 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
 }
 /* Below the sticky header pill (16px + its ~62px height), with air. */
 .process-head{position:sticky;top:120px;container-type:inline-size}
-.process-eyebrow{
-  margin:0 0 16px;display:flex;align-items:center;gap:10px;
-  font-size:15px;font-weight:700;color:#B8862B;   /* Rubik: the mono face has no Hebrew, and its tracking lands on a fallback */
-}
-.process-eyebrow::before{content:"";width:28px;height:1.5px;background:currentColor}
 /* Two lines, split where the sentence breaks: sized to the column so the
    first line never wraps on its own (it is ~9.4em wide). */
 .process-title{
@@ -730,6 +725,207 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
   .process-cta-btn{width:100%}
 }
 </style>
+<style>
+/* ---------- work (portfolio) ----------
+   One project per screen. The panels are full-bleed siblings, each sticky at
+   the top, so every panel slides up over the one before it; the covered one
+   dims and settles back. Each panel is pinned for --dwell before the next one
+   starts to rise, and that stretch is when its devices fan out.
+   The work script sets three 0→1 values on every panel:
+     --e  entering: the panel rising into view
+     --h  holding: pinned, before the next panel starts to cover it
+     --q  covered: the next panel rising over it
+   Everything defaults to the settled state, so without JS (or with reduced
+   motion) each panel simply shows complete. */
+.work{--dwell:40vh;padding:clamp(56px,10vh,120px) 0 0}
+
+/* A column flexbox, so no margins collapse: the bar and the panels line up
+   by their margins alone (see below). */
+.work-stack{
+  --bar:clamp(88px,11vh,112px);
+  position:relative;margin-inline:calc(50% - 50vw);   /* full-bleed out of the 1180px column */
+  display:flex;flex-direction:column;
+}
+/* A sticky element is held only while its margin box fits in the stack's
+   content box, and every panel's margin box is 100vh + --dwell. So the stack
+   needs one more --dwell of content after the last panel, or everything lets
+   go the moment the last panel arrives and it gets no hold at all. */
+.work-stack::after{content:"";display:block;height:var(--dwell);flex:none}
+/* ...but once they let go, the last panel's own --dwell margin would leave
+   that much blank paper before the next section. Pull the section up over
+   it: the space is empty, and never on screen while anything is held. */
+.work{margin-bottom:calc(-1 * var(--dwell))}
+
+/* The heading bar. It sits over the top of the first panel, so the section
+   starts on a project's colour rather than on the page's paper, and stays
+   pinned over every panel after it. Its margin makes its margin box exactly
+   as tall as a panel's, so it lets go at the same moment they do; the first
+   panel is pulled back up underneath it by the same amount plus the bar. */
+.work-bar{
+  position:sticky;top:0;z-index:5;flex:none;
+  height:var(--bar);
+  margin-bottom:calc(100vh + var(--dwell) - var(--bar));
+  margin-bottom:calc(100svh + var(--dwell) - var(--bar));
+  padding:0 max(24px, calc((100% - 1180px) / 2));   /* lines up with the panels' 1180px column */
+  display:flex;align-items:center;justify-content:space-between;gap:8px 40px;
+  border-radius:32px 32px 0 0;
+  background:var(--work-bg,#0C1324);color:var(--work-fg,#F3F5FA);
+  transition:background-color .45s ease,color .45s ease;
+}
+.work-bar + .work-panel{margin-top:calc(-100vh - var(--dwell));margin-top:calc(-100svh - var(--dwell))}
+.work-title{margin:0;font-weight:900;font-size:clamp(28px,3.1vw,46px);line-height:1;letter-spacing:-.035em;white-space:nowrap}
+.work-title span{color:var(--work-accent,#6E9BFF);transition:color .45s ease}
+.work-sub{margin:0;max-width:34ch;font-size:clamp(15px,1.15vw,17px);line-height:1.5;color:var(--work-muted,rgba(243,245,250,.6));transition:color .45s ease;text-wrap:balance}
+.work-panel{
+  position:sticky;top:0;flex:none;height:100vh;height:100svh;margin-bottom:var(--dwell);
+  overflow:hidden;border-radius:32px 32px 0 0;
+  background:var(--bg);color:var(--fg);
+}
+/* Covered: dim the whole panel and let its content settle back and up. */
+.work-shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:#07070B;opacity:calc(var(--q,0) * .6)}
+.work-inner{
+  position:relative;height:100%;max-width:1228px;margin:0 auto;
+  padding:calc(var(--bar) + clamp(12px,3vh,32px)) 24px clamp(28px,6vh,64px);   /* top clears the heading bar */
+  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(32px,5vw,88px);align-items:center;
+  transform-origin:50% 0;
+  transform:scale(calc(1 - var(--q,0) * .08)) translateY(calc(var(--q,0) * -3vh));
+}
+
+/* The text arrives line by line as the panel rises (--k staggers them). */
+.work-text > *{
+  --r:clamp(0, (var(--e,1) - .4) * 2.4 - var(--k,0) * .1, 1);
+  opacity:var(--r);transform:translateY(calc((1 - var(--r)) * 36px));
+}
+.work-text > :nth-child(2){--k:1}
+.work-text > :nth-child(3){--k:2}
+.work-text > :nth-child(4){--k:3}
+.work-text > :nth-child(5){--k:4}
+.work-text > :nth-child(6){--k:5}
+.work-meta{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;margin:0 0 18px}
+.work-count{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--muted)}
+.work-tag{
+  font-size:15px;font-weight:700;color:var(--accent);
+  padding:6px 12px;border-radius:999px;background:var(--tagbg);
+  transition:background .25s ease,color .25s ease;
+}
+.work-tag:hover{color:var(--accent);background:var(--taghover)}
+.work-tag:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.work-name{
+  margin:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 16px;
+  font-weight:900;font-size:clamp(46px,6.2vw,100px);line-height:.95;letter-spacing:-.04em;
+}
+.work-status{
+  font-size:13px;font-weight:700;letter-spacing:0;line-height:1;
+  padding:6px 10px;border-radius:999px;border:1px solid currentColor;color:var(--muted);
+}
+.work-what{margin:12px 0 0;font-size:16px;color:var(--muted)}
+.work-label{
+  margin:clamp(22px,4vh,40px) 0 10px;display:flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:700;color:var(--accent);
+}
+.work-label::before{content:"";width:22px;height:1.5px;background:currentColor}
+.work-decision{
+  margin:0;max-width:22ch;text-wrap:balance;
+  font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:clamp(26px,2.7vw,40px);line-height:1.18;letter-spacing:-.01em;
+}
+.work-why{margin:16px 0 0;max-width:46ch;font-size:clamp(16px,1.3vw,18px);line-height:1.65;color:var(--soft);text-wrap:pretty}
+
+/* ---- devices ----
+   --f is the fan: stacked while the panel rises, spread by the end of the
+   hold. --i is a device's place in the fan (-1 / 0 / 1), --a its distance
+   from the middle (0 or 1). */
+.work-media{
+  --f:calc(var(--e,1) * .45 + var(--h,1) * .55);
+  position:relative;height:min(72vh,660px);
+  transform:translateY(calc((1 - var(--e,1)) * 22vh));
+}
+.work-device{margin:0;position:absolute;will-change:transform}
+.work-device img{display:block;width:100%;height:auto;cursor:zoom-in}
+.work-phone{
+  bottom:0;left:50%;height:100%;aspect-ratio:600/1253;z-index:calc(2 - var(--a,0));
+  transform:
+    translateX(calc(-50% + var(--i,0) * var(--f) * var(--spread,64%)))
+    translateY(calc(var(--a,0) * var(--f) * 5%))
+    rotate(calc(var(--i,0) * var(--f) * 8deg))
+    scale(calc(1 - var(--a,0) * .1));
+  filter:drop-shadow(0 30px 40px rgba(0,0,0,.28));
+}
+.work-phone img{height:100%;width:auto}
+.work-browser{
+  width:88%;border-radius:12px;overflow:hidden;background:#fff;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.45),0 0 0 1px rgba(0,0,0,.06);
+}
+.work-browser::before{   /* window chrome */
+  content:"";display:block;height:32px;background:#EFEDE8;
+  background-image:radial-gradient(circle,#E0605A 4px,transparent 4.5px),radial-gradient(circle,#E3B341 4px,transparent 4.5px),radial-gradient(circle,#5DBB63 4px,transparent 4.5px);
+  background-size:14px 32px;background-repeat:no-repeat;background-position:14px 0,30px 0,46px 0;
+}
+/* Which side of the system a device shows. Above a phone; in a browser's
+   title bar, where the address would be. */
+.work-caption{
+  position:absolute;z-index:3;left:50%;top:-16px;transform:translateX(-50%);white-space:nowrap;
+  font-size:13px;font-weight:700;line-height:1;padding:7px 12px;border-radius:999px;
+  background:var(--fg);color:var(--bg);
+  opacity:calc(var(--h,1) * 1.4 - .2);
+}
+.work-browser .work-caption{top:6px;padding:5px 14px;font-size:12px;background:rgba(28,30,36,.08);color:rgba(28,30,36,.7)}
+
+/* Evently: three phones fanning out from the scanner. */
+/* Spoti: the operator's dashboard behind, the visitor's phones in front. */
+.work-media--system .work-browser{top:16%;left:0;width:90%;z-index:0;transform:translateY(calc((1 - var(--f)) * 8%))}
+.work-media--system .work-phone{left:auto;right:0;height:80%;
+  transform:translateX(calc((1 - var(--f)) * 22%)) rotate(calc((1 - var(--f)) * 5deg))}
+/* YA-ME: guest and staff side by side, the same diary on both. */
+.work-media--duo .work-phone{--spread:56%}
+/* VIA MAR: two pages of the shop, one behind the other. */
+.work-media--pages .work-browser:nth-child(1){top:0;left:0;z-index:0;transform:translate(calc(var(--f) * -2%),calc(var(--f) * -2%))}
+.work-media--pages .work-browser:nth-child(2){bottom:4%;right:0;z-index:1;transform:translate(calc((1 - var(--f)) * -10%),calc((1 - var(--f)) * -12%))}
+
+/* Themes, from each project's own interface. */
+.work-panel--evently{--bg:#0C1324;--fg:#F3F5FA;--muted:rgba(243,245,250,.55);--soft:rgba(243,245,250,.78);--accent:#6E9BFF;--tagbg:rgba(110,155,255,.14);--taghover:rgba(110,155,255,.24)}
+.work-panel--spoti{--bg:#E7DFD1;--fg:#16242B;--muted:rgba(22,36,43,.55);--soft:rgba(22,36,43,.76);--accent:#16607F;--tagbg:rgba(22,96,127,.1);--taghover:rgba(22,96,127,.18)}
+.work-panel--yame{--bg:#123433;--fg:#EEF7F5;--muted:rgba(238,247,245,.55);--soft:rgba(238,247,245,.78);--accent:#86D2C6;--tagbg:rgba(134,210,198,.13);--taghover:rgba(134,210,198,.23)}
+.work-panel--viamar{--bg:#F3ECE4;--fg:#2A231F;--muted:rgba(42,35,31,.55);--soft:rgba(42,35,31,.76);--accent:#9A6F58;--tagbg:rgba(154,111,88,.12);--taghover:rgba(154,111,88,.2)}
+.work-panel--club{--bg:#17171F;--fg:#FAF8F3;--muted:rgba(250,248,243,.55);--soft:rgba(250,248,243,.78);--accent:#D7A53F;--tagbg:rgba(215,165,63,.14);--taghover:rgba(215,165,63,.24)}
+/* The hashtags link to their pricing card; land it below the header pill. */
+[id^="price-"]{scroll-margin-top:120px}
+
+@media (max-width:900px){
+  /* Stacked: the text on top, the devices rising from the bottom edge,
+     cropped by it, in whatever height is left. */
+  .work{--dwell:30vh}
+  .work-panel,.work-bar{border-radius:24px 24px 0 0}
+  .work-inner{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);align-items:start;gap:24px;padding:calc(var(--bar) + 12px) 24px 0}
+  .work-media{height:auto;align-self:stretch;min-height:0}
+  .work-phone{height:118%;top:0;bottom:auto}
+  .work-media--system .work-browser{top:0;width:92%}
+  .work-media--system .work-phone{top:auto;bottom:-12%;height:82%}
+  .work-media--pages .work-browser{width:84%}
+  /* Two phones can't sit side by side at full height: overlap them. */
+  .work-media--duo .work-phone{height:92%;--spread:34%}
+  .work-media--duo .work-phone:first-child{z-index:3}
+  .work-media--pages .work-browser:nth-child(2){bottom:auto;top:30%}
+}
+@media (max-width:640px){
+  /* Title only: every px of the bar comes out of the project below it. */
+  .work-stack{--bar:60px}
+  .work-bar{padding:0 22px}
+  .work-title{font-size:clamp(22px,6.6vw,28px)}
+  .work-sub{display:none}
+  .work-inner{padding:calc(var(--bar) + 8px) 22px 0;gap:18px}
+  .work-meta{margin-bottom:12px}
+  .work-name{font-size:clamp(38px,11vw,52px)}
+  .work-what{display:none}
+  .work-label{margin-top:16px}
+  .work-decision{font-size:clamp(21px,6vw,26px)}
+  .work-why{margin-top:10px;font-size:15px;line-height:1.6}
+  .work-caption{font-size:12px;padding:6px 10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .work-inner,.work-media,.work-text > *{transform:none !important}
+  .work-shade{display:none}
+}
+</style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
 
@@ -746,7 +942,7 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
   <div style="position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 24px;">
 
     <header data-sticky-header="" style="position:fixed;top:16px;left:0;right:0;z-index:50;max-width:1180px;margin:0 auto;padding:0 24px;pointer-events:none;">
-      <div data-sticky-header-pill="" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;border-radius:999px;background:rgba(250,248,243,.85);backdrop-filter:blur(18px);border:1px solid #e5ddc9;box-shadow:0 8px 24px rgba(28,25,20,.08);pointer-events:none;opacity:0;transform:translateY(-14px);will-change:opacity,transform;">
+      <div data-sticky-header-pill="" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;border-radius:999px;background:rgba(250,248,243,.85);backdrop-filter:blur(18px);border:1px solid #e5ddc9;box-shadow:0 8px 24px rgba(28,25,20,.08);pointer-events:none;opacity:0;transform:translateY(-14px);will-change:opacity,transform;transition:opacity .3s ease,transform .3s ease;">
         <div style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:#B8862B;">.dev</span></div>
         <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:'Rubik',sans-serif;font-weight:700;font-size:14px;color:#3A2C0F;background:#B8862B;padding:11px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 10px 22px rgba(184,134,43,.3);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
       </div>
@@ -764,6 +960,13 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
         var heroBottom = hero.getBoundingClientRect().bottom;
         var t = (120 - heroBottom) / 160;
         t = Math.max(0, Math.min(1, t));
+        // The portfolio pins its own heading bar to the top; the pill would
+        // sit on top of it. Step aside while the bar is up there.
+        var work = document.querySelector('[data-work-stack]');
+        var panels = work && work.querySelectorAll('.work-panel');
+        if (panels && panels.length &&
+            work.getBoundingClientRect().top < 96 &&
+            panels[panels.length - 1].getBoundingClientRect().bottom > 96) t = 0;
         pill.style.opacity = t;
         pill.style.transform = 'translateY(' + ((1 - t) * -14) + 'px)';
         pill.style.pointerEvents = t > 0.05 ? 'auto' : 'none';
@@ -1209,7 +1412,6 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     <section class="process" id="process" aria-labelledby="process-title">
       <div class="process-body">
       <div class="process-head">
-        <p class="process-eyebrow">התהליך</p>
         <h2 class="process-title" id="process-title"><span>כל אתר מתחיל בשיחה,</span> <span class="process-title-quiet">לא בתבנית.</span></h2>
         <p class="process-sub">שבעה שלבים, מהפגישה הראשונה ועד שאתם מתפעלים את האתר לבד.</p>
         <ol class="process-index" data-process-index>
@@ -1349,12 +1551,172 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     })();
     </script>
 
+    <section class="work" id="portfolio" aria-labelledby="work-title">
+      <div class="work-stack" data-work-stack>
+        <!-- The heading is a bar pinned over the panels, in the colours of
+             whichever project is showing. -->
+        <header class="work-bar">
+          <h2 class="work-title" id="work-title">לא רק מה בניתי. <span>למה.</span></h2>
+          <p class="work-sub">בכל פרויקט יש החלטה אחת שכל השאר נבנה סביבה.</p>
+        </header>
+
+        <article class="work-panel work-panel--evently" aria-labelledby="work-evently">
+          <div class="work-inner">
+            <div class="work-text">
+              <div class="work-meta"><span class="work-count" dir="ltr">01 / 05</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <h3 class="work-name" id="work-evently">Evently</h3>
+              <p class="work-what">מכירת כרטיסים, חשבוניות וכניסה לאירועים</p>
+              <p class="work-label">ההחלטה</p>
+              <p class="work-decision">הכניסה לאירוע היא הרגע שהכי אסור לו להיכשל.</p>
+              <p class="work-why">מכירת כרטיסים יש בכל מקום. מה שמפיל ערב זה תור בכניסה. לכן מסך הסריקה קיבל הכי הרבה תשומת לב: מצלמה אחת, תשובה ברורה תוך שנייה, והתרעה מיידית על כרטיס שכבר נסרק. המכירה, החשבוניות והדוחות נבנו סביבו.</p>
+            </div>
+            <div class="work-media work-media--fan">
+              <figure class="work-device work-phone" style="--i:-1;--a:1"><img src="assets/work/evently-stats.webp" alt="Evently: מסך סטטיסטיקות המכירה" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:1;--a:1"><img src="assets/work/evently-events.webp" alt="Evently: רשימת האירועים" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:0;--a:0"><img src="assets/work/evently-scan.webp" alt="Evently: מסך סריקת הכרטיסים בכניסה" width="600" height="1253" loading="lazy" data-zoomable></figure>
+            </div>
+          </div>
+          <div class="work-shade" aria-hidden="true"></div>
+        </article>
+
+        <article class="work-panel work-panel--spoti" aria-labelledby="work-spoti">
+          <div class="work-inner">
+            <div class="work-text">
+              <div class="work-meta"><span class="work-count" dir="ltr">02 / 05</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <h3 class="work-name" id="work-spoti">Spoti</h3>
+              <p class="work-what">מסלולי סיור עם כרטיסים ומפה חיה</p>
+              <p class="work-label">ההחלטה</p>
+              <p class="work-decision">המבקר צריך להסתכל על הדרך, לא על הטלפון.</p>
+              <p class="work-why">לכן המידע על כל נקודה קופץ לבד כשמגיעים אליה, לפי המיקום על המפה, בלי לחפש ובלי להקליד. ובצד של המפעיל: דוח תנועת מבקרים, כדי לראות איפה אנשים עוצרים ואיפה הם ממשיכים הלאה.</p>
+            </div>
+            <div class="work-media work-media--system">
+              <figure class="work-device work-browser"><figcaption class="work-caption">צד המפעיל</figcaption><img src="assets/work/spoti-dashboard.webp" alt="Spoti: דוח תנועת מבקרים בממשק הניהול" width="1600" height="890" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:0;--a:0"><figcaption class="work-caption">צד המבקר</figcaption><img src="assets/work/spoti-map.webp" alt="Spoti: מפת המסלול עם מידע על נקודה לפי מיקום" width="600" height="1253" loading="lazy" data-zoomable></figure>
+            </div>
+          </div>
+          <div class="work-shade" aria-hidden="true"></div>
+        </article>
+
+        <article class="work-panel work-panel--yame" aria-labelledby="work-yame">
+          <div class="work-inner">
+            <div class="work-text">
+              <div class="work-meta"><span class="work-count" dir="ltr">03 / 05</span><a class="work-tag" href="#price-admin">#אתר_עם_ממשק_ניהול</a></div>
+              <h3 class="work-name" id="work-yame">YA-ME</h3>
+              <p class="work-what">הזמנת שולחנות למסעדה</p>
+              <p class="work-label">ההחלטה</p>
+              <p class="work-decision">הלקוח והצוות מסתכלים על אותו יומן.</p>
+              <p class="work-why">במסעדה אסור שיהיו שני מקורות אמת. לכן גם הלקוח באתר וגם הצוות במסעדה משריינים באותה מערכת: שולחן שנתפס בטלפון נעלם מהאתר באותו רגע, וכל הזמנה אפשר לשנות בכל רגע, מכל צד.</p>
+            </div>
+            <div class="work-media work-media--duo">
+              <figure class="work-device work-phone" style="--i:1;--a:0"><figcaption class="work-caption">הלקוח</figcaption><img src="assets/work/yame-guest.webp" alt="YA-ME: הזמנת שולחן מצד הלקוח" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:-1;--a:0"><figcaption class="work-caption">הצוות</figcaption><img src="assets/work/yame-staff.webp" alt="YA-ME: יומן כל ההזמנות מצד הצוות" width="600" height="1253" loading="lazy" data-zoomable></figure>
+            </div>
+          </div>
+          <div class="work-shade" aria-hidden="true"></div>
+        </article>
+
+        <article class="work-panel work-panel--viamar" aria-labelledby="work-viamar">
+          <div class="work-inner">
+            <div class="work-text">
+              <div class="work-meta"><span class="work-count" dir="ltr">04 / 05</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <h3 class="work-name" id="work-viamar">VIA MAR <span class="work-status">בהקמה</span></h3>
+              <p class="work-what">חנות תכשיטים אונליין</p>
+              <p class="work-label">ההחלטה</p>
+              <p class="work-decision">תכשיט קונים ברגש, לא בטבלת מפרט.</p>
+              <p class="work-why">לכן החנות נפתחת בסיפור ובתמונה אחת גדולה, לא ברשת של מוצרים. הקטגוריות הן עיגולים שמזהים במבט, והקופה קצרה ומאובטחת, כדי שההתלהבות לא תתקרר בדרך לתשלום.</p>
+            </div>
+            <div class="work-media work-media--pages">
+              <figure class="work-device work-browser"><img src="assets/work/viamar-shop.webp" alt="VIA MAR: קטגוריות והנמכרים ביותר" width="1600" height="885" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-browser"><img src="assets/work/viamar-home.webp" alt="VIA MAR: עמוד הבית, תכשיטים שמספרים סיפור" width="1600" height="888" loading="lazy" data-zoomable></figure>
+            </div>
+          </div>
+          <div class="work-shade" aria-hidden="true"></div>
+        </article>
+
+        <article class="work-panel work-panel--club" aria-labelledby="work-club">
+          <div class="work-inner">
+            <div class="work-text">
+              <div class="work-meta"><span class="work-count" dir="ltr">05 / 05</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <h3 class="work-name" id="work-club">Exclusive Club</h3>
+              <p class="work-what">מועדון לקוחות עם צד לקוח וצד ניהול</p>
+              <p class="work-label">ההחלטה</p>
+              <p class="work-decision">מועדון לקוחות שווה משהו רק אם חוזרים אליו.</p>
+              <p class="work-why">לכן כל החלטה בו נמדדה בשאלה אחת: האם זה גורם לחבר לחזור? ההטבות במרכז, ומהמשרד יוצא מבצע לכל החברים בלחיצה אחת, כי מה שדורש יותר מלחיצה פשוט לא קורה.</p>
+            </div>
+            <div class="work-media work-media--solo">
+              <figure class="work-device work-phone" style="--i:0;--a:0"><img src="assets/work/club-soon.webp" alt="Exclusive Club: תצוגה מקדימה בקרוב" width="600" height="1253" loading="lazy"></figure>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <script>
+    /* The work stack. Each panel is sticky, so where it "is" on screen stops
+       telling you how far along it is; its natural position is computed
+       instead, from the stack's top and the panels before it. From that come
+       --e, --h and --q (see the CSS). Nodes are looked up live on every frame:
+       the DC runtime re-renders the page after load. */
+    (function(){
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+      var raf = 0;
+      function update(){
+        raf = 0;
+        var stack = document.querySelector('[data-work-stack]');
+        if (!stack) return;
+        stack.setAttribute('data-ready', '');
+        var panels = stack.querySelectorAll('.work-panel');
+        var bar = stack.querySelector('.work-bar');
+
+        // The bar wears the colours of the panel docked beneath it: the last
+        // one whose top has passed the middle of the bar. (By then the panel
+        // before it is hidden everywhere but under the bar itself.)
+        var current = 0, line = bar ? bar.offsetHeight / 2 : 0;
+        for (var c = 0; c < panels.length; c++) if (panels[c].getBoundingClientRect().top <= line) current = c;
+        if (panels[current] && stack.getAttribute('data-current') !== String(current)) {
+          stack.setAttribute('data-current', current);
+          var cs = getComputedStyle(panels[current]);
+          ['bg', 'fg', 'accent', 'muted'].forEach(function(k){
+            stack.style.setProperty('--work-' + k, cs.getPropertyValue('--' + k).trim());
+          });
+        }
+
+        if (calm) return;                    // CSS defaults are the settled state
+        // The first panel sits at the very top of the stack (pulled up under
+        // the bar); each one after it a panel height and a --dwell further on.
+        var natural = stack.getBoundingClientRect().top;
+        for (var i = 0; i < panels.length; i++) {
+          var p = panels[i];
+          var h = p.offsetHeight, dwell = parseFloat(getComputedStyle(p).marginBottom) || 0;
+          var last = i === panels.length - 1;
+          p.style.setProperty('--e', clamp01(1 - natural / h).toFixed(3));
+          p.style.setProperty('--h', (dwell ? clamp01(-natural / dwell) : 1).toFixed(3));
+          // Nothing rises over the last panel: the whole stack scrolls away.
+          p.style.setProperty('--q', last ? '0' : clamp01((-natural - dwell) / h).toFixed(3));
+          natural += h + dwell;
+        }
+      }
+
+      function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      window.addEventListener('load', schedule);
+      new MutationObserver(function(){
+        var stack = document.querySelector('[data-work-stack]');
+        if (stack && !stack.hasAttribute('data-ready')) schedule();
+      }).observe(document.body, { childList: true, subtree: true });
+      update();
+    })();
+    </script>
+
     <section data-reveal="" style="padding:14px 0 90px;">
       <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">בחרו לפי מה שהעסק צריך למכור</h2>
       <p style="max-width:none;color:rgba(28,30,36,.65);font-size:17px;line-height:1.6;margin:0 0 40px;">כל חבילה כוללת אפיון, עיצוב, עלייה לאוויר וחודש ליווי.</p>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px;">
-        <div data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.55);background:rgba(184,134,43,.08);box-shadow:0 24px 60px rgba(184,134,43,.18);">
+        <div id="price-tadmit" data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.55);background:rgba(184,134,43,.08);box-shadow:0 24px 60px rgba(184,134,43,.18);">
           <div style="flex:1;">
           <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר תדמית</div>
           <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">עמוד תדמית פשוט שנותן לכם נוכחות מסודרת ברשת. מתאים למי שכבר מביא לקוחות בהמלצה או בטלפון, וצריך רק מקום שמייצג אתכם נכון כשמחפשים אתכם בגוגל.</p>
@@ -1372,7 +1734,7 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
           <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%AA%D7%93%D7%9E%D7%99%D7%AA%20%D7%91-1%2C800%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
         </div>
 
-        <div data-card3d="" style="position:relative;background:#ffffff;border:1px solid #B8862B;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s;" style-hover="transform:translateY(-8px);background:rgba(184,134,43,.06);box-shadow:0 24px 60px -16px rgba(184,134,43,.45);">
+        <div id="price-admin" data-card3d="" style="position:relative;background:#ffffff;border:1px solid #B8862B;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s;" style-hover="transform:translateY(-8px);background:rgba(184,134,43,.06);box-shadow:0 24px 60px -16px rgba(184,134,43,.45);">
           <div style="position:absolute;top:-11px;inset-inline-start:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.02em;padding:5px 12px;border-radius:999px;background:#B8862B;color:#3A2C0F;">הנבחרת ביותר</div>
           <div style="flex:1;">
           <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">אתר עם ממשק ניהול</div>
@@ -1390,7 +1752,7 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
           <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%D7%95%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A2%D7%9D%20%D7%9E%D7%9E%D7%A9%D7%A7%20%D7%A0%D7%99%D7%94%D7%95%D7%9C%20%D7%91-4%2C500%20%E2%82%AA" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:22px;font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:13px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,134,43,.3);color:#3A2C0F;">בואו נדבר</a>
         </div>
 
-        <div data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.6);background:rgba(184,134,43,.1);box-shadow:0 24px 60px rgba(184,134,43,.2);">
+        <div id="price-full" data-card3d="" style="position:relative;background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;padding:30px;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background .35s;" style-hover="transform:translateY(-8px);border-color:rgba(184,134,43,.6);background:rgba(184,134,43,.1);box-shadow:0 24px 60px rgba(184,134,43,.2);">
           <div style="flex:1;">
           <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;">מערכת מלאה</div>
           <p style="color:rgba(28,30,36,.62);font-size:16px;line-height:1.6;margin:10px 0 22px;">התהליך שגוזל לכם את היום (הזמנות, מועדון לקוחות, צוות) הופך למערכת שעובדת בשבילכם.</p>
@@ -1428,172 +1790,6 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       </div>
     </div>
 
-    <section id="portfolio" data-reveal="" style="padding:14px 0 90px;scroll-margin-top:24px;">
-      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 40px;">מערכות שכבר רצות בשטח</h2>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;">
-        <div data-slide-end="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="0" data-project-name="Evently" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
-          <div style="padding:24px;">
-            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">Evently</div>
-            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מכירה והנפקה של כרטיסים וחשבוניות, ניהול תשלומים מרוכז, וסריקת כרטיסים בכניסה לאירוע עם זיהוי מיידי של כרטיסים כפולים.</p>
-          </div>
-        </div>
-
-        <div data-slide-start="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="1" data-project-name="Spoti" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
-          <div style="padding:24px;">
-            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">Spoti</div>
-            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מכירת כרטיסי כניסה למסלול, צפייה אינטראקטיבית במסלול וקבלת מידע על נקודות לאורך הדרך, בזיהוי לפי מיקום על מפה חיה.</p>
-          </div>
-        </div>
-
-        <div data-slide-end="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.55);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="2" data-project-name="Exclusive Club" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.08);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
-          <div style="padding:24px;">
-            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">Exclusive Club</div>
-            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מועדון לקוחות עם צד לקוח וצד ניהול: הטבות, חברים חוזרים ובקרה מלאה מהמשרד. אפשר לשלוח מבצע לכל החברים בלחיצה.</p>
-          </div>
-        </div>
-
-        <div data-slide-start="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="3" data-project-name="מערכת אירוח למסעדה" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
-          <div style="padding:24px;">
-            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">מערכת אירוח למסעדה</div>
-            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">מערכת לניהול שולחנות שמורים במסעדה. גם הלקוח וגם הצוות יכולים לשריין שולחן, ואפשר לעדכן או לשנות הזמנה בכל רגע נתון.</p>
-          </div>
-        </div>
-
-        <div data-slide-end="" style="background:#ffffff;border:1px solid #e5ddc9;backdrop-filter:blur(18px);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px) scale(1.012);border-color:rgba(184,134,43,.5);box-shadow:0 12px 30px -16px rgba(28,25,20,.18);">
-          <div data-zoom="" data-project-index="4" data-project-name="חנות תכשיטים" style="aspect-ratio:16/10;background-image:repeating-linear-gradient(135deg,rgba(28,30,36,.045) 0 10px,rgba(28,30,36,0) 10px 20px);position:relative;overflow:hidden;background-color:rgba(184,134,43,.07);display:flex;align-items:center;justify-content:center;color:rgba(28,30,36,.4);"><div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg><span style="font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;">תצוגה מקדימה בקרוב</span></div></div>
-          <div style="padding:24px;">
-            <div style="font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;">חנות תכשיטים: בהקמה</div>
-            <p style="color:rgba(28,30,36,.65);font-size:16px;line-height:1.6;margin:8px 0 0;">חנות אונליין לתכשיטים עם עיצוב הניתן להתאמה אישית לפי המותג, ניהול מלאי ומשלוחים, הגדרת מבצעים והנחות, ותהליך רכישה מאובטח מקצה לקצה.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <script>
-    (function(){
-      // webp only: the png masters live in backups/pngs/, never at the site root,
-      // so probing for them was a guaranteed 404 per image on every page load.
-      var EXTS = ['webp'];
-      var MAX_PER_PROJECT = 12;
-
-      function probeImage(src){
-        return new Promise(function(resolve){
-          var img = new Image();
-          img.onload = function(){ resolve(src); };
-          img.onerror = function(){ resolve(null); };
-          img.src = src;
-        });
-      }
-
-      function probeIndex(projectIndex, imageIndex){
-        var candidates = EXTS.map(function(ext){ return 'project-' + projectIndex + '-' + imageIndex + '.' + ext; });
-        return Promise.all(candidates.map(probeImage)).then(function(results){
-          for (var i = 0; i < results.length; i++) if (results[i]) return results[i];
-          return null;
-        });
-      }
-
-      function collectImages(projectIndex){
-        var found = [];
-        function step(i){
-          if (i >= MAX_PER_PROJECT) return Promise.resolve(found);
-          return probeIndex(projectIndex, i).then(function(src){
-            if (!src) return found;
-            found.push(src);
-            return step(i + 1);
-          });
-        }
-        return step(0);
-      }
-
-      function buildCarousel(urls, projectName){
-        var wrap = document.createElement('div');
-        wrap.className = 'proj-carousel';
-        wrap.setAttribute('data-carousel', '');
-        wrap.style.cssText = 'aspect-ratio:4/5;position:relative;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,rgba(255,255,255,.08),rgba(255,255,255,.02) 70%);';
-
-        urls.forEach(function(src, n){
-          var img = document.createElement('img');
-          img.src = src;
-          img.alt = projectName
-            ? (urls.length > 1
-                ? projectName + ' - צילום מסך ' + (n + 1) + ' מתוך ' + urls.length
-                : projectName + ' - צילום מסך')
-            : '';
-          img.setAttribute('data-slide-img', '');
-          img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;padding:18px;opacity:' + (n === 0 ? '1' : '0') + ';transition:opacity .5s ease;cursor:zoom-in;';
-          wrap.appendChild(img);
-        });
-
-        if (urls.length > 1){
-          var prev = document.createElement('button');
-          prev.type = 'button'; prev.className = 'proj-carousel-prev'; prev.setAttribute('aria-label', 'התמונה הקודמת'); prev.textContent = '›';
-          prev.style.cssText = 'position:absolute;top:50%;right:10px;transform:translateY(-50%);width:30px;height:30px;border-radius:999px;border:none;background:rgba(5,8,31,.55);color:#fff;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(6px);z-index:2;direction:ltr;';
-
-          var next = document.createElement('button');
-          next.type = 'button'; next.className = 'proj-carousel-next'; next.setAttribute('aria-label', 'התמונה הבאה'); next.textContent = '‹';
-          next.style.cssText = 'position:absolute;top:50%;left:10px;transform:translateY(-50%);width:30px;height:30px;border-radius:999px;border:none;background:rgba(5,8,31,.55);color:#fff;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(6px);z-index:2;direction:ltr;';
-
-          var dots = document.createElement('div');
-          dots.className = 'proj-carousel-dots';
-          dots.style.cssText = 'position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:2;';
-          urls.forEach(function(_, n){
-            var d = document.createElement('button');
-            d.type = 'button'; d.className = 'proj-carousel-dot'; d.setAttribute('data-index', n); d.setAttribute('aria-label', 'עבור לתמונה ' + (n + 1));
-            d.style.cssText = 'width:7px;height:7px;border-radius:999px;border:none;padding:0;cursor:pointer;background:' + (n === 0 ? 'rgba(255,255,255,.9)' : 'rgba(255,255,255,.35)') + ';';
-            dots.appendChild(d);
-          });
-
-          wrap.appendChild(prev);
-          wrap.appendChild(next);
-          wrap.appendChild(dots);
-        }
-
-        return wrap;
-      }
-
-      function initCarousel(root){
-        var imgs = root.querySelectorAll('[data-slide-img]');
-        if (imgs.length < 2) return;
-        var dots = root.querySelectorAll('.proj-carousel-dot');
-        var idx = 0, timer;
-        function show(i){
-          idx = (i + imgs.length) % imgs.length;
-          imgs.forEach(function(img, n){ img.style.opacity = n === idx ? '1' : '0'; });
-          dots.forEach(function(d, n){ d.style.background = n === idx ? 'rgba(255,255,255,.9)' : 'rgba(255,255,255,.35)'; });
-        }
-        function next(){ show(idx + 1); }
-        function prev(){ show(idx - 1); }
-        function restart(){ clearInterval(timer); timer = setInterval(next, 4000); }
-        root.querySelector('.proj-carousel-next').addEventListener('click', function(e){ e.preventDefault(); next(); restart(); });
-        root.querySelector('.proj-carousel-prev').addEventListener('click', function(e){ e.preventDefault(); prev(); restart(); });
-        dots.forEach(function(d, n){ d.addEventListener('click', function(e){ e.preventDefault(); show(n); restart(); }); });
-        restart();
-      }
-
-      var indices = Array.from(document.querySelectorAll('[data-project-index]')).map(function(slot){
-        return {
-          index: slot.getAttribute('data-project-index'),
-          name: slot.getAttribute('data-project-name') || ''
-        };
-      });
-      indices.forEach(function(project){
-        var pidx = project.index;
-        collectImages(pidx).then(function(urls){
-          if (!urls.length) return;
-          var freshSlot = document.querySelector('[data-project-index="' + pidx + '"]');
-          if (!freshSlot) return;
-          var carousel = buildCarousel(urls, project.name);
-          freshSlot.replaceWith(carousel);
-          initCarousel(carousel);
-        });
-      });
-    })();
-    </script>
 
     <script>
     (function(){
@@ -1628,7 +1824,7 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       }
 
       document.addEventListener('click', function(e){
-        var img = e.target.closest && e.target.closest('[data-slide-img]');
+        var img = e.target.closest && e.target.closest('[data-zoomable]');
         if (img) openLightbox(img.src, img.alt);
       });
     })();
