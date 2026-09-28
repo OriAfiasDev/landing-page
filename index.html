@@ -1169,6 +1169,67 @@ summary{list-style:none}
   .faq-item summary{padding:20px 0}
 }
 </style>
+<style>
+/* ---------- outro ----------
+   The page's last word, and a bookend to the hero: huge type, the waving
+   avatar again (already cached from the hero), two ways forward. The
+   avatar is the hero's recipe — box W wide and 1.15W tall, disc on the
+   bottom edge, head breaking out of it — cropped by the section's bottom
+   so it stands on the footer's rule. */
+.outro{
+  --w:clamp(230px,27vw,400px);
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:clamp(32px,5vw,80px);
+  padding-top:clamp(80px,14vh,160px);overflow:clip;
+}
+.outro-text{align-self:center;padding-bottom:clamp(56px,10vh,112px)}
+.outro-title{margin:0;font-weight:900;font-size:clamp(40px,5.6vw,84px);line-height:1;letter-spacing:-.04em;color:#1C1E24}
+.outro-title span{display:block}
+.outro-title span:first-child{margin-bottom:.12em;font-size:.42em;letter-spacing:-.02em;color:#93897A}
+.outro-sub{margin:22px 0 0;max-width:46ch;font-size:clamp(17px,1.45vw,20px);line-height:1.6;color:rgba(28,30,36,.7);text-wrap:pretty}
+.outro-actions{display:flex;align-items:center;flex-wrap:wrap;gap:14px 16px;margin-top:clamp(28px,4.5vh,44px)}
+.outro-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;
+  font-weight:700;font-size:clamp(17px,1.4vw,19px);padding:19px 30px;border-radius:999px;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s ease,background-color .25s ease,color .25s ease;
+}
+.outro-btn svg{flex:none}
+.outro-btn:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
+.outro-btn--main{color:#3A2C0F;background:#B8862B;box-shadow:0 10px 28px rgba(184,134,43,.28)}
+.outro-btn--main:hover{color:#3A2C0F;background:#D7A53F;transform:translateY(-2px);box-shadow:0 16px 36px rgba(184,134,43,.36)}
+.outro-btn--main svg{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.outro-btn--main:hover svg{transform:translateX(-4px)}
+.outro-btn--chat{color:#1C1E24;border:1.5px solid #1C1E24;padding:17.5px 28px}
+.outro-btn--chat svg{width:20px;height:20px}
+.outro-btn--chat:hover{color:#FAF8F3;background:#1C1E24}
+
+.outro-avatar{
+  position:relative;width:var(--w);aspect-ratio:1/1.15;
+  margin-bottom:calc(var(--w) * -.2);    /* the fold: a fifth of the disc sinks under the footer's rule */
+}
+.outro-avatar::before{
+  content:"";position:absolute;left:0;right:0;bottom:0;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 50% 38%,#F4EBD8,#E4D2AC);
+}
+.outro-avatar img{
+  position:absolute;bottom:0;left:50%;width:125%;max-width:none;height:auto;transform:translateX(-50%);
+  -webkit-mask-image:radial-gradient(40% 40% at 50% 60%,#000 99.4%,transparent 100%),linear-gradient(#000,#000);
+          mask-image:radial-gradient(40% 40% at 50% 60%,#000 99.4%,transparent 100%),linear-gradient(#000,#000);
+  -webkit-mask-size:100% 100%,100% 60%;mask-size:100% 100%,100% 60%;
+  -webkit-mask-position:0 0,0 0;mask-position:0 0,0 0;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+}
+
+@media (max-width:900px){
+  .outro{--w:min(64vw,300px);grid-template-columns:1fr;justify-items:center;text-align:center;row-gap:8px}
+  .outro-text{padding-bottom:0}
+  .outro-sub{margin-inline:auto}
+  .outro-actions{justify-content:center}
+}
+@media (max-width:640px){
+  .outro{padding-top:72px}
+  .outro-actions{flex-direction:column;align-items:stretch;width:100%}
+}
+</style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
 
@@ -2243,10 +2304,26 @@ summary{list-style:none}
       </div>
     </section>
 
-    <section data-reveal="" style="padding:14px 0 96px;text-align:center;">
-      <h2 data-sticky-pop="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(30px,5vw,60px);letter-spacing:-.035em;line-height:1.06;margin:0 auto 18px;max-width:22ch;">נשארה שאלה אחת: כמה זמן עוד תחכו?</h2>
-      <p style="color:rgba(28,30,36,.68);font-size:18px;line-height:1.6;max-width:44ch;margin:0 auto 34px;">שלחו הודעה עם שתי שורות על העסק, ואחזור עם הצעה, לוח זמנים ומחיר סגור.</p>
-      <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;font-family:'Rubik',sans-serif;font-weight:700;font-size:clamp(18px,2.4vw,22px);color:#3A2C0F;background:#B8862B;padding:20px 40px;border-radius:999px;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;box-shadow:0 10px 28px rgba(184,134,43,.28);" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(184,134,43,.4);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
+    <!-- The close mirrors the opening: the same waving avatar, standing on
+         the footer's rule the way it stands on the fold in the hero. -->
+    <section class="outro" aria-labelledby="outro-title">
+      <div class="outro-text">
+        <h2 class="outro-title" id="outro-title"><span>נשארה שאלה אחת:</span> <span>כמה זמן עוד תחכו?</span></h2>
+        <p class="outro-sub">דמו אמיתי של האתר שלכם תוך יום-יומיים, בחינם. או שתי שורות על העסק בוואטסאפ, ואחזור עם הצעה, לוח זמנים ומחיר סגור.</p>
+        <div class="outro-actions">
+          <a class="outro-btn outro-btn--main" href="/demo/">
+            קבלו דמו בחינם
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M19 7H2M7.5 1.5 2 7l5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="outro-btn outro-btn--chat" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            דברו איתי בוואטסאפ
+          </a>
+        </div>
+      </div>
+      <div class="outro-avatar" aria-hidden="true">
+        <img src="assets/img/ori.webp" alt="" width="1040" height="1040" loading="lazy">
+      </div>
     </section>
 
     <footer style="border-top:1px solid #e5ddc9;padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;font-size:14px;color:rgba(28,30,36,.5);">
