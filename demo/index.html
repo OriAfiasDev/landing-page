@@ -13,7 +13,7 @@
     <title>דמו חינם לאתר שלכם | afias.dev</title>
     <meta
       name="description"
-      content="נבנה לכם דמו אמיתי של אתר לעסק, בחינם ובלי התחייבות. לא סקיצה - אתר עובד. ממלאים פרטים בפחות משתי דקות ומקבלים קישור תוך יום-יומיים."
+      content="נבנה לכם דמו אמיתי של אתר לעסק, בחינם ובלי התחייבות. לא סקיצה - אתר עובד. מספרים לי על העסק בפגישת היכרות חינם, ותוך יום-יומיים מקבלים קישור לדמו."
     />
 
     <meta property="og:type" content="website" />
@@ -163,473 +163,265 @@
     </script>
 
     <style>
+      /* The same language as the homepage: paper and ink, brass for the one
+         thing to press, huge Rubik 900 headings split into a quiet lead-in
+         and a loud line, and the avatar standing on a fold. */
       :root {
         --paper: #faf8f3;
+        --paper-deep: #f1ede3;
         --ink: #1c1e24;
         --brass: #b8862b;
         --brass-light: #d7a53f;
         --brass-text: #3a2c0f;
         --line: #e5ddc9;
-        --muted: rgba(28, 30, 36, 0.65);
-        --muted-soft: rgba(28, 30, 36, 0.55);
+        --quiet: #93897a;
+        --muted: rgba(28, 30, 36, 0.68);
+        --muted-soft: rgba(28, 30, 36, 0.52);
       }
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        background: var(--paper);
-      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; background: var(--paper); }
       body {
         font-family: "Rubik", system-ui, sans-serif;
         color: var(--ink);
         -webkit-font-smoothing: antialiased;
       }
-      a {
-        color: var(--brass);
-        text-decoration: none;
-      }
-      a:hover {
-        color: var(--brass-light);
-      }
+      a { color: var(--brass); text-decoration: none; }
+      a:hover { color: var(--brass-light); }
 
-      .wrap {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 0 24px;
-      }
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
-      .glow {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        overflow: hidden;
-      }
+      .glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
       .glow > div {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(
-          120% 70% at 50% 0%,
-          rgba(184, 134, 43, 0.06) 0%,
-          rgba(184, 134, 43, 0) 60%
-        );
+        position: absolute; inset: 0;
+        background: radial-gradient(120% 70% at 50% 0%, rgba(184, 134, 43, 0.06) 0%, rgba(184, 134, 43, 0) 60%);
       }
-      main {
-        position: relative;
-        z-index: 1;
-      }
+      main { position: relative; z-index: 1; }
 
       /* ---------- header ---------- */
-      .site-header {
-        padding: 28px 0 0;
-      }
+      .site-header { padding: 28px 0 0; }
       .wordmark {
-        font-family: "Frank Ruhl Libre", serif;
-        font-weight: 700;
-        font-size: 26px;
-        direction: ltr;
-        display: inline-flex;
-        align-items: baseline;
-        gap: 2px;
-        color: var(--ink);
+        font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: 26px;
+        direction: ltr; display: inline-flex; align-items: baseline; gap: 2px; color: var(--ink);
       }
-      .wordmark span {
-        font-family: "JetBrains Mono", monospace;
-        font-weight: 700;
-        font-size: 17px;
-        color: var(--brass);
+      .wordmark:hover { color: var(--ink); }
+      .wordmark span { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 17px; color: var(--brass); }
+
+      /* ---------- shared ---------- */
+      h1, h2 { margin: 0; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+      h2 { font-size: clamp(34px, 4.4vw, 60px); line-height: 1.04; letter-spacing: -0.035em; }
+      .split span { display: block; }
+      .split .lead-in { margin-bottom: 0.14em; font-size: 0.42em; line-height: 1.2; letter-spacing: -0.02em; color: var(--quiet); }
+      .lead { margin: 18px 0 0; max-width: 46ch; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.6; color: var(--muted); text-wrap: pretty; }
+      section { padding: clamp(64px, 11vh, 128px) 0 0; }
+
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 12px; white-space: nowrap;
+        font-family: "Rubik", sans-serif; font-weight: 700; font-size: clamp(17px, 1.4vw, 19px);
+        color: var(--brass-text); background: var(--brass);
+        padding: 19px 32px; border-radius: 999px; border: 0; cursor: pointer;
+        box-shadow: 0 10px 28px rgba(184, 134, 43, 0.28);
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, background-color 0.25s;
+      }
+      .btn:hover { color: var(--brass-text); background: var(--brass-light); transform: translateY(-2px); box-shadow: 0 16px 36px rgba(184, 134, 43, 0.36); }
+      .btn:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 4px; }
+      .btn:disabled { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
+      .btn svg { flex: none; }
+
+      /* The waving/pointing avatar, as on the homepage: box W wide and 1.15W
+         tall, disc on the bottom edge, head breaking out of it. */
+      .avatar { position: relative; width: var(--w); aspect-ratio: 1 / 1.15; }
+      .avatar::before {
+        content: ""; position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 1; border-radius: 50%;
+        background: radial-gradient(circle at 50% 38%, #f4ebd8, #e4d2ac);
+      }
+      .avatar img {
+        position: absolute; bottom: 0; left: 50%; width: 125%; max-width: none; height: auto; transform: translateX(-50%);
+        -webkit-mask-image: radial-gradient(40% 40% at 50% 60%, #000 99.4%, transparent 100%), linear-gradient(#000, #000);
+                mask-image: radial-gradient(40% 40% at 50% 60%, #000 99.4%, transparent 100%), linear-gradient(#000, #000);
+        -webkit-mask-size: 100% 100%, 100% 60%; mask-size: 100% 100%, 100% 60%;
+        -webkit-mask-position: 0 0, 0 0; mask-position: 0 0, 0 0;
+        -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
       }
 
       /* ---------- hero ---------- */
+      /* The avatar stands on the hero's bottom rule, a fifth of the disc
+         sunk under it, pointing up at the headline. */
       .hero {
-        padding: 64px 0 8px;
+        --w: clamp(240px, 26vw, 380px);
+        display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: clamp(32px, 5vw, 80px);
+        padding-top: clamp(48px, 9vh, 104px);
+        border-bottom: 1px solid var(--line); overflow: clip;
       }
-      .hero h1 {
-        font-family: "Rubik", sans-serif;
-        font-weight: 500;
-        font-size: clamp(34px, 5.4vw, 60px);
-        line-height: 1.14;
-        letter-spacing: -0.02em;
-        margin: 0;
-        max-width: 20ch;
-        text-wrap: balance;
-      }
-      .hero h1 em {
-        font-style: normal;
-        color: var(--brass);
-      }
-      .hero .sub {
-        font-size: clamp(18px, 2.2vw, 22px);
-        line-height: 1.62;
-        color: var(--muted);
-        max-width: 52ch;
-        margin: 26px 0 0;
-        text-wrap: pretty;
-      }
-
-      .btn {
-        display: inline-block;
-        font-family: "Rubik", sans-serif;
-        font-weight: 700;
-        font-size: 17px;
-        color: var(--brass-text);
-        background: var(--brass);
-        padding: 17px 32px;
-        border-radius: 999px;
-        border: 0;
-        cursor: pointer;
-        box-shadow: 0 8px 24px rgba(184, 134, 43, 0.22);
-        transition:
-          transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
-          box-shadow 0.28s;
-      }
-      .btn:hover {
-        transform: translateY(-4px) scale(1.03);
-        box-shadow: 0 18px 34px rgba(184, 134, 43, 0.35);
-        color: var(--brass-text);
-      }
-      .btn:disabled {
-        opacity: 0.55;
-        cursor: default;
-        transform: none;
-        box-shadow: none;
-      }
-      .hero .btn {
-        margin-top: 34px;
-      }
-
-      /* ---------- sections ---------- */
-      section {
-        padding: 70px 0;
-      }
-      h2 {
-        font-family: "Rubik", sans-serif;
-        font-weight: 900;
-        font-size: clamp(26px, 3.6vw, 40px);
-        letter-spacing: -0.03em;
-        line-height: 1.14;
-        margin: 0 0 14px;
-      }
-      .lead {
-        color: var(--muted);
-        font-size: 17px;
-        line-height: 1.6;
-        margin: 0 0 36px;
-      }
+      .hero-text { align-self: center; padding-bottom: clamp(48px, 9vh, 104px); }
+      .hero h1 { font-size: clamp(44px, 6vw, 92px); }
+      .hero h1 .lead-in { font-size: 0.36em; }
+      .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: clamp(28px, 4.5vh, 44px); }
+      .hero-note { font-size: 15px; color: var(--muted-soft); }
+      .hero .avatar { margin-bottom: calc(var(--w) * -0.2); }
 
       /* ---------- steps ---------- */
+      .steps-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px 40px; }
       .steps {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 20px;
+        list-style: none; margin: clamp(32px, 5vh, 48px) 0 0; padding: 0;
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;
       }
       .step {
-        background: #fff;
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        padding: 28px;
-        transition:
-          transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-          box-shadow 0.35s,
-          border-color 0.35s;
-      }
-      .step:hover {
-        transform: translateY(-8px);
-        border-color: rgba(184, 134, 43, 0.55);
-        box-shadow: 0 24px 60px rgba(184, 134, 43, 0.18);
+        position: relative; padding: clamp(26px, 2.6vw, 34px); border-radius: 24px;
+        background: #fff; border: 1px solid var(--line);
+        box-shadow: 0 1px 0 rgba(28, 25, 20, 0.03), 0 24px 48px -36px rgba(28, 25, 20, 0.3);
       }
       .step .n {
-        font-family: "JetBrains Mono", monospace;
-        font-weight: 700;
-        font-size: 15px;
-        color: var(--brass);
-        display: block;
-        margin-bottom: 12px;
+        display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+        border: 1px solid rgba(184, 134, 43, 0.4);
+        font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 13px; color: var(--brass);
       }
-      .step h3 {
-        font-size: 19px;
-        font-weight: 700;
-        margin: 0 0 8px;
-        letter-spacing: -0.01em;
-      }
-      .step p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.6;
-      }
+      .step h3 { margin: 20px 0 8px; font-size: clamp(20px, 1.7vw, 23px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.25; }
+      .step p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
 
-      /* ---------- before/after showcase ---------- */
-      .showcase-tabs {
-        display: flex;
-        gap: 10px;
-        margin: 0 0 16px;
+      /* ---------- before/after, in an ink card ---------- */
+      .show-card {
+        position: relative; overflow: hidden;
+        padding: clamp(28px, 4vw, 56px); border-radius: 32px;
+        background: var(--ink); color: var(--paper);
       }
+      .show-card::before {   /* a low brass glow, nothing more */
+        content: ""; position: absolute; left: -12%; bottom: -45%; width: 60%; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+        background: radial-gradient(closest-side, rgba(184, 134, 43, 0.2), rgba(184, 134, 43, 0));
+      }
+      .show-card > * { position: relative; }
+      .show-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px 40px; margin-bottom: clamp(24px, 4vh, 40px); }
+      .show-head h2 { font-size: clamp(28px, 3.2vw, 44px); }
+
+      .showcase-tabs { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(250, 248, 243, 0.08); }
       .showcase-tabs button {
-        font-family: "Rubik", sans-serif;
-        font-weight: 700;
-        font-size: 15px;
-        color: var(--muted);
-        background: #fff;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 10px 24px;
-        cursor: pointer;
-        transition:
-          background 0.25s,
-          border-color 0.25s,
-          color 0.25s;
+        border: 0; border-radius: 999px; padding: 10px 24px; cursor: pointer; background: transparent;
+        font-family: "Rubik", sans-serif; font-weight: 700; font-size: 15px; color: rgba(250, 248, 243, 0.7);
+        transition: background-color 0.25s, color 0.25s;
       }
-      .showcase-tabs button:hover {
-        border-color: rgba(184, 134, 43, 0.55);
-        color: var(--ink);
-      }
-      .showcase-tabs button[aria-selected="true"] {
-        background: var(--brass);
-        border-color: var(--brass);
-        color: var(--brass-text);
-      }
-      .showcase-tabs button:focus-visible {
-        outline: 3px solid var(--brass-light);
-        outline-offset: 2px;
-      }
+      .showcase-tabs button:hover { color: var(--paper); }
+      .showcase-tabs button[aria-selected="true"] { background: var(--paper); color: var(--ink); }
+      .showcase-tabs button:focus-visible { outline: 2px solid var(--brass-light); outline-offset: 2px; }
 
+      .browser {
+        border-radius: 16px; overflow: hidden; background: #0e0f13;
+        box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(250, 248, 243, 0.07);
+      }
+      .browser::before {   /* window chrome */
+        content: ""; display: block; height: 34px; background: #26282f;
+        background-image: radial-gradient(circle, #e0605a 4.5px, transparent 5px), radial-gradient(circle, #e3b341 4.5px, transparent 5px), radial-gradient(circle, #5dbb63 4.5px, transparent 5px);
+        background-size: 16px 34px; background-repeat: no-repeat; background-position: 16px 0, 34px 0, 52px 0;
+      }
       .showcase {
-        position: relative;
-        overflow: hidden;
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        background: #111;
+        position: relative; overflow: hidden; background: #0e0f13;
         /* Starting shape only. JS retunes this to whichever recording is showing,
            so a portrait capture doesn't sit in a letterboxed strip. */
-        aspect-ratio: 16/9;
-        max-height: 78vh;
+        aspect-ratio: 16 / 9; max-height: 74vh;
         transition: aspect-ratio 0.4s ease;
       }
       .showcase video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        display: block;
+        position: absolute; inset: 0; width: 100%; height: 100%; display: block;
         /* contain, never cover: the whole frame has to be visible, and the two
            recordings may not share an aspect ratio. */
-        object-fit: contain;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
+        object-fit: contain; opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
       }
-      .showcase video[data-active] {
-        opacity: 1;
-      }
+      .showcase video[data-active] { opacity: 1; }
       /* The old site reads as the duller one without being misrepresented. */
-      .showcase video.before {
-        filter: saturate(0.55) brightness(0.94);
-      }
-
+      .showcase video.before { filter: saturate(0.55) brightness(0.94); }
       .showcase .playpause {
-        position: absolute;
-        right: 16px;
-        bottom: 16px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 0;
-        background: rgba(17, 17, 17, 0.7);
-        backdrop-filter: blur(6px);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding: 0;
-        z-index: 2;
+        position: absolute; right: 16px; bottom: 16px; z-index: 2;
+        width: 42px; height: 42px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(17, 17, 17, 0.7); backdrop-filter: blur(6px); color: #fff;
       }
-      .showcase .playpause:focus-visible {
-        outline: 3px solid var(--brass-light);
-        outline-offset: 3px;
-      }
+      .showcase .playpause:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 3px; }
 
-      @media (max-width: 640px) {
-        .showcase-tabs button {
-          flex: 1;
-          padding: 10px 12px;
-        }
+      /* ---------- no catch ---------- */
+      .catch { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+      .notes { display: grid; gap: 20px; }
+      .note { margin: 0; padding: clamp(26px, 2.8vw, 36px); border-radius: 24px; background: #fff; border: 1px solid var(--line); }
+      .note h3 { margin: 0 0 12px; font-size: 15px; font-weight: 700; color: var(--brass); }
+      .note p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--muted); }
+      /* The "why free" answer is a first-person statement: set it as one. */
+      .note--quote blockquote {
+        margin: 0; font-family: "Frank Ruhl Libre", serif; font-weight: 700;
+        font-size: clamp(22px, 2.1vw, 30px); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); text-wrap: pretty;
       }
-
-      /* ---------- notes ---------- */
-      .notes {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 20px;
+      .note--quote figcaption { display: flex; align-items: center; gap: 12px; margin-top: 22px; font-size: 15px; font-weight: 500; color: var(--muted-soft); }
+      .face {
+        flex: none; position: relative; width: 40px; height: 40px; border-radius: 50%; overflow: hidden;
+        background: radial-gradient(circle at 50% 38%, #f4ebd8, #e4d2ac);
       }
-      .note {
-        background: #fff;
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        padding: 28px;
-      }
-      .note h3 {
-        font-size: 18px;
-        font-weight: 700;
-        margin: 0 0 10px;
-        letter-spacing: -0.01em;
-      }
-      .note p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.62;
-      }
+      .face img { position: absolute; width: 190%; max-width: none; height: auto; left: -53%; top: -14%; }
 
       /* ---------- form ---------- */
+      .start { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; padding-bottom: clamp(72px, 12vh, 140px); }
+      .start-head { position: sticky; top: 32px; }
+      .assure { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500; }
+      .assure li { display: flex; align-items: center; gap: 10px; }
+      .assure li::before {
+        content: ""; flex: none; width: 20px; height: 20px; border-radius: 50%;
+        background: rgba(184, 134, 43, 0.14) center / 11px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.3l2.2 2.2L9.5 3.5' fill='none' stroke='%23B8862B' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      }
+
       .form-card {
-        background: #fff;
-        border: 1px solid var(--line);
-        border-radius: 28px;
-        padding: clamp(24px, 4vw, 40px);
-        box-shadow: 0 24px 60px rgba(28, 25, 20, 0.06);
+        background: #fff; border: 1px solid var(--line); border-radius: 28px;
+        padding: clamp(24px, 3.6vw, 44px);
+        box-shadow: 0 1px 0 rgba(28, 25, 20, 0.03), 0 30px 60px -36px rgba(28, 25, 20, 0.3);
       }
-      .field {
-        margin-bottom: 20px;
+      .field { margin-bottom: 20px; }
+      .field label { display: block; font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+      .field .opt { font-weight: 400; color: var(--muted-soft); font-size: 14px; }
+      .field input, .field textarea {
+        width: 100%; font-family: "Rubik", sans-serif; font-size: 16px; color: var(--ink);
+        background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px;
+        transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       }
-      .field label {
-        display: block;
-        font-weight: 700;
-        font-size: 16px;
-        margin-bottom: 8px;
+      .field input:focus, .field textarea:focus {
+        outline: none; background: #fff; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(184, 134, 43, 0.15);
       }
-      .field .opt {
-        font-weight: 400;
-        color: var(--muted-soft);
-        font-size: 14px;
-      }
-      .field input,
-      .field textarea {
-        width: 100%;
-        font-family: "Rubik", sans-serif;
-        font-size: 16px;
-        color: var(--ink);
-        background: var(--paper);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 14px 16px;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
-      }
-      .field input:focus,
-      .field textarea:focus {
-        outline: none;
-        border-color: var(--brass);
-        box-shadow: 0 0 0 3px rgba(184, 134, 43, 0.15);
-      }
-      .field textarea {
-        min-height: 110px;
-        resize: vertical;
-      }
-      .hp {
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-      }
+      .field textarea { min-height: 116px; resize: vertical; }
+      .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+      .form-card .btn { width: 100%; margin-top: 4px; }
 
       .form-error {
-        margin: 0 0 18px;
-        padding: 14px 16px;
-        border-radius: 14px;
-        font-size: 15px;
-        line-height: 1.55;
-        background: rgba(176, 58, 46, 0.08);
-        border: 1px solid rgba(176, 58, 46, 0.25);
-        color: #8e2f26;
+        margin: 0 0 18px; padding: 14px 16px; border-radius: 14px; font-size: 15px; line-height: 1.55;
+        background: rgba(176, 58, 46, 0.08); border: 1px solid rgba(176, 58, 46, 0.25); color: #8e2f26;
       }
-      .form-note {
-        margin: 16px 0 0;
-        font-size: 14px;
-        color: var(--muted-soft);
-        line-height: 1.6;
-      }
+      .form-note { margin: 16px 0 0; font-size: 14px; color: var(--muted-soft); line-height: 1.6; text-align: center; }
+      .step2-lead { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: var(--muted); }
 
-      .success {
-        background: rgba(184, 134, 43, 0.08);
-        border: 1px solid rgba(184, 134, 43, 0.45);
-        border-radius: 24px;
-        padding: 28px;
-        margin-bottom: 28px;
+      .success, .done {
+        border-radius: 20px; padding: 24px 26px; margin-bottom: 26px;
+        background: rgba(184, 134, 43, 0.08); border: 1px solid rgba(184, 134, 43, 0.4);
       }
-      .success h3 {
-        margin: 0 0 8px;
-        font-size: 20px;
-        font-weight: 900;
-        letter-spacing: -0.02em;
-      }
-      .success p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.62;
-      }
-
-      .done {
-        background: rgba(184, 134, 43, 0.08);
-        border: 1px solid rgba(184, 134, 43, 0.45);
-        border-radius: 24px;
-        padding: 28px;
-        text-align: center;
-      }
-      .done h3 {
-        margin: 0 0 8px;
-        font-size: 20px;
-        font-weight: 900;
-        letter-spacing: -0.02em;
-      }
-      .done p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.62;
-      }
+      .done { margin-bottom: 0; text-align: center; padding: 36px 28px; }
+      .success h3, .done h3 { margin: 0 0 6px; font-size: 21px; font-weight: 900; letter-spacing: -0.02em; }
+      .success p, .done p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
 
       /* ---------- footer ---------- */
-      footer {
-        padding: 60px 0 48px;
-        border-top: 1px solid var(--line);
-        margin-top: 40px;
-      }
-      .footer-inner {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        align-items: center;
-        justify-content: space-between;
-      }
-      footer .muted {
-        color: var(--muted-soft);
-        font-size: 15px;
-      }
+      footer { border-top: 1px solid var(--line); }
+      .footer-inner { display: flex; align-items: baseline; justify-content: center; gap: 8px; padding: 30px 24px 44px; font-size: 14px; color: var(--muted-soft); }
+      .footer-inner .wordmark { font-size: 22px; }
+      .footer-inner .wordmark span { font-size: 14px; }
 
+      @media (max-width: 900px) {
+        .hero { --w: min(62vw, 300px); grid-template-columns: 1fr; justify-items: center; text-align: center; row-gap: 12px; }
+        .hero-text { padding-bottom: 0; }
+        .hero .lead { margin-inline: auto; }
+        .hero-actions { justify-content: center; }
+        .steps { grid-template-columns: 1fr; }
+        .catch, .start { grid-template-columns: 1fr; gap: 28px; }
+        .start-head { position: static; }
+      }
       @media (max-width: 640px) {
-        .hero {
-          padding: 44px 0 0;
-        }
-        section {
-          padding: 52px 0;
-        }
-        .btn {
-          width: 100%;
-          text-align: center;
-        }
+        .hero-actions { flex-direction: column; align-items: stretch; }
+        .show-card { padding: 24px 18px; border-radius: 24px; }
+        .show-head { flex-direction: column; align-items: stretch; }
+        .showcase-tabs button { flex: 1; }
+        .form-card { padding: 24px 20px; border-radius: 24px; }
       }
       @media (prefers-reduced-motion: reduce) {
-        * {
-          transition-duration: 0.001ms !important;
-        }
+        * { transition-duration: 0.001ms !important; }
       }
     </style>
   </head>
@@ -639,119 +431,123 @@
     <main dir="rtl">
       <header class="site-header">
         <div class="wrap">
-          <a href="/" class="wordmark" style="color: inherit"
-            >afias<span>.dev</span></a
-          >
+          <a href="/" class="wordmark">afias<span>.dev</span></a>
         </div>
       </header>
 
       <div class="wrap">
-        <section class="hero">
-          <h1>
-            רוצים לראות איך האתר שלכם יכול להיראות?
-            <em>נבנה לכם דמו אמיתי, בחינם.</em>
-          </h1>
-          <p class="sub">
-            לא סקיצה, לא הדמיה - אתר עובד אמיתי, מותאם לעסק שלכם. אתם מחליטים אם
-            ממשיכים משם.
-          </p>
-          <a href="#form" class="btn">בואו נתחיל</a>
+        <section class="hero" aria-labelledby="demo-title">
+          <div class="hero-text">
+            <h1 class="split" id="demo-title">
+              <span class="lead-in">רוצים לראות איך האתר שלכם יכול להיראות?</span>
+              <span>נבנה לכם דמו אמיתי, בחינם.</span>
+            </h1>
+            <p class="lead">
+              לא סקיצה ולא הדמיה: אתר עובד אמיתי, מותאם לעסק שלכם. אתם מחליטים אם
+              ממשיכים משם.
+            </p>
+            <div class="hero-actions">
+              <a href="#form" class="btn">
+                בואו נתחיל
+                <svg width="14" height="18" viewBox="0 0 14 18" fill="none" aria-hidden="true"><path d="M7 1.5v14M1.8 10.8 7 16l5.2-5.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <span class="hero-note">בלי התחייבות ובלי כרטיס אשראי</span>
+            </div>
+          </div>
+          <div class="avatar" aria-hidden="true">
+            <img src="/assets/img/ori-point.webp" alt="" width="1040" height="1040" fetchpriority="high" />
+          </div>
         </section>
 
-        <section>
-          <h2>איך זה עובד</h2>
-          <div class="steps">
-            <div class="step">
+        <section aria-labelledby="how-title">
+          <div class="steps-head">
+            <h2 id="how-title">איך זה עובד</h2>
+          </div>
+          <ol class="steps">
+            <li class="step">
               <span class="n">01</span>
-              <h3>מספרים לנו קצת על העסק</h3>
-              <p>פחות משתי דקות, בלי התחייבות.</p>
-            </div>
-            <div class="step">
+              <h3>מספרים לי על העסק</h3>
+              <p>בפגישת היכרות חינם, כמה זמן שתרצו.</p>
+            </li>
+            <li class="step">
               <span class="n">02</span>
-              <h3>בונים לכם דמו אמיתי</h3>
+              <h3>אני בונה לכם דמו אמיתי</h3>
               <p>תוך יום-יומיים, אתר עובד ולא מצגת.</p>
-            </div>
-            <div class="step">
+            </li>
+            <li class="step">
               <span class="n">03</span>
-              <h3>שולחים לכם קישור</h3>
-              <p>אתם מחליטים אם ממשיכים.</p>
+              <h3>מקבלים קישור</h3>
+              <p>ואתם מחליטים אם ממשיכים.</p>
+            </li>
+          </ol>
+        </section>
+
+        <section aria-labelledby="show-title">
+          <div class="show-card">
+            <div class="show-head">
+              <h2 id="show-title">כדי שתבינו על מה מדובר</h2>
+              <!-- Before/after. Drop two screen recordings into demo/media/:
+                   before.mp4 (the old / generic site) and after.mp4 (the new
+                   one). Only one plays at a time and each is shown whole, so
+                   they need not share an aspect ratio, a length or a pace. -->
+              <div class="showcase-tabs" role="tablist" aria-label="השוואה בין האתר החדש לישן">
+                <button type="button" role="tab" data-tab="before" aria-selected="false">לפני</button>
+                <button type="button" role="tab" data-tab="after" aria-selected="true">אחרי</button>
+              </div>
+            </div>
+            <div class="browser">
+              <div class="showcase" data-showcase>
+                <video class="after" data-active src="media/after.mp4" poster="/assets/demo/after.webp" muted loop playsinline preload="metadata" aria-label="האתר החדש"></video>
+                <video class="before" src="media/before.mp4" poster="/assets/demo/before.webp" muted loop playsinline preload="none" aria-label="האתר הישן"></video>
+                <button type="button" class="playpause" aria-label="השהיית הסרטון">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                    <rect x="2" y="1.5" width="3.5" height="11" rx="1"></rect>
+                    <rect x="8.5" y="1.5" width="3.5" height="11" rx="1"></rect>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </section>
 
-        <section>
-          <h2>כדי שתבינו על מה מדובר</h2>
-          <!--
-            Before/after showcase. Drop two screen recordings into demo/media/:
-              before.mp4  - the old / generic site
-              after.mp4   - the new one
-            Only one plays at a time and each is shown whole (object-fit:contain),
-            so they do not need to share an aspect ratio, a length or a pace.
-          -->
-          <div class="showcase-tabs" role="tablist" aria-label="השוואה בין האתר החדש לישן">
-            <button type="button" role="tab" data-tab="after" aria-selected="true">
-              אחרי
-            </button>
-            <button type="button" role="tab" data-tab="before" aria-selected="false">
-              לפני
-            </button>
+        <section class="catch" aria-labelledby="catch-title">
+          <div>
+            <h2 id="catch-title">אין קאץ'</h2>
+            <p class="lead">
+              לא תתבקשו לשלם שום דבר כדי לראות את הדמו, ואין שום התחייבות אחרי זה.
+              אם הוא ימצא חן בעיניכם, נדבר. אם לא, לא קרה כלום.
+            </p>
           </div>
-
-          <div class="showcase" data-showcase>
-            <video
-              class="after"
-              data-active
-              src="media/after.mp4"
-              muted
-              loop
-              playsinline
-              preload="metadata"
-              aria-label="האתר החדש"
-            ></video>
-            <video
-              class="before"
-              src="media/before.mp4"
-              muted
-              loop
-              playsinline
-              preload="none"
-              aria-label="האתר הישן"
-            ></video>
-
-            <button type="button" class="playpause" aria-label="השהיית הסרטון">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-                <rect x="2" y="1.5" width="3.5" height="11" rx="1"></rect>
-                <rect x="8.5" y="1.5" width="3.5" height="11" rx="1"></rect>
-              </svg>
-            </button>
-          </div>
-        </section>
-
-        <section>
-          <h2>אין קאץ'</h2>
-          <p class="lead">
-            לא תתבקשו לשלם שום דבר כדי לראות את הדמו, ואין שום התחייבות אחרי זה.
-            אם זה ימצא חן בעיניכם - נדבר. אם לא - לא קרה כלום.
-          </p>
           <div class="notes">
-            <div class="note">
+            <figure class="note note--quote">
               <h3>למה זה בחינם?</h3>
-              <p>
+              <blockquote>
                 אני מפתח תוכנה ואדם של מעשים ולא של דיבורים. הרבה יותר קל לי
                 לבנות דמו מאשר לבצע שיחת מכירה תאורטית, ואני מאמין בהוכחות לפני
                 הבטחות.
-              </p>
-            </div>
+              </blockquote>
+              <figcaption>
+                <span class="face" aria-hidden="true"><img src="/assets/img/ori.webp" alt="" width="1040" height="1040" loading="lazy" /></span>
+                אורי אפיאס
+              </figcaption>
+            </figure>
             <div class="note">
               <h3>כמה זמן זה לוקח?</h3>
-              <p>תוך יום-יומיים תקבלו קישור לדמו האמיתי שלכם.</p>
+              <p>תוך יום-יומיים מפגישת ההיכרות תקבלו קישור לדמו האמיתי שלכם.</p>
             </div>
           </div>
         </section>
 
-        <section id="form">
-          <h2>בואו נתחיל - זה לוקח פחות משתי דקות</h2>
-          <p class="lead">שדה אחד בלבד הוא חובה. את השאר אפשר להשלים אחר כך.</p>
+        <section id="form" class="start" aria-labelledby="start-title">
+          <div class="start-head">
+            <h2 id="start-title">בואו נתחיל</h2>
+            <p class="lead">שדה אחד בלבד הוא חובה. את השאר אפשר להשלים אחר כך.</p>
+            <ul class="assure">
+              <li>בלי תשלום</li>
+              <li>בלי התחייבות</li>
+              <li>הפרטים נשמרים אצלי בלבד</li>
+            </ul>
+          </div>
 
           <div class="form-card">
             <!-- ===== step 1 ===== -->
@@ -760,70 +556,38 @@
 
               <div class="field">
                 <label for="business">שם העסק</label>
-                <input
-                  id="business"
-                  name="business"
-                  type="text"
-                  required
-                  autocomplete="organization"
-                  placeholder="לדוגמה: מאפיית שקד"
-                />
+                <input id="business" name="business" type="text" required autocomplete="organization" placeholder="לדוגמה: מאפיית שקד" />
               </div>
 
               <div class="field">
-                <label for="website"
-                  >כתובת אתר קיים
-                  <span class="opt"
-                    >- אופציונלי, אפשר להשאיר ריק אם אין</span
-                  ></label
-                >
-                <input
-                  id="website"
-                  name="website"
-                  type="text"
-                  autocomplete="url"
-                  placeholder="example.co.il"
-                />
+                <label for="website">כתובת אתר קיים <span class="opt">- אופציונלי, אפשר להשאיר ריק אם אין</span></label>
+                <input id="website" name="website" type="text" autocomplete="url" placeholder="example.co.il" />
               </div>
 
               <div class="field">
-                <label for="about"
-                  >כמה מילים על העסק <span class="opt">- אופציונלי</span></label
-                >
-                <textarea
-                  id="about"
-                  name="about"
-                  placeholder="במה אתם עוסקים, מי הלקוחות שלכם, ומה הכי חשוב שיופיע באתר"
-                ></textarea>
+                <label for="about">כמה מילים על העסק <span class="opt">- אופציונלי</span></label>
+                <textarea id="about" name="about" placeholder="במה אתם עוסקים, מי הלקוחות שלכם, ומה הכי חשוב שיופיע באתר"></textarea>
               </div>
 
               <div class="hp" aria-hidden="true">
                 <label for="company_url">אל תמלאו שדה זה</label>
-                <input
-                  id="company_url"
-                  name="company_url"
-                  type="text"
-                  tabindex="-1"
-                  autocomplete="off"
-                />
+                <input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off" />
               </div>
 
               <button type="submit" class="btn" id="submit1">שלח בקשה</button>
-              <p class="form-note">
-                הפרטים נשמרים אצלי בלבד ומשמשים רק לבניית הדמו.
-              </p>
+              <p class="form-note">הפרטים נשמרים אצלי בלבד ומשמשים רק לבניית הדמו.</p>
             </form>
 
             <!-- ===== step 2 ===== -->
             <div id="step2wrap" hidden>
               <div class="success">
                 <h3>הבקשה התקבלה!</h3>
-                <p>נעדכן אותך כשהדמו מוכן.</p>
+                <p>נשאר רק לדעת איך לחזור אליכם.</p>
               </div>
 
-              <p class="lead" style="margin-bottom: 24px">
-                כדי שנוכל לשלוח לכם את הקישור, השאירו פרטי קשר. אם תדלגו על זה -
-                ננסה למצוא אתכם דרך האתר שציינתם.
+              <p class="step2-lead">
+                כדי שאוכל לחזור אליכם ולקבוע פגישת היכרות, השאירו פרטי קשר. אם
+                תדלגו על זה, אנסה למצוא אתכם דרך האתר שציינתם.
               </p>
 
               <form id="step2" novalidate>
@@ -831,60 +595,36 @@
 
                 <div class="field">
                   <label for="name">שם מלא</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    autocomplete="name"
-                  />
+                  <input id="name" name="name" type="text" required autocomplete="name" />
                 </div>
 
                 <div class="field">
                   <label for="email">אימייל</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    autocomplete="email"
-                    dir="ltr"
-                  />
+                  <input id="email" name="email" type="email" required autocomplete="email" dir="ltr" />
                 </div>
 
                 <div class="field">
                   <label for="phone">טלפון</label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    autocomplete="tel"
-                    dir="ltr"
-                  />
+                  <input id="phone" name="phone" type="tel" required autocomplete="tel" dir="ltr" />
                 </div>
 
-                <button type="submit" class="btn" id="submit2">
-                  שלח פרטי קשר
-                </button>
+                <button type="submit" class="btn" id="submit2">שלח פרטי קשר</button>
               </form>
             </div>
 
             <!-- ===== done ===== -->
             <div id="done" class="done" hidden>
               <h3>תודה, הכל אצלנו.</h3>
-              <p>נחזור אליכם עם קישור לדמו תוך יום-יומיים.</p>
+              <p>אחזור אליכם בקרוב כדי לקבוע פגישת היכרות.</p>
             </div>
           </div>
         </section>
       </div>
 
       <footer>
-        <div class="wrap footer-inner">
-          <a href="/" class="wordmark" style="color: inherit"
-            >afias<span>.dev</span></a
-          >
-          <span class="muted">© <span id="year"></span> אורי אפיאס</span>
+        <div class="footer-inner">
+          © <span id="year"></span>
+          <a href="/" class="wordmark">afias<span>.dev</span></a>
         </div>
       </footer>
     </main>
