@@ -267,18 +267,11 @@ a{color:#B8862B;text-decoration:none;}
 a:hover{color:#D7A53F;}
 @keyframes rise{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @keyframes curtain{0%{transform:scaleY(1)}100%{transform:scaleY(0)}}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(50%)}}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition-duration:.001ms !important;opacity:1 !important}}
 @media (max-width:640px){[data-sticky-header],[data-sticky-header-spacer]{display:none !important}}
 summary::-webkit-details-marker{display:none}
 summary{list-style:none}
 details[open] > summary [data-chevron]{transform:rotate(180deg)}
-@media (max-width:640px){
-  [data-guide-grid]{text-align:center !important}
-  [data-guide-info] p{margin-left:auto !important;margin-right:auto !important}
-  [data-guide-price]{align-items:center !important;text-align:center !important}
-  [data-guide-price] > div{justify-content:center !important}
-}
 </style>
 <style>
 /* ---------- hero ----------
@@ -1036,6 +1029,88 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
   .price-care{padding:24px 22px}
   .price-care-amount .price-once{flex-basis:auto}
 }
+</style>
+<style>
+/* ---------- demo ----------
+   One card, after pricing: the moment a visitor hesitates. The pitch on one
+   side; on the other, what a demo actually is — the same before/after as on
+   /demo/, playing in a browser frame. */
+.demo-cta{padding:clamp(48px,8vh,96px) 0 clamp(56px,9vh,104px)}
+.demo-card{
+  position:relative;overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+  grid-template-areas:"title media" "lead media" "steps media" "actions media";
+  grid-template-rows:auto auto auto 1fr;column-gap:clamp(32px,5vw,72px);
+  padding:clamp(28px,4vw,56px);border-radius:32px;
+  background:#1C1E24;color:#FAF8F3;
+}
+.demo-card::before{   /* a low brass glow behind the video, nothing more */
+  content:"";position:absolute;left:-12%;bottom:-40%;width:62%;aspect-ratio:1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(184,134,43,.2),rgba(184,134,43,0));
+}
+.demo-card > *{position:relative}
+.demo-title{grid-area:title;margin:0;font-weight:900;font-size:clamp(28px,2.9vw,42px);line-height:1.08;letter-spacing:-.035em}
+.demo-title span{display:block}
+.demo-title span + span{color:#D7A53F}
+.demo-lead{grid-area:lead;margin:18px 0 0;max-width:46ch;font-size:clamp(16px,1.3vw,18px);line-height:1.65;color:rgba(250,248,243,.72);text-wrap:pretty}
+.demo-steps{grid-area:steps;list-style:none;margin:28px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.demo-steps li{display:flex;align-items:center;gap:14px;font-size:16px;font-weight:500}
+.demo-steps span{
+  flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(215,165,63,.35);
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#D7A53F;
+}
+.demo-actions{grid-area:actions;align-self:end;margin-top:32px;display:flex;align-items:center;flex-wrap:wrap;gap:14px 22px}
+.demo-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:14px;white-space:nowrap;
+  font-weight:700;font-size:17px;color:#3A2C0F;background:#B8862B;
+  padding:18px 32px 18px 28px;border-radius:999px;
+  box-shadow:0 10px 28px rgba(184,134,43,.25);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,background-color .3s;
+}
+.demo-btn:hover{color:#3A2C0F;background:#D7A53F;transform:translateY(-2px);box-shadow:0 16px 34px rgba(184,134,43,.35)}
+.demo-btn:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
+.demo-btn svg{flex:none;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.demo-btn:hover svg{transform:translateX(-4px)}
+.demo-note{font-size:14px;color:rgba(250,248,243,.55)}
+
+.demo-media{grid-area:media;align-self:center;margin:0}
+.demo-browser{
+  display:grid;grid-template-rows:30px auto;border-radius:14px;overflow:hidden;background:#0E0F13;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.6),0 0 0 1px rgba(250,248,243,.07);
+}
+.demo-browser::before{   /* window chrome */
+  content:"";grid-row:1;background:#26282F;
+  background-image:radial-gradient(circle,#E0605A 4px,transparent 4.5px),radial-gradient(circle,#E3B341 4px,transparent 4.5px),radial-gradient(circle,#5DBB63 4px,transparent 4.5px);
+  background-size:14px 30px;background-repeat:no-repeat;background-position:14px 0,30px 0,46px 0;
+}
+.demo-video{
+  grid-row:2;grid-column:1;display:block;width:100%;aspect-ratio:1280/702;
+  object-fit:cover;object-position:top;background:#0E0F13;
+  opacity:0;transition:opacity .45s ease;
+}
+.demo-video.is-active{opacity:1}
+.demo-video--before{filter:saturate(.75)}   /* the old site reads a little faded, as on /demo/ */
+.demo-switch{display:flex;gap:4px;width:max-content;margin:16px auto 0;padding:4px;border-radius:999px;background:rgba(250,248,243,.08)}
+.demo-switch button{
+  border:0;border-radius:999px;padding:8px 20px;cursor:pointer;
+  font:inherit;font-size:14px;font-weight:700;color:rgba(250,248,243,.7);background:transparent;
+  transition:background-color .25s ease,color .25s ease;
+}
+.demo-switch button[aria-pressed="true"]{background:#FAF8F3;color:#1C1E24}
+.demo-switch button:focus-visible{outline:2px solid #D7A53F;outline-offset:2px}
+
+@media (max-width:900px){
+  .demo-card{grid-template-columns:1fr;grid-template-areas:"title" "lead" "media" "steps" "actions";grid-template-rows:none}
+  .demo-media{margin-top:28px}
+}
+@media (max-width:640px){
+  .demo-card{padding:28px 22px;border-radius:24px}
+  .demo-actions{flex-direction:column;align-items:stretch;text-align:center}
+}
+/* The site's reduced-motion rule forces opacity:1 on everything, which would
+   show both videos at once; hide the inactive one outright instead. */
+@media (prefers-reduced-motion:reduce){.demo-video:not(.is-active){visibility:hidden}}
 </style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
@@ -1887,13 +1962,6 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       </div>
     </section>
 
-    <div style="position:relative;overflow:hidden;margin:0 0 74px;border-top:1px solid #e5ddc9;border-bottom:1px solid #e5ddc9;padding:16px 0;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);">
-      <div style="display:flex;width:max-content;gap:46px;animation:marquee 26s linear infinite;font-family:'Rubik',sans-serif;font-weight:900;font-size:16px;letter-spacing:.08em;color:rgba(28,30,36,.4);white-space:nowrap;">
-        <span>אפיון בשיחה אחת</span><span style="color:#B8862B;">✦</span><span>עלייה לאוויר בימים</span><span style="color:#B8862B;">✦</span><span>קוד נקי ומתוחזק</span><span style="color:#B8862B;">✦</span><span>מחיר סגור מראש</span><span style="color:#B8862B;">✦</span>
-        <span>אפיון בשיחה אחת</span><span style="color:#B8862B;">✦</span><span>עלייה לאוויר בימים</span><span style="color:#B8862B;">✦</span><span>קוד נקי ומתוחזק</span><span style="color:#B8862B;">✦</span><span>מחיר סגור מראש</span><span style="color:#B8862B;">✦</span>
-      </div>
-    </div>
-
 
     <script>
     (function(){
@@ -1954,23 +2022,6 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     <script>
     (function(){
       document.addEventListener('click', function(e){
-        var link = e.target.closest && e.target.closest('a[href*="gumroad.com"]');
-        if (!link) return;
-        if (link.target === '_blank') {
-          afiasTrack('ViewContent');
-        } else {
-          e.preventDefault();
-          afiasTrack('ViewContent');
-          var href = link.href;
-          setTimeout(function(){ window.location.href = href; }, 150);
-        }
-      });
-    })();
-    </script>
-
-    <script>
-    (function(){
-      document.addEventListener('click', function(e){
         var link = e.target.closest && e.target.closest('a[href*="cal.com"]');
         if (!link) return;
         if (link.target === '_blank') {
@@ -1991,8 +2042,8 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
         var link = e.target.closest && e.target.closest('a[href^="/demo"]');
         if (!link) return;
         // Custom rather than a standard event: Lead is already fired by the demo
-        // page's own form, and ViewContent is taken by the guide. Reusing either
-        // would merge two different intents into one number.
+        // page's own form, and reusing it would merge two different intents
+        // (clicked through vs. actually asked for a demo) into one number.
         if (link.target === '_blank') {
           afiasTrack('DemoPageClick', { custom: true });
         } else {
@@ -2005,28 +2056,90 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
     })();
     </script>
 
-    <section data-reveal="" style="padding:14px 0 90px;text-align:center;">
-      <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px auto 12px;max-width:20ch;">לא בטוחים? קודם תראו דמו אמיתי</h2>
-      <p style="color:rgba(28,30,36,.65);font-size:17px;line-height:1.6;max-width:52ch;margin:0 auto 30px;">בלי לשלוח הודעה, בלי התחייבות - נבנה לכם דמו עובד של האתר שלכם, בחינם, ונשלח לכם קישור תוך יום-יומיים.</p>
-      <a href="/demo/" style="display:inline-flex;align-items:center;gap:10px;font-family:'Rubik',sans-serif;font-weight:700;font-size:17px;color:#3A2C0F;background:#B8862B;padding:17px 32px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;box-shadow:0 8px 24px rgba(184,134,43,.22);" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו דמו בחינם</a>
-    </section>
+    <section class="demo-cta" id="demo" aria-labelledby="demo-title">
+      <div class="demo-card">
+        <h2 class="demo-title" id="demo-title"><span>לא בטוחים?</span> <span>תראו לפני שמחליטים.</span></h2>
+        <p class="demo-lead">אני בונה לכם דמו אמיתי של האתר, בחינם, תוך יום-יומיים. לא סקיצה ולא מצגת: אתר עובד, מותאם לעסק שלכם. אוהבים? מדברים. לא? לא קרה כלום.</p>
 
-    <section data-reveal="" style="padding:14px 0 90px;">
-      <div data-sticky-pop="" style="position:relative;overflow:hidden;border-radius:28px;border:1px solid #e5ddc9;background:#f1ede3;backdrop-filter:blur(20px);padding:clamp(28px,4vw,52px);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center;" data-guide-grid="">
-        <div data-guide-info="">
-          <h3 style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(26px,3.4vw,40px);letter-spacing:-.03em;line-height:1.12;margin:14px 0 12px;">חושבים שאתם יכולים לבד? קדימה, תוכיחו.</h3>
-          <p style="color:rgba(28,30,36,.72);font-size:16px;line-height:1.65;margin:0;max-width:46ch;">המדריך "בניית אתר עם vibecoding" נותן לכם את התהליך המדויק שלי, צעד־צעד: הפרומפטים, הכלים, הטעויות שכבר עשיתי בשבילכם והעלייה לאוויר. אם בסוף תחליטו שעדיף שאני אבנה, אני כאן.</p>
-        </div>
-        <div data-guide-price="" style="display:flex;flex-direction:column;gap:16px;align-items:flex-end;text-align:left;">
-          <div style="display:flex;align-items:baseline;gap:12px;font-family:'Rubik',sans-serif;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;letter-spacing:-.01em;color:#B8862B;">49 ₪</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:18px;color:rgba(28,30,36,.4);text-decoration:line-through;">249 ₪</span>
+        <!-- Before / after: the same comparison as on /demo/. Only the
+             visible one plays, and neither loads until the card is near. -->
+        <figure class="demo-media" data-demo-media>
+          <div class="demo-browser">
+            <video class="demo-video demo-video--after is-active" data-src="demo/media/after.mp4" poster="assets/demo/after.webp" muted loop playsinline preload="none" aria-label="הדמו: אתר חדש לסטודיו קעקועים"></video>
+            <video class="demo-video demo-video--before" data-src="demo/media/before.mp4" poster="assets/demo/before.webp" muted loop playsinline preload="none" aria-label="האתר הקיים של הסטודיו"></video>
           </div>
-          <a href="https://oriafias.gumroad.com/l/vibecoding" target="_blank" rel="noopener" style="font-family:'Rubik',sans-serif;font-weight:700;font-size:16px;color:#3A2C0F;background:#B8862B;padding:16px 30px;border-radius:999px;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;" style-hover="transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px rgba(184,134,43,.35);color:#3A2C0F;">קבלו את המדריך</a>
-          <span style="font-size:13px;color:rgba(28,30,36,.55);">מחיר השקה · גישה מיידית להורדה</span>
+          <figcaption class="demo-switch" role="group" aria-label="השוואה">
+            <button type="button" data-demo-show="before" aria-pressed="false">לפני</button>
+            <button type="button" data-demo-show="after" aria-pressed="true">אחרי</button>
+          </figcaption>
+        </figure>
+
+        <ol class="demo-steps">
+          <li><span>01</span>מספרים לי על העסק</li>
+          <li><span>02</span>אני בונה דמו אמיתי</li>
+          <li><span>03</span>מקבלים קישור ומחליטים</li>
+        </ol>
+        <div class="demo-actions">
+          <a class="demo-btn" href="/demo/">
+            קבלו דמו בחינם
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M19 7H2M7.5 1.5 2 7l5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <span class="demo-note">בלי התחייבות ובלי כרטיס אשראי</span>
         </div>
       </div>
     </section>
+
+    <script>
+    /* The demo card's before/after. Nothing is fetched until the card is
+       within a screen of view; then only the visible video loads and plays,
+       and it pauses again once the card is out of view. Live lookups and
+       document-level listeners: the DC runtime re-renders the page after
+       load. */
+    (function(){
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function load(v){ if (v && !v.getAttribute('src')) { v.setAttribute('src', v.getAttribute('data-src')); v.setAttribute('preload', 'auto'); } }
+
+      var raf = 0;
+      function check(){
+        raf = 0;
+        var media = document.querySelector('[data-demo-media]');
+        if (!media) return;
+        var r = media.getBoundingClientRect(), vh = window.innerHeight;
+        var near = r.top < vh * 2 && r.bottom > -vh;          // start fetching a screen early
+        var seen = r.top < vh && r.bottom > 0;
+        var active = media.querySelector('.demo-video.is-active');
+        if (near) load(active);
+        if (!active || calm) return;                          // reduced motion: posters only
+        if (seen && active.paused) { var p = active.play(); if (p && p.catch) p.catch(function(){}); }
+        if (!seen && !active.paused) active.pause();
+      }
+      function schedule(){ if (!raf) raf = requestAnimationFrame(check); }
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      window.addEventListener('load', schedule);
+      // Chrome pauses muted video in a background tab; pick it up again on return.
+      document.addEventListener('visibilitychange', schedule);
+
+      document.addEventListener('click', function(e){
+        var btn = e.target.closest && e.target.closest('[data-demo-show]');
+        if (!btn) return;
+        var media = btn.closest('[data-demo-media]');
+        var show = btn.getAttribute('data-demo-show');
+        Array.prototype.forEach.call(media.querySelectorAll('[data-demo-show]'), function(b){
+          b.setAttribute('aria-pressed', String(b === btn));
+        });
+        Array.prototype.forEach.call(media.querySelectorAll('.demo-video'), function(v){
+          var on = v.classList.contains('demo-video--' + show);
+          v.classList.toggle('is-active', on);
+          if (on) { load(v); try { v.currentTime = 0; } catch (err) {} }
+          else v.pause();
+        });
+        check();
+      });
+    })();
+    </script>
+
 
         <section data-reveal="" style="padding:14px 0 90px;">
       <h2 data-parallax="" style="font-family:'Rubik',sans-serif;font-weight:900;font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:26px 0 12px;">שאלות נפוצות</h2>
@@ -2097,9 +2210,8 @@ details[open] > summary [data-chevron]{transform:rotate(180deg)}
       <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;font-family:'Rubik',sans-serif;font-weight:700;font-size:clamp(18px,2.4vw,22px);color:#3A2C0F;background:#B8862B;padding:20px 40px;border-radius:999px;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;box-shadow:0 10px 28px rgba(184,134,43,.28);" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(184,134,43,.4);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
     </section>
 
-    <footer style="border-top:1px solid #e5ddc9;padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:rgba(28,30,36,.5);">
+    <footer style="border-top:1px solid #e5ddc9;padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;font-size:14px;color:rgba(28,30,36,.5);">
       <span style="display:inline-flex;align-items:baseline;gap:6px;">© {{ year }} <span style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:22px;direction:ltr;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#B8862B;">.dev</span></span></span>
-      <span>הדף הזה עצמו נבנה בזמן קצר וללא עלות: <a href="https://oriafias.gumroad.com/l/vibecoding" target="_blank" rel="noopener" style="color:#B8862B;">ככה עושים את זה</a>.</span>
     </footer>
   </div>
 </div>
