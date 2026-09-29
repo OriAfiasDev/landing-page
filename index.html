@@ -6,6 +6,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="canonical" href="https://afias.dev/">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>פיתוח אתרים לעסקים קטנים | בניית אתר מהיר וזול - אורי אפיאס</title>
 <meta name="description" content="פיתוח אתרים לעסקים קטנים בעזרת כלי AI מתקדמים. בניית אתר מהיר, זול ומקצועי תוך 24 שעות, בלי התפשרות על איכות. קבלו הצעת מחיר עוד היום.">
   <meta property="og:type" content="website">
@@ -884,6 +887,7 @@ summary{list-style:none}
 
 /* Themes, from each project's own interface. */
 .work-panel--shalva{--bg:#1B231C;--fg:#F3EBDB;--muted:rgba(243,235,219,.55);--soft:rgba(243,235,219,.8);--accent:#E3C48C;--tagbg:rgba(227,196,140,.14);--taghover:rgba(227,196,140,.24)}
+.work-panel--tavor{--bg:#F3EDE3;--fg:#141210;--muted:rgba(20,18,16,.55);--soft:rgba(20,18,16,.76);--accent:#B8412D;--tagbg:rgba(184,65,45,.1);--taghover:rgba(184,65,45,.18)}
 .work-panel--evently{--bg:#0C1324;--fg:#F3F5FA;--muted:rgba(243,245,250,.55);--soft:rgba(243,245,250,.78);--accent:#6E9BFF;--tagbg:rgba(110,155,255,.14);--taghover:rgba(110,155,255,.24)}
 .work-panel--spoti{--bg:#E7DFD1;--fg:#16242B;--muted:rgba(22,36,43,.55);--soft:rgba(22,36,43,.76);--accent:#16607F;--tagbg:rgba(22,96,127,.1);--taghover:rgba(22,96,127,.18)}
 .work-panel--yame{--bg:#123433;--fg:#EEF7F5;--muted:rgba(238,247,245,.55);--soft:rgba(238,247,245,.78);--accent:#86D2C6;--tagbg:rgba(134,210,198,.13);--taghover:rgba(134,210,198,.23)}
@@ -917,6 +921,51 @@ summary{list-style:none}
 }
 .work-phone--css .work-frames{height:100%;overflow:hidden;border-radius:10%/4.6%}
 .work-phone--css .work-frames img{height:100%;object-fit:cover}
+
+/* ---- no screenshots yet ----
+   An outline of the app in the panel's own colours: a card, a few rows and a
+   plain "coming soon". It reads as a sketch, never as a screenshot, and any
+   panel can use it — everything comes from that panel's --bg/--fg/--accent. */
+.work-soon{
+  position:relative;height:100%;overflow:hidden;border-radius:10%/4.6%;
+  display:flex;flex-direction:column;gap:14px;padding:18% 8% 8%;
+  background:#23232C;background:color-mix(in srgb,var(--bg) 90%,var(--fg));
+  color:var(--fg);
+}
+.soon-line,.soon-avatar,.soon-icon{
+  background-color:color-mix(in srgb,var(--fg) 13%,transparent);
+  background-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--fg) 12%,transparent),transparent);
+  background-size:200% 100%;background-repeat:no-repeat;
+  animation:soonShimmer 2.6s linear infinite;
+}
+.soon-line{display:block;flex:none;height:9px;width:var(--w,60%);border-radius:999px}
+.soon-bar{display:flex;align-items:center;gap:10px}
+.soon-avatar{flex:none;width:26px;height:26px;border-radius:50%}
+.soon-card{
+  position:relative;flex:none;aspect-ratio:1.6;border-radius:14px;padding:0 10% 11%;
+  display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 70%,#fff),var(--accent) 48%,color-mix(in srgb,var(--accent) 62%,#000));
+  box-shadow:0 16px 30px -16px rgba(0,0,0,.65);
+}
+.soon-card::after{   /* a sheen across the card */
+  content:"";position:absolute;inset:-40% -60%;pointer-events:none;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.28) 50%,transparent 58%);
+}
+.soon-card-name{position:absolute;top:12%;inset-inline-start:10%;font-size:15px;font-weight:900;letter-spacing:-.01em;color:color-mix(in srgb,var(--accent) 25%,#000)}
+.soon-card .soon-line{background-color:color-mix(in srgb,var(--accent) 35%,#000);opacity:.35;animation:none}
+.soon-line--head{height:11px;margin-top:4px}
+.soon-rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.soon-rows li{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:color-mix(in srgb,var(--fg) 6%,transparent)}
+.soon-icon{flex:none;width:24px;height:24px;border-radius:8px;background-color:color-mix(in srgb,var(--accent) 34%,transparent)}
+.soon-pill{flex:none;margin-inline-start:auto;width:34px;height:16px;border-radius:999px;background:color-mix(in srgb,var(--accent) 50%,transparent)}
+/* Over the list, not at the foot: on phones the bottom of the phone sinks
+   below the panel's edge, and the badge must never go with it. */
+.soon-badge{
+  position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);white-space:nowrap;
+  padding:9px 16px;border-radius:999px;background:var(--fg);color:var(--bg);
+  font-size:13px;font-weight:700;line-height:1;box-shadow:0 10px 24px -10px rgba(0,0,0,.6);
+}
+@keyframes soonShimmer{from{background-position:160% 0}to{background-position:-60% 0}}
 
 /* The hashtags link to their pricing card; land it below the header pill. */
 [id^="price-"]{scroll-margin-top:120px}
@@ -1898,7 +1947,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--shalva" aria-labelledby="work-shalva">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">01 / 06</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">01 / 07</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
               <h3 class="work-name" id="work-shalva">שלווה קפה <span class="work-status">פרויקט הדגמה</span></h3>
               <p class="work-what">דף נחיתה לעגלת קפה בדיונית</p>
               <p class="work-label">ההחלטה</p>
@@ -1919,10 +1968,32 @@ summary{list-style:none}
           <div class="work-shade" aria-hidden="true"></div>
         </article>
 
+        <article class="work-panel work-panel--tavor" aria-labelledby="work-tavor">
+          <div class="work-inner">
+            <div class="work-text">
+              <div class="work-meta"><span class="work-count" dir="ltr">02 / 07</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
+              <h3 class="work-name" id="work-tavor">סטודיו תבור <span class="work-status">פרויקט הדגמה</span></h3>
+              <p class="work-what">דף נחיתה לסטודיו צילום חתונות בדיוני</p>
+              <p class="work-label">ההחלטה</p>
+              <p class="work-decision">הגלילה היא העינית.</p>
+              <p class="work-why">צלם מוכרים בתמונות, לא בהבטחות. לכן בהירו התמונות מתחלפות בגלילה, ומשפט ענק חוצה אותן עד שהוא ננעל בתוך עינית: ״תופסים אותו.״ משם הגלריה זזה הצידה, ובלוח בודקים לבד אם התאריך פנוי.</p>
+              <a class="work-live" href="https://oriafiasdev.github.io/tavor-studio/" target="_blank" rel="noopener">
+                גללו באתר בעצמכם
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11.5 2.5 2.5 11.5M4 2.5h7.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+            <div class="work-media work-media--system work-media--seq">
+              <figure class="work-device work-browser"><a class="work-frames" href="https://oriafiasdev.github.io/tavor-studio/" target="_blank" rel="noopener" aria-label="סטודיו תבור: לאתר החי"><img src="assets/work/tavor-d1.webp" alt="" width="1440" height="900" loading="lazy"><img src="assets/work/tavor-d2.webp" alt="" width="1440" height="900" loading="lazy"><img src="assets/work/tavor-d3.webp" alt="" width="1440" height="900" loading="lazy"><img src="assets/work/tavor-d4.webp" alt="סטודיו תבור: המשפט ננעל בעינית על ״תופסים אותו.״" width="1440" height="900" loading="lazy"></a></figure>
+              <figure class="work-device work-phone work-phone--css" style="--i:0;--a:0"><a class="work-frames" href="https://oriafiasdev.github.io/tavor-studio/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/work/tavor-m1.webp" alt="" width="600" height="1298" loading="lazy"><img src="assets/work/tavor-m2.webp" alt="" width="600" height="1298" loading="lazy"><img src="assets/work/tavor-m3.webp" alt="" width="600" height="1298" loading="lazy"><img src="assets/work/tavor-m4.webp" alt="" width="600" height="1298" loading="lazy"></a></figure>
+            </div>
+          </div>
+          <div class="work-shade" aria-hidden="true"></div>
+        </article>
+
         <article class="work-panel work-panel--evently" aria-labelledby="work-evently">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">02 / 06</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">03 / 07</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-evently">Evently</h3>
               <p class="work-what">מכירת כרטיסים, חשבוניות וכניסה לאירועים</p>
               <p class="work-label">ההחלטה</p>
@@ -1941,7 +2012,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--spoti" aria-labelledby="work-spoti">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">03 / 06</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">04 / 07</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-spoti">Spoti</h3>
               <p class="work-what">מסלולי סיור עם כרטיסים ומפה חיה</p>
               <p class="work-label">ההחלטה</p>
@@ -1959,7 +2030,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--yame" aria-labelledby="work-yame">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">04 / 06</span><a class="work-tag" href="#price-admin">#אתר_עם_ממשק_ניהול</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">05 / 07</span><a class="work-tag" href="#price-admin">#אתר_עם_ממשק_ניהול</a></div>
               <h3 class="work-name" id="work-yame">YA-ME</h3>
               <p class="work-what">הזמנת שולחנות למסעדה</p>
               <p class="work-label">ההחלטה</p>
@@ -1977,7 +2048,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--viamar" aria-labelledby="work-viamar">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">05 / 06</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">06 / 07</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-viamar">VIA MAR <span class="work-status">בהקמה</span></h3>
               <p class="work-what">חנות תכשיטים אונליין</p>
               <p class="work-label">ההחלטה</p>
@@ -1995,7 +2066,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--club" aria-labelledby="work-club">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">06 / 06</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">07 / 07</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-club">Exclusive Club</h3>
               <p class="work-what">מועדון לקוחות עם צד לקוח וצד ניהול</p>
               <p class="work-label">ההחלטה</p>
@@ -2003,7 +2074,25 @@ summary{list-style:none}
               <p class="work-why">לכן כל החלטה בו נמדדה בשאלה אחת: האם זה גורם לחבר לחזור? ההטבות במרכז, ומהמשרד יוצא מבצע לכל החברים בלחיצה אחת, כי מה שדורש יותר מלחיצה פשוט לא קורה.</p>
             </div>
             <div class="work-media work-media--solo">
-              <figure class="work-device work-phone" style="--i:0;--a:0"><img src="assets/work/club-soon.webp" alt="Exclusive Club: תצוגה מקדימה בקרוב" width="600" height="1253" loading="lazy"></figure>
+              <!-- No screenshots yet: an outline of the app instead (see .work-soon). -->
+              <figure class="work-device work-phone work-phone--css" style="--i:0;--a:0">
+                <div class="work-soon" role="img" aria-label="Exclusive Club: תצוגה מקדימה בקרוב">
+                  <div class="soon-bar"><i class="soon-avatar"></i><i class="soon-line" style="--w:38%"></i></div>
+                  <div class="soon-card">
+                    <span class="soon-card-name">Exclusive Club</span>
+                    <i class="soon-line soon-line--card" style="--w:48%"></i>
+                    <i class="soon-line soon-line--card" style="--w:30%"></i>
+                  </div>
+                  <i class="soon-line soon-line--head" style="--w:52%"></i>
+                  <ul class="soon-rows">
+                    <li><i class="soon-icon"></i><i class="soon-line" style="--w:56%"></i><i class="soon-pill"></i></li>
+                    <li><i class="soon-icon"></i><i class="soon-line" style="--w:44%"></i><i class="soon-pill"></i></li>
+                    <li><i class="soon-icon"></i><i class="soon-line" style="--w:62%"></i><i class="soon-pill"></i></li>
+                    <li><i class="soon-icon"></i><i class="soon-line" style="--w:38%"></i><i class="soon-pill"></i></li>
+                  </ul>
+                  <span class="soon-badge">תצוגה מקדימה בקרוב</span>
+                </div>
+              </figure>
             </div>
           </div>
         </article>
