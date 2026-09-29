@@ -1310,6 +1310,53 @@ summary{list-style:none}
   .outro-actions{flex-direction:column;align-items:stretch;width:100%}
 }
 </style>
+<style>
+/* ---------- voices ----------
+   Excerpts from a real WhatsApp chat, drawn as chat: the app's light
+   wallpaper and white bubbles (no logo, no branding), incoming on the left
+   as on the phone they came from. Each bubble rises in as it enters view;
+   without scroll-driven animation support they are simply there. */
+.voices{padding:clamp(72px,12vh,140px) 0 clamp(24px,4vh,48px)}
+.voices-head{max-width:760px;margin:0 0 clamp(32px,5vh,56px)}
+.voices-title{margin:0;font-weight:900;font-size:clamp(34px,4.4vw,60px);line-height:1.04;letter-spacing:-.035em;color:#1C1E24}
+.voices-title span{display:block}
+.voices-title span + span{color:#93897A}
+.voices-note{margin:16px 0 0;max-width:52ch;font-size:clamp(16px,1.3vw,18px);line-height:1.6;color:rgba(28,30,36,.62)}
+.voices-wall{columns:3 280px;column-gap:20px}
+.voice{display:inline-block;width:100%;margin:0 0 20px;break-inside:avoid}
+.voice-when{margin:0 6px 8px;font-size:13px;font-weight:700;color:#93897A}
+.voice-chat{
+  display:flex;flex-direction:column;align-items:flex-end;gap:4px;   /* flex-end is the left in RTL */
+  padding:14px 12px 16px;border-radius:20px;border:1px solid #e5ddc9;
+  background:#EFEAE2 radial-gradient(rgba(28,30,36,.045) 1px,transparent 1.5px) 0 0/14px 14px;
+}
+.bubble{
+  position:relative;margin:0;max-width:92%;padding:7px 10px 6px;border-radius:10px;
+  display:flex;align-items:flex-end;flex-wrap:wrap;gap:2px 12px;
+  background:#fff;color:#111B21;font-size:15.5px;line-height:1.45;
+  box-shadow:0 1px .5px rgba(11,20,26,.13);
+}
+.bubble:first-child{border-top-left-radius:0}
+.bubble:first-child::before{   /* the tail */
+  content:"";position:absolute;top:0;left:-7px;width:8px;height:13px;background:#fff;
+  clip-path:polygon(0 0,100% 0,100% 100%);
+}
+.bubble-time{margin-inline-start:auto;font-size:11px;line-height:1;color:#667781;transform:translateY(2px)}
+.bubble--emoji{padding:0 4px;background:none;box-shadow:none;font-size:42px;line-height:1.15;align-items:center}
+.bubble--emoji .bubble-time{font-size:11px;padding:3px 6px;border-radius:8px;background:rgba(255,255,255,.8)}
+.bubble-react{
+  margin:-8px 0 0;margin-inline-end:10px;padding:2px 5px;border-radius:999px;
+  background:#fff;box-shadow:0 1px 2px rgba(11,20,26,.18);font-size:13px;line-height:1.2;position:relative;
+}
+@supports (animation-timeline: view()){
+  .bubble,.bubble-react{transform-origin:0 100%;animation:bubbleIn linear both;animation-timeline:view();animation-range:entry 5% entry 90%}
+}
+@keyframes bubbleIn{from{opacity:0;translate:0 10px;scale:.94}to{opacity:1;translate:0 0;scale:1}}
+@media (max-width:640px){
+  .voices{padding:64px 0 24px}
+  .voice-chat{padding:12px 10px 14px}
+}
+</style>
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
 
@@ -2158,6 +2205,55 @@ summary{list-style:none}
       update();
     })();
     </script>
+
+    <!-- Real messages from one client (he runs projects for his own end
+         clients, hence "הלקוח מרוצה"), published with his consent and without
+         his name. Trimmed, never reworded; each excerpt is its own moment,
+         not a stitched-together conversation. -->
+    <section class="voices" id="voices" aria-labelledby="voices-title">
+      <div class="voices-head">
+        <h2 class="voices-title" id="voices-title"><span>ככה זה נשמע</span> <span>מהצד השני.</span></h2>
+        <p class="voices-note">הודעות אמיתיות מהוואטסאפ עם לקוח שעובד איתי על פרויקטים עבור הלקוחות שלו. מתפרסמות בהסכמתו, קיצרתי ולא ניסחתי מחדש.</p>
+      </div>
+      <div class="voices-wall">
+          <figure class="voice">
+            <figcaption class="voice-when">כשראה את הגרסה הראשונה</figcaption>
+            <div class="voice-chat"><p class="bubble">יואווו<span class="bubble-time">10:34</span></p><p class="bubble">מה זההההה<span class="bubble-time">10:34</span></p><p class="bubble">תותח!!!<span class="bubble-time">10:34</span></p></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">כשהתיקון הגיע</figcaption>
+            <div class="voice-chat"><p class="bubble">תותח<span class="bubble-time">20:58</span></p><p class="bubble">איזו מהירות<span class="bubble-time">20:58</span></p></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">על הקצב</figcaption>
+            <div class="voice-chat"><p class="bubble">הזוי<span class="bubble-time">13:58</span></p><p class="bubble">אתה מנצח על זה ברמה גבוהה<span class="bubble-time">13:58</span></p></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">באמצע הבנייה</figcaption>
+            <div class="voice-chat"><p class="bubble">אבל זה נראה אשששש<span class="bubble-time">10:39</span></p><p class="bubble">כל הכבוד<span class="bubble-time">10:39</span></p></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">על פיצ׳ר שלא ביקשו</figcaption>
+            <div class="voice-chat"><p class="bubble">נראה ממש טוב! אעביר להם את זה<span class="bubble-time">09:46</span></p><p class="bubble">כל הכבוד על העבודה ועל הגדלת הראש<span class="bubble-time">09:47</span></p><span class="bubble-react" role="img" aria-label="הגבתי בלב">❤️</span></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">על העבודה עצמה</figcaption>
+            <div class="voice-chat"><p class="bubble">אני חייב לציין שהעבודה איתך ממש כייפית וזורמת<span class="bubble-time">21:51</span></p><p class="bubble">ומעריך את זה מאוד<span class="bubble-time">21:51</span></p></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">לפני הפרזנטציה ללקוח</figcaption>
+            <div class="voice-chat"><p class="bubble">פצצה<span class="bubble-time">22:23</span></p><p class="bubble">תודה רבה<span class="bubble-time">22:23</span></p><p class="bubble bubble--emoji">🙏<span class="bubble-time">22:23</span></p><p class="bubble">בטוח שיעופו על זה<span class="bubble-time">22:23</span></p></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">בבוקר שאחרי הפרזנטציה</figcaption>
+            <div class="voice-chat"><p class="bubble">בוקר טוב ☀️ מה המצב? אני אחרי הפרזנטציה, היה ממש טוב, הלקוח מרוצה, יש כמה תיקונים קטנים ושאלות אבל דברים ממש מינורים, בכללי עבודה מעולה!!<span class="bubble-time">10:10</span></p></div>
+          </figure>
+          <figure class="voice">
+            <figcaption class="voice-when">אחרי שעברנו על אבטחת התשלומים</figcaption>
+            <div class="voice-chat"><p class="bubble">שמע אתה תותח, אין לי מה להגיד<span class="bubble-time">23:42</span></p><span class="bubble-react" role="img" aria-label="הגבתי בלב">❤️</span></div>
+          </figure>
+      </div>
+    </section>
 
     <section class="pricing" id="pricing" aria-labelledby="pricing-title">
       <div class="pricing-head">
