@@ -7,3 +7,10 @@ compatibility_date = "2026-09-06"
 
 # No vars here — LINEAR_API_KEY, LINEAR_TEAM_ID and LINEAR_PROJECT_ID are all
 # set as secrets so they never land in git. See README.md.
+
+# Workers Logs: keeps console output and request metadata, searchable in the
+# dashboard (Workers & Pages → afias-demo → Logs). The Hoox webhook writes
+# one structured line per delivery — see logHoox in src/index.js.
+[observability]
+enabled = true
+head_sampling_rate = 1

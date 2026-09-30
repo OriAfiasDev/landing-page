@@ -470,7 +470,8 @@ function base64Utf8(str) {
  * a retried webhook idempotent: same slug, same path, overwritten in place.
  */
 async function upsertRepoFile(env, path, content, message) {
-  const base = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`;
+  // Percent-encoded per segment: slugs may be Hebrew.
+  const base = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
 
   let sha;
   const existing = await fetch(`${base}?ref=${GITHUB_BRANCH}`, { headers: githubHeaders(env) });
@@ -498,10 +499,16 @@ async function upsertRepoFile(env, path, content, message) {
   return sha ? 'updated' : 'created';
 }
 
-/** A slug becomes a directory name and a URL segment; it has to be boring. */
+/**
+ * A slug becomes a directory name and a URL segment, so it has to be boring:
+ * words of letters and digits joined by single hyphens. Letters in any script
+ * — Hoox writes Hebrew slugs for Hebrew articles — but nothing that can mean
+ * something in a path: no dots, slashes, spaces or percent signs, so `../`
+ * can't happen. NFC so the same word always maps to the same directory.
+ */
 function safeSlug(value) {
-  const s = clean(value, 120).toLowerCase();
-  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s) ? s : '';
+  const s = clean(value, 120).normalize('NFC').toLowerCase();
+  return /^[\p{L}\p{M}\p{N}]+(?:-[\p{L}\p{M}\p{N}]+)*$/u.test(s) ? s : '';
 }
 
 function jsonResponse(body, status) {
@@ -510,54 +517,97 @@ function jsonResponse(body, status) {
   });
 }
 
+/**
+ * What is wrong with a signature header before any crypto is spent on it.
+ * Hoox sends `sha256=` + 64 hex characters; anything else can't be valid.
+ */
+function signatureShapeProblem(header) {
+  if (!header) return 'missing signature';
+  if (!/^sha256=[0-9a-f]{64}$/.test(header)) return 'malformed signature';
+  return null;
+}
+
+/**
+ * One structured line per delivery, so every attempt is searchable in Workers
+ * Logs (Workers & Pages → afias-demo → Logs) by status, reason, event, hoox
+ * id or slug. Hoox retries a non-2xx after 5 and then 30 minutes and then
+ * marks the article failed, so a broken secret shows as three `mismatch`
+ * lines per article. Never logged: the secret, the signature, the body — and
+ * nothing from the body at all until the signature has passed.
+ */
+function logHoox(status, fields) {
+  const line = { route: 'hoox-webhook', status, ...fields };
+  if (status >= 500 || fields.reason === 'secret not set') console.error(line);
+  else if (status >= 400) console.warn(line);
+  else console.log(line);
+}
+
 async function handleHooxWebhook(request, env) {
+  const started = Date.now();
+  // From the headers only: safe to record even for a request we reject.
+  const meta = {
+    event: request.headers.get('X-Hoox-Event') || null,
+    attempt_at: request.headers.get('X-Hoox-Timestamp') || null,   // unix seconds of this attempt
+  };
+  const done = (status, body, fields = {}) => {
+    logHoox(status, { ...meta, ...fields, ms: Date.now() - started });
+    return jsonResponse(body, status);
+  };
+
   // Signature first, on the raw bytes, before anything reads the body as JSON.
   const rawBody = await request.arrayBuffer();
-  const valid = await verifyHooxSignature(
-    env.HOOX_WEBHOOK_SECRET, rawBody, request.headers.get('X-Hoox-Signature')
-  );
-  if (!valid) return jsonResponse({ error: 'invalid signature' }, 401);
+  const header = request.headers.get('X-Hoox-Signature');
+  const problem = !env.HOOX_WEBHOOK_SECRET ? 'secret not set'
+    : signatureShapeProblem(header)
+    || (await verifyHooxSignature(env.HOOX_WEBHOOK_SECRET, rawBody, header) ? null : 'mismatch');
+  if (problem) return done(401, { error: 'invalid signature' }, { reason: problem, bytes: rawBody.byteLength });
 
   let payload;
   try {
     payload = JSON.parse(new TextDecoder().decode(rawBody));
   } catch {
-    return jsonResponse({ error: 'invalid JSON' }, 400);
+    return done(400, { error: 'invalid JSON' }, { reason: 'invalid JSON' });
   }
 
   // Anything other than a publish is acknowledged and ignored — a 200 here
-  // stops the service retrying an event we have no handler for.
+  // stops the service retrying an event we have no handler for. Logged with
+  // the event name, which is how a test delivery shows itself.
   if (payload.event !== 'article.published' || !payload.data) {
-    return jsonResponse({ received: true, ignored: true }, 200);
+    return done(200, { received: true, ignored: true }, { result: 'ignored', payload_event: clean(payload.event, 80) || null });
   }
 
   const a = payload.data;
   const slug = safeSlug(a.slug);
   const id = clean(a.id, 200);
+  const ids = { id: id || null, slug: slug || clean(a.slug, 120) || null };
   if (!slug || !id || !clean(a.title, 500) || typeof a.content_html !== 'string') {
     // A 4xx is the right answer to a malformed article: it will not become
     // well-formed on retry.
-    return jsonResponse({ error: 'missing or invalid id, slug, title or content_html' }, 422);
+    return done(422, { error: 'missing or invalid id, slug, title or content_html' }, { reason: 'bad payload', ...ids });
   }
 
   if (!env.GITHUB_TOKEN) {
-    console.error('hoox webhook: GITHUB_TOKEN is not set, cannot publish');
-    return jsonResponse({ error: 'publishing not configured' }, 500);
+    return done(500, { error: 'publishing not configured' }, { reason: 'GITHUB_TOKEN not set', ...ids });
   }
 
   // The commit *is* the persistence, so it happens before the 200: if GitHub
   // is down we answer 5xx and the service retries, instead of acknowledging an
   // article we then silently lost. The slow part — the deploy the push
   // triggers — already runs asynchronously on GitHub's side.
-  const html = renderArticlePage({ ...a, slug, id });
-  const outcome = await upsertRepoFile(
-    env,
-    `blog/${slug}/index.html`,
-    html,
-    `Publish article: ${clean(a.title, 80)}\n\nhoox id ${id}`
-  );
+  let outcome;
+  try {
+    const html = renderArticlePage({ ...a, slug, id });
+    outcome = await upsertRepoFile(
+      env,
+      `blog/${slug}/index.html`,
+      html,
+      `Publish article: ${clean(a.title, 80)}\n\nhoox id ${id}`
+    );
+  } catch (err) {
+    return done(500, { error: 'internal error' }, { reason: 'publish failed', error: String(err.message).slice(0, 300), ...ids });
+  }
 
-  return jsonResponse({ received: true, outcome, url: `https://afias.dev/blog/${slug}/` }, 200);
+  return done(200, { received: true, outcome, url: `https://afias.dev/blog/${encodeURIComponent(slug)}/` }, { result: outcome, ...ids });
 }
 
 export default {
@@ -570,7 +620,8 @@ export default {
       try {
         return await handleHooxWebhook(request, env);
       } catch (err) {
-        console.error('hoox webhook failed:', err.message);
+        // The handler logs its own outcomes; this only catches the unexpected.
+        logHoox(500, { reason: 'exception', error: String(err && err.message).slice(0, 300) });
         return jsonResponse({ error: 'internal error' }, 500);
       }
     }

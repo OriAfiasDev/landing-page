@@ -188,9 +188,11 @@ authority, which defeats the point of them.
 
 ### Idempotency
 
-Hoox retries on failure, so the write is an upsert: the Contents API is asked
-for the existing file's sha and overwrites in place. The same article arriving
-twice lands on the same path.
+Hoox retries any non-2xx or timed-out delivery — after 5 minutes, then after
+30 minutes, and then marks the article failed ([docs](https://www.tryhoox.com/blog/webhook)).
+So the write is an upsert: the Contents API is asked for the existing file's
+sha and overwrites in place. The same article arriving twice lands on the same
+path.
 
 The commit happens **before** the `200`, deliberately. It is the persistence,
 and if GitHub is down the right answer is a `5xx` so Hoox retries — not a `200`
@@ -211,6 +213,25 @@ slug, that is a second page, not an update. Unlikely, and a manual delete.
 | `400` | valid signature over non-JSON |
 | `422` | missing `id` / `slug` / `title` / `content_html`, or unsafe slug — will not succeed on retry |
 | `500` | GitHub unreachable or `GITHUB_TOKEN` unset — Hoox should retry |
+
+### Logs
+
+Workers Logs is on (`[observability]` in `wrangler.toml`), and the webhook
+writes one structured line per delivery. Find them in the Cloudflare dashboard
+under **Workers & Pages → afias-demo → Logs**, filtering on
+`route = hoox-webhook`, or live with `npx wrangler tail`.
+
+| field | |
+| --- | --- |
+| `status` | what the Worker answered |
+| `reason` | why it wasn't a success: `missing signature`, `malformed signature`, `mismatch`, `secret not set`, `invalid JSON`, `bad payload`, `GITHUB_TOKEN not set`, `publish failed` |
+| `result` | on a success: `created`, `updated`, or `ignored` (a non-publish event — `payload_event` says which) |
+| `event`, `attempt_at` | the `X-Hoox-Event` and `X-Hoox-Timestamp` headers |
+| `id`, `slug` | the article, logged only once the signature has passed |
+| `ms` | time taken |
+
+Never logged: the secret, the signature, or the body. A wrong secret shows up
+as three `mismatch` lines per article — the delivery and its two retries.
 
 ### Secrets
 
