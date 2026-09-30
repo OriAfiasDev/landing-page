@@ -47,8 +47,9 @@ function safeJsonLd(raw) {
 export function renderArticlePage(a) {
   const title = escapeHtml(a.title);
   const description = escapeHtml(a.meta_description);
-  const slug = escapeHtml(a.slug);
-  const url = `${SITE}/blog/${slug}/`;
+  // Percent-encoded: the slug may be Hebrew, and the canonical/og URLs
+  // should be plain ASCII. Encoding also leaves nothing to HTML-escape.
+  const url = `${SITE}/blog/${encodeURIComponent(a.slug)}/`;
   const image = a.featured_image_url ? escapeHtml(a.featured_image_url) : `${SITE}/og-image.png`;
   const author = escapeHtml(a.author || 'אורי אפיאס');
   const publishedIso = a.published_at || new Date().toISOString();

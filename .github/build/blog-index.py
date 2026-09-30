@@ -19,6 +19,7 @@ import sys
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import quote   # slugs may be Hebrew; links stay ASCII
 
 
 class MetaReader(HTMLParser):
@@ -89,7 +90,7 @@ def render_card(a) -> str:
         else ""
     )
     return f"""
-      <a class="card{' has-image' if image else ''}" href="/blog/{esc(a['slug'])}/">
+      <a class="card{' has-image' if image else ''}" href="/blog/{quote(a['slug'])}/">
         {image}
         <div class="card-body">
           <time datetime="{esc(a['when'].isoformat())}">{hebrew_date(a['when'])}</time>
