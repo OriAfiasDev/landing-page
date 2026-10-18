@@ -200,7 +200,7 @@
         position: absolute; inset: 0;
         background: radial-gradient(120% 70% at 50% 0%, rgba(184, 134, 43, 0.06) 0%, rgba(184, 134, 43, 0) 60%);
       }
-      main { position: relative; z-index: 1; }
+      .page { position: relative; z-index: 1; }
 
       /* ---------- header ---------- */
       .site-header { padding: 28px 0 0; }
@@ -433,13 +433,14 @@
   <body>
     <div class="glow"><div></div></div>
 
-    <main dir="rtl">
+    <div class="page" dir="rtl">
       <header class="site-header">
         <div class="wrap">
           <a href="/" class="wordmark">afias<span>.dev</span></a>
         </div>
       </header>
 
+      <main>
       <div class="wrap">
         <section class="hero" aria-labelledby="demo-title">
           <div class="hero-text">
@@ -625,6 +626,7 @@
           </div>
         </section>
       </div>
+      </main>
 
       <footer>
         <div class="footer-inner">
@@ -632,7 +634,7 @@
           <a href="/" class="wordmark">afias<span>.dev</span></a>
         </div>
       </footer>
-    </main>
+    </div>
 
     <script>
       /* ---------- before/after showcase ---------- */
