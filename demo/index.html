@@ -175,11 +175,13 @@
         --ink: #1c1e24;
         --brass: #b8862b;
         --brass-light: #d7a53f;
-        --brass-text: #3a2c0f;
+        --brass-text: #1c1e24;   /* ink on the gold buttons: 5.1:1 (the old brown was 4.2) */
+        --brass-deep: #8a6420;   /* the gold, dark enough for text and focus rings on paper */
         --line: #e5ddc9;
-        --quiet: #93897a;
+        --field-line: #8f8471;   /* form fields need a 3:1 edge; --line is 1.4:1 */
+        --quiet: #736a5c;   /* the lead-ins run as small as 12px, so 4.5:1 */
         --muted: rgba(28, 30, 36, 0.68);
-        --muted-soft: rgba(28, 30, 36, 0.52);
+        --muted-soft: rgba(28, 30, 36, 0.65);
       }
       * { box-sizing: border-box; }
       html, body { margin: 0; padding: 0; background: var(--paper); }
@@ -188,7 +190,7 @@
         color: var(--ink);
         -webkit-font-smoothing: antialiased;
       }
-      a { color: var(--brass); text-decoration: none; }
+      a { color: var(--brass-deep); text-decoration: none; }
       a:hover { color: var(--brass-light); }
 
       .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
@@ -226,7 +228,7 @@
         transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, background-color 0.25s;
       }
       .btn:hover { color: var(--brass-text); background: var(--brass-light); transform: translateY(-2px); box-shadow: 0 16px 36px rgba(184, 134, 43, 0.36); }
-      .btn:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 4px; }
+      .btn:focus-visible { outline: 3px solid var(--brass-deep); outline-offset: 4px; }
       .btn:disabled { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
       .btn svg { flex: none; }
 
@@ -276,7 +278,7 @@
       .step .n {
         display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
         border: 1px solid rgba(184, 134, 43, 0.4);
-        font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 13px; color: var(--brass);
+        font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 13px; color: var(--brass-deep);
       }
       .step h3 { margin: 20px 0 8px; font-size: clamp(20px, 1.7vw, 23px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.25; }
       .step p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
@@ -342,7 +344,7 @@
       .catch { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
       .notes { display: grid; gap: 20px; }
       .note { margin: 0; padding: clamp(26px, 2.8vw, 36px); border-radius: 24px; background: #fff; border: 1px solid var(--line); }
-      .note h3 { margin: 0 0 12px; font-size: 15px; font-weight: 700; color: var(--brass); }
+      .note h3 { margin: 0 0 12px; font-size: 15px; font-weight: 700; color: var(--brass-deep); }
       .note p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--muted); }
       /* The "why free" answer is a first-person statement: set it as one. */
       .note--quote blockquote {
@@ -376,11 +378,11 @@
       .field .opt { font-weight: 400; color: var(--muted-soft); font-size: 14px; }
       .field input, .field textarea {
         width: 100%; font-family: "Rubik", sans-serif; font-size: 16px; color: var(--ink);
-        background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px;
+        background: var(--paper); border: 1px solid var(--field-line); border-radius: 14px; padding: 15px 16px;
         transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       }
       .field input:focus, .field textarea:focus {
-        outline: none; background: #fff; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(184, 134, 43, 0.15);
+        outline: 2px solid var(--brass-deep); outline-offset: 2px; background: #fff; border-color: var(--brass-deep);
       }
       .field textarea { min-height: 116px; resize: vertical; }
       .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
