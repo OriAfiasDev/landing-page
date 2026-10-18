@@ -616,6 +616,24 @@ summary{list-style:none}
   .hero-stage--offer .hero-face{display:block}
   .hero-select:not(.is-on),.hero.is-moving .hero-select{visibility:hidden}   /* same reason: it can't fade out */
 }
+/* Flow: a stage's text is taller than the screen it would be pinned to (a
+   short window, 200% zoom, wider text spacing). Rather than crop it, the
+   scene stops pinning and the stages follow each other, both at rest. The
+   avatar needs the pinned geometry, so it gives way to the face chip.
+   Set by the scene script. */
+.hero-scene.is-flow{height:auto}
+.is-flow .hero{
+  position:relative;height:auto;overflow-y:visible;
+  grid-template-rows:none;row-gap:clamp(56px,10vh,96px);
+  --p1:0 !important;--p2:1 !important;--chip:1 !important;
+  opacity:1 !important;transform:none !important;filter:none !important;   /* the scroll runtime's exit fade would blur the offer mid-read */
+}
+.is-flow .hero-stage{grid-area:auto;pointer-events:auto !important;visibility:visible !important}
+.is-flow .hero-avatar,.is-flow .hero-anchor,.is-flow .hero-select{display:none !important}
+.is-flow .hero-stage--offer .hero-eyebrow{display:flex;align-items:center;gap:12px}
+.is-flow .hero-face{display:block}
+.is-flow .hero-scroll--band{display:none}
+.is-flow .hero-scroll--inline{display:inline-flex}
 </style>
 <style>
 /* ---------- process ----------
@@ -1006,6 +1024,16 @@ summary{list-style:none}
   .work-inner,.work-media,.work-text > *{transform:none !important}
   .work-shade{display:none}
 }
+/* Flow: some panel's text is taller than the screen (a short window, 200%
+   zoom, wider text spacing), so pinning would crop it. Nothing pins; each
+   panel is as tall as its content, everything at rest. The devices still
+   rise from the panel's bottom edge, cropped by it. The ::after spacer and
+   the section's negative margin still cancel out. Set by the work script. */
+.work-stack.is-flow .work-bar{position:relative;margin-bottom:0}
+.work-stack.is-flow .work-bar + .work-panel{margin-top:0;border-radius:0}
+.work-stack.is-flow .work-panel{position:relative;height:auto;margin-bottom:0;--e:1 !important;--h:1 !important;--q:0 !important}
+.work-stack.is-flow .work-inner{height:auto}
+.work-stack.is-flow .work-media{height:clamp(260px,60vh,560px)}
 </style>
 <style>
 /* ---------- pricing ----------
@@ -1411,7 +1439,7 @@ summary{list-style:none}
         // sit on top of it. Step aside while the bar is up there.
         var work = document.querySelector('[data-work-stack]');
         var panels = work && work.querySelectorAll('.work-panel');
-        if (panels && panels.length &&
+        if (panels && panels.length && !work.classList.contains('is-flow') &&
             work.getBoundingClientRect().top < 96 &&
             panels[panels.length - 1].getBoundingClientRect().bottom > 96) t = 0;
         pill.style.opacity = t;
@@ -1553,9 +1581,29 @@ summary{list-style:none}
       // Runway = how long the hero stays pinned: the scene's extra height.
       function runway(n){ return Math.max(0, n.scene.offsetHeight - n.hero.offsetHeight); }
 
+      // When either stage's text is taller than the screen it is pinned to (a
+      // short window, 200% zoom, wider text spacing), pinning would crop it,
+      // CTA and all. Then the scene stops pinning and the two stages simply
+      // follow each other (.is-flow, see the CSS). Always measured with the
+      // class off, so the answer never depends on the previous answer.
+      var ro = window.ResizeObserver ? new ResizeObserver(function(){ fit(); }) : null;
+      function fit(){
+        var n = nodes(); if (!n) return;
+        n.scene.classList.remove('is-flow');
+        var crops = Array.prototype.some.call(n.hero.querySelectorAll('.hero-stage'), function(stage){
+          var main = stage.querySelector('.hero-main');
+          if (!main) return false;
+          if (ro) ro.observe(main);
+          return main.offsetHeight > stage.clientHeight + 1;
+        });
+        n.scene.classList.toggle('is-flow', crops);
+        schedule();
+      }
+
       function update(){
         raf = 0;
         var n = nodes(); if (!n) return;
+        if (n.scene.classList.contains('is-flow')) return;   // nothing pinned, so nothing to hand over
         var run = runway(n);
         var p = run ? clamp01(-n.scene.getBoundingClientRect().top / run) : 0;
         var hero = n.hero;
@@ -1621,21 +1669,27 @@ summary{list-style:none}
 
       function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
       window.addEventListener('scroll', schedule, { passive: true });
-      window.addEventListener('resize', schedule);
-      window.addEventListener('load', schedule);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);   // the chip moves when the font swaps in
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);   // the chip moves when the font swaps in
       // The DC runtime swaps the page for a React-rendered copy after this
       // runs. The fresh hero carries none of the state set here, so catch it.
       new MutationObserver(function(){
-        var hero = document.querySelector('.hero');
-        if (hero && !hero.style.getPropertyValue('--p1')) schedule();
+        var scene = document.querySelector('[data-hero-scene]');
+        var hero = scene && scene.querySelector('.hero');
+        if (hero && !hero.style.getPropertyValue('--p1') && !scene.classList.contains('is-flow')) fit();
       }).observe(document.body, { childList: true, subtree: true });
+      fit();
       update();
 
       // Moving between stages without scrolling: the intro's button, and
       // keyboard focus landing in the stage that isn't showing.
       function goTo(stage){
         var n = nodes(); if (!n) return;
+        if (n.scene.classList.contains('is-flow')) {   // no runway: the offer is simply further down
+          if (stage === 'offer') n.hero.querySelector('.hero-stage--offer').scrollIntoView({ behavior: calm ? 'instant' : 'smooth', block: 'start' });
+          return;
+        }
         var top = n.scene.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({ top: top + (stage === 'offer' ? runway(n) : 0), behavior: calm ? 'instant' : 'smooth' });
       }
@@ -1645,7 +1699,7 @@ summary{list-style:none}
       document.addEventListener('focusin', function(e){
         var stage = e.target.closest && e.target.closest('.hero-stage');
         var hero = stage && stage.closest('.hero');
-        if (hero && hero.getAttribute('data-active') !== stage.getAttribute('data-stage')) goTo(stage.getAttribute('data-stage'));
+        if (hero && !hero.closest('.is-flow') && hero.getAttribute('data-active') !== stage.getAttribute('data-stage')) goTo(stage.getAttribute('data-stage'));
       });
     })();
     </script>
@@ -2221,7 +2275,7 @@ summary{list-style:none}
           });
         }
 
-        if (calm) return;                    // CSS defaults are the settled state
+        if (calm || stack.classList.contains('is-flow')) return;   // CSS defaults are the settled state
         // The first panel sits at the very top of the stack (pulled up under
         // the bar); each one after it a panel height and a --dwell further on.
         var natural = stack.getBoundingClientRect().top;
@@ -2237,14 +2291,36 @@ summary{list-style:none}
         }
       }
 
+      // A panel whose text is taller than the screen would have it cropped by
+      // the pin, or hidden under the bar (a short window, 200% zoom, wider
+      // text spacing). Then nothing pins and the panels follow each other
+      // (.is-flow, see the CSS). Always measured with the class off.
+      var ro = window.ResizeObserver ? new ResizeObserver(function(){ fit(); }) : null;
+      function fit(){
+        var stack = document.querySelector('[data-work-stack]');
+        if (!stack) return;
+        stack.classList.remove('is-flow');
+        var crops = Array.prototype.some.call(stack.querySelectorAll('.work-panel'), function(p){
+          var inner = p.querySelector('.work-inner'), text = p.querySelector('.work-text');
+          if (!inner || !text) return false;
+          if (ro) ro.observe(text);
+          var top = parseFloat(getComputedStyle(inner).paddingTop) || 0;   // the bar covers everything above this
+          return text.offsetTop < top - 1 || text.offsetTop + text.offsetHeight > inner.clientHeight + 1;
+        });
+        stack.classList.toggle('is-flow', crops);
+        schedule();
+      }
+
       function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
       window.addEventListener('scroll', schedule, { passive: true });
-      window.addEventListener('resize', schedule);
-      window.addEventListener('load', schedule);
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
       new MutationObserver(function(){
         var stack = document.querySelector('[data-work-stack]');
-        if (stack && !stack.hasAttribute('data-ready')) schedule();
+        if (stack && !stack.hasAttribute('data-ready')) fit();
       }).observe(document.body, { childList: true, subtree: true });
+      fit();
       update();
 
       // Keyboard focus landing in a panel that a later one has already risen
