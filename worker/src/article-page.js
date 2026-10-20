@@ -4,7 +4,8 @@
  * as the rest of the site, so an article reads as part of it rather than as a
  * bolted-on blog.
  *
- * Trust model: `content_html` and `json_ld` are injected verbatim. That is what
+ * Trust model: `content_html` and `json_ld` are injected verbatim (bar two
+ * accessibility fixes, see withoutTitleHeading and englishWatermark). That is what
  * the publishing service's contract asks for, and it is safe only because the
  * webhook has already verified the HMAC — the signature is what makes this
  * content trusted. Everything that lands in an attribute is escaped regardless.
@@ -42,6 +43,27 @@ function safeJsonLd(raw) {
   if (typeof raw !== 'string') return '';
   if (/<\/head\s*>|<body[\s>]/i.test(raw)) return '';
   return raw.trim();
+}
+
+/**
+ * Hoox opens every article body with the title as its own <h1>, and the page
+ * already sets the title as the <h1> above the lede: two h1s, and a screen
+ * reader announces the title twice. Drop the body's first <h1> and demote any
+ * other, so the page keeps exactly one.
+ */
+function withoutTitleHeading(html) {
+  return String(html || '')
+    .replace(/<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, '')
+    .replace(/<(\/?)h1\b/gi, '<$1h2');
+}
+
+/**
+ * Some Hoox articles end with an English attribution line. Mark it as
+ * English, so a screen reader set to Hebrew doesn't read it with Hebrew
+ * rules. Its inline grey (3.3:1) is overridden in the page CSS.
+ */
+function englishWatermark(html) {
+  return html.replace(/<p data-hoox-watermark="1"/g, '<p data-hoox-watermark="1" lang="en" dir="ltr"');
 }
 
 export function renderArticlePage(a) {
@@ -174,6 +196,8 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
 .body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
 .body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
 .body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
 .body li{margin:0 0 8px}
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
@@ -210,15 +234,15 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
       ${a.meta_description ? `<p class="lede">${description}</p>` : ''}
       ${a.featured_image_url ? `<img class="hero-image" src="${image}" alt="${title}" loading="eager" fetchpriority="high">` : ''}
       <div class="body">
-${a.content_html || ''}
+${englishWatermark(withoutTitleHeading(a.content_html))}
       </div>
       ${tagsHtml}
 
-      <aside class="cta">
+      <section class="cta">
         <h2>רוצים לראות איך זה נראה אצלכם?</h2>
         <p>נבנה לכם דמו אמיתי של האתר, בחינם ובלי התחייבות. קישור תוך יום-יומיים.</p>
         <a class="btn" href="/demo/">קבלו דמו בחינם</a>
-      </aside>
+      </section>
     </article>
   </main>
 
