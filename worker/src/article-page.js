@@ -7,7 +7,8 @@
  * Trust model: `content_html` and `json_ld` are injected verbatim (bar three
  * accessibility fixes: withoutTitleHeading, englishWatermark and
  * focusableTables, and three SEO fixes: withoutHooxCredit,
- * withSiteLinks and normalizeJsonLd). That is what
+ * withSiteLinks and normalizeJsonLd). A slug listed in CONSOLIDATED renders
+ * as a redirect stub instead (see there). That is what
  * the publishing service's contract asks for, and it is safe only because the
  * webhook has already verified the HMAC — the signature is what makes this
  * content trusted. Everything that lands in an attribute is escaped regardless.
@@ -163,11 +164,98 @@ const SITE_LINKS = {
 export function withSiteLinks(html) {
   return html.replace(/\bhref=(["'])(https?:\/\/(?:www\.)?afias\.dev(?=[/"'?#])|(?=\/(?!\/)))([^"'?#]*)([^"']*)\1/gi,
     (all, q, host, path, tail) => {
-      const target = SITE_LINKS[(path || '/').toLowerCase().replace(/(.)\/+$/, '$1')];
+      const target = SITE_LINKS[(path || '/').toLowerCase().replace(/(.)\/+$/, '$1')]
+        || consolidatedLink(path);
       if (!target) return all;
       // Keep Hoox's absolute form when it used one; a query/fragment of its own is dropped.
       return `href=${q}${host ? SITE : ''}${target}${q}`;
     });
+}
+
+/**
+ * Articles merged into another one ("consolidated"): loser slug -> winner slug.
+ *
+ * Several Hoox articles answered the same search ("כמה עולה אתר") and competed
+ * with each other. Each loser's page is replaced by a redirect stub pointing at
+ * its winner. Hoox can deliver a loser again at any time (a retry, or a
+ * re-publish after an edit), and the webhook overwrites blog/<slug>/index.html
+ * with whatever renderArticlePage returns, so the stub has to come from here:
+ * for a slug listed below renderArticlePage returns the stub, never the
+ * article, and the redirect survives. Links to a loser in any article are
+ * pointed straight at the winner (withSiteLinks).
+ *
+ * Keys and values are slugs as the webhook sees them (NFC, lower-case). A
+ * winner must not itself be a key. To undo a merge, delete its line and
+ * re-publish the article from Hoox.
+ */
+export const CONSOLIDATED = {
+  // Cluster 1, price / cost (2026-10-20)
+  'כמה-עולה-לבנות-אתר-לעסק-קטן-ב-2026-מחירון-מלא-אפשרויות': 'כמה-עולה-לבנות-אתר-לעסק-קטן-ב-2026-המדריך-המלא-למחירים',
+  'עלויות-הקמת-אתר-אינטרנט-ב-2026-המדריך-המלא-לבעלי-עסקים': 'כמה-עולה-לבנות-אתר-לעסק-קטן-ב-2026-המדריך-המלא-למחירים',
+  'בניית-אתרים-מחירון-2026-מה-באמת-עולה-אתר-מקצועי-לעסק-קטן': 'כמה-עולה-לבנות-אתר-לעסק-קטן-ב-2026-המדריך-המלא-למחירים',
+  'בניית-אתרי-אינטרנט-מחירים-מדריך-מעשי-ל-2026': 'כמה-עולה-לבנות-אתר-לעסק-קטן-ב-2026-המדריך-המלא-למחירים',
+};
+
+/** The visible link text on a stub. A winner missing here falls back to its slug. */
+const WINNER_TITLES = {
+  'כמה-עולה-לבנות-אתר-לעסק-קטן-ב-2026-המדריך-המלא-למחירים': 'כמה עולה לבנות אתר לעסק קטן ב-2026? המדריך המלא למחירים',
+};
+
+function consolidatedWinner(slug) {
+  return CONSOLIDATED[String(slug ?? '').normalize('NFC').toLowerCase()];
+}
+
+/** '/blog/<loser>/' (raw Hebrew or percent-encoded) -> '/blog/<winner>/'. */
+function consolidatedLink(path) {
+  const m = /^\/blog\/([^/]+)\/?$/.exec(path || '');
+  if (!m) return undefined;
+  let slug;
+  try { slug = decodeURIComponent(m[1]); } catch { return undefined; }
+  const winner = consolidatedWinner(slug);
+  return winner ? `/blog/${encodeURIComponent(winner)}/` : undefined;
+}
+
+/**
+ * The page a consolidated slug gets instead of its article: an immediate
+ * meta refresh (which Google treats as a permanent redirect), canonical to the
+ * winner and noindex as belt and braces, location.replace for a browser that
+ * ignores the refresh, and a plain link for anyone it doesn't reach.
+ *
+ * Deliberately no og:title: the blog index and the sitemap step in deploy.yml
+ * both skip a page without one, so a stub is never listed.
+ */
+export function renderRedirectStub(a, winnerSlug) {
+  const to = `${SITE}/blog/${encodeURIComponent(winnerSlug)}/`;
+  const label = escapeHtml(WINNER_TITLES[winnerSlug] || winnerSlug.replace(/-/g, ' '));
+  return `<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>המאמר עבר: ${label} | afias.dev</title>
+<link rel="canonical" href="${to}">
+<meta name="robots" content="noindex,follow">
+<meta http-equiv="refresh" content="0; url=${to}">
+<!-- hoox:id=${escapeHtml(a.id)} -->
+<!-- consolidated into ${to} -->
+<script>location.replace(${JSON.stringify(to)} + location.hash);</script>
+<style>
+  body { margin: 0; font-family: Rubik, Arial, sans-serif; background: #faf8f3; color: #1c1e24; line-height: 1.6; }
+  main { max-width: 40rem; margin: 0 auto; padding: 4rem 1.25rem; }
+  h1 { font-size: 1.5rem; margin: 0 0 1rem; }
+  a { color: #1c1e24; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  a:focus-visible { outline: 3px solid #1c1e24; outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+<h1>המאמר הזה עבר לכתובת חדשה</h1>
+<p>התוכן שלו אוחד עם המדריך המלא. אם לא הועברתם אוטומטית:</p>
+<p><a href="${to}">${label}</a></p>
+</main>
+</body>
+</html>
+`;
 }
 
 /**
@@ -180,6 +268,9 @@ function focusableTables(html) {
 }
 
 export function renderArticlePage(a) {
+  const winner = consolidatedWinner(a.slug);
+  if (winner) return renderRedirectStub(a, winner);  // merged: keep the redirect, not the article
+
   const title = escapeHtml(a.title);
   const description = escapeHtml(a.meta_description);
   // Percent-encoded: the slug may be Hebrew, and the canonical/og URLs

@@ -203,6 +203,24 @@ One known edge: dedup is by path (slug), and `data.id` is recorded in the file
 rather than indexed. If Hoox ever re-publishes the same `id` under a *new*
 slug, that is a second page, not an update. Unlikely, and a manual delete.
 
+### Consolidated (merged) articles
+
+When several articles answer the same search, the weaker ones are merged into
+one "winner" and their pages become redirect stubs. `CONSOLIDATED` in
+`src/article-page.js` maps each merged slug to its winner. For a slug listed
+there, `renderArticlePage` returns the stub instead of the article. A Hoox
+retry or re-publish of a merged article therefore rewrites the stub and
+cannot bring the old page back. The stub has an immediate meta refresh,
+`location.replace`, `rel=canonical` to the winner, `noindex,follow` and a
+visible link. Links to a merged slug inside any article are pointed at the
+winner (`withSiteLinks`).
+
+A stub has no `og:title`, so the listing page and the sitemap skip it
+automatically (see below). To merge more articles, add lines to the map,
+deploy the Worker, and replace each loser's committed file with the stub
+`renderArticlePage` produces for it. Hoox never sends a delete; to stop a merged
+article being re-sent at all, unpublish it in Hoox too.
+
 ### Responses
 
 | status | meaning |
