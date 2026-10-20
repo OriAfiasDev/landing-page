@@ -863,6 +863,11 @@ summary{list-style:none}
 }
 .work-device{margin:0;position:absolute;will-change:transform}
 .work-device img{display:block;width:100%;height:auto;cursor:zoom-in}
+/* Zoomable screenshots take keyboard focus. The ring goes round the whole
+   device: a browser frame clips anything drawn round the image itself. */
+.work-device:has(img[data-zoomable]:focus-visible){outline:3px solid var(--accent);outline-offset:4px}
+.work-device img[data-zoomable]:focus{outline:none}
+[data-lightbox] button:focus-visible{outline:3px solid #D7A53F;outline-offset:3px}
 .work-phone{
   bottom:0;left:50%;height:100%;aspect-ratio:600/1253;z-index:calc(2 - var(--a,0));
   transform:
@@ -2147,9 +2152,9 @@ summary{list-style:none}
               <p class="work-why">מכירת כרטיסים יש בכל מקום. מה שמפיל ערב זה תור בכניסה. לכן מסך הסריקה קיבל הכי הרבה תשומת לב: מצלמה אחת, תשובה ברורה תוך שנייה, והתרעה מיידית על כרטיס שכבר נסרק. המכירה, החשבוניות והדוחות נבנו סביבו.</p>
             </div>
             <div class="work-media work-media--fan">
-              <figure class="work-device work-phone" style="--i:-1;--a:1"><img src="assets/work/evently-stats.webp" alt="Evently: מסך סטטיסטיקות המכירה" width="600" height="1253" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:1;--a:1"><img src="assets/work/evently-events.webp" alt="Evently: רשימת האירועים" width="600" height="1253" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:0;--a:0"><img src="assets/work/evently-scan.webp" alt="Evently: מסך סריקת הכרטיסים בכניסה" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:-1;--a:1"><img src="assets/work/evently-stats.webp" alt="Evently: מסך סטטיסטיקות המכירה" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Evently: מסך סטטיסטיקות המכירה"></figure>
+              <figure class="work-device work-phone" style="--i:1;--a:1"><img src="assets/work/evently-events.webp" alt="Evently: רשימת האירועים" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Evently: רשימת האירועים"></figure>
+              <figure class="work-device work-phone" style="--i:0;--a:0"><img src="assets/work/evently-scan.webp" alt="Evently: מסך סריקת הכרטיסים בכניסה" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Evently: מסך סריקת הכרטיסים בכניסה"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2166,8 +2171,8 @@ summary{list-style:none}
               <p class="work-why">לכן המידע על כל נקודה קופץ לבד כשמגיעים אליה, לפי המיקום על המפה, בלי לחפש ובלי להקליד. ובצד של המפעיל: דוח תנועת מבקרים, כדי לראות איפה אנשים עוצרים ואיפה הם ממשיכים הלאה.</p>
             </div>
             <div class="work-media work-media--system">
-              <figure class="work-device work-browser"><figcaption class="work-caption">צד המפעיל</figcaption><img src="assets/work/spoti-dashboard.webp" alt="Spoti: דוח תנועת מבקרים בממשק הניהול" width="1600" height="890" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:0;--a:0"><figcaption class="work-caption">צד המבקר</figcaption><img src="assets/work/spoti-map.webp" alt="Spoti: מפת המסלול עם מידע על נקודה לפי מיקום" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-browser"><figcaption class="work-caption">צד המפעיל</figcaption><img src="assets/work/spoti-dashboard.webp" alt="Spoti: דוח תנועת מבקרים בממשק הניהול" width="1600" height="890" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Spoti: דוח תנועת מבקרים בממשק הניהול"></figure>
+              <figure class="work-device work-phone" style="--i:0;--a:0"><figcaption class="work-caption">צד המבקר</figcaption><img src="assets/work/spoti-map.webp" alt="Spoti: מפת המסלול עם מידע על נקודה לפי מיקום" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Spoti: מפת המסלול עם מידע על נקודה לפי מיקום"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2184,8 +2189,8 @@ summary{list-style:none}
               <p class="work-why">במסעדה אסור שיהיו שני מקורות אמת. לכן גם הלקוח באתר וגם הצוות במסעדה משריינים באותה מערכת: שולחן שנתפס בטלפון נעלם מהאתר באותו רגע, וכל הזמנה אפשר לשנות בכל רגע, מכל צד.</p>
             </div>
             <div class="work-media work-media--duo">
-              <figure class="work-device work-phone" style="--i:1;--a:0"><figcaption class="work-caption">הלקוח</figcaption><img src="assets/work/yame-guest.webp" alt="YA-ME: הזמנת שולחן מצד הלקוח" width="600" height="1253" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:-1;--a:0"><figcaption class="work-caption">הצוות</figcaption><img src="assets/work/yame-staff.webp" alt="YA-ME: יומן כל ההזמנות מצד הצוות" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:1;--a:0"><figcaption class="work-caption">הלקוח</figcaption><img src="assets/work/yame-guest.webp" alt="YA-ME: הזמנת שולחן מצד הלקוח" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: YA-ME: הזמנת שולחן מצד הלקוח"></figure>
+              <figure class="work-device work-phone" style="--i:-1;--a:0"><figcaption class="work-caption">הצוות</figcaption><img src="assets/work/yame-staff.webp" alt="YA-ME: יומן כל ההזמנות מצד הצוות" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: YA-ME: יומן כל ההזמנות מצד הצוות"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2202,8 +2207,8 @@ summary{list-style:none}
               <p class="work-why">לכן החנות נפתחת בסיפור ובתמונה אחת גדולה, לא ברשת של מוצרים. הקטגוריות הן עיגולים שמזהים במבט, והקופה קצרה ומאובטחת, כדי שההתלהבות לא תתקרר בדרך לתשלום.</p>
             </div>
             <div class="work-media work-media--pages">
-              <figure class="work-device work-browser"><img src="assets/work/viamar-shop.webp" alt="VIA MAR: קטגוריות והנמכרים ביותר" width="1600" height="885" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-browser"><img src="assets/work/viamar-home.webp" alt="VIA MAR: עמוד הבית, תכשיטים שמספרים סיפור" width="1600" height="888" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-browser"><img src="assets/work/viamar-shop.webp" alt="VIA MAR: קטגוריות והנמכרים ביותר" width="1600" height="885" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: VIA MAR: קטגוריות והנמכרים ביותר"></figure>
+              <figure class="work-device work-browser"><img src="assets/work/viamar-home.webp" alt="VIA MAR: עמוד הבית, תכשיטים שמספרים סיפור" width="1600" height="888" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: VIA MAR: עמוד הבית, תכשיטים שמספרים סיפור"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2465,39 +2470,69 @@ summary{list-style:none}
 
     <script>
     (function(){
-      var overlay = null;
+      /* The screenshot lightbox: a modal dialog. Focus goes to its close
+         button and stays there (it is the only stop), Escape or a click
+         anywhere closes it, and focus returns to the screenshot it came from. */
+      var overlay = null, opener = null;
 
       function closeLightbox(){
         if (!overlay) return;
         overlay.remove();
         overlay = null;
         document.removeEventListener('keydown', onKeydown);
+        if (opener && opener.isConnected) opener.focus();
+        opener = null;
       }
 
       function onKeydown(e){
         if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'Tab') { e.preventDefault(); overlay.querySelector('button').focus(); }
       }
 
-      function openLightbox(src, alt){
+      function openLightbox(from){
         if (overlay) closeLightbox();
+        opener = from;
         overlay = document.createElement('div');
         overlay.setAttribute('data-lightbox', '');
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        overlay.setAttribute('aria-label', from.alt || 'תמונה מוגדלת');
         overlay.style.cssText = 'position:fixed;inset:0;z-index:1000;background:rgba(2,4,16,.92);display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;animation:rise .25s ease;';
 
         var img = document.createElement('img');
-        img.src = src;
-        img.alt = alt || '';
+        img.src = from.src;
+        img.alt = from.alt || '';
         img.style.cssText = 'max-width:95vw;max-height:92vh;object-fit:contain;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);cursor:zoom-out;';
 
+        var close = document.createElement('button');
+        close.type = 'button';
+        close.setAttribute('aria-label', 'סגירה');
+        close.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 3l12 12M15 3 3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+        close.style.cssText = 'position:absolute;top:16px;right:16px;width:44px;height:44px;border:0;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;background:rgba(250,248,243,.14);color:#FAF8F3;cursor:pointer;';
+
         overlay.appendChild(img);
+        overlay.appendChild(close);
         overlay.addEventListener('click', closeLightbox);
         document.addEventListener('keydown', onKeydown);
         document.body.appendChild(overlay);
+        close.focus();
       }
 
       document.addEventListener('click', function(e){
         var img = e.target.closest && e.target.closest('[data-zoomable]');
-        if (img) openLightbox(img.src, img.alt);
+        if (img) openLightbox(img);
+      });
+      // The screenshots are buttons (see the markup), so they answer the keys
+      // a button does: Enter as it goes down, Space as it comes up.
+      document.addEventListener('keydown', function(e){
+        var img = !overlay && e.target.closest && e.target.closest('[data-zoomable]');
+        if (!img) return;
+        if (e.key === 'Enter') { e.preventDefault(); openLightbox(img); }
+        else if (e.key === ' ') e.preventDefault();             // no page scroll
+      });
+      document.addEventListener('keyup', function(e){
+        var img = !overlay && e.key === ' ' && e.target.closest && e.target.closest('[data-zoomable]');
+        if (img) openLightbox(img);
       });
     })();
     </script>
