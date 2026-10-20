@@ -6,7 +6,8 @@
  *
  * Trust model: `content_html` and `json_ld` are injected verbatim (bar three
  * accessibility fixes: withoutTitleHeading, englishWatermark and
- * focusableTables). That is what
+ * focusableTables, and three SEO fixes: withoutHooxCredit,
+ * withSiteLinks and normalizeJsonLd). That is what
  * the publishing service's contract asks for, and it is safe only because the
  * webhook has already verified the HMAC — the signature is what makes this
  * content trusted. Everything that lands in an attribute is escaped regardless.
@@ -46,6 +47,73 @@ function safeJsonLd(raw) {
   return raw.trim();
 }
 
+const GITHUB_PROFILE = 'https://github.com/OriAfiasDev';
+
+/**
+ * Hoox writes the site URL as `https://Afias.dev`, puts `#fragment` ids
+ * straight after the host and points mainEntityOfPage / the breadcrumb at
+ * `/<raw slug>` — a page that doesn't exist, without /blog/ or the trailing
+ * slash. Normalise every afias.dev URL to the lowercase host, and every
+ * reference to this article to its canonical URL, so the structured data
+ * names the same entities and the same page as the rest of the site.
+ */
+function siteUrl(value, slug, canonical) {
+  const m = /^https?:\/\/(?:www\.)?afias\.dev(?=$|[/?#])(.*)$/i.exec(value);
+  if (!m) return value;
+  let rest = m[1];
+  if (rest === '' || rest[0] === '#' || rest[0] === '?') rest = '/' + rest;
+  let path = rest.replace(/[?#].*$/, '');
+  try { path = decodeURIComponent(path); } catch { /* leave as is */ }
+  path = path.normalize('NFC').replace(/\/+$/, '');
+  if (path === `/${slug}` || path === `/blog/${slug}`) return canonical;
+  return SITE + rest;
+}
+
+function normalizeNode(node, slug, canonical) {
+  if (Array.isArray(node)) return node.map((n) => normalizeNode(n, slug, canonical));
+  if (typeof node === 'string') return siteUrl(node, slug, canonical);
+  if (!node || typeof node !== 'object') return node;
+  const out = {};
+  for (const [k, v] of Object.entries(node)) out[k] = normalizeNode(v, slug, canonical);
+
+  const types = [].concat(out['@type'] || []);
+  if (out.mainEntityOfPage && typeof out.mainEntityOfPage === 'object' && !Array.isArray(out.mainEntityOfPage)) {
+    out.mainEntityOfPage = { ...out.mainEntityOfPage, '@id': canonical };
+  } else if (typeof out.mainEntityOfPage === 'string') {
+    out.mainEntityOfPage = canonical;
+  }
+  if (types.includes('Person') && out['@id'] === `${SITE}/#author`) {
+    if (!out.url) out.url = `${SITE}/`;
+    const same = [].concat(out.sameAs || []);
+    if (!same.includes(GITHUB_PROFILE)) same.push(GITHUB_PROFILE);
+    out.sameAs = same;
+  }
+  // Home > article skips the listing the article actually sits under.
+  if (types.includes('BreadcrumbList') && Array.isArray(out.itemListElement)) {
+    const items = out.itemListElement;
+    const blog = `${SITE}/blog/`;
+    if (items.length && items[items.length - 1].item === canonical && !items.some((i) => i && i.item === blog)) {
+      items.splice(items.length - 1, 0, { '@type': 'ListItem', position: 0, name: 'מאמרים', item: blog });
+      items.forEach((i, n) => { if (i && typeof i === 'object') i.position = n + 1; });
+    }
+  }
+  return out;
+}
+
+/**
+ * Applied to each <script type="application/ld+json"> block. A block that
+ * doesn't parse is passed through untouched — the contract says verbatim, and
+ * a fix must never be the reason structured data disappears.
+ */
+export function normalizeJsonLd(raw, slug, canonical) {
+  return raw.replace(/(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/gi, (all, open, body, close) => {
+    let data;
+    try { data = JSON.parse(body); } catch { return all; }
+    const json = JSON.stringify(normalizeNode(data, slug, canonical), null, 2).replace(/</g, '\\u003c');
+    return `${open}\n${json}\n${close}`;
+  });
+}
+
 /**
  * Hoox opens every article body with the title as its own <h1>, and the page
  * already sets the title as the <h1> above the lede: two h1s, and a screen
@@ -65,6 +133,42 @@ function withoutTitleHeading(html) {
  */
 function englishWatermark(html) {
   return html.replace(/<p data-hoox-watermark="1"/g, '<p data-hoox-watermark="1" lang="en" dir="ltr"');
+}
+
+/**
+ * Some Hoox articles end with an "Article created with love by hoox" credit
+ * linking to tryhoox.com. It is an automated-content signal on our own pages
+ * and an outbound link we didn't choose, so it is dropped.
+ */
+export function withoutHooxCredit(html) {
+  return html.replace(/<p\b[^>]*\bdata-hoox-watermark\b[^>]*>[\s\S]*?<\/p>/gi, '');
+}
+
+/**
+ * Hoox links article text to pages this site doesn't have (/pricing,
+ * /features, /about, /docs) and to pages without their trailing slash (/blog,
+ * /demo — a redirect each). Point them at what does exist. Paths not listed
+ * here are left alone. Once a real /pricing/ or /about/ page exists, change
+ * its entry here.
+ */
+const SITE_LINKS = {
+  '/pricing': '/#pricing',   // the pricing section on the homepage
+  '/features': '/#pricing',  // the package cards are where "what you get" is listed
+  '/about': '/',             // the homepage hero is the introduction ("נעים להכיר, אני אורי")
+  '/docs': '/blog/',         // "guides / technical docs" — the articles are the guides
+  '/blog': '/blog/',
+  '/demo': '/demo/',
+  '/sitemap': '/sitemap.xml',
+};
+
+export function withSiteLinks(html) {
+  return html.replace(/\bhref=(["'])(https?:\/\/(?:www\.)?afias\.dev(?=[/"'?#])|(?=\/(?!\/)))([^"'?#]*)([^"']*)\1/gi,
+    (all, q, host, path, tail) => {
+      const target = SITE_LINKS[(path || '/').toLowerCase().replace(/(.)\/+$/, '$1')];
+      if (!target) return all;
+      // Keep Hoox's absolute form when it used one; a query/fragment of its own is dropped.
+      return `href=${q}${host ? SITE : ''}${target}${q}`;
+    });
 }
 
 /**
@@ -119,7 +223,7 @@ ${tags.map((t) => `<meta property="article:tag" content="${escapeHtml(t)}">`).jo
 <meta name="twitter:description" content="${description}">
 <meta name="twitter:image" content="${image}">
 
-${safeJsonLd(a.json_ld)}
+${normalizeJsonLd(safeJsonLd(a.json_ld), String(a.slug ?? '').normalize('NFC'), url)}
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
@@ -245,7 +349,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
       ${a.meta_description ? `<p class="lede">${description}</p>` : ''}
       ${a.featured_image_url ? `<img class="hero-image" src="${image}" alt="${title}" loading="eager" fetchpriority="high">` : ''}
       <div class="body">
-${focusableTables(englishWatermark(withoutTitleHeading(a.content_html)))}
+${focusableTables(englishWatermark(withSiteLinks(withoutHooxCredit(withoutTitleHeading(a.content_html)))))}
       </div>
       ${tagsHtml}
 
