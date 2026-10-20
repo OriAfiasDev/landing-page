@@ -36,7 +36,7 @@
  *                           never depends on remembering to edit this file.
  */
 
-import { renderArticlePage } from './article-page.js';
+import { renderArticlePage, isLocked } from './article-page.js';
 
 const LINEAR_API = 'https://api.linear.app/graphql';
 const LABEL_NAME = 'בקשת דמו';
@@ -584,6 +584,12 @@ async function handleHooxWebhook(request, env) {
     // A 4xx is the right answer to a malformed article: it will not become
     // well-formed on retry.
     return done(422, { error: 'missing or invalid id, slug, title or content_html' }, { reason: 'bad payload', ...ids });
+  }
+
+  // Hand-edited or consolidated article: the committed file is the source of
+  // truth, so acknowledge (no retry) and write nothing. See LOCKED in article-page.js.
+  if (isLocked(slug)) {
+    return done(200, { received: true, ignored: true, reason: 'locked' }, { result: 'locked', ...ids });
   }
 
   if (!env.GITHUB_TOKEN) {
