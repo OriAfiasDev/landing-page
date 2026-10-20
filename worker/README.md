@@ -221,12 +221,23 @@ deploy the Worker, and replace each loser's committed file with the stub
 `renderArticlePage` produces for it. Hoox never sends a delete; to stop a merged
 article being re-sent at all, unpublish it in Hoox too.
 
+### Locked articles
+
+Posts that were edited by hand in the repo are listed in `LOCKED` in
+`src/article-page.js`. A delivery for a locked slug, or for any merged slug in
+`CONSOLIDATED`, gets `200 { received: true, ignored: true, reason: 'locked' }`
+and is logged with `result: locked`. Nothing is written, so the committed file
+(the edited article or the stub) stays as it is. Slugs that aren't listed
+publish normally. To hand an article back to Hoox, remove its line, deploy the
+Worker, and re-publish it.
+
 ### Responses
 
 | status | meaning |
 | --- | --- |
 | `200 { received: true, outcome, url }` | published; `outcome` is `created` or `updated` |
 | `200 { received: true, ignored: true }` | validly signed, but not `article.published` |
+| `200 { received: true, ignored: true, reason: 'locked' }` | slug is in `LOCKED` or `CONSOLIDATED`; nothing written |
 | `401` | bad or missing signature |
 | `400` | valid signature over non-JSON |
 | `422` | missing `id` / `slug` / `title` / `content_html`, or unsafe slug — will not succeed on retry |

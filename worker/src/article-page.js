@@ -8,7 +8,8 @@
  * accessibility fixes: withoutTitleHeading, englishWatermark and
  * focusableTables, and three SEO fixes: withoutHooxCredit,
  * withSiteLinks and normalizeJsonLd). A slug listed in CONSOLIDATED renders
- * as a redirect stub instead (see there). That is what
+ * as a redirect stub instead (see there), and the webhook skips any slug in
+ * LOCKED or CONSOLIDATED altogether (isLocked). That is what
  * the publishing service's contract asks for, and it is safe only because the
  * webhook has already verified the HMAC — the signature is what makes this
  * content trusted. Everything that lands in an attribute is escaped regardless.
@@ -233,6 +234,42 @@ const WINNER_TITLES = {
 function consolidatedWinner(slug) {
   return CONSOLIDATED[String(slug ?? '').normalize('NFC').toLowerCase()];
 }
+
+/**
+ * Articles whose committed file in the repo is the source of truth (LOCKED):
+ * a Hoox delivery for one of these slugs is acknowledged and never written,
+ * so a retry or a re-publish can't overwrite the hand edits made in the repo
+ * (merged sections, corrected prices and FAQs, sourced statistics). Every
+ * consolidated loser in CONSOLIDATED is locked as well, so its committed stub
+ * stays as it is (isLocked covers both). Any slug not listed publishes as before.
+ *
+ * Same key form as CONSOLIDATED (NFC, lower-case). To let Hoox own an article
+ * again, delete its line and re-publish it from Hoox.
+ */
+export const LOCKED = new Set([
+  // Every live (non-stub) post in blog/, all hand-edited in the repo (2026-10-20)
+  'איך-בוחרים-חברה-לבניית-אתר-לעסק-קטן-ב-2026',
+  'אפיון-אתר-לעסקים-קטנים-המדריך-המלא-ל-2026',
+  'בניית-אתר-למסעדה-המדריך-המלא-לבעלי-עסקים-ב-2026',
+  'בניית-אתר-לעורכי-דין-כך-תקבלו-נוכחות-דיגיטלית-שמביאה-לקוחות',
+  'בניית-אתר-מכירות-באינטרנט-שהופך-מבקרים-ללקוחות',
+  'בניית-אתר-רספונסיבי-שמייצר-לידים-בלי-להסתמך-על-מנוי',
+  'בניית-אתר-תדמית-לעסקים-קטנים-ב-2026-המדריך-המקצועי',
+  'בניית-אתרים-ai-המדריך-המקצועי-לבעלי-עסקים-קטנים',
+  'בניית-אתרים-לעסקים-קטנים-תוך-24-שעות-בלי-מנויים-ובלי-הפתעות',
+  'בניית-דף-נחיתה-שממיר-מדריך-2026-לעסקים-קטנים',
+  'כמה-עולה-לבנות-אתר-לעסק-קטן-ב-2026-המדריך-המלא-למחירים',
+  'מה-ההבדל-בין-אתר-תדמית-לאתר-מכירות-לעסק-המדריך-המלא',
+  'מה-ההבדל-בין-אתר-תדמית-לדף-נחיתה-לעסק-המדריך-ל-2026',
+  'עיצוב-אתר-תדמית-לעסקים-קטנים-ב2026-מדריך-מקצועי',
+]);
+
+/** True when the webhook must not write blog/<slug>/index.html (see LOCKED). */
+export function isLocked(slug) {
+  const key = String(slug ?? '').normalize('NFC').toLowerCase();
+  return LOCKED.has(key) || Object.prototype.hasOwnProperty.call(CONSOLIDATED, key);
+}
+
 
 /** '/blog/<loser>/' (raw Hebrew or percent-encoded) -> '/blog/<winner>/'. */
 function consolidatedLink(path) {
