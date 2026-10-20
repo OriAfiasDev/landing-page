@@ -32,46 +32,50 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://Afias.dev#organization",
+      "@id": "https://afias.dev/#organization",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev"
+      "url": "https://afias.dev/"
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://Afias.dev#localbusiness",
+      "@id": "https://afias.dev/#localbusiness",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev",
+      "url": "https://afias.dev/",
       "parentOrganization": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       }
     },
     {
       "@type": "WebSite",
-      "@id": "https://Afias.dev#website",
-      "url": "https://Afias.dev",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
       "name": "אורי אפיאס",
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "inLanguage": "he"
     },
     {
       "@type": "Person",
-      "@id": "https://Afias.dev#author",
+      "@id": "https://afias.dev/#author",
       "name": "אורי אפיאס",
       "worksFor": {
-        "@id": "https://Afias.dev#organization"
-      }
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
     },
     {
       "@type": "TechArticle",
       "headline": "בניית אתר איקומרס שמוכר: המדריך המלא ל-2026",
       "description": "בניית אתר איקומרס שמוכר באמת דורשת יותר מעיצוב יפה. גלו את הטכנולוגיות, האסטרטגיות והכלים שמניעים מכירות אונליין ב-2026.",
       "author": {
-        "@id": "https://Afias.dev#author"
+        "@id": "https://afias.dev/#author"
       },
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "datePublished": "2026-09-21T18:39:00.000Z",
       "dateModified": "2026-09-21T18:39:00.000Z",
@@ -79,7 +83,7 @@
       "inLanguage": "he",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://Afias.dev/בניית-אתר-איקומרס-שמוכר-המדריך-המלא-ל-2026"
+        "@id": "https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8-%D7%90%D7%99%D7%A7%D7%95%D7%9E%D7%A8%D7%A1-%D7%A9%D7%9E%D7%95%D7%9B%D7%A8-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%9C%D7%90-%D7%9C-2026/"
       },
       "wordCount": 1587,
       "articleSection": "explainer",
@@ -152,13 +156,19 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://Afias.dev"
+          "item": "https://afias.dev/"
         },
         {
           "@type": "ListItem",
           "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
           "name": "בניית אתר איקומרס שמוכר: המדריך המלא ל-2026",
-          "item": "https://Afias.dev/בניית-אתר-איקומרס-שמוכר-המדריך-המלא-ל-2026"
+          "item": "https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8-%D7%90%D7%99%D7%A7%D7%95%D7%9E%D7%A8%D7%A1-%D7%A9%D7%9E%D7%95%D7%9B%D7%A8-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%9C%D7%90-%D7%9C-2026/"
         }
       ]
     },
@@ -376,7 +386,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tr>
 </tbody>
 </table>
-<p>מערכת סליקה לאתר דורשת חיבור לגיטוויי תשלום ישראלי כמו פייפל, טרנזילה או קרדים. כל אחד מהם מציע עמלות שונות ודורש אינטגרציה ספציפית. למידע מפורט על עלויות, ראו <a href="https://afias.dev/pricing">מחירי פיתוח אתרים</a>.</p>
+<p>מערכת סליקה לאתר דורשת חיבור לגיטוויי תשלום ישראלי כמו פייפל, טרנזילה או קרדים. כל אחד מהם מציע עמלות שונות ודורש אינטגרציה ספציפית. למידע מפורט על עלויות, ראו <a href="https://afias.dev/#pricing">מחירי פיתוח אתרים</a>.</p>
 <blockquote>אתרים שעומדים בתקן PCI DSS רמה 1 מדווחים על שיעור חסימת הונאה גבוה ב-45% מאתרים ללא תקינה מתאימה.</blockquote>
 
 
@@ -393,7 +403,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li><strong>ניהול הנחות וקופונים</strong>   יצירת קמפיינים ומבצעים ללא עזרה טכנית</li>
 </ul>
 <blockquote>עסקים שמשתמשים במערכת ניהול משולבת מדווחים על חיסכון ממוצע של 12-18 שעות שבועיות במשימות ניהול שוטפות.</blockquote>
-<p>להבנה עמוקה יותר של יכולות מערכתיות, ראו <a href="https://afias.dev/features">תכונות מערכת ניהול מתקדמות</a>.</p>
+<p>להבנה עמוקה יותר של יכולות מערכתיות, ראו <a href="https://afias.dev/#pricing">תכונות מערכת ניהול מתקדמות</a>.</p>
 
 
 <h2>אופטימיזציה למהירות ולמובייל: 73% מהרכישות מגיעות מהטלפון</h2>
@@ -452,7 +462,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li><strong>קישורים פנימיים</strong>   קישור בין מוצרים קשורים וקטגוריות</li>
 <li><strong>דפי קנוניקל</strong>   מניעת תוכן כפול בין גרסאות שונות של עמודים</li>
 </ul>
-<p>למידע מעמיק על קידום אתרים, ראו <a href="https://afias.dev/blog">מאמרים נוספים על אופטימיזציית אתרים</a>.</p>
+<p>למידע מעמיק על קידום אתרים, ראו <a href="https://afias.dev/blog/">מאמרים נוספים על אופטימיזציית אתרים</a>.</p>
 
 <h2>מחיר נכון, לוח זמנים ריאלי: מה באמת עולה בניית אתר איקומרס</h2>
 <p>העלות של בניית אתר מכירות משתנה באופן דרמטי בהתאם להיקף הפרויקט, הטכנולוגיה הנבחרת ורמת ההתאמה האישית. עסקים רבים מופתעים לגלות שהעלות הראשונית היא רק חלק מהתמונה   עלויות תחזוקה, עמלות עסקה ושדרוגים עתידיים מצטברות לסכומים משמעותיים.</p>
@@ -498,7 +508,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tr>
 </tbody>
 </table>
-<p>עלויות נסתרות כוללות רישיונות תמונות, תוספים בתשלום, תמיכה טכנית ושדרוגים. לפירוט מלא, ראו <a href="https://afias.dev/pricing">חבילות ומחירים מפורטים</a>.</p>
+<p>עלויות נסתרות כוללות רישיונות תמונות, תוספים בתשלום, תמיכה טכנית ושדרוגים. לפירוט מלא, ראו <a href="https://afias.dev/#pricing">חבילות ומחירים מפורטים</a>.</p>
 
 <h2>מדמו לאוויר תוך ימים: תהליך העבודה שלא מבזבז זמן</h2>
 <p>בעלי עסקים קטנים לא יכולים להרשות לעצמם חודשים של פיתוח. הגישה המודרנית משלבת אפיון מהיר, שימוש בכלי בינה מלאכותית מתקדמים לזירוז התהליך, ועבודה מותאמת שמבטיחה איכות קוד גבוהה ללא פשרות.</p>
@@ -526,7 +536,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li><strong>SEO טכני</strong>   מבנה קוד נקי וסכימות מארקאפ מביאים טראפיק אורגני</li>
 <li><strong>דמו לפני תשלום</strong>   ראו את התוצאה לפני שאתם מחויבים כספית</li>
 </ul>
-<p>להבנה עמוקה יותר של הגישה לפיתוח, <a href="https://afias.dev/about">קראו עוד על הגישה שלנו לפיתוח</a>.</p>
+<p>להבנה עמוקה יותר של הגישה לפיתוח, <a href="https://afias.dev/">קראו עוד על הגישה שלנו לפיתוח</a>.</p>
 
 <h2>שאלות נפוצות: בניית אתר איקומרס</h2>
 
@@ -551,7 +561,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <h3>האם אפשר להרחיב את האתר בעתיד עם עוד תכונות?</h3>
 <p><strong>בהחלט.</strong> אתר שנבנה בקוד מותאם או על מערכת גמישה מאפשר הוספת תכונות, אינטגרציות ושינויים מבניים בכל שלב. הקוד שייך לכם ואתם קובעים את קצב ההתפתחות של החנות.</p>
 
-<p>למידע טכני מפורט ומדריכים נוספים, ראו <a href="https://afias.dev/docs">מסמכים טכניים ומדריכים נוספים</a>.</p><p data-hoox-watermark="1" lang="en" dir="ltr" style="text-align: center; font-size: 0.85em; color: rgb(136, 136, 136); margin-top: 2em;">Article created with love by <a href="https://tryhoox.com" target="_blank" rel="noopener" style="color:#888;">hoox</a></p>
+<p>למידע טכני מפורט ומדריכים נוספים, ראו <a href="https://afias.dev/blog/">מסמכים טכניים ומדריכים נוספים</a>.</p>
 </div>
       </div>
       <div class="tags"><span>בניית אתר איקומרס</span></div>

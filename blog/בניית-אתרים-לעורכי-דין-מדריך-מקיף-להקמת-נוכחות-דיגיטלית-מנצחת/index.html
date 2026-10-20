@@ -32,46 +32,50 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://Afias.dev#organization",
+      "@id": "https://afias.dev/#organization",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev"
+      "url": "https://afias.dev/"
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://Afias.dev#localbusiness",
+      "@id": "https://afias.dev/#localbusiness",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev",
+      "url": "https://afias.dev/",
       "parentOrganization": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       }
     },
     {
       "@type": "WebSite",
-      "@id": "https://Afias.dev#website",
-      "url": "https://Afias.dev",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
       "name": "אורי אפיאס",
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "inLanguage": "he"
     },
     {
       "@type": "Person",
-      "@id": "https://Afias.dev#author",
+      "@id": "https://afias.dev/#author",
       "name": "אורי אפיאס",
       "worksFor": {
-        "@id": "https://Afias.dev#organization"
-      }
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
     },
     {
       "@type": "TechArticle",
       "headline": "בניית אתרים לעורכי דין – מדריך מקיף להקמת נוכחות דיגיטלית מנצחת",
       "description": "גלו איך לבנות אתר לעורכי דין שמביא לקוחות. מהירות טעינה, עיצוב מותאם ואופטימיזציה לגוגל – קבלו הצעת מחיר תוך 24 שעות",
       "author": {
-        "@id": "https://Afias.dev#author"
+        "@id": "https://afias.dev/#author"
       },
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "datePublished": "2026-10-02T18:39:00.000Z",
       "dateModified": "2026-10-02T18:39:00.000Z",
@@ -79,7 +83,7 @@
       "inLanguage": "he",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://Afias.dev/בניית-אתרים-לעורכי-דין-מדריך-מקיף-להקמת-נוכחות-דיגיטלית-מנצחת"
+        "@id": "https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8%D7%99%D7%9D-%D7%9C%D7%A2%D7%95%D7%A8%D7%9B%D7%99-%D7%93%D7%99%D7%9F-%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%9E%D7%A7%D7%99%D7%A3-%D7%9C%D7%94%D7%A7%D7%9E%D7%AA-%D7%A0%D7%95%D7%9B%D7%97%D7%95%D7%AA-%D7%93%D7%99%D7%92%D7%99%D7%98%D7%9C%D7%99%D7%AA-%D7%9E%D7%A0%D7%A6%D7%97%D7%AA/"
       },
       "wordCount": 1519,
       "articleSection": "explainer",
@@ -137,13 +141,19 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://Afias.dev"
+          "item": "https://afias.dev/"
         },
         {
           "@type": "ListItem",
           "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
           "name": "בניית אתרים לעורכי דין – מדריך מקיף להקמת נוכחות דיגיטלית מנצחת",
-          "item": "https://Afias.dev/בניית-אתרים-לעורכי-דין-מדריך-מקיף-להקמת-נוכחות-דיגיטלית-מנצחת"
+          "item": "https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8%D7%99%D7%9D-%D7%9C%D7%A2%D7%95%D7%A8%D7%9B%D7%99-%D7%93%D7%99%D7%9F-%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%9E%D7%A7%D7%99%D7%A3-%D7%9C%D7%94%D7%A7%D7%9E%D7%AA-%D7%A0%D7%95%D7%9B%D7%97%D7%95%D7%AA-%D7%93%D7%99%D7%92%D7%99%D7%98%D7%9C%D7%99%D7%AA-%D7%9E%D7%A0%D7%A6%D7%97%D7%AA/"
         }
       ]
     },
@@ -321,7 +331,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <h2>מהירות אתר קריטית: האתגר הגדול של משרדי עו״ד במובייל</h2>
 <p>המציאות בשטח מדאיגה: רוב אתרי משרדי עורכי הדין לא עומדים בסטנדרטים הטכניים של גוגל למובייל. לפי נתונים שפורסמו על ידי <a href="https://www.pagespeedmatters.com/resources/data-studies/law-firm-website-speed" target="_blank" rel="noopener">Pagespeedmatters</a>, רק 48% מאתרי משרדי עורכי הדין עוברים את מדדי ה-Core Web Vitals במובייל. זה אומר שיותר ממחצית האתרים מאבדים לקוחות פוטנציאליים עוד לפני שהעמוד נטען.</p>
-<p>המשמעות היא קריטית: כשלקוח מחפש עורך דין בדחיפות מהסמארטפון שלו, הוא לא יחכה שהאתר שלכם ייטען. הוא יעבור למתחרה הבא בתוצאות החיפוש. בניית אתרים לעורכי דין חייבת להתחיל מהבנה של <a href="https://afias.dev/features">תכונות האתר</a> הקריטיות להצלחה במובייל – ומהירות טעינה היא הראשונה שבהן.</p>
+<p>המשמעות היא קריטית: כשלקוח מחפש עורך דין בדחיפות מהסמארטפון שלו, הוא לא יחכה שהאתר שלכם ייטען. הוא יעבור למתחרה הבא בתוצאות החיפוש. בניית אתרים לעורכי דין חייבת להתחיל מהבנה של <a href="https://afias.dev/#pricing">תכונות האתר</a> הקריטיות להצלחה במובייל – ומהירות טעינה היא הראשונה שבהן.</p>
 
 <table tabindex="0">
 <thead>
@@ -374,7 +384,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 
 
-<p><a href="https://afias.dev/pricing">מחירון בניית אתרים</a> משתנה בהתאם לרמת ההתאמה האישית והפיצ'רים הנדרשים. חשוב להבין שהשקעה באתר איכותי מחזירה את עצמה בפרק זמן קצר יחסית, כשהלידים מתחילים לזרום בצורה עקבית.</p>
+<p><a href="https://afias.dev/#pricing">מחירון בניית אתרים</a> משתנה בהתאם לרמת ההתאמה האישית והפיצ'רים הנדרשים. חשוב להבין שהשקעה באתר איכותי מחזירה את עצמה בפרק זמן קצר יחסית, כשהלידים מתחילים לזרום בצורה עקבית.</p>
 
 <h2>עיצוב ותוכן: מה הופך אתר עורך דין למקצועי ואמין</h2>
 <p>עיצוב אתרים לעורכי דין שונה מתחומים אחרים. הלקוחות מחפשים יציבות, אמינות ומקצועיות – לא עיצוב צעקני או טרנדי מדי. הצבעים צריכים לשדר רוגע וביטחון, הטיפוגרפיה צריכה להיות קריאה ונקייה, והתמונות צריכות להיות אותנטיות ולא סטוק.</p>
@@ -434,7 +444,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tbody>
 </table>
 
-<p><a href="https://afias.dev/blog">מאמרים נוספים על אופטימיזציה</a> יכולים להעמיק את הידע שלכם בתחום, אבל העקרונות הבסיסיים הם פשוטים: תוכן רלוונטי, מבנה טכני תקין, ונוכחות מקומית חזקה. לפי <a href="https://www.webtonic.io/blog/personal-injury-law-technical-seo-statistics" target="_blank" rel="noopener">Webtonic</a>, אתרים מקצועיים שמשלבים אופטימיזציה טכנית עם תוכן איכותי רואים שיפור משמעותי בדירוגים תוך 3 עד 6 חודשים.</p>
+<p><a href="https://afias.dev/blog/">מאמרים נוספים על אופטימיזציה</a> יכולים להעמיק את הידע שלכם בתחום, אבל העקרונות הבסיסיים הם פשוטים: תוכן רלוונטי, מבנה טכני תקין, ונוכחות מקומית חזקה. לפי <a href="https://www.webtonic.io/blog/personal-injury-law-technical-seo-statistics" target="_blank" rel="noopener">Webtonic</a>, אתרים מקצועיים שמשלבים אופטימיזציה טכנית עם תוכן איכותי רואים שיפור משמעותי בדירוגים תוך 3 עד 6 חודשים.</p>
 
 <h2>מחיר מול ערך: כמה באמת עולה אתר איכותי לעורך דין</h2>
 <p>אחת השאלות הנפוצות ביותר היא כמה עולה אתר אינטרנט למשרד עו״ד. התשובה תלויה בכמה גורמים, אבל חשוב להבין את ההבדל בין מודלים שונים של תמחור ומה כל אחד מהם כולל.</p>
@@ -472,7 +482,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tbody>
 </table>
 
-<p><a href="https://afias.dev/pricing">מחירון מלא</a> מאפשר להשוות בין האפשרויות ולבחור את המסלול שמתאים לצרכים שלכם. היתרון הגדול של תשלום חד-פעמי הוא שהקוד נשאר שלכם – אתם יכולים לאחסן אותו איפה שתרצו, לבצע שינויים עצמאיים, ולא להיות תלויים בספק השירות לנצח.</p>
+<p><a href="https://afias.dev/#pricing">מחירון מלא</a> מאפשר להשוות בין האפשרויות ולבחור את המסלול שמתאים לצרכים שלכם. היתרון הגדול של תשלום חד-פעמי הוא שהקוד נשאר שלכם – אתם יכולים לאחסן אותו איפה שתרצו, לבצע שינויים עצמאיים, ולא להיות תלויים בספק השירות לנצח.</p>
 
 <h2>מסקנות ומפתח להצלחה: הצעדים הבאים שלכם</h2>
 <p>הקמת אתר תדמית לעורך דין היא השקעה שמחזירה את עצמה כשהיא נעשית נכון. המפתח הוא לא רק לבנות אתר, אלא לבנות אתר שעובד בשבילכם – שמביא לידים איכותיים, שמייצג אתכם בצורה מקצועית, ושאתם יכולים לשלוט בו באמת.</p>
@@ -488,7 +498,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <p>הצעד הראשון הוא פשוט: <a href="https://afias.dev/demo/">קבלו דמו חינם לפני תשלום</a> וראו איך האתר שלכם יכול להיראות. בלי התחייבות, בלי לחץ – פשוט לראות את האפשרויות ולהבין מה אפשר להשיג.</p>
 
 <h2>שאלות נפוצות על בניית אתרים לעורכי דין</h2>
-<p>לפני שמתחילים בתהליך, חשוב להבהיר כמה נקודות שעולות שוב ושוב בשיחות עם עורכי דין שמתעניינים בהקמת אתר. <a href="https://afias.dev/docs">מדריכים טכניים נוספים</a> זמינים למי שרוצה להעמיק, אבל הנה התשובות לשאלות הכי נפוצות:</p>
+<p>לפני שמתחילים בתהליך, חשוב להבהיר כמה נקודות שעולות שוב ושוב בשיחות עם עורכי דין שמתעניינים בהקמת אתר. <a href="https://afias.dev/blog/">מדריכים טכניים נוספים</a> זמינים למי שרוצה להעמיק, אבל הנה התשובות לשאלות הכי נפוצות:</p>
 
 <h3>כמה זמן לוקח לבנות אתר למשרד עורכי דין?</h3>
 <p><strong>בין ימים ספורים לשבועיים, תלוי במורכבות.</strong> אתר תדמית פשוט יכול לעלות לאוויר תוך 3-5 ימים, בעוד אתר עם מערכת ניהול או פיצ'רים מותאמים יכול לקחת עד שבועיים. הזמן תלוי גם בכמה מהר אתם מספקים את התוכן והחומרים הנדרשים.</p>
