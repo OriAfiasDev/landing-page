@@ -32,46 +32,50 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://Afias.dev#organization",
+      "@id": "https://afias.dev/#organization",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev"
+      "url": "https://afias.dev/"
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://Afias.dev#localbusiness",
+      "@id": "https://afias.dev/#localbusiness",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev",
+      "url": "https://afias.dev/",
       "parentOrganization": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       }
     },
     {
       "@type": "WebSite",
-      "@id": "https://Afias.dev#website",
-      "url": "https://Afias.dev",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
       "name": "אורי אפיאס",
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "inLanguage": "he"
     },
     {
       "@type": "Person",
-      "@id": "https://Afias.dev#author",
+      "@id": "https://afias.dev/#author",
       "name": "אורי אפיאס",
       "worksFor": {
-        "@id": "https://Afias.dev#organization"
-      }
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
     },
     {
       "@type": "TechArticle",
       "headline": "בניית אתרים לעסקים קטנים תוך 24 שעות – בלי מנויים ובלי הפתעות",
       "description": "בניית אתרים לעסקים קטנים בעזרת AI. מחיר סגור, עיצוב מותאם אישית, והקוד נשאר שלכם. קבלו הצעת מחיר תוך 24 שעות – בלי מנויים חודשיים.",
       "author": {
-        "@id": "https://Afias.dev#author"
+        "@id": "https://afias.dev/#author"
       },
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "datePublished": "2026-09-19T18:39:00.000Z",
       "dateModified": "2026-09-19T18:39:00.000Z",
@@ -79,7 +83,7 @@
       "inLanguage": "he",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://Afias.dev/בניית-אתרים-לעסקים-קטנים-תוך-24-שעות-בלי-מנויים-ובלי-הפתעות"
+        "@id": "https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8%D7%99%D7%9D-%D7%9C%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D-%D7%AA%D7%95%D7%9A-24-%D7%A9%D7%A2%D7%95%D7%AA-%D7%91%D7%9C%D7%99-%D7%9E%D7%A0%D7%95%D7%99%D7%99%D7%9D-%D7%95%D7%91%D7%9C%D7%99-%D7%94%D7%A4%D7%AA%D7%A2%D7%95%D7%AA/"
       },
       "wordCount": 2041,
       "articleSection": "explainer",
@@ -144,13 +148,19 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://Afias.dev"
+          "item": "https://afias.dev/"
         },
         {
           "@type": "ListItem",
           "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
           "name": "בניית אתרים לעסקים קטנים תוך 24 שעות – בלי מנויים ובלי הפתעות",
-          "item": "https://Afias.dev/בניית-אתרים-לעסקים-קטנים-תוך-24-שעות-בלי-מנויים-ובלי-הפתעות"
+          "item": "https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8%D7%99%D7%9D-%D7%9C%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D-%D7%AA%D7%95%D7%9A-24-%D7%A9%D7%A2%D7%95%D7%AA-%D7%91%D7%9C%D7%99-%D7%9E%D7%A0%D7%95%D7%99%D7%99%D7%9D-%D7%95%D7%91%D7%9C%D7%99-%D7%94%D7%A4%D7%AA%D7%A2%D7%95%D7%AA/"
         }
       ]
     },
@@ -369,7 +379,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p>העלייה לאוויר היא הרגע שבו הכל מתחבר. הדומיין שלכם מחובר, האתר נגיש לכולם, ואתם יכולים להתחיל לשלוח לקוחות לכתובת החדשה שלכם ברשת. אבל העבודה לא נגמרת שם – חודש הליווי שכלול בחבילות מבטיח שתקבלו את כל התמיכה שאתם צריכים בתקופה הקריטית הראשונה.</p>
 
-<p>לפרטים מלאים על המסלולים והמחירים, כדאי לעבור לעמוד <a href="https://afias.dev/pricing">פירוט מחירים ומסלולים</a>. שם תמצאו את כל המידע שאתם צריכים כדי לבחור את החבילה שמתאימה בדיוק לצרכים של העסק שלכם.</p>
+<p>לפרטים מלאים על המסלולים והמחירים, כדאי לעבור לעמוד <a href="https://afias.dev/#pricing">פירוט מחירים ומסלולים</a>. שם תמצאו את כל המידע שאתם צריכים כדי לבחור את החבילה שמתאימה בדיוק לצרכים של העסק שלכם.</p>
 
 <h2>איך בוחרים בין אתר תדמית, אתר עם ממשק ניהול למערכת מלאה</h2>
 
@@ -406,7 +416,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 
 
-<p>התהליך משתמש ב-<a href="https://afias.dev/features">היכולות הטכניות של המערכת</a> כדי לספק תוצאות מהירות בלי להתפשר על איכות. שילוב של אוטומציה חכמה עם פיקוח אנושי הוא המתכון לאתר שעובד טוב מהרגע הראשון.</p>
+<p>התהליך משתמש ב-<a href="https://afias.dev/#pricing">היכולות הטכניות של המערכת</a> כדי לספק תוצאות מהירות בלי להתפשר על איכות. שילוב של אוטומציה חכמה עם פיקוח אנושי הוא המתכון לאתר שעובד טוב מהרגע הראשון.</p>
 
 <h2>מחיר סגור מראש: למה זה חשוב בבניית אתרים ב-2026</h2>
 
@@ -428,7 +438,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p><iframe width="100%" style="aspect-ratio: 16 / 9;" src="https://www.youtube.com/embed/WfWqhsOyy2Q" title="בניית אתרים לעסקים קטנים תוך 24 שעות – בלי מנויים ובלי הפתעות" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></p>
 
-<p>הגישה של <a href="https://afias.dev/about">על הגישה העסקית של אורי אפיאס</a> מתמקדת בלתת לכם את החופש המלא. האתר שלכם, הקוד שלכם, הבחירה שלכם. זו הדרך היחידה שבה עסק קטן יכול להרגיש בטוח שהנכס הדיגיטלי שלו באמת שייך לו.</p>
+<p>הגישה של <a href="https://afias.dev/">על הגישה העסקית של אורי אפיאס</a> מתמקדת בלתת לכם את החופש המלא. האתר שלכם, הקוד שלכם, הבחירה שלכם. זו הדרך היחידה שבה עסק קטן יכול להרגיש בטוח שהנכס הדיגיטלי שלו באמת שייך לו.</p>
 
 <h2>מסלול אקספרס: ניהול מלא או בעלות עצמאית על הקוד</h2>
 
@@ -480,7 +490,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tbody>
 </table>
 
-<p>הגמישות הזו היא חלק מהגישה של <a href="https://afias.dev/blog">מאמרים נוספים בנושא בניית אתרים</a>. כל עסק שונה, ולכל עסק יש את ההעדפות שלו. אין פתרון אחד שמתאים לכולם – יש את הפתרון שמתאים לכם.</p>
+<p>הגמישות הזו היא חלק מהגישה של <a href="https://afias.dev/blog/">מאמרים נוספים בנושא בניית אתרים</a>. כל עסק שונה, ולכל עסק יש את ההעדפות שלו. אין פתרון אחד שמתאים לכולם – יש את הפתרון שמתאים לכם.</p>
 
 <h2>נקודות מפתח לבניית אתר מוצלח לעסק קטן</h2>
 
@@ -498,7 +508,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p>העקרונות האלה מנחים את כל תהליך הבנייה. כשאתם בוחרים לבנות אתר, וודאו שכל אחד מהם מתקיים. אם משהו חסר – זה סימן שההתאמה לא מלאה.</p>
 
-<p>להבנה מעמיקה יותר של ההיבטים הטכניים, אפשר לעיין ב-<a href="https://afias.dev/docs">מדריכים טכניים למפתחים</a>. גם אם אתם לא מפתחים בעצמכם, הידע הזה יעזור לכם לקבל החלטות מושכלות יותר לגבי האתר שלכם.</p>
+<p>להבנה מעמיקה יותר של ההיבטים הטכניים, אפשר לעיין ב-<a href="https://afias.dev/blog/">מדריכים טכניים למפתחים</a>. גם אם אתם לא מפתחים בעצמכם, הידע הזה יעזור לכם לקבל החלטות מושכלות יותר לגבי האתר שלכם.</p>
 
 <h2>שאלות נפוצות על בניית אתרים לעסקים קטנים</h2>
 
@@ -520,7 +530,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <h3>האם הקוד של האתר נשאר שלי?</h3>
 <p><strong>כן, הקוד שלכם לחלוטין</strong>. אתם מקבלים את כל הקבצים ויכולים להעביר אותם לכל שרת שתרצו. אין תלות במערכת כלשהי, ואין צורך להמשיך ולשלם כדי לשמור על האתר שלכם. זה ההבדל המהותי בין להיות בעלים של הנכס הדיגיטלי שלכם לבין להיות שוכרים שלו. בעלות מלאה פירושה חופש מוחלט לעשות מה שאתם רוצים עם האתר שלכם.</p>
 
-<p>לסקירה מלאה של כל התכנים והשירותים, אפשר לגשת ל-<a href="https://afias.dev/sitemap">מפת האתר המלאה</a>. שם תמצאו את כל המידע שאתם צריכים כדי לקבל החלטה מושכלת על הצעד הבונה הדיגיטלי של העסק שלכם.</p><p data-hoox-watermark="1" lang="en" dir="ltr" style="text-align: center; font-size: 0.85em; color: rgb(136, 136, 136); margin-top: 2em;">Article created with love by <a href="https://tryhoox.com" target="_blank" rel="noopener" style="color:#888;">hoox</a></p>
+<p>לסקירה מלאה של כל התכנים והשירותים, אפשר לגשת ל-<a href="https://afias.dev/sitemap.xml">מפת האתר המלאה</a>. שם תמצאו את כל המידע שאתם צריכים כדי לקבל החלטה מושכלת על הצעד הבונה הדיגיטלי של העסק שלכם.</p>
 </div>
       </div>
       <div class="tags"><span>בניית אתרים לעסקים קטנים</span></div>

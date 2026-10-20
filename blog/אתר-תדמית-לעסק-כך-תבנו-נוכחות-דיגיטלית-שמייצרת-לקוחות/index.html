@@ -32,46 +32,50 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://Afias.dev#organization",
+      "@id": "https://afias.dev/#organization",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev"
+      "url": "https://afias.dev/"
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://Afias.dev#localbusiness",
+      "@id": "https://afias.dev/#localbusiness",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev",
+      "url": "https://afias.dev/",
       "parentOrganization": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       }
     },
     {
       "@type": "WebSite",
-      "@id": "https://Afias.dev#website",
-      "url": "https://Afias.dev",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
       "name": "אורי אפיאס",
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "inLanguage": "he"
     },
     {
       "@type": "Person",
-      "@id": "https://Afias.dev#author",
+      "@id": "https://afias.dev/#author",
       "name": "אורי אפיאס",
       "worksFor": {
-        "@id": "https://Afias.dev#organization"
-      }
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
     },
     {
       "@type": "TechArticle",
       "headline": "אתר תדמית לעסק – כך תבנו נוכחות דיגיטלית שמייצרת לקוחות",
       "description": "מדריך מקיף לבניית אתר תדמית לעסק קטן ב-2026: מחירים, תכונות חובה, ועצות מומחה להפיכת מבקרים ללקוחות. קבלו הצעת מחיר תוך 24 שעות.",
       "author": {
-        "@id": "https://Afias.dev#author"
+        "@id": "https://afias.dev/#author"
       },
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "datePublished": "2026-10-01T18:39:00.000Z",
       "dateModified": "2026-10-01T18:39:00.000Z",
@@ -79,7 +83,7 @@
       "inLanguage": "he",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://Afias.dev/אתר-תדמית-לעסק-כך-תבנו-נוכחות-דיגיטלית-שמייצרת-לקוחות"
+        "@id": "https://afias.dev/blog/%D7%90%D7%AA%D7%A8-%D7%AA%D7%93%D7%9E%D7%99%D7%AA-%D7%9C%D7%A2%D7%A1%D7%A7-%D7%9B%D7%9A-%D7%AA%D7%91%D7%A0%D7%95-%D7%A0%D7%95%D7%9B%D7%97%D7%95%D7%AA-%D7%93%D7%99%D7%92%D7%99%D7%98%D7%9C%D7%99%D7%AA-%D7%A9%D7%9E%D7%99%D7%99%D7%A6%D7%A8%D7%AA-%D7%9C%D7%A7%D7%95%D7%97%D7%95%D7%AA/"
       },
       "wordCount": 1889,
       "articleSection": "explainer",
@@ -145,13 +149,19 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://Afias.dev"
+          "item": "https://afias.dev/"
         },
         {
           "@type": "ListItem",
           "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
           "name": "אתר תדמית לעסק – כך תבנו נוכחות דיגיטלית שמייצרת לקוחות",
-          "item": "https://Afias.dev/אתר-תדמית-לעסק-כך-תבנו-נוכחות-דיגיטלית-שמייצרת-לקוחות"
+          "item": "https://afias.dev/blog/%D7%90%D7%AA%D7%A8-%D7%AA%D7%93%D7%9E%D7%99%D7%AA-%D7%9C%D7%A2%D7%A1%D7%A7-%D7%9B%D7%9A-%D7%AA%D7%91%D7%A0%D7%95-%D7%A0%D7%95%D7%9B%D7%97%D7%95%D7%AA-%D7%93%D7%99%D7%92%D7%99%D7%98%D7%9C%D7%99%D7%AA-%D7%A9%D7%9E%D7%99%D7%99%D7%A6%D7%A8%D7%AA-%D7%9C%D7%A7%D7%95%D7%97%D7%95%D7%AA/"
         }
       ]
     },
@@ -375,7 +385,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tbody>
 </table>
 
-<p>הטבלה הזאת מציגה רק חלק מה<a href="https://afias.dev/features">תכונות חובה באתר תדמית</a>. כשאתם בוחנים אפשרויות לפיתוח אתר תדמית, שאלו את עצמכם אם האתר המוצע מטפל בכל אחד מהפרמטרים האלה.</p>
+<p>הטבלה הזאת מציגה רק חלק מה<a href="https://afias.dev/#pricing">תכונות חובה באתר תדמית</a>. כשאתם בוחנים אפשרויות לפיתוח אתר תדמית, שאלו את עצמכם אם האתר המוצע מטפל בכל אחד מהפרמטרים האלה.</p>
 
 <h2>למה העסק שלכם מפסיד לקוחות בלי אתר תדמית מסודר</h2>
 
@@ -395,7 +405,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li>המלצות בגוגל לא מקושרות לאתר, והלקוח לא מצליח לקבל תמונה מלאה של השירות</li>
 </ul>
 
-<p>כשבוחנים את <a href="https://afias.dev/pricing">מחירי בניית אתר תדמית</a>, חשוב לזכור שהעלות האמיתית היא הפסד ההכנסות מלקוחות שאתם מפסידים כל יום בלי אתר מסודר. השקעה בבניית נוכחות ברשת מחזירה את עצמה דרך לקוחות חדשים שמגיעים מחיפושים אורגניים.</p>
+<p>כשבוחנים את <a href="https://afias.dev/#pricing">מחירי בניית אתר תדמית</a>, חשוב לזכור שהעלות האמיתית היא הפסד ההכנסות מלקוחות שאתם מפסידים כל יום בלי אתר מסודר. השקעה בבניית נוכחות ברשת מחזירה את עצמה דרך לקוחות חדשים שמגיעים מחיפושים אורגניים.</p>
 
 <h2>כך בונים אתר תדמית שמדורג גבוה בגוגל ונטען מהר</h2>
 
@@ -444,7 +454,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tbody>
 </table>
 
-<p>הנתונים בטבלה מדגימים למה <a href="https://afias.dev/docs">מסמכי תיעוד טכני</a> חשובים כשבוחרים מפתח אתרים. בעל עסק שמבין את ההבדלים הטכניים יכול לדרוש תוצאות מדידות ולא להסתפק באתר שנראה יפה אבל לא עובד.</p>
+<p>הנתונים בטבלה מדגימים למה <a href="https://afias.dev/blog/">מסמכי תיעוד טכני</a> חשובים כשבוחרים מפתח אתרים. בעל עסק שמבין את ההבדלים הטכניים יכול לדרוש תוצאות מדידות ולא להסתפק באתר שנראה יפה אבל לא עובד.</p>
 
 <h2>איך להפוך מבקרים באתר ללידים: עיצוב שממיר</h2>
 
@@ -518,7 +528,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tbody>
 </table>
 
-<p>הטבלה מציגה את ה<a href="https://afias.dev/pricing">מחירון המפורט לפי סוג עסק</a>. כשאתם משווים הצעות מחיר, ודאו שאתם משווים את הערך המלא ולא רק את המספר התחתון. אתר תדמית זול שלא מביא לקוחות הוא הוצאה, לא השקעה.</p>
+<p>הטבלה מציגה את ה<a href="https://afias.dev/#pricing">מחירון המפורט לפי סוג עסק</a>. כשאתם משווים הצעות מחיר, ודאו שאתם משווים את הערך המלא ולא רק את המספר התחתון. אתר תדמית זול שלא מביא לקוחות הוא הוצאה, לא השקעה.</p>
 
 <h2>בניית אתר תדמית ב-24 שעות: התהליך המלא צעד אחר צעד</h2>
 
@@ -558,7 +568,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li>האם יש אחריות על תקינות הקוד?</li>
 </ul>
 
-<p>הרשימה הזאת היא נקודת התחלה. <a href="https://afias.dev/about">קראו על הגישה שלנו לבעלות על קוד</a> כדי להבין איך זה עובד בפועל כשהאתר באמת שלכם.</p>
+<p>הרשימה הזאת היא נקודת התחלה. <a href="https://afias.dev/">קראו על הגישה שלנו לבעלות על קוד</a> כדי להבין איך זה עובד בפועל כשהאתר באמת שלכם.</p>
 
 <h2>שאלות נפוצות על בניית אתר תדמית לעסק</h2>
 

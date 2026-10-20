@@ -32,46 +32,50 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://Afias.dev#organization",
+      "@id": "https://afias.dev/#organization",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev"
+      "url": "https://afias.dev/"
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://Afias.dev#localbusiness",
+      "@id": "https://afias.dev/#localbusiness",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev",
+      "url": "https://afias.dev/",
       "parentOrganization": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       }
     },
     {
       "@type": "WebSite",
-      "@id": "https://Afias.dev#website",
-      "url": "https://Afias.dev",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
       "name": "אורי אפיאס",
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "inLanguage": "he"
     },
     {
       "@type": "Person",
-      "@id": "https://Afias.dev#author",
+      "@id": "https://afias.dev/#author",
       "name": "אורי אפיאס",
       "worksFor": {
-        "@id": "https://Afias.dev#organization"
-      }
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
     },
     {
       "@type": "TechArticle",
       "headline": "איך בונים אתר תדמית לעסק קטן ב־2026: מדריך מעשי ללא התפשרות",
       "description": "מדריך מקיף לבניית אתר תדמית לעסק קטן: מהתכנון ועד העלייה לאוויר. למדו איך לבנות נוכחות דיגיטלית שממירה מבקרים ללידים בפועל.",
       "author": {
-        "@id": "https://Afias.dev#author"
+        "@id": "https://afias.dev/#author"
       },
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "datePublished": "2026-10-13T18:39:00.000Z",
       "dateModified": "2026-10-13T18:39:00.000Z",
@@ -79,7 +83,7 @@
       "inLanguage": "he",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://Afias.dev/איך-בונים-אתר-תדמית-לעסק-קטן-ב2026-מדריך-מעשי-ללא-התפשרות"
+        "@id": "https://afias.dev/blog/%D7%90%D7%99%D7%9A-%D7%91%D7%95%D7%A0%D7%99%D7%9D-%D7%90%D7%AA%D7%A8-%D7%AA%D7%93%D7%9E%D7%99%D7%AA-%D7%9C%D7%A2%D7%A1%D7%A7-%D7%A7%D7%98%D7%9F-%D7%912026-%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%9E%D7%A2%D7%A9%D7%99-%D7%9C%D7%9C%D7%90-%D7%94%D7%AA%D7%A4%D7%A9%D7%A8%D7%95%D7%AA/"
       },
       "wordCount": 1387,
       "articleSection": "בניית אתר",
@@ -145,13 +149,19 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://Afias.dev"
+          "item": "https://afias.dev/"
         },
         {
           "@type": "ListItem",
           "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
           "name": "איך בונים אתר תדמית לעסק קטן ב־2026: מדריך מעשי ללא התפשרות",
-          "item": "https://Afias.dev/איך-בונים-אתר-תדמית-לעסק-קטן-ב2026-מדריך-מעשי-ללא-התפשרות"
+          "item": "https://afias.dev/blog/%D7%90%D7%99%D7%9A-%D7%91%D7%95%D7%A0%D7%99%D7%9D-%D7%90%D7%AA%D7%A8-%D7%AA%D7%93%D7%9E%D7%99%D7%AA-%D7%9C%D7%A2%D7%A1%D7%A7-%D7%A7%D7%98%D7%9F-%D7%912026-%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%9E%D7%A2%D7%A9%D7%99-%D7%9C%D7%9C%D7%90-%D7%94%D7%AA%D7%A4%D7%A9%D7%A8%D7%95%D7%AA/"
         }
       ]
     },
@@ -326,7 +336,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li>עיצוב חוויית משתמש שמניעה מבקרים לפעולה – טלפון, השארת פרטים או הזמנה.</li>
 <li>פיתוח טכני נקי עם קוד מותאם, לא תבנית גנרית שמאט את האתר.</li>
 <li>אופטימיזציה לגוגל ולמהירות טעינה כבר בשלב הבנייה.</li>
-<li>עלייה לאוויר עם <a href="https://afias.dev/pricing">מחירון שקוף ומפורט</a> שמבטיח שאין הפתעות בחשבון הסופי.</li>
+<li>עלייה לאוויר עם <a href="https://afias.dev/#pricing">מחירון שקוף ומפורט</a> שמבטיח שאין הפתעות בחשבון הסופי.</li>
 </ul>
 
 <figure style="margin:1.5em 0;text-align:center;"><a href="https://afias.dev/" target="_blank" rel="noopener"><img src="https://afias.dev/og-image.png" alt="afias.dev" class="blog-image" loading="lazy" style="max-width:100%;height:auto;border-radius:8px;"></a><figcaption style="font-size:0.85em;color:#666;margin-top:0.5em;">afias.dev</figcaption></figure>
@@ -394,7 +404,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 
 
-<p>הבנה של <a href="https://afias.dev/features">התכונות הטכניות שמבדילות אתר איכותי</a> היא המפתח להצלחה. אתר שנבנה על קוד נקי לא רק נטען מהר יותר – הוא גם מדורג טוב יותר בגוגל ומספק חוויית משתמש חלקה שמשאירה את המבקרים בפנים.</p>
+<p>הבנה של <a href="https://afias.dev/#pricing">התכונות הטכניות שמבדילות אתר איכותי</a> היא המפתח להצלחה. אתר שנבנה על קוד נקי לא רק נטען מהר יותר – הוא גם מדורג טוב יותר בגוגל ומספק חוויית משתמש חלקה שמשאירה את המבקרים בפנים.</p>
 
 <h2>בחירת פלטפורמה: קוד ידני נגד בוני אתרים – מה באמת עובד</h2>
 <p>השוק מוצף באפשרויות: בוני אתרים עם גרירה ושחרור, תבניות מוכנות, וכמובן כלי AI שמייצרים אתרים בלחיצת כפתור. אבל מה באמת עובד לעסק קטן שרוצה נוכחות מקצועית?</p>
@@ -460,7 +470,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li>אישור סופי והעברת חשבונית – רק אחרי שהלקוח מרוצה לחלוטין.</li>
 <li>עלייה לאוויר – הפעלת האתר בדומיין הסופי עם כל האופטימיזציות.</li>
 </ol>
-<p>מוזמנים <a href="https://afias.dev/demo">לראות דוגמאות לפרויקטים שכבר עלו</a> כדי להבין איך התהליך הזה מתרגם לתוצאות אמיתיות.</p>
+<p>מוזמנים <a href="https://afias.dev/demo/">לראות דוגמאות לפרויקטים שכבר עלו</a> כדי להבין איך התהליך הזה מתרגם לתוצאות אמיתיות.</p>
 
 <h2>אופטימיזציה לגוגל: איך לוודא שהאתר נמצא בחיפוש מקומי</h2>
 <p>אתר יפה שאף אחד לא מוצא הוא כמו חנות מעוצבת בסמטאות של אזור תעשייה שומם. אופטימיזציה למנועי חיפוש, במיוחד לחיפוש מקומי, היא קריטית לעסקים קטנים שמשרתים לקוחות באזור מוגדר.</p>
@@ -472,7 +482,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li>תוכן רלוונטי – מידע שימושי ללקוחות, לא רק טקסט שיווקי ריק.</li>
 <li>תגובות לנייד – רוב החיפושים המקומיים מתבצעים מהסמארטפון.</li>
 </ul>
-<p>אפשר למצוא <a href="https://afias.dev/docs">מדריכים טכניים נוספים</a> שמרחיבים על כל אחד מהנושאים האלו. חשוב לזכור: SEO זה לא קסם, אלא תהליך מצטבר שמשתלם לאורך זמן.</p>
+<p>אפשר למצוא <a href="https://afias.dev/blog/">מדריכים טכניים נוספים</a> שמרחיבים על כל אחד מהנושאים האלו. חשוב לזכור: SEO זה לא קסם, אלא תהליך מצטבר שמשתלם לאורך זמן.</p>
 
 <h2>מודל התמחור: למה מחיר סגור מראש חוסך לכם כאב ראש</h2>
 <p>אחד החששות הגדולים של בעלי עסקים קטנים הוא עלויות בלתי צפויות. מודל התמחור המקובל בשוק מציע שתי אפשרויות עיקריות: תשלום חד פעמי או מנוי חודשי. לכל אחד יתרונות וחסרונות, אבל השקיפות היא המפתח.</p>
@@ -480,7 +490,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p><iframe width="100%" style="aspect-ratio: 16 / 9;" src="https://www.youtube.com/embed/0z2C5Krz_uc" title="איך בונים אתר תדמית לעסק קטן ב־2026: מדריך מעשי ללא התפשרות" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 
-<p>העיקר הוא לדעת בדיוק מה אתם משלמים ומה אתם מקבלים. מוזמנים <a href="https://afias.dev/pricing">לראות את המחירון המלא</a> ולהשוות את האפשרויות בצורה שקופה וברורה.</p>
+<p>העיקר הוא לדעת בדיוק מה אתם משלמים ומה אתם מקבלים. מוזמנים <a href="https://afias.dev/#pricing">לראות את המחירון המלא</a> ולהשוות את האפשרויות בצורה שקופה וברורה.</p>
 
 <h2>שאלות נפוצות: כל מה ששאלתם על בניית אתר תדמית</h2>
 
@@ -502,7 +512,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <h3>איך אני יודע שהאתר ימיר מבקרים ללידים?</h3>
 <p><strong>אין ערובה מוחלטת, אבל עיצוב מותאם מגדיל משמעותית את הסיכוי.</strong> כפתור פעולה בולט, תוכן משכנע וטופס יצירת קשר נגיש הם הבסיס. מעקב אנליטיקס מאפשר לשפר את הביצועים לאורך זמן.</p>
 
-<p><a href="https://afias.dev/about">קצת עליי ועל הגישה שלי</a> – אם המדריך הזה היה שימושי, אשמח לשמוע ממכם ולעזור להפוך את הנוכחות הדיגיטלית של העסק שלכם לכלי שעובד בשבילכם.</p>
+<p><a href="https://afias.dev/">קצת עליי ועל הגישה שלי</a> – אם המדריך הזה היה שימושי, אשמח לשמוע ממכם ולעזור להפוך את הנוכחות הדיגיטלית של העסק שלכם לכלי שעובד בשבילכם.</p>
 </div>
       </div>
       <div class="tags"><span>איך בונים אתר תדמית לעסק קטן</span></div>

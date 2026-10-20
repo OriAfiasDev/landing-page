@@ -32,46 +32,50 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://Afias.dev#organization",
+      "@id": "https://afias.dev/#organization",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev"
+      "url": "https://afias.dev/"
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://Afias.dev#localbusiness",
+      "@id": "https://afias.dev/#localbusiness",
       "name": "אורי אפיאס",
-      "url": "https://Afias.dev",
+      "url": "https://afias.dev/",
       "parentOrganization": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       }
     },
     {
       "@type": "WebSite",
-      "@id": "https://Afias.dev#website",
-      "url": "https://Afias.dev",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
       "name": "אורי אפיאס",
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "inLanguage": "he"
     },
     {
       "@type": "Person",
-      "@id": "https://Afias.dev#author",
+      "@id": "https://afias.dev/#author",
       "name": "אורי אפיאס",
       "worksFor": {
-        "@id": "https://Afias.dev#organization"
-      }
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
     },
     {
       "@type": "TechArticle",
       "headline": "מה ההבדל בין אתר תדמית לאתר מכירות – מדריך מקצועי לבעלי עסקים",
       "description": "הבדלים מהותיים בין אתר תדמית לאתר מכירות: מטרה, עיצוב, תוכן ומדדי הצלחה. גלו איזה אתר מתאים לעסק שלכם והתחילו עוד היום.",
       "author": {
-        "@id": "https://Afias.dev#author"
+        "@id": "https://afias.dev/#author"
       },
       "publisher": {
-        "@id": "https://Afias.dev#organization"
+        "@id": "https://afias.dev/#organization"
       },
       "datePublished": "2026-10-09T18:39:00.000Z",
       "dateModified": "2026-10-09T18:39:00.000Z",
@@ -79,7 +83,7 @@
       "inLanguage": "he",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://Afias.dev/מה-ההבדל-בין-אתר-תדמית-לאתר-מכירות-מדריך-מקצועי-לבעלי-עסקים"
+        "@id": "https://afias.dev/blog/%D7%9E%D7%94-%D7%94%D7%94%D7%91%D7%93%D7%9C-%D7%91%D7%99%D7%9F-%D7%90%D7%AA%D7%A8-%D7%AA%D7%93%D7%9E%D7%99%D7%AA-%D7%9C%D7%90%D7%AA%D7%A8-%D7%9E%D7%9B%D7%99%D7%A8%D7%95%D7%AA-%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%9E%D7%A7%D7%A6%D7%95%D7%A2%D7%99-%D7%9C%D7%91%D7%A2%D7%9C%D7%99-%D7%A2%D7%A1%D7%A7%D7%99%D7%9D/"
       },
       "wordCount": 2143,
       "articleSection": "סוגי אתרים",
@@ -161,13 +165,19 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://Afias.dev"
+          "item": "https://afias.dev/"
         },
         {
           "@type": "ListItem",
           "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
           "name": "מה ההבדל בין אתר תדמית לאתר מכירות – מדריך מקצועי לבעלי עסקים",
-          "item": "https://Afias.dev/מה-ההבדל-בין-אתר-תדמית-לאתר-מכירות-מדריך-מקצועי-לבעלי-עסקים"
+          "item": "https://afias.dev/blog/%D7%9E%D7%94-%D7%94%D7%94%D7%91%D7%93%D7%9C-%D7%91%D7%99%D7%9F-%D7%90%D7%AA%D7%A8-%D7%AA%D7%93%D7%9E%D7%99%D7%AA-%D7%9C%D7%90%D7%AA%D7%A8-%D7%9E%D7%9B%D7%99%D7%A8%D7%95%D7%AA-%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%9E%D7%A7%D7%A6%D7%95%D7%A2%D7%99-%D7%9C%D7%91%D7%A2%D7%9C%D7%99-%D7%A2%D7%A1%D7%A7%D7%99%D7%9D/"
         }
       ]
     },
@@ -374,7 +384,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 </tbody>
 </table>
 
-<p>לפני שמחליטים על סוג האתר, חשוב להבין את העלויות המעורבות. ב<a href="https://afias.dev/pricing">מחירון בניית אתרים לעסקים קטנים</a> תמצאו פירוט מלא של חבילות ומחירים שמתאימים לכל כיס ולכל צורך עסקי.</p>
+<p>לפני שמחליטים על סוג האתר, חשוב להבין את העלויות המעורבות. ב<a href="https://afias.dev/#pricing">מחירון בניית אתרים לעסקים קטנים</a> תמצאו פירוט מלא של חבילות ומחירים שמתאימים לכל כיס ולכל צורך עסקי.</p>
 
 <figure style="margin:1.5em 0;text-align:center;"><a href="https://afias.dev/" target="_blank" rel="noopener"><img src="https://afias.dev/og-image.png" alt="afias.dev" class="blog-image" loading="lazy" style="max-width:100%;height:auto;border-radius:8px;"></a><figcaption style="font-size:0.85em;color:#666;margin-top:0.5em;">afias.dev</figcaption></figure>
 
@@ -417,7 +427,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li><strong>מערכת משלוחים משולבת</strong> – חישוב עלויות משלוח, הדפסת תוויות ומעקב אחר משלוחים.</li>
 </ul>
 
-<p>לכל אלו נדרש <a href="https://afias.dev/features">תכונות ממשק ניהול לאתר עסקי</a> שמאפשרות שליטה מלאה בעסק גם ללא ידע טכני מוקדם. הממשק צריך להיות אינטואיטיבי, נגיש מהנייד ומאפשר עבודה שוטפת בלי תלות במפתחים חיצוניים.</p>
+<p>לכל אלו נדרש <a href="https://afias.dev/#pricing">תכונות ממשק ניהול לאתר עסקי</a> שמאפשרות שליטה מלאה בעסק גם ללא ידע טכני מוקדם. הממשק צריך להיות אינטואיטיבי, נגיש מהנייד ומאפשר עבודה שוטפת בלי תלות במפתחים חיצוניים.</p>
 
 <h2>איך לבחור בין אתר תדמית לאתר מכירות לפי סוג העסק</h2>
 <p>הבחירה בין אתר תדמית לאתר מכירות צריכה להתבסס על שלושה קריטריונים מרכזיים: מודל ההכנסות שלכם, אופי האינטראקציה עם הלקוחות והיכולות התפעוליות של העסק. אין תשובה אחת נכונה לכולם, ולכן חשוב להתאים את הפתרון למציאות העסקית שלכם.</p>
@@ -503,7 +513,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <li><strong>בחירת מחיר זול על פני איכות</strong> – אתר זול שנבנה על ידי כלי AI גנריים בלי התאמה נראה כמו עוד אתר בדיוק. הלקוחות מזהים את זה מייד. הפתרון: לשים דגש על עיצוב מותאם אישית ולא על המחיר הנמוך ביותר.</li>
 </ul>
 
-<p>הימנעות מהטעויות האלו חוסכת זמן וכסף בטווח הארוך. ב<a href="https://afias.dev/blog">מאמרים נוספים על בחירת אתר נכון</a> תמצאו מידע מפורט שיעזור לכם לקבל החלטות מושכלות יותר לגבי הנוכחות הדיגיטלית של העסק שלכם.</p>
+<p>הימנעות מהטעויות האלו חוסכת זמן וכסף בטווח הארוך. ב<a href="https://afias.dev/blog/">מאמרים נוספים על בחירת אתר נכון</a> תמצאו מידע מפורט שיעזור לכם לקבל החלטות מושכלות יותר לגבי הנוכחות הדיגיטלית של העסק שלכם.</p>
 
 <h2>עלויות ותשואה: השוואת ההשקעה בין שני סוגי האתרים</h2>
 <p>העלות של בניית אתר משתנה בהתאם לסוג, המורכבות והפיצ'רים הנדרשים. ב-2026 המחירים נעים מכמה אלפי שקלים לאתר תדמית פשוט ועד עשרות אלפים למערכות מכירה מורכבות עם אינטגרציות מתקדמות.</p>
@@ -549,7 +559,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p><iframe width="100%" style="aspect-ratio: 16 / 9;" src="https://www.youtube.com/embed/nLl4FNjgABM" title="מה ההבדל בין אתר תדמית לאתר מכירות – מדריך מקצועי לבעלי עסקים" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 
-<p>חשוב לזכור שההשקעה באתר היא לא רק המחיר הראשוני. יש גם עלויות תחזוקה, אחסון ועדכונים. אצל אורי אפיאס הקוד נשאר שלכם, ואתם יכולים לבחור אחסון משלכם במקום לשלם מנוי חודשי לנצח. לפירוט מלא, ראו <a href="https://afias.dev/pricing">מחירון מפורט לבניית אתרים</a>.</p>
+<p>חשוב לזכור שההשקעה באתר היא לא רק המחיר הראשוני. יש גם עלויות תחזוקה, אחסון ועדכונים. אצל אורי אפיאס הקוד נשאר שלכם, ואתם יכולים לבחור אחסון משלכם במקום לשלם מנוי חודשי לנצח. לפירוט מלא, ראו <a href="https://afias.dev/#pricing">מחירון מפורט לבניית אתרים</a>.</p>
 
 <h2>מסקנות ומהלך פעולה מומלץ לבעלי עסקים קטנים</h2>
 <p>הבחירה בין אתר תדמית לאתר מכירות היא החלטה אסטרטגית שמשפיעה על הדרך שבה העסק שלכם מדבר עם העולם. אין תשובה אחת לכולם, אבל יש מתודולוגיה ברורה לקבלת ההחלטה הנכונה.</p>
@@ -590,7 +600,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <h3>איך מודדים את הצלחת אתר תדמית?dd</h3>
 <p><strong>בפניות ובמודעות למותג.</strong> מדדים עיקריים כוללים כמות פניות דרך הטפסים, זמן שהייה באתר, מספר דפים שנצפו ומיקומים בתוצאות החיפוש של גוגל. המטרה היא לבנות קשר ארוך טווח עם הלקוחות.</p>
 
-<p>לשאלות נוספות ולקבלת ייעוץ מקצועי, <a href="https://afias.dev/about">למידע נוסף על אורי אפיאס והשירותים</a> שמציעים פתרונות אתרים מותאמים לעסקים קטנים בישראל. הצעד הראשון לקראת נוכחות דיגיטלית מקצועית הוא פשוט לדבר עם מישהו שמבין את הצרכים שלכם.</p>
+<p>לשאלות נוספות ולקבלת ייעוץ מקצועי, <a href="https://afias.dev/">למידע נוסף על אורי אפיאס והשירותים</a> שמציעים פתרונות אתרים מותאמים לעסקים קטנים בישראל. הצעד הראשון לקראת נוכחות דיגיטלית מקצועית הוא פשוט לדבר עם מישהו שמבין את הצרכים שלכם.</p>
 </div>
       </div>
       <div class="tags"><span>מה ההבדל בין אתר תדמית לאתר מכירות</span></div>
