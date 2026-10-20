@@ -291,6 +291,7 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
 .body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
 .body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
 .body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
 .body th{background:#fff;font-weight:700}
 .body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
@@ -344,7 +345,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <p>המלכודת השנייה היא טעינה איטית. כשהאתר לוקח יותר משלוש שניות לעלות, רוב הגולשים פשוט עוזבים. השלישית היא חוסר התאמה לנייד, שמשאיר את רוב המבקרים מתוסכלים ובלי יכולת לנווט או לבצע פעולה. הרביעית היא היעדר ממשק ניהול שמוביל לאיבוד לידים ולחוסר יכולת לשפר את התהליך.</p>
 <p>לפי <a href="https://www.digitalapplied.com/blog/website-statistics-2026-facts-trends-data" target="_blank" rel="noopener">Digitalapplied</a>, תנועת הגלישה ממכשירים ניידים מהווה יותר מ-60 אחוז מהתנועה העולמית, ובנוסף זמן הטעינה בנייד איטי פי 3.4 מאשר במחשבים. כל שנייה נוספת של טעינה מנייד מפחיתה את שיעור ההמרה באופן משמעותי.</p>
 
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>פרמטר</th>
@@ -416,7 +417,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <h2>השוואת מחירים: מנוי חודשי מול בעלות מלאה על הקוד</h2>
 <p>בחירת מודל התמחור לאתר מכירות משפיעה על העלות הכוללת לאורך שנים. מודל המנוי החודשי נראה זול בהתחלה, אבל הוא מתגלה כיקר בהרבה כשמכפילים את התשלום החודשי ב-12 חודשים ואז בשלוש שנים. התשלום החד פעמי עם בעלות מלאה על הקוד מייצג חיסכון משמעותי לטווח ארוך.</p>
 
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>פרמטר</th>

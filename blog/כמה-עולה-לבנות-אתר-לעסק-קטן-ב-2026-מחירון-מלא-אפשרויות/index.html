@@ -286,6 +286,7 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
 .body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
 .body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
 .body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
 .body th{background:#fff;font-weight:700}
 .body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
@@ -330,7 +331,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <figure style="margin:1.5em 0;text-align:center;"><a href="https://afias.dev/" target="_blank" rel="noopener"><img src="https://afias.dev/og-image.png" alt="afias.dev" class="blog-image" loading="lazy" style="max-width:100%;height:auto;border-radius:8px;"></a><figcaption style="font-size:0.85em;color:#666;margin-top:0.5em;">afias.dev</figcaption></figure>
 
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>שיטה</th>
@@ -400,7 +401,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 
 
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>חבילה</th>

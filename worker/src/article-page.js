@@ -4,8 +4,9 @@
  * as the rest of the site, so an article reads as part of it rather than as a
  * bolted-on blog.
  *
- * Trust model: `content_html` and `json_ld` are injected verbatim (bar two
- * accessibility fixes, see withoutTitleHeading and englishWatermark). That is what
+ * Trust model: `content_html` and `json_ld` are injected verbatim (bar three
+ * accessibility fixes: withoutTitleHeading, englishWatermark and
+ * focusableTables). That is what
  * the publishing service's contract asks for, and it is safe only because the
  * webhook has already verified the HMAC — the signature is what makes this
  * content trusted. Everything that lands in an attribute is escaped regardless.
@@ -64,6 +65,15 @@ function withoutTitleHeading(html) {
  */
 function englishWatermark(html) {
   return html.replace(/<p data-hoox-watermark="1"/g, '<p data-hoox-watermark="1" lang="en" dir="ltr"');
+}
+
+/**
+ * Article tables scroll sideways when they are wider than the column (most
+ * of them on a phone or at 200% zoom). A scroll area has to take focus for
+ * the keyboard to scroll it, and Safari won't make it focusable by itself.
+ */
+function focusableTables(html) {
+  return html.replace(/<table\b(?![^>]*\btabindex=)/gi, '<table tabindex="0"');
 }
 
 export function renderArticlePage(a) {
@@ -203,6 +213,7 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
 .body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
 .body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
 .body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
 .body th{background:#fff;font-weight:700}
 .body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
@@ -234,7 +245,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
       ${a.meta_description ? `<p class="lede">${description}</p>` : ''}
       ${a.featured_image_url ? `<img class="hero-image" src="${image}" alt="${title}" loading="eager" fetchpriority="high">` : ''}
       <div class="body">
-${englishWatermark(withoutTitleHeading(a.content_html))}
+${focusableTables(englishWatermark(withoutTitleHeading(a.content_html)))}
       </div>
       ${tagsHtml}
 

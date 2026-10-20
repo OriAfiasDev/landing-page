@@ -283,6 +283,7 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
 .body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
 .body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
 .body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
 .body th{background:#fff;font-weight:700}
 .body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
@@ -348,7 +349,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <p>חמש שאלות מפתח ששואל מפתח מנוסה: מה המוצר או השירות שאתם מוכרים בפועל? מי קהל היעד ואיך הוא מחפש את השירות הזה בגוגל? מה הייחוד שלכם מול המתחרים? מה אתם רוצים שהגולש יעשה כשהוא מגיע לאתר? ומה הבעיה הגדולה ביותר שלכם היום בתקשורת עם לקוחות?</p>
 <p>האתגר הגדול ביותר הוא לתרגם משפטים כמו 'אני רוצה אתר יפה' לדרישות שאפשר למדוד ולבדוק. אתר יפה זה לא דרישה   זה משאלה. דרישה היא משהו כמו 'אני רוצה שלקוחות פוטנציאליים יוכלו לראות דוגמאות של עבודות קודמות ולהשאיר פרטי יצירת קשר תוך שלוש קליקים'.</p>
 
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>דרישה עמומה</th>
@@ -408,7 +409,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <h2>מפרט טכני: מה צריך לבקש מהמפתח</h2>
 <p>המפרט הטכני הוא התרגום של האפיון העסקי לשפה שהמפתח יכול לבצע. זה המקום לוודא שהאתר לא רק יראה טוב אלא גם יעבוד טוב לאורך זמן. בשביל עסק קטן, זה אומר שאלות על ביצועים, אבטחה ובעלות.</p>
 
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>תכונה טכנית</th>

@@ -273,6 +273,7 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
 .body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
 .body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
 .body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
 .body th{background:#fff;font-weight:700}
 .body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
@@ -324,7 +325,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <p><a href="https://afias.dev/">פיתוח אתרים לעסקים קטנים</a> דורש הבנה של הלקוח, השוק והמתחרים. כשהאתר נבנה באופן אוטומטי בלי אפיון, הוא מקבל עיצוב שראיתם כבר עשרות פעמים. זה לא יוצר אמון, וזה לא מבדל אתכם. הלקוח הפוטנציאלי מרגיש שהעסק לא רציני, וממשיך הלאה.</p>
 <p>בעיה נוספת היא זמן טעינה. אתרים גנריים נוטים להיות כבדים, עם קוד מיותר ותמונות לא מותאמות. גוגל מעניש את זה בדירוג, והגולשים פשוט עוזבים. לפי <a href="https://gitnux.org/responsive-design-statistics/" target="_blank" rel="noopener">Gitnux</a>, בעוד 88% מהאתרים שנבדקו עומדים בתקני הליבה של גוגל לאחר 2023, רק 62% מהאתרים הרספונסיביים של עסקים קטנים עומדים בהם. הפער הזה מסביר למה עסקים קטנים מפסידים תנועה אורגנית.</p>
 <p>חוויית משתמש לקויה היא רוצח ההמרות השקט. כפתורים קטנים מדי במובייל, טפסים ארוכים שמבריחים, וניווט מסובך   כל אלה גורמים לגולש לעזוב לפני שהספיק להבין מה אתם מציעים.</p>
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>פרמטר</th>
@@ -386,7 +387,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 <p>אחת הבעיות הגדולות בשוק בניית האתרים היא חוסר שקיפות במחירים. הרבה ספקים מציעים מחיר התחלתי נמוך, אבל מוסיפים מנוי חודשי קבוע שמייקר את העלות הכוללת באופן משמעותי לאורך זמן. אחרי שנתיים של מנוי של 200 שקלים בחודש, שילמתם כמעט 5,000 שקלים מעבר למחיר ההתחלתי.</p>
 <p>האלטרנטיבה היא תשלום חד-פעמי על הבנייה, עם אפשרות לתחזוקה בתשלום נפרד או ללא תחזוקה בכלל. במודל הזה, הקוד שייך לכם, ואתם יכולים לאחסן אותו היכן שתרצו. אין תלות בספק, ואין התחייבות שוטפת. זו הגישה שמתאימה לעסקים קטנים שרוצים שליטה מלאה על הנכס הדיגיטלי שלהם.</p>
 <p>המחירים משתנים בהתאם למורכבות. אתר תדמית פשוט יכול לעלות כ-1,800 שקלים, בעוד אתר עם ממשק ניהול יקרה יותר בגלל הפיתוח הנוסף. מערכת מלאה עם יכולות מורכבות דורשת אפיון ותמחור מותאם. כדאי לבדוק <a href="https://afias.dev/pricing">מחירון מלא ושקוף</a> לפני שמחליטים, ולוודא שאין עלויות נסתרות.</p>
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>מודל תשלום</th>

@@ -278,6 +278,7 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
 .body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
 .body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
 .body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
 .body th{background:#fff;font-weight:700}
 .body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
@@ -318,7 +319,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p>לפי מחקרים מ-2026, שיעור ההמרה החציוני בדפי נחיתה עומד על כ-6.6 אחוזים בכלל התעשיות. זה אומר שמכל 100 מבקרים, כ-7 מבצעים את הפעולה הרצויה. הנתון הזה משתנה באופן דרמטי בהתאם לאיכות הדף, הענף והאופטימיזציה. דווח כי מדובר בנתון מבוסס ממקורות תעשייתיים שונים, כאשר לפי <a href="https://whatsthebigdata.com/landing-page-statistics/" target="_blank" rel="noopener">whatsthebigdata</a> הקצה ביעילות של דף נחיתה תלויה בפקטורים רבים ובראשם זמן הטעינה ועיצוב נכון.</p>
 
-<table>
+<table tabindex="0">
   <thead>
     <tr>
       <th>מאפיין</th>
@@ -441,7 +442,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p>הסיבות לפער מובנות: במובייל הגולשים נמצאים בסביבה מלאת הסחות דעת, לעתים גולשים במהלך נסיעה או המתנה. קשה יותר להזין פרטים במקלדת קטנה והסבלנות נמוכה יותר. בדסקטופ המשתמש יושב בסביבה יציבה, עם מקלדת נוחה וזמן בחינה ארוך יותר.</p>
 
-<table>
+<table tabindex="0">
   <thead>
     <tr>
       <th>אלמנט</th>
@@ -505,7 +506,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 
 <p>אחרי שנים של פיתוח אתרים ודפי נחיתה, רואים את אותן טעויות חוזרות שוב ושוב. הטובות שבהן נובעות מכוונות טובות אבל מובילות לתוצאות הפוכות מהמצופה.</p>
 
-<table>
+<table tabindex="0">
   <thead>
     <tr>
       <th>טעות נפוצה</th>
