@@ -3,6 +3,10 @@
   var raf = null;
   function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
   function ease(p){ return 1 - Math.pow(1 - p, 3); }
+  // The loop below runs every frame. Writing a style only when it actually changes
+  // keeps idle frames from invalidating layout, so the next frame's
+  // getBoundingClientRect() reads are cheap. Same values as before.
+  function set(st, k, v){ if (st[k] !== v) st[k] = v; }
   function tick(){
     raf = null;
     if (document.readyState === 'loading') return;
@@ -18,36 +22,36 @@
           host = host.parentElement;
         }
       }
-      bar.style.transform = 'scaleX(' + (max > 0 ? clamp(top / max) : 0) + ')';
+      set(bar.style, 'transform', 'scaleX(' + (max > 0 ? clamp(top / max) : 0) + ')');
     }
     document.querySelectorAll('[data-hero-exit],[data-card3d],[data-slide-end],[data-slide-start],[data-sticky-pop],[data-zoom],[data-reveal],[data-parallax]').forEach(function(el){
       var r = el.getBoundingClientRect();
       if (el.hasAttribute('data-hero-exit')){
         var out = clamp((-r.top) / (vh * 0.9));
-        el.style.opacity = String(1 - out * 0.88);
-        el.style.transform = 'scale(' + (1 - out * 0.12) + ') translateY(' + (-70 * out) + 'px)';
-        el.style.filter = 'blur(' + (7 * out) + 'px)';
+        set(el.style, 'opacity', String(1 - out * 0.88));
+        set(el.style, 'transform', 'scale(' + (1 - out * 0.12) + ') translateY(' + (-70 * out) + 'px)');
+        set(el.style, 'filter', 'blur(' + (7 * out) + 'px)');
         return;
       }
       var p = ease(clamp((vh - r.top) / (vh * 0.62)));
       if (el.hasAttribute('data-parallax')){
-        el.style.transform = 'translateY(' + (10 - 20 * p) + 'px)';
+        set(el.style, 'transform', 'translateY(' + (10 - 20 * p) + 'px)');
         return;
       }
-      el.style.opacity = String(p);
+      set(el.style, 'opacity', String(p));
       if (el.hasAttribute('data-card3d'))
-        el.style.transform = 'perspective(1200px) rotateX(' + (24 * (1 - p)) + 'deg) rotateZ(' + (-3 * (1 - p)) + 'deg) translateY(' + (70 * (1 - p)) + 'px) scale(' + (0.9 + 0.1 * p) + ')';
+        set(el.style, 'transform', 'perspective(1200px) rotateX(' + (24 * (1 - p)) + 'deg) rotateZ(' + (-3 * (1 - p)) + 'deg) translateY(' + (70 * (1 - p)) + 'px) scale(' + (0.9 + 0.1 * p) + ')');
       else if (el.hasAttribute('data-slide-end'))
-        el.style.transform = 'translateX(' + (-90 * (1 - p)) + 'px) rotate(' + (2 * (1 - p)) + 'deg)';
+        set(el.style, 'transform', 'translateX(' + (-90 * (1 - p)) + 'px) rotate(' + (2 * (1 - p)) + 'deg)');
       else if (el.hasAttribute('data-slide-start'))
-        el.style.transform = 'translateX(' + (90 * (1 - p)) + 'px) rotate(' + (-2 * (1 - p)) + 'deg)';
+        set(el.style, 'transform', 'translateX(' + (90 * (1 - p)) + 'px) rotate(' + (-2 * (1 - p)) + 'deg)');
       else if (el.hasAttribute('data-sticky-pop'))
-        el.style.transform = 'scale(' + (0.94 + 0.06 * p) + ')';
+        set(el.style, 'transform', 'scale(' + (0.94 + 0.06 * p) + ')');
       else if (el.hasAttribute('data-zoom')){
-        el.style.opacity = '1';
-        el.style.transform = 'scale(' + (1.14 - 0.14 * p) + ')';
+        set(el.style, 'opacity', '1');
+        set(el.style, 'transform', 'scale(' + (1.14 - 0.14 * p) + ')');
       }
-      else el.style.transform = 'translateY(' + (38 * (1 - p)) + 'px)';
+      else set(el.style, 'transform', 'translateY(' + (38 * (1 - p)) + 'px)');
     });
   }
   function loop(){ tick(); requestAnimationFrame(loop); }

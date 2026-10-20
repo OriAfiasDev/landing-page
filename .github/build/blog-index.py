@@ -150,7 +150,7 @@ a{{color:inherit;text-decoration:none}}
 .wrap{{max-width:900px;margin:0 auto;padding:0 24px}}
 .site-header{{padding:28px 0 0}}
 .wordmark{{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}}
-.wordmark span{{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass)}}
+.wordmark span{{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass-deep)}}
 .hero{{padding:56px 0 8px}}
 h1{{font-weight:500;font-size:clamp(34px,5.4vw,56px);line-height:1.14;letter-spacing:-.02em;margin:0}}
 .sub{{font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);margin:16px 0 0;max-width:52ch}}
