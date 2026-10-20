@@ -142,7 +142,7 @@ def render_index(articles) -> str:
 </script>
 
 <style>
-:root{{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.55)}}
+:root{{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}}
 *{{box-sizing:border-box}}
 html,body{{margin:0;padding:0;background:var(--paper)}}
 body{{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}}
@@ -154,7 +154,7 @@ a{{color:inherit;text-decoration:none}}
 .hero{{padding:56px 0 8px}}
 h1{{font-weight:500;font-size:clamp(34px,5.4vw,56px);line-height:1.14;letter-spacing:-.02em;margin:0}}
 .sub{{font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);margin:16px 0 0;max-width:52ch}}
-.count{{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass);letter-spacing:.04em;margin:0 0 12px;display:block}}
+.count{{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);letter-spacing:.04em;margin:0 0 12px;display:block}}
 .list{{display:grid;gap:18px;padding:44px 0 80px}}
 .card{{display:grid;grid-template-columns:1fr;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s}}
 .card:hover{{transform:translateY(-6px);border-color:rgba(184,134,43,.55);box-shadow:0 24px 60px rgba(184,134,43,.16)}}
@@ -165,7 +165,7 @@ h1{{font-weight:500;font-size:clamp(34px,5.4vw,56px);line-height:1.14;letter-spa
 .card h2{{font-weight:700;font-size:clamp(20px,2.6vw,25px);line-height:1.25;letter-spacing:-.01em;margin:0 0 10px;text-wrap:balance}}
 .card p{{margin:0;color:var(--muted);font-size:16px;line-height:1.62;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
 .tags{{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}}
-.tags span{{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--brass);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:5px 11px}}
+.tags span{{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:5px 11px}}
 footer{{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}}
 @media (max-width:640px){{
   .hero{{padding:40px 0 0}}

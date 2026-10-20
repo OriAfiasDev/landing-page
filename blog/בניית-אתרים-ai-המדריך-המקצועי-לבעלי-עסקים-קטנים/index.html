@@ -262,18 +262,18 @@ src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"></n
 </script>
 
 <style>
-:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.55)}
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--paper)}
 body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
-a{color:var(--brass);text-decoration:none}a:hover{color:var(--brass-light)}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
 .wrap{max-width:760px;margin:0 auto;padding:0 24px}
 .site-header{padding:28px 0 0}
 .wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
 .wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass)}
 article{padding:56px 0 80px}
 .meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
-.meta .back{color:var(--brass)}.meta .back::before{content:"→ "}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
 h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
 .lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
 .hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
@@ -281,6 +281,8 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
 .body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
 .body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
 .body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
 .body li{margin:0 0 8px}
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
@@ -292,12 +294,12 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
 .body pre code{border:0;padding:0;background:none}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
-.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
 .cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
 .cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
 .cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
-.btn{display:inline-block;font-weight:700;font-size:16px;color:#3A2C0F;background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
-.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:#3A2C0F}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
 footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
 @media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
 </style>
@@ -318,7 +320,6 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
       <img class="hero-image" src="https://im.runware.ai/image/os/a01d21/ws/3/ii/d04f8a83-da52-4352-a81d-6bca7eb14809.jpg" alt="בניית אתרים AI – המדריך המקצועי לבעלי עסקים קטנים" loading="eager" fetchpriority="high">
       <div class="body">
 <div dir="rtl" style="direction:rtl;text-align:right;">
-<h1>בניית אתרים AI – המדריך המקצועי לבעלי עסקים קטנים</h1>
 <p>בשנת 2026, בניית אתרים AI מאפשרת לעסקים קטנים להשיק אתר מקצועי תוך 24 שעות במחיר שבור. אבל יש הבדל עצום בין אתר גנרי שכלי AI הפיק אוטומטית, לבין פיתוח מקצועי שמשלב כלי AI עם ניסיון של 8 שנים. התוצאה: אתר שממיר מבקרים ללידים, טוען מהר, ונמצא בגוגל – בלי להתפשר על עיצוב מותאם אישית או איכות קוד. זה לא רק עוד אתר, זאת נוכחות דיגיטלית שעובדת בשבילכם.</p>
 
 <h2>תשובה מהירה: למה בניית אתרים AI זה הפתרון לעסק שלכם</h2>
@@ -573,11 +574,11 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
       </div>
       <div class="tags"><span>בניית אתרים ai</span></div>
 
-      <aside class="cta">
+      <section class="cta">
         <h2>רוצים לראות איך זה נראה אצלכם?</h2>
         <p>נבנה לכם דמו אמיתי של האתר, בחינם ובלי התחייבות. קישור תוך יום-יומיים.</p>
         <a class="btn" href="/demo/">קבלו דמו בחינם</a>
-      </aside>
+      </section>
     </article>
   </main>
 

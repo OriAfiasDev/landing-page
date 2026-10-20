@@ -4,7 +4,8 @@
  * as the rest of the site, so an article reads as part of it rather than as a
  * bolted-on blog.
  *
- * Trust model: `content_html` and `json_ld` are injected verbatim. That is what
+ * Trust model: `content_html` and `json_ld` are injected verbatim (bar two
+ * accessibility fixes, see withoutTitleHeading and englishWatermark). That is what
  * the publishing service's contract asks for, and it is safe only because the
  * webhook has already verified the HMAC — the signature is what makes this
  * content trusted. Everything that lands in an attribute is escaped regardless.
@@ -42,6 +43,27 @@ function safeJsonLd(raw) {
   if (typeof raw !== 'string') return '';
   if (/<\/head\s*>|<body[\s>]/i.test(raw)) return '';
   return raw.trim();
+}
+
+/**
+ * Hoox opens every article body with the title as its own <h1>, and the page
+ * already sets the title as the <h1> above the lede: two h1s, and a screen
+ * reader announces the title twice. Drop the body's first <h1> and demote any
+ * other, so the page keeps exactly one.
+ */
+function withoutTitleHeading(html) {
+  return String(html || '')
+    .replace(/<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, '')
+    .replace(/<(\/?)h1\b/gi, '<$1h2');
+}
+
+/**
+ * Some Hoox articles end with an English attribution line. Mark it as
+ * English, so a screen reader set to Hebrew doesn't read it with Hebrew
+ * rules. Its inline grey (3.3:1) is overridden in the page CSS.
+ */
+function englishWatermark(html) {
+  return html.replace(/<p data-hoox-watermark="1"/g, '<p data-hoox-watermark="1" lang="en" dir="ltr"');
 }
 
 export function renderArticlePage(a) {
@@ -155,18 +177,18 @@ src="https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1"></noscri
 </script>
 
 <style>
-:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.55)}
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--paper)}
 body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
-a{color:var(--brass);text-decoration:none}a:hover{color:var(--brass-light)}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
 .wrap{max-width:760px;margin:0 auto;padding:0 24px}
 .site-header{padding:28px 0 0}
 .wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
 .wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass)}
 article{padding:56px 0 80px}
 .meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
-.meta .back{color:var(--brass)}.meta .back::before{content:"→ "}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
 h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
 .lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
 .hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
@@ -174,6 +196,8 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
 .body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
 .body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
 .body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
 .body li{margin:0 0 8px}
 .body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
@@ -185,12 +209,12 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
 .body pre code{border:0;padding:0;background:none}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
-.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
 .cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
 .cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
 .cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
-.btn{display:inline-block;font-weight:700;font-size:16px;color:#3A2C0F;background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
-.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:#3A2C0F}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
 footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
 @media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
 </style>
@@ -210,15 +234,15 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
       ${a.meta_description ? `<p class="lede">${description}</p>` : ''}
       ${a.featured_image_url ? `<img class="hero-image" src="${image}" alt="${title}" loading="eager" fetchpriority="high">` : ''}
       <div class="body">
-${a.content_html || ''}
+${englishWatermark(withoutTitleHeading(a.content_html))}
       </div>
       ${tagsHtml}
 
-      <aside class="cta">
+      <section class="cta">
         <h2>רוצים לראות איך זה נראה אצלכם?</h2>
         <p>נבנה לכם דמו אמיתי של האתר, בחינם ובלי התחייבות. קישור תוך יום-יומיים.</p>
         <a class="btn" href="/demo/">קבלו דמו בחינם</a>
-      </aside>
+      </section>
     </article>
   </main>
 

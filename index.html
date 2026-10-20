@@ -274,7 +274,7 @@ src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
 <style>
 html,body{margin:0;padding:0;background:#FAF8F3;}
 *{box-sizing:border-box;}
-a{color:#B8862B;text-decoration:none;}
+a{color:#8A6420;text-decoration:none;}
 a:hover{color:#D7A53F;}
 @keyframes rise{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @keyframes curtain{0%{transform:scaleY(1)}100%{transform:scaleY(0)}}
@@ -384,7 +384,7 @@ summary{list-style:none}
   font:inherit;font-size:16px;font-weight:700;color:#1C1E24;
 }
 .hero-next:hover{color:rgba(28,30,36,.7)}
-.hero-next:focus-visible{outline:3px solid #D7A53F;outline-offset:4px;border-radius:6px}
+.hero-next:focus-visible{outline:3px solid #8A6420;outline-offset:4px;border-radius:6px}
 .hero-next svg{animation:heroNudge 2.4s ease-in-out infinite}
 .hero-eyebrow{
   margin:0 0 clamp(12px,2vh,22px);
@@ -473,7 +473,7 @@ summary{list-style:none}
   position:absolute;top:100%;left:-1px;transform:translateY(8px);
   direction:ltr;white-space:nowrap;
   font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.02em;
-  color:#3A2C0F;background:#B8862B;padding:3px 8px;border-radius:5px;
+  color:#1C1E24;background:#B8862B;padding:3px 8px;border-radius:5px;
 }
 
 /* Actions follow the subtitle instead of being pushed to the far edge: one
@@ -487,13 +487,13 @@ summary{list-style:none}
 .hero-sub{margin:0;font-size:clamp(18px,1.75vw,22px);line-height:1.62;color:rgba(28,30,36,.74);text-wrap:pretty}
 .hero-cta{
   display:inline-flex;align-items:center;justify-content:center;gap:14px;white-space:nowrap;
-  font-weight:700;font-size:clamp(17px,1.5vw,19px);color:#3A2C0F;background:#B8862B;
+  font-weight:700;font-size:clamp(17px,1.5vw,19px);color:#1C1E24;background:#B8862B;
   padding:21px 36px 21px 30px;border-radius:999px;
   box-shadow:0 10px 28px rgba(184,134,43,.28);
   transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
 }
-.hero-cta:hover{color:#3A2C0F;transform:translateY(-3px);box-shadow:0 18px 38px rgba(184,134,43,.38)}
-.hero-cta:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
+.hero-cta:hover{color:#1C1E24;transform:translateY(-3px);box-shadow:0 18px 38px rgba(184,134,43,.38)}
+.hero-cta:focus-visible{outline:3px solid #8A6420;outline-offset:4px}
 .hero-cta svg{flex:none;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .hero-cta:hover svg{transform:translateX(-4px)}
 
@@ -502,7 +502,7 @@ summary{list-style:none}
 .hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:14px 30px}
 .hero-scroll{
   display:inline-flex;align-items:center;gap:10px;padding:8px 0;
-  font-size:15px;font-weight:500;color:rgba(28,30,36,.55);
+  font-size:15px;font-weight:500;color:rgba(28,30,36,.65);
 }
 .hero-scroll:hover{color:#1C1E24}
 .hero-scroll--band{display:none}
@@ -518,7 +518,7 @@ summary{list-style:none}
   transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
 }
 .wa-float:hover{color:#FAF8F3;transform:translateY(-2px);box-shadow:0 16px 38px rgba(28,30,36,.32)}
-.wa-float:focus-visible{outline:3px solid #D7A53F;outline-offset:3px}
+.wa-float:focus-visible{outline:3px solid #8A6420;outline-offset:3px}
 .wa-float svg{width:24px;height:24px;flex:none}
 .wa-float-label{
   max-width:0;overflow:hidden;white-space:nowrap;
@@ -616,6 +616,24 @@ summary{list-style:none}
   .hero-stage--offer .hero-face{display:block}
   .hero-select:not(.is-on),.hero.is-moving .hero-select{visibility:hidden}   /* same reason: it can't fade out */
 }
+/* Flow: a stage's text is taller than the screen it would be pinned to (a
+   short window, 200% zoom, wider text spacing). Rather than crop it, the
+   scene stops pinning and the stages follow each other, both at rest. The
+   avatar needs the pinned geometry, so it gives way to the face chip.
+   Set by the scene script. */
+.hero-scene.is-flow{height:auto}
+.is-flow .hero{
+  position:relative;height:auto;overflow-y:visible;
+  grid-template-rows:none;row-gap:clamp(56px,10vh,96px);
+  --p1:0 !important;--p2:1 !important;--chip:1 !important;
+  opacity:1 !important;transform:none !important;filter:none !important;   /* the scroll runtime's exit fade would blur the offer mid-read */
+}
+.is-flow .hero-stage{grid-area:auto;pointer-events:auto !important;visibility:visible !important}
+.is-flow .hero-avatar,.is-flow .hero-anchor,.is-flow .hero-select{display:none !important}
+.is-flow .hero-stage--offer .hero-eyebrow{display:flex;align-items:center;gap:12px}
+.is-flow .hero-face{display:block}
+.is-flow .hero-scroll--band{display:none}
+.is-flow .hero-scroll--inline{display:inline-flex}
 </style>
 <style>
 /* ---------- process ----------
@@ -646,14 +664,14 @@ summary{list-style:none}
 .process-index{list-style:none;margin:clamp(28px,5vh,52px) 0 0;padding:0}
 .process-index a{
   display:flex;align-items:baseline;gap:14px;padding:6px 0;
-  font-size:16px;font-weight:500;color:rgba(28,30,36,.38);transition:color .3s ease;
+  font-size:16px;font-weight:500;color:rgba(28,30,36,.65);transition:color .3s ease;
 }
 .process-index a:hover{color:#1C1E24}
-.process-index a:focus-visible{outline:2px solid #D7A53F;outline-offset:3px;border-radius:4px}
+.process-index a:focus-visible{outline:2px solid #8A6420;outline-offset:3px;border-radius:4px}
 .process-index span{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700}
-.process-index .is-done a{color:rgba(28,30,36,.7)}
+.process-index .is-done a{color:rgba(28,30,36,.82)}
 .process-index .is-current a{color:#1C1E24}
-.process-index .is-current span{color:#B8862B}
+.process-index .is-current span{color:#8A6420}
 
 /* The deck. Equal rows, so every card is the same height: a stacked card
    taller than the one in front of it would stick out above it. */
@@ -669,7 +687,7 @@ summary{list-style:none}
 }
 /* Rank and suit, like the corner of a playing card; mirrored bottom-left. */
 .process-rank,.process-corner{
-  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.02em;color:#B8862B;
+  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.02em;color:#8A6420;
 }
 .process-rank{margin:0 0 14px}
 .process-rank::after,.process-corner::after{content:" ✦";font-size:11px}
@@ -703,13 +721,13 @@ summary{list-style:none}
 .process-cta-text span + span{color:#93897A}
 .process-cta-btn{
   display:inline-flex;align-items:center;justify-content:center;gap:12px;flex:none;white-space:nowrap;
-  font-weight:700;font-size:clamp(17px,1.5vw,19px);color:#3A2C0F;background:#B8862B;
+  font-weight:700;font-size:clamp(17px,1.5vw,19px);color:#1C1E24;background:#B8862B;
   padding:20px 34px;border-radius:999px;
   box-shadow:0 10px 28px rgba(184,134,43,.28);
   transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
 }
-.process-cta-btn:hover{color:#3A2C0F;transform:translateY(-3px);box-shadow:0 18px 38px rgba(184,134,43,.38)}
-.process-cta-btn:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
+.process-cta-btn:hover{color:#1C1E24;transform:translateY(-3px);box-shadow:0 18px 38px rgba(184,134,43,.38)}
+.process-cta-btn:focus-visible{outline:3px solid #8A6420;outline-offset:4px}
 .process-cta-btn svg{width:22px;height:22px;flex:none}
 
 @media (max-width:1023px){
@@ -845,6 +863,11 @@ summary{list-style:none}
 }
 .work-device{margin:0;position:absolute;will-change:transform}
 .work-device img{display:block;width:100%;height:auto;cursor:zoom-in}
+/* Zoomable screenshots take keyboard focus. The ring goes round the whole
+   device: a browser frame clips anything drawn round the image itself. */
+.work-device:has(img[data-zoomable]:focus-visible){outline:3px solid var(--accent);outline-offset:4px}
+.work-device img[data-zoomable]:focus{outline:none}
+[data-lightbox] button:focus-visible{outline:3px solid #D7A53F;outline-offset:3px}
 .work-phone{
   bottom:0;left:50%;height:100%;aspect-ratio:600/1253;z-index:calc(2 - var(--a,0));
   transform:
@@ -887,12 +910,12 @@ summary{list-style:none}
 
 /* Themes, from each project's own interface. */
 .work-panel--shalva{--bg:#1B231C;--fg:#F3EBDB;--muted:rgba(243,235,219,.55);--soft:rgba(243,235,219,.8);--accent:#E3C48C;--tagbg:rgba(227,196,140,.14);--taghover:rgba(227,196,140,.24)}
-.work-panel--tavor{--bg:#F3EDE3;--fg:#141210;--muted:rgba(20,18,16,.55);--soft:rgba(20,18,16,.76);--accent:#B8412D;--tagbg:rgba(184,65,45,.1);--taghover:rgba(184,65,45,.18)}
+.work-panel--tavor{--bg:#F3EDE3;--fg:#141210;--muted:rgba(20,18,16,.62);--soft:rgba(20,18,16,.76);--accent:#A93C29;--tagbg:rgba(169,60,41,.1);--taghover:rgba(169,60,41,.18)}
 .work-panel--palma{--bg:#4E1424;--fg:#F6F1EC;--muted:rgba(246,241,236,.58);--soft:rgba(246,241,236,.8);--accent:#E6B4AC;--tagbg:rgba(230,180,172,.15);--taghover:rgba(230,180,172,.25)}
 .work-panel--evently{--bg:#0C1324;--fg:#F3F5FA;--muted:rgba(243,245,250,.55);--soft:rgba(243,245,250,.78);--accent:#6E9BFF;--tagbg:rgba(110,155,255,.14);--taghover:rgba(110,155,255,.24)}
-.work-panel--spoti{--bg:#E7DFD1;--fg:#16242B;--muted:rgba(22,36,43,.55);--soft:rgba(22,36,43,.76);--accent:#16607F;--tagbg:rgba(22,96,127,.1);--taghover:rgba(22,96,127,.18)}
+.work-panel--spoti{--bg:#E7DFD1;--fg:#16242B;--muted:rgba(22,36,43,.68);--soft:rgba(22,36,43,.76);--accent:#16607F;--tagbg:rgba(22,96,127,.1);--taghover:rgba(22,96,127,.18)}
 .work-panel--yame{--bg:#123433;--fg:#EEF7F5;--muted:rgba(238,247,245,.55);--soft:rgba(238,247,245,.78);--accent:#86D2C6;--tagbg:rgba(134,210,198,.13);--taghover:rgba(134,210,198,.23)}
-.work-panel--viamar{--bg:#F3ECE4;--fg:#2A231F;--muted:rgba(42,35,31,.55);--soft:rgba(42,35,31,.76);--accent:#9A6F58;--tagbg:rgba(154,111,88,.12);--taghover:rgba(154,111,88,.2)}
+.work-panel--viamar{--bg:#F3ECE4;--fg:#2A231F;--muted:rgba(42,35,31,.66);--soft:rgba(42,35,31,.76);--accent:#7A5846;--tagbg:rgba(122,88,70,.12);--taghover:rgba(122,88,70,.2)}
 .work-panel--club{--bg:#17171F;--fg:#FAF8F3;--muted:rgba(250,248,243,.55);--soft:rgba(250,248,243,.78);--accent:#D7A53F;--tagbg:rgba(215,165,63,.14);--taghover:rgba(215,165,63,.24)}
 /* A project that's best seen live gets a way in. */
 .work-live{
@@ -1006,6 +1029,16 @@ summary{list-style:none}
   .work-inner,.work-media,.work-text > *{transform:none !important}
   .work-shade{display:none}
 }
+/* Flow: some panel's text is taller than the screen (a short window, 200%
+   zoom, wider text spacing), so pinning would crop it. Nothing pins; each
+   panel is as tall as its content, everything at rest. The devices still
+   rise from the panel's bottom edge, cropped by it. The ::after spacer and
+   the section's negative margin still cancel out. Set by the work script. */
+.work-stack.is-flow .work-bar{position:relative;margin-bottom:0}
+.work-stack.is-flow .work-bar + .work-panel{margin-top:0;border-radius:0}
+.work-stack.is-flow .work-panel{position:relative;height:auto;margin-bottom:0;--e:1 !important;--h:1 !important;--q:0 !important}
+.work-stack.is-flow .work-inner{height:auto}
+.work-stack.is-flow .work-media{height:clamp(260px,60vh,560px)}
 </style>
 <style>
 /* ---------- pricing ----------
@@ -1016,7 +1049,7 @@ summary{list-style:none}
 .pricing{padding:clamp(72px,12vh,140px) 0 clamp(64px,10vh,110px)}
 .pricing-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px 48px;margin:0 0 clamp(36px,6vh,56px)}
 .pricing-title{margin:0;max-width:16ch;font-weight:900;font-size:clamp(34px,4.4vw,60px);line-height:1.04;letter-spacing:-.035em;color:#1C1E24;text-wrap:balance}
-.pricing-included{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;font-size:15px;color:rgba(28,30,36,.6)}
+.pricing-included{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;font-size:15px;color:rgba(28,30,36,.65)}
 .pricing-included ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .pricing-included li{
   display:flex;align-items:center;gap:7px;padding:8px 14px 8px 12px;border-radius:999px;
@@ -1048,9 +1081,9 @@ summary{list-style:none}
   margin:24px 0 0;padding:22px 0 0;border-top:1px solid #ece5d5;
   display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;
 }
-.price-from{font-size:14px;color:rgba(28,30,36,.55)}
+.price-from{font-size:14px;color:rgba(28,30,36,.65)}
 .price-num{font-size:clamp(34px,3vw,42px);font-weight:900;letter-spacing:-.03em;line-height:1;color:#1C1E24}
-.price-once{font-size:13px;font-weight:500;color:rgba(28,30,36,.5)}
+.price-once{font-size:13px;font-weight:500;color:rgba(28,30,36,.65)}
 .price-amount--quote{flex-direction:column;align-items:flex-start;gap:8px}
 .price-amount--quote .price-num{font-size:clamp(24px,2.1vw,30px);letter-spacing:-.025em}
 .price-cta{
@@ -1060,7 +1093,7 @@ summary{list-style:none}
   transition:background-color .25s ease,color .25s ease,border-color .25s ease;
 }
 .price-cta:hover{background:#1C1E24;color:#FAF8F3}
-.price-cta:focus-visible{outline:3px solid #D7A53F;outline-offset:3px}
+.price-cta:focus-visible{outline:3px solid #8A6420;outline-offset:3px}
 .price-features{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:16px;color:rgba(28,30,36,.8)}
 .price-features li{display:flex;align-items:flex-start;gap:10px;line-height:1.45}
 .price-features li::before{margin-top:1px}
@@ -1074,13 +1107,14 @@ summary{list-style:none}
 .price-card--featured .price-amount{border-top-color:rgba(250,248,243,.12)}
 .price-card--featured .price-from,.price-card--featured .price-once{color:rgba(250,248,243,.55)}
 .price-card--featured .price-num{color:#D7A53F}
-.price-card--featured .price-cta{background:#B8862B;border-color:#B8862B;color:#3A2C0F}
-.price-card--featured .price-cta:hover{background:#D7A53F;border-color:#D7A53F;color:#3A2C0F}
+.price-card--featured .price-cta{background:#B8862B;border-color:#B8862B;color:#1C1E24}
+.price-card--featured .price-cta:hover{background:#D7A53F;border-color:#D7A53F;color:#1C1E24}
+.price-card--featured .price-cta:focus-visible{outline-color:#D7A53F}
 .price-card--featured .price-features{color:rgba(250,248,243,.85)}
 .price-card--featured .price-features li::before{background-color:rgba(215,165,63,.16)}
 .price-badge{
   position:absolute;top:-13px;inset-inline-start:28px;margin:0;
-  padding:6px 12px;border-radius:999px;background:#B8862B;color:#3A2C0F;
+  padding:6px 12px;border-radius:999px;background:#B8862B;color:#1C1E24;
   font-size:13px;font-weight:700;line-height:1;
 }
 
@@ -1093,7 +1127,7 @@ summary{list-style:none}
 .price-care-text{flex:1 1 420px;max-width:64ch}
 .price-care-name{margin:0 0 8px;font-size:22px;font-weight:900;letter-spacing:-.02em}
 .price-care-desc{margin:0;font-size:16px;line-height:1.6;color:rgba(28,30,36,.72)}
-.price-care-note{margin:12px 0 0;font-size:14px;line-height:1.6;color:rgba(28,30,36,.55)}
+.price-care-note{margin:12px 0 0;font-size:14px;line-height:1.6;color:rgba(28,30,36,.65)}
 .price-care-amount{margin:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;flex:none}
 .price-care-amount .price-num{font-size:clamp(32px,2.8vw,40px)}
 .price-per{font-size:16px;font-weight:700;color:#1C1E24}
@@ -1151,12 +1185,12 @@ summary{list-style:none}
 .demo-actions{grid-area:actions;align-self:end;margin-top:32px;display:flex;align-items:center;flex-wrap:wrap;gap:14px 22px}
 .demo-btn{
   display:inline-flex;align-items:center;justify-content:center;gap:14px;white-space:nowrap;
-  font-weight:700;font-size:17px;color:#3A2C0F;background:#B8862B;
+  font-weight:700;font-size:17px;color:#1C1E24;background:#B8862B;
   padding:18px 32px 18px 28px;border-radius:999px;
   box-shadow:0 10px 28px rgba(184,134,43,.25);
   transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,background-color .3s;
 }
-.demo-btn:hover{color:#3A2C0F;background:#D7A53F;transform:translateY(-2px);box-shadow:0 16px 34px rgba(184,134,43,.35)}
+.demo-btn:hover{color:#1C1E24;background:#D7A53F;transform:translateY(-2px);box-shadow:0 16px 34px rgba(184,134,43,.35)}
 .demo-btn:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
 .demo-btn svg{flex:none;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .demo-btn:hover svg{transform:translateX(-4px)}
@@ -1187,6 +1221,17 @@ summary{list-style:none}
 }
 .demo-switch button[aria-pressed="true"]{background:#FAF8F3;color:#1C1E24}
 .demo-switch button:focus-visible{outline:2px solid #D7A53F;outline-offset:2px}
+/* The recording plays by itself and loops, so it needs a way to stop it.
+   Same control as on /demo/, bottom right of the frame. */
+.demo-playpause{
+  grid-row:2;grid-column:1;align-self:end;justify-self:start;position:relative;z-index:1;margin:14px;
+  width:42px;height:42px;border-radius:50%;border:0;padding:0;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(17,17,17,.7);backdrop-filter:blur(6px);color:#fff;
+}
+.demo-playpause:focus-visible{outline:3px solid #D7A53F;outline-offset:3px}
+.demo-playpause[data-paused] .demo-playpause-pause,
+.demo-playpause:not([data-paused]) .demo-playpause-play{display:none}
 
 @media (max-width:900px){
   .demo-card{grid-template-columns:1fr;grid-template-areas:"title" "lead" "media" "steps" "actions";grid-template-rows:none}
@@ -1218,7 +1263,7 @@ summary{list-style:none}
   display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 0;cursor:pointer;
   font-size:clamp(17px,1.4vw,19px);font-weight:700;line-height:1.4;color:#1C1E24;
 }
-.faq-item summary:focus-visible{outline:2px solid #D7A53F;outline-offset:4px;border-radius:6px}
+.faq-item summary:focus-visible{outline:2px solid #8A6420;outline-offset:4px;border-radius:6px}
 /* A plus that turns into a minus. */
 .faq-icon{
   flex:none;position:relative;width:34px;height:34px;border-radius:50%;
@@ -1235,7 +1280,7 @@ summary{list-style:none}
 .faq-item[open] .faq-icon::after{transform:translate(-50%,-50%) rotate(0deg)}
 .faq-answer p{margin:0;padding:0 0 26px;max-width:60ch;font-size:16px;line-height:1.7;color:rgba(28,30,36,.72)}
 .faq-answer a{color:#8A6420;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
-.faq-answer a:hover{color:#B8862B}
+.faq-answer a:hover{color:#1C1E24}
 @supports (interpolate-size: allow-keywords) and selector(::details-content){
   .faq-item{interpolate-size:allow-keywords}
   .faq-item::details-content{height:0;overflow:clip;transition:height .35s ease,content-visibility .35s allow-discrete}
@@ -1265,7 +1310,7 @@ summary{list-style:none}
 .outro-text{align-self:center;padding-bottom:clamp(56px,10vh,112px)}
 .outro-title{margin:0;font-weight:900;font-size:clamp(40px,5.6vw,84px);line-height:1;letter-spacing:-.04em;color:#1C1E24}
 .outro-title span{display:block}
-.outro-title span:first-child{margin-bottom:.12em;font-size:.42em;letter-spacing:-.02em;color:#93897A}
+.outro-title span:first-child{margin-bottom:.12em;font-size:.42em;letter-spacing:-.02em;color:#736A5C}
 .outro-sub{margin:22px 0 0;max-width:46ch;font-size:clamp(17px,1.45vw,20px);line-height:1.6;color:rgba(28,30,36,.7);text-wrap:pretty}
 .outro-actions{display:flex;align-items:center;flex-wrap:wrap;gap:14px 16px;margin-top:clamp(28px,4.5vh,44px)}
 .outro-btn{
@@ -1274,9 +1319,9 @@ summary{list-style:none}
   transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s ease,background-color .25s ease,color .25s ease;
 }
 .outro-btn svg{flex:none}
-.outro-btn:focus-visible{outline:3px solid #D7A53F;outline-offset:4px}
-.outro-btn--main{color:#3A2C0F;background:#B8862B;box-shadow:0 10px 28px rgba(184,134,43,.28)}
-.outro-btn--main:hover{color:#3A2C0F;background:#D7A53F;transform:translateY(-2px);box-shadow:0 16px 36px rgba(184,134,43,.36)}
+.outro-btn:focus-visible{outline:3px solid #8A6420;outline-offset:4px}
+.outro-btn--main{color:#1C1E24;background:#B8862B;box-shadow:0 10px 28px rgba(184,134,43,.28)}
+.outro-btn--main:hover{color:#1C1E24;background:#D7A53F;transform:translateY(-2px);box-shadow:0 16px 36px rgba(184,134,43,.36)}
 .outro-btn--main svg{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .outro-btn--main:hover svg{transform:translateX(-4px)}
 .outro-btn--chat{color:#1C1E24;border:1.5px solid #1C1E24;padding:17.5px 28px}
@@ -1325,7 +1370,7 @@ summary{list-style:none}
 .voices-note{margin:16px 0 0;max-width:52ch;font-size:clamp(16px,1.3vw,18px);line-height:1.6;color:rgba(28,30,36,.62)}
 .voices-wall{columns:3 280px;column-gap:20px}
 .voice{display:inline-block;width:100%;margin:0 0 20px;break-inside:avoid}
-.voice-when{margin:0 6px 8px;font-size:13px;font-weight:700;color:#93897A}
+.voice-when{margin:0 6px 8px;font-size:13px;font-weight:700;color:#736A5C}
 .voice-chat{
   display:flex;flex-direction:column;align-items:flex-end;gap:4px;   /* flex-end is the left in RTL */
   padding:14px 12px 16px;border-radius:20px;border:1px solid #e5ddc9;
@@ -1342,7 +1387,7 @@ summary{list-style:none}
   content:"";position:absolute;top:0;left:-7px;width:8px;height:13px;background:#fff;
   clip-path:polygon(0 0,100% 0,100% 100%);
 }
-.bubble-time{margin-inline-start:auto;font-size:11px;line-height:1;color:#667781;transform:translateY(2px)}
+.bubble-time{margin-inline-start:auto;font-size:11px;line-height:1;color:#5E6E77;transform:translateY(2px)}
 .bubble--emoji{padding:0 4px;background:none;box-shadow:none;font-size:42px;line-height:1.15;align-items:center}
 .bubble--emoji .bubble-time{font-size:11px;padding:3px 6px;border-radius:8px;background:rgba(255,255,255,.8)}
 .bubble-react{
@@ -1361,7 +1406,7 @@ summary{list-style:none}
 <script src="assets/js/18990bc9-662c-4d34-b861-7ec1432aadfc.js" defer></script>
 </helmet>
 
-<div role="main" dir="rtl" style="position:relative;min-height:100vh;overflow-x:hidden;overflow-x:clip;background:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;color:#1C1E24;">
+<div dir="rtl" style="position:relative;min-height:100vh;overflow-x:hidden;overflow-x:clip;background:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;color:#1C1E24;">
 
   <div style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
     <div style="position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 0%, rgba(184,134,43,.06) 0%, rgba(184,134,43,0) 60%);"></div>
@@ -1369,14 +1414,17 @@ summary{list-style:none}
 
   <div data-progress="" style="position:fixed;top:0;left:0;right:0;height:2px;z-index:70;transform-origin:right;background:#B8862B;"></div>
 
-  <div style="position:fixed;inset:0;z-index:60;background:#FAF8F3;transform-origin:top;animation:curtain .85s cubic-bezier(.76,0,.24,1) .1s forwards;pointer-events:none;"></div>
+  <!-- At rest the curtain is already lifted (scaleY(0)); only the animation
+       draws it down and up. Reduced motion turns animations off, and a curtain
+       that rests down would cover the page for good. -->
+  <div style="position:fixed;inset:0;z-index:60;background:#FAF8F3;transform-origin:top;transform:scaleY(0);animation:curtain .85s cubic-bezier(.76,0,.24,1) .1s both;pointer-events:none;"></div>
 
   <div style="position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 24px;">
 
     <header data-sticky-header="" style="position:fixed;top:16px;left:0;right:0;z-index:50;max-width:1180px;margin:0 auto;padding:0 24px;pointer-events:none;">
-      <div data-sticky-header-pill="" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;border-radius:999px;background:rgba(250,248,243,.85);backdrop-filter:blur(18px);border:1px solid #e5ddc9;box-shadow:0 8px 24px rgba(28,25,20,.08);pointer-events:none;opacity:0;transform:translateY(-14px);will-change:opacity,transform;transition:opacity .3s ease,transform .3s ease;">
+      <div data-sticky-header-pill="" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;border-radius:999px;background:rgba(250,248,243,.85);backdrop-filter:blur(18px);border:1px solid #e5ddc9;box-shadow:0 8px 24px rgba(28,25,20,.08);pointer-events:none;opacity:0;visibility:hidden;transform:translateY(-14px);will-change:opacity,transform;transition:opacity .3s ease,transform .3s ease,visibility .3s;">
         <div style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:#B8862B;">.dev</span></div>
-        <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:'Rubik',sans-serif;font-weight:700;font-size:14px;color:#3A2C0F;background:#B8862B;padding:11px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 10px 22px rgba(184,134,43,.3);color:#3A2C0F;">דברו איתי בוואטסאפ</a>
+        <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:'Rubik',sans-serif;font-weight:700;font-size:14px;color:#1C1E24;background:#B8862B;padding:11px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 10px 22px rgba(184,134,43,.3);color:#1C1E24;">דברו איתי בוואטסאפ</a>
       </div>
     </header>
     <div data-sticky-header-spacer="" style="height:94px;" aria-hidden="true"></div>
@@ -1396,12 +1444,15 @@ summary{list-style:none}
         // sit on top of it. Step aside while the bar is up there.
         var work = document.querySelector('[data-work-stack]');
         var panels = work && work.querySelectorAll('.work-panel');
-        if (panels && panels.length &&
+        if (panels && panels.length && !work.classList.contains('is-flow') &&
             work.getBoundingClientRect().top < 96 &&
             panels[panels.length - 1].getBoundingClientRect().bottom > 96) t = 0;
         pill.style.opacity = t;
         pill.style.transform = 'translateY(' + ((1 - t) * -14) + 'px)';
         pill.style.pointerEvents = t > 0.05 ? 'auto' : 'none';
+        // Hidden, not just transparent: an invisible pill must not take
+        // keyboard focus. (visibility flips after the fade-out, see transition.)
+        pill.style.visibility = t > 0.05 ? 'visible' : 'hidden';
       }
       function onScroll(){
         if (!ticking) { ticking = true; requestAnimationFrame(update); }
@@ -1410,6 +1461,8 @@ summary{list-style:none}
       update();
     })();
     </script>
+
+    <main>
 
     <!-- Outside the hero on purpose: the scroll runtime puts transform/filter on
          [data-hero-exit], which would turn a fixed child into an absolute one. -->
@@ -1535,9 +1588,29 @@ summary{list-style:none}
       // Runway = how long the hero stays pinned: the scene's extra height.
       function runway(n){ return Math.max(0, n.scene.offsetHeight - n.hero.offsetHeight); }
 
+      // When either stage's text is taller than the screen it is pinned to (a
+      // short window, 200% zoom, wider text spacing), pinning would crop it,
+      // CTA and all. Then the scene stops pinning and the two stages simply
+      // follow each other (.is-flow, see the CSS). Always measured with the
+      // class off, so the answer never depends on the previous answer.
+      var ro = window.ResizeObserver ? new ResizeObserver(function(){ fit(); }) : null;
+      function fit(){
+        var n = nodes(); if (!n) return;
+        n.scene.classList.remove('is-flow');
+        var crops = Array.prototype.some.call(n.hero.querySelectorAll('.hero-stage'), function(stage){
+          var main = stage.querySelector('.hero-main');
+          if (!main) return false;
+          if (ro) ro.observe(main);
+          return main.offsetHeight > stage.clientHeight + 1;
+        });
+        n.scene.classList.toggle('is-flow', crops);
+        schedule();
+      }
+
       function update(){
         raf = 0;
         var n = nodes(); if (!n) return;
+        if (n.scene.classList.contains('is-flow')) return;   // nothing pinned, so nothing to hand over
         var run = runway(n);
         var p = run ? clamp01(-n.scene.getBoundingClientRect().top / run) : 0;
         var hero = n.hero;
@@ -1603,21 +1676,27 @@ summary{list-style:none}
 
       function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
       window.addEventListener('scroll', schedule, { passive: true });
-      window.addEventListener('resize', schedule);
-      window.addEventListener('load', schedule);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);   // the chip moves when the font swaps in
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);   // the chip moves when the font swaps in
       // The DC runtime swaps the page for a React-rendered copy after this
       // runs. The fresh hero carries none of the state set here, so catch it.
       new MutationObserver(function(){
-        var hero = document.querySelector('.hero');
-        if (hero && !hero.style.getPropertyValue('--p1')) schedule();
+        var scene = document.querySelector('[data-hero-scene]');
+        var hero = scene && scene.querySelector('.hero');
+        if (hero && !hero.style.getPropertyValue('--p1') && !scene.classList.contains('is-flow')) fit();
       }).observe(document.body, { childList: true, subtree: true });
+      fit();
       update();
 
       // Moving between stages without scrolling: the intro's button, and
       // keyboard focus landing in the stage that isn't showing.
       function goTo(stage){
         var n = nodes(); if (!n) return;
+        if (n.scene.classList.contains('is-flow')) {   // no runway: the offer is simply further down
+          if (stage === 'offer') n.hero.querySelector('.hero-stage--offer').scrollIntoView({ behavior: calm ? 'instant' : 'smooth', block: 'start' });
+          return;
+        }
         var top = n.scene.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({ top: top + (stage === 'offer' ? runway(n) : 0), behavior: calm ? 'instant' : 'smooth' });
       }
@@ -1627,7 +1706,7 @@ summary{list-style:none}
       document.addEventListener('focusin', function(e){
         var stage = e.target.closest && e.target.closest('.hero-stage');
         var hero = stage && stage.closest('.hero');
-        if (hero && hero.getAttribute('data-active') !== stage.getAttribute('data-stage')) goTo(stage.getAttribute('data-stage'));
+        if (hero && !hero.closest('.is-flow') && hero.getAttribute('data-active') !== stage.getAttribute('data-stage')) goTo(stage.getAttribute('data-stage'));
       });
     })();
     </script>
@@ -1967,6 +2046,8 @@ summary{list-style:none}
         if (index) for (var j = 0; j < index.children.length; j++) {
           index.children[j].classList.toggle('is-done', j < current);
           index.children[j].classList.toggle('is-current', j === current);
+          var link = index.children[j].querySelector('a');      // the same state, for screen readers
+          if (link) { if (j === current) link.setAttribute('aria-current', 'step'); else link.removeAttribute('aria-current'); }
         }
       }
 
@@ -2071,9 +2152,9 @@ summary{list-style:none}
               <p class="work-why">מכירת כרטיסים יש בכל מקום. מה שמפיל ערב זה תור בכניסה. לכן מסך הסריקה קיבל הכי הרבה תשומת לב: מצלמה אחת, תשובה ברורה תוך שנייה, והתרעה מיידית על כרטיס שכבר נסרק. המכירה, החשבוניות והדוחות נבנו סביבו.</p>
             </div>
             <div class="work-media work-media--fan">
-              <figure class="work-device work-phone" style="--i:-1;--a:1"><img src="assets/work/evently-stats.webp" alt="Evently: מסך סטטיסטיקות המכירה" width="600" height="1253" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:1;--a:1"><img src="assets/work/evently-events.webp" alt="Evently: רשימת האירועים" width="600" height="1253" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:0;--a:0"><img src="assets/work/evently-scan.webp" alt="Evently: מסך סריקת הכרטיסים בכניסה" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:-1;--a:1"><img src="assets/work/evently-stats.webp" alt="Evently: מסך סטטיסטיקות המכירה" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Evently: מסך סטטיסטיקות המכירה"></figure>
+              <figure class="work-device work-phone" style="--i:1;--a:1"><img src="assets/work/evently-events.webp" alt="Evently: רשימת האירועים" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Evently: רשימת האירועים"></figure>
+              <figure class="work-device work-phone" style="--i:0;--a:0"><img src="assets/work/evently-scan.webp" alt="Evently: מסך סריקת הכרטיסים בכניסה" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Evently: מסך סריקת הכרטיסים בכניסה"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2090,8 +2171,8 @@ summary{list-style:none}
               <p class="work-why">לכן המידע על כל נקודה קופץ לבד כשמגיעים אליה, לפי המיקום על המפה, בלי לחפש ובלי להקליד. ובצד של המפעיל: דוח תנועת מבקרים, כדי לראות איפה אנשים עוצרים ואיפה הם ממשיכים הלאה.</p>
             </div>
             <div class="work-media work-media--system">
-              <figure class="work-device work-browser"><figcaption class="work-caption">צד המפעיל</figcaption><img src="assets/work/spoti-dashboard.webp" alt="Spoti: דוח תנועת מבקרים בממשק הניהול" width="1600" height="890" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:0;--a:0"><figcaption class="work-caption">צד המבקר</figcaption><img src="assets/work/spoti-map.webp" alt="Spoti: מפת המסלול עם מידע על נקודה לפי מיקום" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-browser"><figcaption class="work-caption">צד המפעיל</figcaption><img src="assets/work/spoti-dashboard.webp" alt="Spoti: דוח תנועת מבקרים בממשק הניהול" width="1600" height="890" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Spoti: דוח תנועת מבקרים בממשק הניהול"></figure>
+              <figure class="work-device work-phone" style="--i:0;--a:0"><figcaption class="work-caption">צד המבקר</figcaption><img src="assets/work/spoti-map.webp" alt="Spoti: מפת המסלול עם מידע על נקודה לפי מיקום" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: Spoti: מפת המסלול עם מידע על נקודה לפי מיקום"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2108,8 +2189,8 @@ summary{list-style:none}
               <p class="work-why">במסעדה אסור שיהיו שני מקורות אמת. לכן גם הלקוח באתר וגם הצוות במסעדה משריינים באותה מערכת: שולחן שנתפס בטלפון נעלם מהאתר באותו רגע, וכל הזמנה אפשר לשנות בכל רגע, מכל צד.</p>
             </div>
             <div class="work-media work-media--duo">
-              <figure class="work-device work-phone" style="--i:1;--a:0"><figcaption class="work-caption">הלקוח</figcaption><img src="assets/work/yame-guest.webp" alt="YA-ME: הזמנת שולחן מצד הלקוח" width="600" height="1253" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-phone" style="--i:-1;--a:0"><figcaption class="work-caption">הצוות</figcaption><img src="assets/work/yame-staff.webp" alt="YA-ME: יומן כל ההזמנות מצד הצוות" width="600" height="1253" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-phone" style="--i:1;--a:0"><figcaption class="work-caption">הלקוח</figcaption><img src="assets/work/yame-guest.webp" alt="YA-ME: הזמנת שולחן מצד הלקוח" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: YA-ME: הזמנת שולחן מצד הלקוח"></figure>
+              <figure class="work-device work-phone" style="--i:-1;--a:0"><figcaption class="work-caption">הצוות</figcaption><img src="assets/work/yame-staff.webp" alt="YA-ME: יומן כל ההזמנות מצד הצוות" width="600" height="1253" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: YA-ME: יומן כל ההזמנות מצד הצוות"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2126,8 +2207,8 @@ summary{list-style:none}
               <p class="work-why">לכן החנות נפתחת בסיפור ובתמונה אחת גדולה, לא ברשת של מוצרים. הקטגוריות הן עיגולים שמזהים במבט, והקופה קצרה ומאובטחת, כדי שההתלהבות לא תתקרר בדרך לתשלום.</p>
             </div>
             <div class="work-media work-media--pages">
-              <figure class="work-device work-browser"><img src="assets/work/viamar-shop.webp" alt="VIA MAR: קטגוריות והנמכרים ביותר" width="1600" height="885" loading="lazy" data-zoomable></figure>
-              <figure class="work-device work-browser"><img src="assets/work/viamar-home.webp" alt="VIA MAR: עמוד הבית, תכשיטים שמספרים סיפור" width="1600" height="888" loading="lazy" data-zoomable></figure>
+              <figure class="work-device work-browser"><img src="assets/work/viamar-shop.webp" alt="VIA MAR: קטגוריות והנמכרים ביותר" width="1600" height="885" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: VIA MAR: קטגוריות והנמכרים ביותר"></figure>
+              <figure class="work-device work-browser"><img src="assets/work/viamar-home.webp" alt="VIA MAR: עמוד הבית, תכשיטים שמספרים סיפור" width="1600" height="888" loading="lazy" data-zoomable tabindex="0" role="button" aria-label="הגדלת התמונה: VIA MAR: עמוד הבית, תכשיטים שמספרים סיפור"></figure>
             </div>
           </div>
           <div class="work-shade" aria-hidden="true"></div>
@@ -2201,7 +2282,7 @@ summary{list-style:none}
           });
         }
 
-        if (calm) return;                    // CSS defaults are the settled state
+        if (calm || stack.classList.contains('is-flow')) return;   // CSS defaults are the settled state
         // The first panel sits at the very top of the stack (pulled up under
         // the bar); each one after it a panel height and a --dwell further on.
         var natural = stack.getBoundingClientRect().top;
@@ -2217,15 +2298,58 @@ summary{list-style:none}
         }
       }
 
+      // A panel whose text is taller than the screen would have it cropped by
+      // the pin, or hidden under the bar (a short window, 200% zoom, wider
+      // text spacing). Then nothing pins and the panels follow each other
+      // (.is-flow, see the CSS). Always measured with the class off.
+      var ro = window.ResizeObserver ? new ResizeObserver(function(){ fit(); }) : null;
+      function fit(){
+        var stack = document.querySelector('[data-work-stack]');
+        if (!stack) return;
+        stack.classList.remove('is-flow');
+        var crops = Array.prototype.some.call(stack.querySelectorAll('.work-panel'), function(p){
+          var inner = p.querySelector('.work-inner'), text = p.querySelector('.work-text');
+          if (!inner || !text) return false;
+          if (ro) ro.observe(text);
+          var top = parseFloat(getComputedStyle(inner).paddingTop) || 0;   // the bar covers everything above this
+          return text.offsetTop < top - 1 || text.offsetTop + text.offsetHeight > inner.clientHeight + 1;
+        });
+        stack.classList.toggle('is-flow', crops);
+        schedule();
+      }
+
       function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
       window.addEventListener('scroll', schedule, { passive: true });
-      window.addEventListener('resize', schedule);
-      window.addEventListener('load', schedule);
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
       new MutationObserver(function(){
         var stack = document.querySelector('[data-work-stack]');
-        if (stack && !stack.hasAttribute('data-ready')) schedule();
+        if (stack && !stack.hasAttribute('data-ready')) fit();
       }).observe(document.body, { childList: true, subtree: true });
+      fit();
       update();
+
+      // Keyboard focus landing in a panel that a later one has already risen
+      // over (Shift+Tab back up the stack): the browser thinks the link is on
+      // screen, so nothing scrolls. Go back to where that panel is on top.
+      document.addEventListener('focusin', function(e){
+        var panel = e.target.closest && e.target.closest('.work-panel');
+        var stack = panel && panel.closest('[data-work-stack]');
+        if (!stack) return;
+        var r = e.target.getBoundingClientRect();
+        var hit = document.elementFromPoint(
+          Math.min(Math.max(r.left + r.width / 2, 0), window.innerWidth - 1),
+          Math.min(Math.max(r.top + r.height / 2, 0), window.innerHeight - 1));
+        var over = hit && hit.closest('.work-panel, .work-bar');
+        if (!over || over === panel) return;
+        var panels = stack.querySelectorAll('.work-panel');
+        var natural = stack.getBoundingClientRect().top;
+        for (var i = 0; i < panels.length && panels[i] !== panel; i++) {
+          natural += panels[i].offsetHeight + (parseFloat(getComputedStyle(panels[i]).marginBottom) || 0);
+        }
+        window.scrollTo({ top: window.pageYOffset + natural, behavior: calm ? 'instant' : 'smooth' });
+      });
     })();
     </script>
 
@@ -2346,39 +2470,69 @@ summary{list-style:none}
 
     <script>
     (function(){
-      var overlay = null;
+      /* The screenshot lightbox: a modal dialog. Focus goes to its close
+         button and stays there (it is the only stop), Escape or a click
+         anywhere closes it, and focus returns to the screenshot it came from. */
+      var overlay = null, opener = null;
 
       function closeLightbox(){
         if (!overlay) return;
         overlay.remove();
         overlay = null;
         document.removeEventListener('keydown', onKeydown);
+        if (opener && opener.isConnected) opener.focus();
+        opener = null;
       }
 
       function onKeydown(e){
         if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'Tab') { e.preventDefault(); overlay.querySelector('button').focus(); }
       }
 
-      function openLightbox(src, alt){
+      function openLightbox(from){
         if (overlay) closeLightbox();
+        opener = from;
         overlay = document.createElement('div');
         overlay.setAttribute('data-lightbox', '');
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        overlay.setAttribute('aria-label', from.alt || 'תמונה מוגדלת');
         overlay.style.cssText = 'position:fixed;inset:0;z-index:1000;background:rgba(2,4,16,.92);display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;animation:rise .25s ease;';
 
         var img = document.createElement('img');
-        img.src = src;
-        img.alt = alt || '';
+        img.src = from.src;
+        img.alt = from.alt || '';
         img.style.cssText = 'max-width:95vw;max-height:92vh;object-fit:contain;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);cursor:zoom-out;';
 
+        var close = document.createElement('button');
+        close.type = 'button';
+        close.setAttribute('aria-label', 'סגירה');
+        close.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 3l12 12M15 3 3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+        close.style.cssText = 'position:absolute;top:16px;right:16px;width:44px;height:44px;border:0;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;background:rgba(250,248,243,.14);color:#FAF8F3;cursor:pointer;';
+
         overlay.appendChild(img);
+        overlay.appendChild(close);
         overlay.addEventListener('click', closeLightbox);
         document.addEventListener('keydown', onKeydown);
         document.body.appendChild(overlay);
+        close.focus();
       }
 
       document.addEventListener('click', function(e){
         var img = e.target.closest && e.target.closest('[data-zoomable]');
-        if (img) openLightbox(img.src, img.alt);
+        if (img) openLightbox(img);
+      });
+      // The screenshots are buttons (see the markup), so they answer the keys
+      // a button does: Enter as it goes down, Space as it comes up.
+      document.addEventListener('keydown', function(e){
+        var img = !overlay && e.target.closest && e.target.closest('[data-zoomable]');
+        if (!img) return;
+        if (e.key === 'Enter') { e.preventDefault(); openLightbox(img); }
+        else if (e.key === ' ') e.preventDefault();             // no page scroll
+      });
+      document.addEventListener('keyup', function(e){
+        var img = !overlay && e.key === ' ' && e.target.closest && e.target.closest('[data-zoomable]');
+        if (img) openLightbox(img);
       });
     })();
     </script>
@@ -2448,6 +2602,10 @@ summary{list-style:none}
           <div class="demo-browser">
             <video class="demo-video demo-video--after is-active" data-src="demo/media/after.mp4" poster="assets/demo/after.webp" muted loop playsinline preload="none" aria-label="הדמו: אתר חדש לסטודיו קעקועים"></video>
             <video class="demo-video demo-video--before" data-src="demo/media/before.mp4" poster="assets/demo/before.webp" muted loop playsinline preload="none" aria-label="האתר הקיים של הסטודיו"></video>
+            <button type="button" class="demo-playpause" data-demo-playpause aria-label="השהיית הסרטון">
+              <svg class="demo-playpause-pause" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="3.5" height="11" rx="1"/><rect x="8.5" y="1.5" width="3.5" height="11" rx="1"/></svg>
+              <svg class="demo-playpause-play" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3 1.8v10.4a1 1 0 0 0 1.53.85l8.2-5.2a1 1 0 0 0 0-1.7l-8.2-5.2A1 1 0 0 0 3 1.8z"/></svg>
+            </button>
           </div>
           <figcaption class="demo-switch" role="group" aria-label="השוואה">
             <button type="button" data-demo-show="before" aria-pressed="false">לפני</button>
@@ -2481,17 +2639,28 @@ summary{list-style:none}
 
       function load(v){ if (v && !v.getAttribute('src')) { v.setAttribute('src', v.getAttribute('data-src')); v.setAttribute('preload', 'auto'); } }
 
+      // The pause button. Reduced motion starts paused (posters only), but the
+      // button still lets those visitors play it.
+      var paused = calm;
+      function sync(media){
+        var t = media.querySelector('[data-demo-playpause]');
+        if (!t || t.hasAttribute('data-paused') === paused) return;
+        t.toggleAttribute('data-paused', paused);
+        t.setAttribute('aria-label', paused ? 'הפעלת הסרטון' : 'השהיית הסרטון');
+      }
+
       var raf = 0;
       function check(){
         raf = 0;
         var media = document.querySelector('[data-demo-media]');
         if (!media) return;
+        sync(media);
         var r = media.getBoundingClientRect(), vh = window.innerHeight;
         var near = r.top < vh * 2 && r.bottom > -vh;          // start fetching a screen early
         var seen = r.top < vh && r.bottom > 0;
         var active = media.querySelector('.demo-video.is-active');
         if (near) load(active);
-        if (!active || calm) return;                          // reduced motion: posters only
+        if (!active || paused) return;
         if (seen && active.paused) { var p = active.play(); if (p && p.catch) p.catch(function(){}); }
         if (!seen && !active.paused) active.pause();
       }
@@ -2503,6 +2672,14 @@ summary{list-style:none}
       document.addEventListener('visibilitychange', schedule);
 
       document.addEventListener('click', function(e){
+        var toggle = e.target.closest && e.target.closest('[data-demo-playpause]');
+        if (toggle) {
+          paused = !paused;
+          var playing = toggle.closest('[data-demo-media]').querySelector('.demo-video.is-active');
+          if (paused && playing) playing.pause();
+          check();
+          return;
+        }
         var btn = e.target.closest && e.target.closest('[data-demo-show]');
         if (!btn) return;
         var media = btn.closest('[data-demo-media]');
@@ -2589,7 +2766,9 @@ summary{list-style:none}
       </div>
     </section>
 
-    <footer style="border-top:1px solid #e5ddc9;padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;font-size:14px;color:rgba(28,30,36,.5);">
+    </main>
+
+    <footer style="border-top:1px solid #e5ddc9;padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;font-size:14px;color:rgba(28,30,36,.65);">
       <span style="display:inline-flex;align-items:baseline;gap:6px;">© {{ year }} <span style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:22px;direction:ltr;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#B8862B;">.dev</span></span></span>
     </footer>
   </div>

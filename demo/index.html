@@ -175,11 +175,13 @@
         --ink: #1c1e24;
         --brass: #b8862b;
         --brass-light: #d7a53f;
-        --brass-text: #3a2c0f;
+        --brass-text: #1c1e24;   /* ink on the gold buttons: 5.1:1 (the old brown was 4.2) */
+        --brass-deep: #8a6420;   /* the gold, dark enough for text and focus rings on paper */
         --line: #e5ddc9;
-        --quiet: #93897a;
+        --field-line: #8f8471;   /* form fields need a 3:1 edge; --line is 1.4:1 */
+        --quiet: #736a5c;   /* the lead-ins run as small as 12px, so 4.5:1 */
         --muted: rgba(28, 30, 36, 0.68);
-        --muted-soft: rgba(28, 30, 36, 0.52);
+        --muted-soft: rgba(28, 30, 36, 0.65);
       }
       * { box-sizing: border-box; }
       html, body { margin: 0; padding: 0; background: var(--paper); }
@@ -188,7 +190,7 @@
         color: var(--ink);
         -webkit-font-smoothing: antialiased;
       }
-      a { color: var(--brass); text-decoration: none; }
+      a { color: var(--brass-deep); text-decoration: none; }
       a:hover { color: var(--brass-light); }
 
       .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
@@ -198,7 +200,7 @@
         position: absolute; inset: 0;
         background: radial-gradient(120% 70% at 50% 0%, rgba(184, 134, 43, 0.06) 0%, rgba(184, 134, 43, 0) 60%);
       }
-      main { position: relative; z-index: 1; }
+      .page { position: relative; z-index: 1; }
 
       /* ---------- header ---------- */
       .site-header { padding: 28px 0 0; }
@@ -226,8 +228,8 @@
         transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, background-color 0.25s;
       }
       .btn:hover { color: var(--brass-text); background: var(--brass-light); transform: translateY(-2px); box-shadow: 0 16px 36px rgba(184, 134, 43, 0.36); }
-      .btn:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 4px; }
-      .btn:disabled { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
+      .btn:focus-visible { outline: 3px solid var(--brass-deep); outline-offset: 4px; }
+      .btn[aria-disabled="true"] { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
       .btn svg { flex: none; }
 
       /* The waving/pointing avatar, as on the homepage: box W wide and 1.15W
@@ -276,7 +278,7 @@
       .step .n {
         display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
         border: 1px solid rgba(184, 134, 43, 0.4);
-        font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 13px; color: var(--brass);
+        font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 13px; color: var(--brass-deep);
       }
       .step h3 { margin: 20px 0 8px; font-size: clamp(20px, 1.7vw, 23px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.25; }
       .step p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
@@ -302,7 +304,7 @@
         transition: background-color 0.25s, color 0.25s;
       }
       .showcase-tabs button:hover { color: var(--paper); }
-      .showcase-tabs button[aria-selected="true"] { background: var(--paper); color: var(--ink); }
+      .showcase-tabs button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
       .showcase-tabs button:focus-visible { outline: 2px solid var(--brass-light); outline-offset: 2px; }
 
       .browser {
@@ -342,7 +344,7 @@
       .catch { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
       .notes { display: grid; gap: 20px; }
       .note { margin: 0; padding: clamp(26px, 2.8vw, 36px); border-radius: 24px; background: #fff; border: 1px solid var(--line); }
-      .note h3 { margin: 0 0 12px; font-size: 15px; font-weight: 700; color: var(--brass); }
+      .note h3 { margin: 0 0 12px; font-size: 15px; font-weight: 700; color: var(--brass-deep); }
       .note p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--muted); }
       /* The "why free" answer is a first-person statement: set it as one. */
       .note--quote blockquote {
@@ -376,11 +378,11 @@
       .field .opt { font-weight: 400; color: var(--muted-soft); font-size: 14px; }
       .field input, .field textarea {
         width: 100%; font-family: "Rubik", sans-serif; font-size: 16px; color: var(--ink);
-        background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px;
+        background: var(--paper); border: 1px solid var(--field-line); border-radius: 14px; padding: 15px 16px;
         transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       }
       .field input:focus, .field textarea:focus {
-        outline: none; background: #fff; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(184, 134, 43, 0.15);
+        outline: 2px solid var(--brass-deep); outline-offset: 2px; background: #fff; border-color: var(--brass-deep);
       }
       .field textarea { min-height: 116px; resize: vertical; }
       .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
@@ -390,6 +392,10 @@
         margin: 0 0 18px; padding: 14px 16px; border-radius: 14px; font-size: 15px; line-height: 1.55;
         background: rgba(176, 58, 46, 0.08); border: 1px solid rgba(176, 58, 46, 0.25); color: #8e2f26;
       }
+      /* A field with an error says so on its own edge, not only in the box above. */
+      .field input[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: #b03a2e; }
+      /* Focused by script so a screen reader reads them out; they are not controls. */
+      .form-error:focus, .success h3:focus, .done h3:focus { outline: none; }
       .form-note { margin: 16px 0 0; font-size: 14px; color: var(--muted-soft); line-height: 1.6; text-align: center; }
       .step2-lead { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: var(--muted); }
 
@@ -431,13 +437,14 @@
   <body>
     <div class="glow"><div></div></div>
 
-    <main dir="rtl">
+    <div class="page" dir="rtl">
       <header class="site-header">
         <div class="wrap">
           <a href="/" class="wordmark">afias<span>.dev</span></a>
         </div>
       </header>
 
+      <main>
       <div class="wrap">
         <section class="hero" aria-labelledby="demo-title">
           <div class="hero-text">
@@ -493,9 +500,9 @@
                    before.mp4 (the old / generic site) and after.mp4 (the new
                    one). Only one plays at a time and each is shown whole, so
                    they need not share an aspect ratio, a length or a pace. -->
-              <div class="showcase-tabs" role="tablist" aria-label="השוואה בין האתר החדש לישן">
-                <button type="button" role="tab" data-tab="before" aria-selected="false">לפני</button>
-                <button type="button" role="tab" data-tab="after" aria-selected="true">אחרי</button>
+              <div class="showcase-tabs" role="group" aria-label="השוואה בין האתר החדש לישן">
+                <button type="button" data-tab="before" aria-pressed="false">לפני</button>
+                <button type="button" data-tab="after" aria-pressed="true">אחרי</button>
               </div>
             </div>
             <div class="browser">
@@ -555,7 +562,7 @@
           <div class="form-card">
             <!-- ===== step 1 ===== -->
             <form id="step1" novalidate>
-              <div id="err1" class="form-error" hidden></div>
+              <div id="err1" class="form-error" tabindex="-1" hidden></div>
 
               <div class="field">
                 <label for="business">שם העסק</label>
@@ -584,7 +591,7 @@
             <!-- ===== step 2 ===== -->
             <div id="step2wrap" hidden>
               <div class="success">
-                <h3>הבקשה התקבלה!</h3>
+                <h3 id="step2-title" tabindex="-1">הבקשה התקבלה!</h3>
                 <p>נשאר רק לדעת איך לחזור אליכם.</p>
               </div>
 
@@ -594,7 +601,7 @@
               </p>
 
               <form id="step2" novalidate>
-                <div id="err2" class="form-error" hidden></div>
+                <div id="err2" class="form-error" tabindex="-1" hidden></div>
 
                 <div class="field">
                   <label for="name">שם מלא</label>
@@ -617,12 +624,13 @@
 
             <!-- ===== done ===== -->
             <div id="done" class="done" hidden>
-              <h3>תודה, הכל אצלנו.</h3>
+              <h3 id="done-title" tabindex="-1">תודה, הכל אצלנו.</h3>
               <p>אחזור אליכם בקרוב כדי לקבוע פגישת היכרות.</p>
             </div>
           </div>
         </section>
       </div>
+      </main>
 
       <footer>
         <div class="footer-inner">
@@ -630,7 +638,7 @@
           <a href="/" class="wordmark">afias<span>.dev</span></a>
         </div>
       </footer>
-    </main>
+    </div>
 
     <script>
       /* ---------- before/after showcase ---------- */
@@ -719,7 +727,7 @@
           fitFrame(incoming);
 
           tabs.forEach(function (t) {
-            t.setAttribute("aria-selected", String(t.dataset.tab === which));
+            t.setAttribute("aria-pressed", String(t.dataset.tab === which));
           });
 
           if (!userPaused) play();
@@ -791,13 +799,49 @@
 
         var issueId = null;
 
-        function showError(box, msg) {
+        // An error tied to a field marks the field and is read out with it
+        // when the field takes focus. One with no field (the request failed)
+        // takes focus itself, so a screen reader says what happened.
+        function showError(box, msg, fields) {
           box.textContent = msg;
           box.hidden = false;
+          if (!fields) {
+            box.focus();
+            return;
+          }
+          fields.forEach(function (f) {
+            f.setAttribute("aria-invalid", "true");
+            f.setAttribute("aria-describedby", box.id);
+          });
+          fields[0].focus();
         }
         function clearError(box) {
           box.hidden = true;
           box.textContent = "";
+          Array.prototype.forEach.call(box.parentNode.querySelectorAll("[aria-invalid]"), unmark);
+        }
+        function unmark(field) {
+          field.removeAttribute("aria-invalid");
+          field.removeAttribute("aria-describedby");
+        }
+        [step1, step2].forEach(function (form) {
+          form.addEventListener("input", function (e) {
+            if (e.target.hasAttribute("aria-invalid")) unmark(e.target);
+          });
+        });
+
+        // aria-disabled, not disabled: a disabled button drops keyboard focus
+        // to the page, and the person loses their place while it sends.
+        function busy(btn, label) {
+          btn.setAttribute("aria-disabled", "true");
+          btn.textContent = label;
+        }
+        function idle(btn, label) {
+          btn.removeAttribute("aria-disabled");
+          btn.textContent = label;
+        }
+        function isBusy(btn) {
+          return btn.getAttribute("aria-disabled") === "true";
         }
         function val(id) {
           return (document.getElementById(id).value || "").trim();
@@ -828,17 +872,16 @@
 
         step1.addEventListener("submit", function (e) {
           e.preventDefault();
+          if (isBusy(submit1)) return;
           clearError(err1);
 
           var business = val("business");
           if (!business) {
-            showError(err1, "צריך למלא את שם העסק כדי להמשיך.");
-            document.getElementById("business").focus();
+            showError(err1, "צריך למלא את שם העסק כדי להמשיך.", [document.getElementById("business")]);
             return;
           }
 
-          submit1.disabled = true;
-          submit1.textContent = "שולח...";
+          busy(submit1, "שולח...");
 
           post({
             step: 1,
@@ -856,33 +899,38 @@
               step1.hidden = true;
               step2wrap.hidden = false;
               step2wrap.scrollIntoView({ behavior: "smooth", block: "center" });
+              // The button that had focus is gone; land on what replaced it.
+              document.getElementById("step2-title").focus({ preventScroll: true });
             })
             .catch(function () {
+              idle(submit1, "שלח בקשה");
               showError(err1, FALLBACK);
-              submit1.disabled = false;
-              submit1.textContent = "שלח בקשה";
             });
         });
 
         step2.addEventListener("submit", function (e) {
           e.preventDefault();
+          if (isBusy(submit2)) return;
           clearError(err2);
 
           var name = val("name"),
             email = val("email"),
             phone = val("phone");
-          if (!name || !email || !phone) {
-            showError(err2, "צריך למלא שם, אימייל וטלפון.");
+          var missing = ["name", "email", "phone"].filter(function (id) {
+            return !val(id);
+          });
+          if (missing.length) {
+            showError(err2, "צריך למלא שם, אימייל וטלפון.", missing.map(function (id) {
+              return document.getElementById(id);
+            }));
             return;
           }
           if (email.indexOf("@") < 1) {
-            showError(err2, "כתובת האימייל לא נראית תקינה.");
-            document.getElementById("email").focus();
+            showError(err2, "כתובת האימייל לא נראית תקינה.", [document.getElementById("email")]);
             return;
           }
 
-          submit2.disabled = true;
-          submit2.textContent = "שולח...";
+          busy(submit2, "שולח...");
 
           post({
             step: 2,
@@ -907,11 +955,11 @@
               step2wrap.hidden = true;
               doneBox.hidden = false;
               doneBox.scrollIntoView({ behavior: "smooth", block: "center" });
+              document.getElementById("done-title").focus({ preventScroll: true });
             })
             .catch(function () {
+              idle(submit2, "שלח פרטי קשר");
               showError(err2, FALLBACK);
-              submit2.disabled = false;
-              submit2.textContent = "שלח פרטי קשר";
             });
         });
       })();
