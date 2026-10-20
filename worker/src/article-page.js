@@ -83,7 +83,7 @@ function normalizeNode(node, slug, canonical) {
     out.mainEntityOfPage = canonical;
   }
   if (types.includes('Person') && out['@id'] === `${SITE}/#author`) {
-    if (!out.url) out.url = `${SITE}/`;
+    if (!out.url || out.url === `${SITE}/`) out.url = `${SITE}/about/`;  // the profile page
     const same = [].concat(out.sameAs || []);
     if (!same.includes(GITHUB_PROFILE)) same.push(GITHUB_PROFILE);
     out.sameAs = same;
@@ -145,16 +145,15 @@ export function withoutHooxCredit(html) {
 }
 
 /**
- * Hoox links article text to pages this site doesn't have (/pricing,
- * /features, /about, /docs) and to pages without their trailing slash (/blog,
- * /demo — a redirect each). Point them at what does exist. Paths not listed
- * here are left alone. Once a real /pricing/ or /about/ page exists, change
- * its entry here.
+ * Hoox links article text to pages this site doesn't have (/features, /docs)
+ * and to pages without their trailing slash (/pricing, /about, /blog, /demo —
+ * a redirect or a 404 each). Point them at what does exist. Paths not listed
+ * here are left alone.
  */
 const SITE_LINKS = {
-  '/pricing': '/#pricing',   // the pricing section on the homepage
-  '/features': '/#pricing',  // the package cards are where "what you get" is listed
-  '/about': '/',             // the homepage hero is the introduction ("נעים להכיר, אני אורי")
+  '/pricing': '/pricing/',
+  '/features': '/pricing/',  // the package cards are where "what you get" is listed
+  '/about': '/about/',
   '/docs': '/blog/',         // "guides / technical docs" — the articles are the guides
   '/blog': '/blog/',
   '/demo': '/demo/',
