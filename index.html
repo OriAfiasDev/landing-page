@@ -547,109 +547,9 @@
   <meta name="twitter:title" content="בניית אתרי תדמית ומערכות לעסקים, החל מ-1,800 ₪">
   <meta name="twitter:description" content="אני מכיר לעומק את העסק שלכם ובונה לכם דמו אמיתי בחינם ללא התחייבות. אתר תדמית שמביא פניות, אתר עם ממשק ניהול שמרכז לידים והזמנות במקום אחד, או מערכת מלאה שעושה בשבילכם את העבודה, במחירים נגישים. עיצוב מותאם אישית, ליווי אחרי העלייה לאוויר, והאתר נשאר שלכם ללא דמי מנוי חודשיים.">
   <meta name="twitter:image" content="https://afias.dev/og-image.png?v=2">
-<!-- Google tag (gtag.js) -->
-<script>
-  /* Third-party tags (GA, Meta Pixel, Clarity) are queued right away, exactly as
-     before, but their scripts are only fetched once the page has finished loading
-     (or on the first tap/key/scroll, whichever comes first), so they don't compete
-     with the first render. Every call made before that is replayed by the vendor
-     script when it arrives. */
-  window.afiasLoadLater = (function(){
-    var queue = [], started = false;
-    function inject(src){
-      var t = document.createElement('script'); t.async = true; t.src = src;
-      document.head.appendChild(t);
-    }
-    function start(){
-      if (started) return; started = true;
-      queue.forEach(inject); queue = null;
-      ['pointerdown','keydown','touchstart','scroll'].forEach(function(e){ removeEventListener(e, start, true); });
-    }
-    function idle(){ (window.requestIdleCallback || function(f){ setTimeout(f, 1); })(start, { timeout: 2000 }); }
-    if (document.readyState === 'complete') idle(); else addEventListener('load', idle);
-    ['pointerdown','keydown','touchstart','scroll'].forEach(function(e){ addEventListener(e, start, { capture: true, passive: true }); });
-    return function(src){ if (started) inject(src); else queue.push(src); };
-  })();
-  afiasLoadLater('https://www.googletagmanager.com/gtag/js?id=G-HZJD8EPHXJ');
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HZJD8EPHXJ');
-</script>
-<!-- Meta Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];afiasLoadLater(v)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1990961434890890');
-
-  /* Pixel + Conversions API side by side. Both legs carry the same event_id so
-     Meta pairs them and counts one conversion, not two. */
-  window.afiasTrack = (function(){
-    var ENDPOINT = 'https://afias-demo.afias.workers.dev/track';
-
-    function newId(){
-      try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
-      return 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
-    }
-    function cookie(name){
-      var m = document.cookie.match('(^|; )' + name + '=([^;]*)');
-      return m ? decodeURIComponent(m[2]) : '';
-    }
-
-    return function(name, opts){
-      opts = opts || {};
-      var id = newId();
-
-      if (typeof fbq === 'function') {
-        fbq(opts.custom ? 'trackCustom' : 'track', name, opts.custom_data || {}, { eventID: id });
-      }
-
-      var user = {};
-      var given = opts.user_data || {};
-      for (var k in given) if (given[k]) user[k] = given[k];
-      var fbp = cookie('_fbp'); if (fbp) user.fbp = fbp;
-      var fbc = cookie('_fbc'); if (fbc) user.fbc = fbc;
-
-      // Fire and forget. keepalive lets the request outlive the navigation that
-      // usually follows a click, and a failure here must never block the user.
-      try {
-        fetch(ENDPOINT, {
-          method: 'POST',
-          mode: 'cors',
-          keepalive: true,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            event_name: name,
-            event_id: id,
-            event_source_url: location.href,
-            user_data: user,
-            custom_data: opts.custom_data || {}
-          })
-        })['catch'](function(){});
-      } catch (e) {}
-
-      return id;
-    };
-  })();
-
-  afiasTrack('PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1990961434890890&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        afiasLoadLater("https://www.clarity.ms/tag/"+i);
-    })(window, document, "clarity", "script", "ycejr76xq8");
-</script>
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -3360,6 +3260,8 @@ summary{list-style:none}
       <a href="/about/" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#1C1E24;">אודות</a>
       <span aria-hidden="true">·</span>
       <a href="/blog/" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#1C1E24;">מאמרים</a>
+      <span aria-hidden="true">·</span>
+      <button type="button" class="consent-open" data-consent-open="">הגדרות עוגיות</button>
     </footer>
   </div>
 </div>

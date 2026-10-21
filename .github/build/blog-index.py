@@ -124,22 +124,9 @@ def render_index(articles) -> str:
 <meta property="og:image" content="https://afias.dev/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HZJD8EPHXJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
-  gtag('js', new Date());
-  gtag('config', 'G-HZJD8EPHXJ');
-</script>
-<!-- Microsoft Clarity -->
-<script>
-(function(c,l,a,r,i,t,y){{
-  c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
-  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-}})(window, document, "clarity", "script", "ycejr76xq8");
-</script>
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){{(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}}</script>
+<script src="/consent.js?v=1" defer data-marketing="off"></script>
 
 <style>
 :root{{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}}
@@ -199,6 +186,7 @@ main:focus{{outline:none}}
   <footer class="wrap">
     <a href="/" class="wordmark">afias<span>.dev</span></a>
     <span>© {datetime.now().year} אורי אפיאס</span>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
   </footer>
 </div>
 </body>

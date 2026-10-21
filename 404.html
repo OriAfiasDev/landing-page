@@ -38,6 +38,9 @@ footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wr
 .skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
 main:focus{outline:none}
 </style>
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer data-stats="off" data-marketing="off"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
@@ -58,6 +61,7 @@ main:focus{outline:none}
   <footer class="wrap">
     <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
     <span>© 2026 אורי אפיאס</span>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
   </footer>
 </div>
 </body>

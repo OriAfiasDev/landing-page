@@ -16,10 +16,8 @@
  */
 
 const SITE = 'https://afias.dev';
-const PIXEL_ID = '1990961434890890';
-const GA_ID = 'G-HZJD8EPHXJ';
-const CLARITY_ID = 'ycejr76xq8';
-const TRACK_ENDPOINT = 'https://afias-demo.afias.workers.dev/track';
+// GA4, Meta Pixel, Clarity and the /track endpoint are configured in /consent.js
+// (loaded only after the visitor's consent), not here.
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -333,6 +331,27 @@ function focusableTables(html) {
   return html.replace(/<table\b(?![^>]*\btabindex=)/gi, '<table tabindex="0"');
 }
 
+/**
+ * YouTube embeds in article bodies become click-to-load links: nothing is
+ * requested from YouTube (no cookies, no ad/analytics calls) until the
+ * visitor presses play. /consent.js then swaps the link for a
+ * youtube-nocookie.com player; without JavaScript the link opens the video
+ * on YouTube. The link's text carries the video title for screen readers.
+ */
+export function youtubeFacades(html) {
+  return html.replace(/<iframe\b([^>]*)>\s*<\/iframe>/gi, (all, attrs) => {
+    const src = (attrs.match(/\bsrc\s*=\s*"([^"]*)"/i) || [])[1] || '';
+    const m = src.match(/^https?:\/\/(?:www\.)?youtube(?:-nocookie)?\.com\/embed\/([\w-]{6,20})/i);
+    if (!m) return all;
+    const id = m[1];
+    const title = (attrs.match(/\btitle\s*=\s*"([^"]*)"/i) || [])[1] || 'סרטון YouTube';
+    return `<a class="yt-facade" href="https://www.youtube.com/watch?v=${id}" data-yt="${id}" data-title="${title}">`
+      + `<span class="yt-facade-title">${title}</span>`
+      + `<span class="yt-facade-play">הפעלת הסרטון</span>`
+      + `<span class="yt-facade-note">הסרטון ייטען מ-YouTube רק אחרי לחיצה</span></a>`;
+  });
+}
+
 export function renderArticlePage(a) {
   const winner = consolidatedWinner(a.slug);
   if (winner) return renderRedirectStub(a, winner);  // merged: keep the redirect, not the article
@@ -381,70 +400,9 @@ ${tags.map((t) => `<meta property="article:tag" content="${escapeHtml(t)}">`).jo
 
 ${normalizeJsonLd(safeJsonLd(a.json_ld), String(a.slug ?? '').normalize('NFC'), url)}
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '${GA_ID}');
-</script>
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '${PIXEL_ID}');
-
-/* Same Pixel + Conversions API helper as the rest of the site, so blog
-   PageViews are deduplicated and measured the same way. */
-window.afiasTrack = (function(){
-  function newId(){
-    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
-    return 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
-  }
-  function cookie(name){
-    var m = document.cookie.match('(^|; )' + name + '=([^;]*)');
-    return m ? decodeURIComponent(m[2]) : '';
-  }
-  return function(name, opts){
-    opts = opts || {};
-    var id = newId();
-    if (typeof fbq === 'function') {
-      fbq(opts.custom ? 'trackCustom' : 'track', name, opts.custom_data || {}, { eventID: id });
-    }
-    var user = {};
-    var fbp = cookie('_fbp'); if (fbp) user.fbp = fbp;
-    var fbc = cookie('_fbc'); if (fbc) user.fbc = fbc;
-    try {
-      fetch('${TRACK_ENDPOINT}', {
-        method: 'POST', mode: 'cors', keepalive: true,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event_name: name, event_id: id, event_source_url: location.href, user_data: user, custom_data: opts.custom_data || {} })
-      })['catch'](function(){});
-    } catch (e) {}
-    return id;
-  };
-})();
-afiasTrack('PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1"></noscript>
-
-<!-- Microsoft Clarity -->
-<script>
-(function(c,l,a,r,i,t,y){
-  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "${CLARITY_ID}");
-</script>
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
 
 <style>
 :root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
@@ -474,6 +432,14 @@ h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacin
 .body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
 .body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
 .body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
+.body .yt-facade{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;width:100%;aspect-ratio:16/9;box-sizing:border-box;padding:22px 24px;border-radius:14px;background:#1C1E24;color:#FAF8F3;text-decoration:none;line-height:1.35}
+.body .yt-facade:hover{color:#FAF8F3}
+.body .yt-facade-title{font-weight:700;font-size:clamp(17px,2.4vw,21px)}
+.body .yt-facade-play{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#B8862B;color:#1C1E24;font-weight:700;font-size:15px}
+.body .yt-facade-play::before{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent currentColor}
+.body .yt-facade:hover .yt-facade-play{background:#D7A53F}
+.body .yt-facade-note{font-size:13px;color:rgba(250,248,243,.8)}
+.body .yt-facade:focus-visible{outline:3px solid var(--brass-deep);outline-offset:3px}
 .body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
 .body th{background:#fff;font-weight:700}
 .body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
@@ -510,7 +476,7 @@ main:focus{outline:none}
       ${a.meta_description ? `<p class="lede">${description}</p>` : ''}
       ${a.featured_image_url ? `<img class="hero-image" src="${image}" alt="${title}" loading="eager" fetchpriority="high">` : ''}
       <div class="body">
-${focusableTables(englishWatermark(withSiteLinks(withoutHooxCredit(withoutTitleHeading(a.content_html)))))}
+${youtubeFacades(focusableTables(englishWatermark(withSiteLinks(withoutHooxCredit(withoutTitleHeading(a.content_html))))))}
       </div>
       ${tagsHtml}
 
@@ -525,6 +491,7 @@ ${focusableTables(englishWatermark(withSiteLinks(withoutHooxCredit(withoutTitleH
   <footer class="wrap">
     <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
     <span>© ${new Date().getFullYear()} אורי אפיאס</span>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
   </footer>
 </div>
 </body>
