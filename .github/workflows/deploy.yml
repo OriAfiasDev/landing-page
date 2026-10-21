@@ -62,6 +62,9 @@ jobs:
               --output "$f"
           done
 
+      - name: Minify consent.js
+        run: npx --yes terser@5 dist/consent.js --compress --mangle --output dist/consent.js
+
       # Articles are pushed into blog/<slug>/ by the Hoox webhook (see
       # worker/README.md). The committed sitemap.xml only knows the hand-written
       # pages, so the blog entries are appended here, at build time, from
