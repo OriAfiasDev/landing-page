@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="he">
+<html lang="he" dir="rtl">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -291,6 +291,7 @@
       }
       .avatar img {
         position: absolute; bottom: 0; left: 50%; width: 125%; max-width: none; height: auto; transform: translateX(-50%);
+        pointer-events: none;   /* its transparent corners overlap the links beside it on phones; taps must reach them */
         -webkit-mask-image: radial-gradient(40% 40% at 50% 60%, #000 99.4%, transparent 100%), linear-gradient(#000, #000);
                 mask-image: radial-gradient(40% 40% at 50% 60%, #000 99.4%, transparent 100%), linear-gradient(#000, #000);
         -webkit-mask-size: 100% 100%, 100% 60%; mask-size: 100% 100%, 100% 60%;
@@ -570,9 +571,14 @@
         .steps--seven { grid-template-columns: 1fr; }
       }
       @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: 0.001ms !important; } }
+      /* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+      .skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+      .skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+      main:focus{outline:none}
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
     <div class="glow"><div></div></div>
 
     <div class="page" dir="rtl">
@@ -591,7 +597,7 @@
         </div>
       </header>
 
-      <main>
+      <main id="main" tabindex="-1">
         <div class="wrap">
           <nav class="crumbs" aria-label="פירורי לחם">
             <ol>

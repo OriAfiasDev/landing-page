@@ -105,7 +105,7 @@ def render_index(articles) -> str:
     cards = "".join(render_card(a) for a in articles)
     count = len(articles)
     return f"""<!doctype html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -174,13 +174,18 @@ footer{{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-w
   .card.has-image .card-body{{grid-row:2}}
 }}
 @media (prefers-reduced-motion:reduce){{*{{transition-duration:.001ms!important}}}}
+/* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+.skip-link{{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}}
+.skip-link:focus{{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}}
+main:focus{{outline:none}}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
 <div dir="rtl">
   <header class="site-header"><div class="wrap"><a href="/" class="wordmark">afias<span>.dev</span></a></div></header>
 
-  <main class="wrap">
+  <main id="main" tabindex="-1" class="wrap">
     <section class="hero">
       <span class="count">{count} {'מאמר' if count == 1 else 'מאמרים'}</span>
       <h1>מאמרים</h1>
