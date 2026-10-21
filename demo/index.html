@@ -281,6 +281,7 @@
       /* Focused by script so a screen reader reads them out; they are not controls. */
       .form-error:focus, .success h3:focus, .done h3:focus { outline: none; }
       .form-note { margin: 16px 0 0; font-size: 14px; color: var(--muted-soft); line-height: 1.6; text-align: center; }
+      .form-note a { text-decoration: underline; text-underline-offset: 3px; }
       .step2-lead { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: var(--muted); }
 
       .success, .done {
@@ -293,7 +294,7 @@
 
       /* ---------- footer ---------- */
       footer { border-top: 1px solid var(--line); }
-      .footer-inner { display: flex; align-items: baseline; justify-content: center; gap: 8px; padding: 30px 24px 44px; font-size: 14px; color: var(--muted-soft); }
+      .footer-inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 8px 14px; padding: 30px 24px 44px; font-size: 14px; color: var(--muted-soft); }
       .footer-inner .wordmark { font-size: 22px; }
       .footer-inner .wordmark span { font-size: 14px; }
 
@@ -473,8 +474,7 @@
               </div>
 
               <button type="submit" class="btn" id="submit1">שלח בקשה</button>
-              <!-- TODO: link "מדיניות הפרטיות" here once /privacy/ exists. -->
-              <p class="form-note">הפרטים משמשים ליצירת קשר ולבניית הדמו.</p>
+              <p class="form-note">הפרטים משמשים ליצירת קשר ולבניית הדמו. פרטים נוספים, כולל הזכויות שלכם, ב<a href="/privacy/">מדיניות הפרטיות</a>.</p>
             </form>
 
             <!-- ===== step 2 ===== -->
@@ -526,6 +526,9 @@
         <div class="footer-inner">
           © <span id="year"></span>
           <a href="/" class="wordmark">afias<span>.dev</span></a>
+          <a href="/accessibility/">הצהרת נגישות</a>
+          <a href="/privacy/">מדיניות פרטיות</a>
+          <a href="/cookies/">מדיניות עוגיות</a>
           <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
         </div>
       </footer>

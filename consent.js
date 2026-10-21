@@ -179,7 +179,7 @@
     '@media (prefers-reduced-motion:no-preference){.afc{animation:afcIn .35s cubic-bezier(.2,.8,.2,1)}@keyframes afcIn{from{transform:translateY(14px);opacity:0}}}' +
     '.afc[hidden]{display:none}' +
     '.afc-title{margin:0 0 6px;font-size:17px;font-weight:700;line-height:1.3;color:#1C1E24}.afc-title:focus{outline:none}' +
-    '.afc-text{margin:0 0 14px;color:#1C1E24}' +
+    '.afc-text{margin:0 0 14px;color:#1C1E24}.afc-text a{color:#6F4F14;text-decoration:underline;text-underline-offset:3px}.afc-text a:hover{color:#1C1E24}.afc-text a:focus-visible{outline:3px solid #8A6420;outline-offset:2px;border-radius:3px}' +
     '.afc-prefs{margin:0 0 14px;padding:0;border:0}.afc-prefs[hidden]{display:none}' +
     '.afc-prefs legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}' +
     '.afc-cat{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid #e5ddc9}' +
@@ -194,6 +194,8 @@
     '.afc-btn:focus-visible{outline:3px solid #1C1E24;outline-offset:2px}' +
     '.afc-btn[hidden]{display:none}' +
     '.afc-open .wa-float{bottom:calc(var(--afc-h,0px) + 24px)}' +
+    /* Keep focused/scrolled-to content and the end of the page clear of the banner. */
+    'html.afc-open{scroll-padding-bottom:calc(var(--afc-h,0px) + 24px)}html.afc-open body{padding-bottom:calc(var(--afc-h,0px) + 24px)}' +
     'button.consent-open{background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer;' +
     'text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}' +
     'button.consent-open:hover{color:#1C1E24}button.consent-open:focus-visible{outline:3px solid #8A6420;outline-offset:2px}';
@@ -210,7 +212,7 @@
     if (box) return;
     box = el('section', { id: 'afias-consent', 'class': 'afc', role: 'region', 'aria-labelledby': 'afc-title', dir: 'rtl', lang: 'he', hidden: '' },
       '<h2 class="afc-title" id="afc-title" tabindex="-1">עוגיות ומדידה באתר</h2>' +
-      '<p class="afc-text">בלי הסכמה האתר לא טוען כלי מדידה, ושומר בדפדפן רק את הבחירה שלכם. אם תאשרו, אפעיל כלי סטטיסטיקה (Google Analytics, Microsoft Clarity) וכלי שיווק (Meta) כדי להבין איך משתמשים באתר ולמדוד פרסום. אפשר לשנות את הבחירה בכל רגע דרך "הגדרות עוגיות" בתחתית העמוד.</p>' +
+      '<p class="afc-text">בלי הסכמה האתר לא טוען כלי מדידה, ושומר בדפדפן רק את הבחירה שלכם. אם תאשרו, אפעיל כלי סטטיסטיקה (Google Analytics, Microsoft Clarity) וכלי שיווק (Meta) כדי להבין איך משתמשים באתר ולמדוד פרסום. אפשר לשנות את הבחירה בכל רגע דרך "הגדרות עוגיות" בתחתית העמוד. פרטים ב<a href="/cookies/">מדיניות העוגיות</a>, ב<a href="/privacy/">מדיניות הפרטיות</a> וב<a href="/accessibility/">הצהרת הנגישות</a>.</p>' +
       '<fieldset class="afc-prefs" id="afc-prefs" hidden><legend>בחירה לפי קטגוריה</legend>' +
       '<div class="afc-cat"><input type="checkbox" id="afc-nec" checked disabled><label for="afc-nec"><b>הכרחיות (תמיד פעילות)</b>: שמירת הבחירה הזו ושליחת טופס הדמו.</label></div>' +
       '<div class="afc-cat"><input type="checkbox" id="afc-stats"><label for="afc-stats"><b>סטטיסטיקה</b>: Google Analytics 4 ו-Microsoft Clarity (כולל הקלטת התנהגות בעמוד), כדי להבין איך משתמשים באתר.</label></div>' +

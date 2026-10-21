@@ -24,4 +24,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://afias.dev/accessibility/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://afias.dev/privacy/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://afias.dev/cookies/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>

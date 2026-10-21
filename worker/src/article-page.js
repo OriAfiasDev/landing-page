@@ -491,6 +491,9 @@ ${youtubeFacades(focusableTables(englishWatermark(withSiteLinks(withoutHooxCredi
   <footer class="wrap">
     <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
     <span>© ${new Date().getFullYear()} אורי אפיאס</span>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
     <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
   </footer>
 </div>
