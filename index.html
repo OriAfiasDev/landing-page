@@ -725,6 +725,15 @@ a:hover{color:#D7A53F;}
 .skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
 .skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
 main:focus{outline:none}
+/* In-page targets (header hash links, /#id): clear the fixed header pill (bottom edge ~81px); no header under 641px. Focus lands on the section for screen readers; no ring on a non-interactive container (same as main). */
+[data-hash-target]{scroll-margin-top:88px}
+/* Header links: each stays on one line. 4 section links + WhatsApp fit one row from 641px up; with user text spacing (WCAG 1.4.12) whole links wrap to a second row instead of spilling out of the pill. */
+[data-sticky-header-pill] nav{flex-wrap:wrap}
+[data-sticky-header-pill] nav a{white-space:nowrap}
+/* 641-720px: the row needs ~20px more than the pill has at the default 18px gap. */
+@media (max-width:720px){[data-sticky-header-pill] nav{gap:12px !important}}
+[data-hash-target]:focus{outline:none}
+@media (max-width:640px){[data-hash-target]{scroll-margin-top:0}}
 @media (max-width:640px){[data-sticky-header],[data-sticky-header-spacer]{display:none !important}}
 summary::-webkit-details-marker{display:none}
 summary{list-style:none}
@@ -1878,14 +1887,61 @@ summary{list-style:none}
       <div data-sticky-header-pill="" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;border-radius:999px;background:rgba(250,248,243,.85);backdrop-filter:blur(18px);border:1px solid #e5ddc9;box-shadow:0 8px 24px rgba(28,25,20,.08);pointer-events:none;opacity:0;visibility:hidden;transform:translateY(-14px);will-change:opacity,transform;transition:opacity .3s ease,transform .3s ease,visibility .3s;">
         <div style="font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:#1C1E24;">afias<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:#8A6420;">.dev</span></div>
         <nav aria-label="ראשי" style="display:inline-flex;align-items:center;gap:18px;">
-          <a href="/pricing/" style="font-family:'Rubik',sans-serif;font-weight:500;font-size:15px;color:#1C1E24;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#8A6420;">מחירון</a>
-          <a href="/about/" style="font-family:'Rubik',sans-serif;font-weight:500;font-size:15px;color:#1C1E24;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#8A6420;">אודות</a>
-          <a href="/blog/" style="font-family:'Rubik',sans-serif;font-weight:500;font-size:15px;color:#1C1E24;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#8A6420;">מאמרים</a>
+          <a href="#process" data-hash-nav="" style="font-family:'Rubik',sans-serif;font-weight:500;font-size:15px;color:#1C1E24;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#8A6420;">תהליך</a>
+          <a href="#portfolio" data-hash-nav="" style="font-family:'Rubik',sans-serif;font-weight:500;font-size:15px;color:#1C1E24;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#8A6420;">עבודות</a>
+          <a href="#pricing" data-hash-nav="" style="font-family:'Rubik',sans-serif;font-weight:500;font-size:15px;color:#1C1E24;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#8A6420;">מחירון</a>
+          <a href="#faq" data-hash-nav="" style="font-family:'Rubik',sans-serif;font-weight:500;font-size:15px;color:#1C1E24;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px;" style-hover="color:#8A6420;">שאלות נפוצות</a>
           <a href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:'Rubik',sans-serif;font-weight:700;font-size:14px;color:#1C1E24;background:#B8862B;padding:11px 20px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 10px 22px rgba(184,134,43,.3);color:#1C1E24;">דברו איתי בוואטסאפ</a>
         </nav>
       </div>
     </header>
     <div data-sticky-header-spacer="" style="height:94px;" aria-hidden="true"></div>
+
+    <script>
+    // Header hash links (#pricing) stay on the homepage: smooth scroll (instant
+    // under reduced motion), URL hash updated, focus moved to the section.
+    // Also handles landing on /#id: React renders the sections after the
+    // browser's own anchor jump, so the jump is redone here once they exist.
+    (function(){
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)');
+      function target(id){
+        try { id = decodeURIComponent(id); } catch (e) {}
+        return id ? document.getElementById(id) : null;
+      }
+      function go(el, smooth){
+        var focusable = el.hasAttribute('data-hash-target');
+        el.scrollIntoView({ behavior: smooth && !(calm && calm.matches) ? 'smooth' : 'auto', block: 'start' });
+        if (focusable) { try { el.focus({ preventScroll: true }); } catch (e) {} }
+      }
+      document.addEventListener('click', function(e){
+        var a = e.target.closest && e.target.closest('a[data-hash-nav]');
+        if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var hash = a.getAttribute('href');
+        var el = target(hash.slice(1));
+        if (!el) return;
+        e.preventDefault();
+        if (location.hash !== hash) history.pushState(null, '', hash);
+        go(el, true);
+      });
+      window.addEventListener('popstate', function(){
+        var el = target(location.hash.slice(1));
+        if (el) go(el, false);
+      });
+      if (location.hash.length > 1) {
+        var moved = false;
+        function user(){ moved = true; }
+        ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function(t){ window.addEventListener(t, user, { once: true, passive: true }); });
+        function land(){
+          var el = target(location.hash.slice(1));
+          if (el && !moved) go(el, false);
+        }
+        var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+        fonts.then(function(){ requestAnimationFrame(function(){ requestAnimationFrame(land); }); });
+        // Images above the target can still shift it until load.
+        if (document.readyState !== 'complete') window.addEventListener('load', function(){ setTimeout(land, 50); }, { once: true });
+      }
+    })();
+    </script>
 
     <script>
     (function(){
@@ -2378,7 +2434,7 @@ summary{list-style:none}
     })();
     </script>
 
-    <section class="process" id="process" aria-labelledby="process-title">
+    <section class="process" id="process" data-hash-target="" tabindex="-1" aria-labelledby="process-title">
       <div class="process-body">
       <div class="process-head">
         <h2 class="process-title" id="process-title"><span>כל אתר מתחיל בשיחה,</span> <span class="process-title-quiet">לא בתבנית.</span></h2>
@@ -2522,7 +2578,7 @@ summary{list-style:none}
     })();
     </script>
 
-    <section class="work" id="portfolio" aria-labelledby="work-title">
+    <section class="work" id="portfolio" data-hash-target="" tabindex="-1" aria-labelledby="work-title">
       <div class="work-stack" data-work-stack>
         <!-- The heading is a bar pinned over the panels, in the colours of
              whichever project is showing. -->
@@ -2840,7 +2896,7 @@ summary{list-style:none}
          clients, hence "הלקוח מרוצה"), published with his consent and without
          his name. Trimmed, never reworded; each excerpt is its own moment,
          not a stitched-together conversation. -->
-    <section class="voices" id="voices" aria-labelledby="voices-title">
+    <section class="voices" id="voices" data-hash-target="" tabindex="-1" aria-labelledby="voices-title">
       <div class="voices-head">
         <h2 class="voices-title" id="voices-title"><span>ככה זה נשמע</span> <span>מהצד השני.</span></h2>
         <p class="voices-note">הודעות אמיתיות מהוואטסאפ עם לקוח שעובד איתי על פרויקטים עבור הלקוחות שלו. מתפרסמות בהסכמתו, קיצרתי ולא ניסחתי מחדש.</p>
@@ -2885,7 +2941,7 @@ summary{list-style:none}
       </div>
     </section>
 
-    <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+    <section class="pricing" id="pricing" data-hash-target="" tabindex="-1" aria-labelledby="pricing-title">
       <div class="pricing-head">
         <h2 class="pricing-title" id="pricing-title">בחרו לפי מה שהעסק צריך למכור</h2>
         <div class="pricing-included">
@@ -3075,7 +3131,7 @@ summary{list-style:none}
     })();
     </script>
 
-    <section class="demo-cta" id="demo" aria-labelledby="demo-title">
+    <section class="demo-cta" id="demo" data-hash-target="" tabindex="-1" aria-labelledby="demo-title">
       <div class="demo-card">
         <h2 class="demo-title" id="demo-title"><span>לא בטוחים?</span> <span>תראו לפני שמחליטים.</span></h2>
         <p class="demo-lead">אני בונה לכם דמו אמיתי של האתר, בחינם, תוך יום-יומיים. לא סקיצה ולא מצגת: אתר עובד, מותאם לעסק שלכם. אוהבים? מדברים. לא? לא קרה כלום.</p>
@@ -3183,7 +3239,7 @@ summary{list-style:none}
     </script>
 
 
-    <section class="faq" id="faq" aria-labelledby="faq-title">
+    <section class="faq" id="faq" data-hash-target="" tabindex="-1" aria-labelledby="faq-title">
       <div class="faq-head">
         <h2 class="faq-title" id="faq-title">שאלות נפוצות</h2>
         <p class="faq-sub">התשובות הכי נשאלות, בלי לכתוב הודעה.</p>
