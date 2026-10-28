@@ -60,6 +60,8 @@ const ALLOWED_EVENTS = new Set([
   'Lead',
   'CompleteRegistration',
   'DemoPageClick',
+  'CopyPrompt',      // /brief
+  'DownloadSkill',   // /brief
 ]);
 
 /* ------------------------------------------------------------------ */
