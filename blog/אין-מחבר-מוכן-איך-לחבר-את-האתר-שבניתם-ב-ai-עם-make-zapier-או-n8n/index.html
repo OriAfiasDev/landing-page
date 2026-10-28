@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://afias.dev/blog/%D7%90%D7%99%D7%9F-%D7%9E%D7%97%D7%91%D7%A8-%D7%9E%D7%95%D7%9B%D7%9F-%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%90%D7%AA-%D7%94%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%A2%D7%9D-make-zapier-%D7%90%D7%95-n8n/">
+<title>אין מחבר מוכן? איך לחבר את האתר שבניתם ב-AI עם Make, Zapier או n8n | afias.dev</title>
+<meta name="description" content="המערכת שאתם צריכים לא מופיעה ברשימת המחברים של Lovable או של כלי ה-AI שלכם? כך מחברים בכל זאת: Make, ‏Zapier או n8n באמצע, או מחבר מותאם אישית. מה ההבדלים, איך בוחרים ופרומפטים מוכנים.">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="afias.dev">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://afias.dev/blog/%D7%90%D7%99%D7%9F-%D7%9E%D7%97%D7%91%D7%A8-%D7%9E%D7%95%D7%9B%D7%9F-%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%90%D7%AA-%D7%94%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%A2%D7%9D-make-zapier-%D7%90%D7%95-n8n/">
+<meta property="og:title" content="אין מחבר מוכן? איך לחבר את האתר שבניתם ב-AI עם Make, Zapier או n8n">
+<meta property="og:description" content="המערכת שאתם צריכים לא מופיעה ברשימת המחברים של Lovable או של כלי ה-AI שלכם? כך מחברים בכל זאת: Make, ‏Zapier או n8n באמצע, או מחבר מותאם אישית. מה ההבדלים, איך בוחרים ופרומפטים מוכנים.">
+<meta property="og:image" content="https://afias.dev/og-image.png">
+<meta property="article:published_time" content="2026-10-28T08:00:00.000Z">
+<meta property="article:author" content="אורי אפיאס">
+<meta property="article:tag" content="Make / Zapier / n8n">
+<meta property="article:tag" content="אוטומציות">
+<meta property="article:tag" content="חיבורים">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="אין מחבר מוכן? איך לחבר את האתר שבניתם ב-AI עם Make, Zapier או n8n">
+<meta name="twitter:description" content="המערכת שאתם צריכים לא מופיעה ברשימת המחברים של Lovable או של כלי ה-AI שלכם? כך מחברים בכל זאת: Make, ‏Zapier או n8n באמצע, או מחבר מותאם אישית. מה ההבדלים, איך בוחרים ופרומפטים מוכנים.">
+<meta name="twitter:image" content="https://afias.dev/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://afias.dev/#organization",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://afias.dev/#localbusiness",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/",
+      "parentOrganization": {
+        "@id": "https://afias.dev/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
+      "name": "אורי אפיאס",
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "inLanguage": "he"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://afias.dev/#author",
+      "name": "אורי אפיאס",
+      "worksFor": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/about/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "אין מחבר מוכן? איך לחבר את האתר שבניתם ב-AI עם Make, Zapier או n8n",
+      "description": "המערכת שאתם צריכים לא מופיעה ברשימת המחברים של Lovable או של כלי ה-AI שלכם? כך מחברים בכל זאת: Make, ‏Zapier או n8n באמצע, או מחבר מותאם אישית. מה ההבדלים, איך בוחרים ופרומפטים מוכנים.",
+      "author": {
+        "@id": "https://afias.dev/#author"
+      },
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "datePublished": "2026-10-28T08:00:00.000Z",
+      "dateModified": "2026-10-28T08:00:00.000Z",
+      "keywords": "חיבור אתר בלי מחבר, Make webhook, Zapier webhook, n8n webhook, Lovable custom connector, אוטומציה לאתר",
+      "inLanguage": "he",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://afias.dev/blog/%D7%90%D7%99%D7%9F-%D7%9E%D7%97%D7%91%D7%A8-%D7%9E%D7%95%D7%9B%D7%9F-%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%90%D7%AA-%D7%94%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%A2%D7%9D-make-zapier-%D7%90%D7%95-n8n/"
+      },
+      "wordCount": 835,
+      "articleSection": "חיבורים ואוטומציות",
+      "proficiencyLevel": "Beginner",
+      "citation": [
+        "https://help.make.com/webhooks",
+        "https://help.zapier.com/hc/en-us/articles/32337438839565",
+        "https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/",
+        "https://docs.n8n.io/hosting/",
+        "https://docs.lovable.dev/integrations/create-connector",
+        "https://docs.lovable.dev/integrations/any-api"
+      ],
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "מה עדיף: Make, Zapier או n8n?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "אין תשובה אחת. Zapier נחשב לפשוט להתחלה, Make נותן יותר שליטה בתהליכים מורכבים, ו-n8n אפשר גם להתקין על שרת משלכם. המחירים והמגבלות של כולם משתנים, אז כדאי לבדוק באתר שלהם לפני שבוחרים."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "אפשר לחבר כל מערכת?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "כמעט כל מערכת שיש לה API או Webhooks. אם למערכת יש API מתועד, אפשר לחבר אותה דרך כלי אוטומציה או פונקציה בשרת. אם אין לה בכלל דרך חיצונית לקבל או לשלוח מידע, צריך לבדוק מול הספק שלה."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "איפה שמים את המפתחות של המערכת החיצונית?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "בתוך כלי האוטומציה או בשרת, לא באתר. כשמשתמשים ב-Make, ‏Zapier או n8n, המפתחות נשמרים בחיבור שבתוך הכלי. האתר שולח רק את הנתונים לכתובת ה-Webhook."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "מתי עדיף לוותר על כלי אוטומציה?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "כשהחיבור הוא חלק מרכזי במוצר. למשל תשלומים, או פעולה שהגולש מחכה לתוצאה שלה. במקרים כאלה פונקציה בשרת של האתר נותנת יותר שליטה, ופחות חלקים שיכולים ליפול."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://afias.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "אין מחבר מוכן? איך לחבר את האתר שבניתם ב-AI עם Make, Zapier או n8n",
+          "item": "https://afias.dev/blog/%D7%90%D7%99%D7%9F-%D7%9E%D7%97%D7%91%D7%A8-%D7%9E%D7%95%D7%9B%D7%9F-%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%90%D7%AA-%D7%94%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%A2%D7%9D-make-zapier-%D7%90%D7%95-n8n/"
+        }
+      ]
+    }
+  ],
+  "image": "https://afias.dev/og-image.png"
+}
+</script>
+
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+<style>
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper)}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.site-header{padding:28px 0 0}
+.wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
+.wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass-deep)}
+article{padding:56px 0 80px}
+.meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
+h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
+.hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
+.body{font-size:18px;line-height:1.75}
+.body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
+.body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
+.body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
+.body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
+.body li{margin:0 0 8px}
+.body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
+.body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
+.body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
+.body .yt-facade{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;width:100%;aspect-ratio:16/9;box-sizing:border-box;padding:22px 24px;border-radius:14px;background:#1C1E24;color:#FAF8F3;text-decoration:none;line-height:1.35}
+.body .yt-facade:hover{color:#FAF8F3}
+.body .yt-facade-title{font-weight:700;font-size:clamp(17px,2.4vw,21px)}
+.body .yt-facade-play{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#B8862B;color:#1C1E24;font-weight:700;font-size:15px}
+.body .yt-facade-play::before{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent currentColor}
+.body .yt-facade:hover .yt-facade-play{background:#D7A53F}
+.body .yt-facade-note{font-size:13px;color:rgba(250,248,243,.8)}
+.body .yt-facade:focus-visible{outline:3px solid var(--brass-deep);outline-offset:3px}
+.body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
+.body th{background:#fff;font-weight:700}
+.body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
+.body pre code{border:0;padding:0;background:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
+.cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
+.cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
+@media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
+/* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+.skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+.skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+main:focus{outline:none}
+.body .prompt{margin:24px 0;padding:18px 22px;background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--brass);border-radius:16px}
+.body .prompt p{margin:0;font-size:17px;line-height:1.7}
+.body .prompt .prompt-label{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--brass-deep);margin:0 0 8px;letter-spacing:.02em}
+.body p code,.body li code,.body td code{direction:ltr;unicode-bidi:isolate;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.body .note{margin:24px 0;padding:16px 22px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.body .note p:last-child{margin:0}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+<div dir="rtl">
+  <header class="site-header"><div class="wrap"><a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a></div></header>
+
+  <main id="main" tabindex="-1" class="wrap">
+    <article>
+      <div class="meta">
+        <a href="/blog/" class="back">כל המאמרים</a>
+        <time datetime="2026-10-28T08:00:00.000Z">28 באוקטובר 2026</time>
+        <span>אורי אפיאס</span>
+      </div>
+      <h1>אין מחבר מוכן? איך לחבר את האתר שבניתם ב-AI עם Make, Zapier או n8n</h1>
+      <p class="lede">Lovable ושאר כלי ה-AI מגיעים עם רשימה של מחברים מוכנים. אבל הרבה מערכות שעסקים ישראליים עובדים איתן לא נמצאות שם: מערכת הנהלת חשבונות, CRM מקומי, או חברת סליקה. זה לא אומר שאי אפשר לחבר. זה רק אומר שצריך &quot;מתווך&quot;.</p>
+      <div class="body">
+<div dir="rtl" style="direction:rtl;text-align:right;">
+<p><strong>כשאין מחבר מוכן בין האתר שבניתם ב-AI לבין מערכת אחרת, מוסיפים מתווך: כלי אוטומציה כמו Make, ‏Zapier או n8n. האתר שולח את הנתונים לכתובת Webhook של הכלי, והכלי מעביר אותם הלאה למערכת שלכם.</strong> אם החיבור מרכזי במוצר, כמו תשלומים, עדיף פונקציה בשרת של האתר, או מחבר מותאם אישית ב-Lovable.</p>
+
+<h2>הדימוי: מתורגמן</h2>
+<p>האתר שלכם והמערכת השנייה לא מדברים את אותה שפה. כלי האוטומציה הוא מתורגמן שיושב באמצע: מקבל הודעה מהאתר ("נכנס ליד: שם, טלפון"), ומעביר אותה למערכת השנייה בשפה שלה ("צור לקוח חדש"). אתם רק מגדירים לו מה לתרגם ולאן.</p>
+
+<h2>איך זה עובד, בשלושה צעדים</h2>
+<ol>
+<li><strong>בכלי האוטומציה</strong> יוצרים תהליך שמתחיל ב-Webhook. הכלי נותן כתובת ייחודית.</li>
+<li><strong>באתר</strong> מבקשים מכלי ה-AI לשלוח את הנתונים לכתובת הזו כשקורה משהו, למשל כשגולש שולח טופס.</li>
+<li><strong>בכלי האוטומציה</strong> מוסיפים את הצעדים הבאים: יצירת לקוח במערכת, שליחת מייל, הוספת שורה לגיליון, וכן הלאה.</li>
+</ol>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>כשגולש שולח את טופס יצירת הקשר, תשלח את כל השדות ב-POST בפורמט JSON לכתובת הזו: [כתובת ה-Webhook מכלי האוטומציה].<br>
+אם הכלי דורש מפתח, הוא יישמר ב-Secrets והשליחה תיעשה מהשרת, לא מהדפדפן.<br>
+תציג &quot;תודה&quot; רק אם השליחה הצליחה, ותשמור את הפנייה גם בטבלה שלנו, כדי שלא תלך לאיבוד אם הכלי לא זמין.</p></div>
+<p>אם אתם לא יודעים מה מילה כמו Webhook אומרת, כתבתי עליה הסבר פשוט בבלוג.</p>
+
+<h2>Make, Zapier או n8n?</h2>
+<table tabindex="0">
+<thead><tr><th>כלי</th><th>מתאים כש...</th><th>לשים לב</th></tr></thead>
+<tbody>
+<tr><td>Zapier</td><td>רוצים להתחיל הכי מהר, עם הרבה אפליקציות מוכנות</td><td>קבלת Webhook (Webhooks by Zapier) היא לפי <a href="https://help.zapier.com/hc/en-us/articles/32337438839565" target="_blank" rel="noopener">Zapier</a> אפליקציה בתשלום</td></tr>
+<tr><td>Make</td><td>התהליך כולל תנאים, כמה מסלולים או עיבוד נתונים</td><td>אפשר להגן על הכתובת עם מפתח בכותרת, לפי <a href="https://help.make.com/webhooks" target="_blank" rel="noopener">Make</a></td></tr>
+<tr><td>n8n</td><td>רוצים שליטה מלאה, או להריץ על שרת משלכם</td><td>יש <a href="https://docs.n8n.io/hosting/" target="_blank" rel="noopener">גרסת ענן וגם התקנה עצמית</a>. התקנה עצמית אומרת שאתם אחראים לשרת</td></tr>
+</tbody>
+</table>
+<p>לא כתבתי כאן מחירים, כי הם משתנים. בדקו את עמוד המחירים של כל כלי, ושימו לב כמה הפעלות בחודש אתם צפויים לצרוך.</p>
+
+<h2>טעויות נפוצות</h2>
+<h3>כתובת בדיקה במקום כתובת אמיתית</h3>
+<p>ב-n8n, לפי <a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/" target="_blank" rel="noopener">התיעוד</a>, לכל Webhook יש כתובת לבדיקה וכתובת לייצור, וכתובת הייצור פעילה רק אחרי שהתהליך פורסם. אם הכל עבד בבדיקה והפסיק באתר החי, זה החשוד הראשון.</p>
+<h3>שינוי שמות שדות</h3>
+<p>מבקשים מכלי ה-AI "לשפר את הטופס", והוא משנה את <code>phone</code> ל-<code>phoneNumber</code>. כלי האוטומציה מחפש את השם הישן, והשדה מגיע ריק. אחרי כל שינוי בטופס, שולחים פנייה לבדיקה.</p>
+<h3>אף אחד לא שם לב שזה נפל</h3>
+<p>תהליך אוטומציה יכול להיכשל בשקט. הגדירו התראה על כשלים בכלי, ושמרו כל פנייה גם בצד של האתר.</p>
+
+<h2>ומה אם צריך יותר מזה?</h2>
+<p>לפעמים מתווך הוא לא הפתרון הנכון:</p>
+<ul>
+<li><strong>מחבר מותאם אישית ב-Lovable.</strong> לפי <a href="https://docs.lovable.dev/integrations/create-connector" target="_blank" rel="noopener">Lovable</a>, אפשר ליצור מחבר לכל REST API: מגדירים פעם אחת את הכתובת, את שיטת ההזדהות ומידע שיעזור לכלי, וכל מי שבסביבת העבודה יכול להשתמש בו. צריך הרשאת מנהל או בעלים בסביבה.</li>
+<li><strong>פונקציה בשרת.</strong> בתיעוד של Lovable על <a href="https://docs.lovable.dev/integrations/any-api" target="_blank" rel="noopener">חיבור לכל API</a> מתוארת גם דרך ישירה: המפתח נשמר כ-Secret, ופונקציה בצד השרת קוראת למערכת החיצונית. זו הדרך המתאימה לתשלומים ולפעולות שהגולש מחכה לתוצאה שלהן.</li>
+</ul>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>אני רוצה לחבר את האפליקציה ל-[שם המערכת]. התיעוד שלה: [קישור].<br>
+לפני שאתה כותב קוד, תסביר לי בשפה פשוטה שלוש אפשרויות: דרך כלי אוטומציה (Make / n8n), מחבר מותאם אישית, או פונקציה בצד השרת.<br>
+לכל אחת: מה היתרונות, מה החסרונות, איפה יישמר המפתח, ומה יקרה אם המערכת השנייה לא זמינה.</p></div>
+
+<h2>רשימת בדיקה</h2>
+<ol>
+<li>שלחו פנייה לבדיקה מהאתר החי, לא מהתצוגה המקדימה.</li>
+<li>בדקו שכל השדות הגיעו למערכת השנייה, כולל עברית.</li>
+<li>בדקו בהיסטוריית ההפעלות של הכלי שאין שגיאות.</li>
+<li>ודאו שאין מפתחות של המערכת השנייה בקוד של האתר.</li>
+<li>הגדירו התראה על כשלים.</li>
+</ol>
+
+<h2>צריכים עזרה?</h2>
+<p>אני מחבר אתרים שנבנו בכלי AI למערכות שאין להן מחבר מוכן, ובוחר את הדרך שמתאימה לכם: כלי אוטומציה, מחבר או קוד בשרת. המחיר נקבע אחרי שיחה קצרה. ואם אתם רוצים להבין מה בכלל משפיע על המחיר, יש לי <a href="https://afias.dev/blog/%D7%9B%D7%9E%D7%94-%D7%A2%D7%95%D7%9C%D7%94-%D7%9C%D7%91%D7%A0%D7%95%D7%AA-%D7%90%D7%AA%D7%A8-%D7%9C%D7%A2%D7%A1%D7%A7-%D7%A7%D7%98%D7%9F-%D7%91-2026-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%9C%D7%90-%D7%9C%D7%9E%D7%97%D7%99%D7%A8%D7%99%D7%9D/">מדריך מחירים לבניית אתרים</a>.</p>
+
+<h2>שאלות נפוצות על חיבור מערכות בלי מחבר מוכן</h2>
+
+<h3>מה עדיף: Make, Zapier או n8n?</h3>
+<p><strong>אין תשובה אחת.</strong> Zapier נחשב לפשוט להתחלה, Make נותן יותר שליטה בתהליכים מורכבים, ו-n8n אפשר גם להתקין על שרת משלכם. המחירים והמגבלות של כולם משתנים, אז כדאי לבדוק באתר שלהם לפני שבוחרים.</p>
+
+<h3>אפשר לחבר כל מערכת?</h3>
+<p><strong>כמעט כל מערכת שיש לה API או Webhooks.</strong> אם למערכת יש API מתועד, אפשר לחבר אותה דרך כלי אוטומציה או פונקציה בשרת. אם אין לה בכלל דרך חיצונית לקבל או לשלוח מידע, צריך לבדוק מול הספק שלה.</p>
+
+<h3>איפה שמים את המפתחות של המערכת החיצונית?</h3>
+<p><strong>בתוך כלי האוטומציה או בשרת, לא באתר.</strong> כשמשתמשים ב-Make, ‏Zapier או n8n, המפתחות נשמרים בחיבור שבתוך הכלי. האתר שולח רק את הנתונים לכתובת ה-Webhook.</p>
+
+<h3>מתי עדיף לוותר על כלי אוטומציה?</h3>
+<p><strong>כשהחיבור הוא חלק מרכזי במוצר.</strong> למשל תשלומים, או פעולה שהגולש מחכה לתוצאה שלה. במקרים כאלה פונקציה בשרת של האתר נותנת יותר שליטה, ופחות חלקים שיכולים ליפול.</p>
+
+<h2>מקורות</h2>
+<ul>
+<li><a href="https://help.make.com/webhooks" target="_blank" rel="noopener">Make Help: Webhooks</a></li>
+<li><a href="https://help.zapier.com/hc/en-us/articles/32337438839565" target="_blank" rel="noopener">Zapier Help: Webhooks by Zapier</a></li>
+<li><a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/" target="_blank" rel="noopener">n8n Docs: Webhook node</a></li>
+<li><a href="https://docs.n8n.io/hosting/" target="_blank" rel="noopener">n8n Docs: Hosting</a></li>
+<li><a href="https://docs.lovable.dev/integrations/create-connector" target="_blank" rel="noopener">Lovable Docs: Create a custom connector</a></li>
+<li><a href="https://docs.lovable.dev/integrations/any-api" target="_blank" rel="noopener">Lovable Docs: Integrate any API with Lovable</a></li>
+</ul>
+<p>המידע נבדק מול התיעוד הרשמי בתאריך הפרסום של המאמר. הכלים האלה משתנים מהר, ולכן כדאי לבדוק שוב בתיעוד לפני שינוי גדול.</p>
+</div>
+      </div>
+      <div class="tags"><span>Make / Zapier / n8n</span><span>אוטומציות</span><span>חיבורים</span></div>
+
+      <section class="cta">
+        <h2>צריכים לחבר משהו שאין לו מחבר?</h2>
+        <p>ספרו לי מה צריך לדבר עם מה. אחרי שיחה קצרה תקבלו הצעת מחיר תוך 24 שעות.</p>
+        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%20%D7%9C%D7%97%D7%91%D7%A8%20%D7%90%D7%AA%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99%20%D7%91-AI%20%D7%9C%D7%9E%D7%A2%D7%A8%D7%9B%D7%AA%20%D7%A9%D7%90%D7%99%D7%9F%20%D7%9C%D7%94%20%D7%9E%D7%97%D7%91%D7%A8%20%D7%9E%D7%95%D7%9B%D7%9F" target="_blank" rel="noopener">דברו איתי בוואטסאפ</a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
+    <span>© 2026 אורי אפיאס</span>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
+  </footer>
+</div>
+</body>
+</html>
