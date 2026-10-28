@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://afias.dev/blog/%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%98%D7%95%D7%A4%D7%A1-%D7%91%D7%90%D7%AA%D7%A8-%D7%9C%D7%9E%D7%90%D7%A0%D7%93%D7%99%D7%99-%D7%91%D7%9C%D7%99-%D7%9C%D7%97%D7%A9%D7%95%D7%A3-%D7%90%D7%AA-%D7%94%D7%98%D7%95%D7%A7%D7%9F/">
+<title>איך לחבר טופס באתר למאנדיי (monday.com) בלי לחשוף את הטוקן | afias.dev</title>
+<meta name="description" content="רוצים שכל פנייה מהאתר שבניתם ב-AI תיכנס כפריט בלוח של monday? שלוש דרכים לעשות את זה, למה אסור לשים את ה-API token בקוד של האתר, ופרומפטים מוכנים לכל דרך.">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="afias.dev">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://afias.dev/blog/%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%98%D7%95%D7%A4%D7%A1-%D7%91%D7%90%D7%AA%D7%A8-%D7%9C%D7%9E%D7%90%D7%A0%D7%93%D7%99%D7%99-%D7%91%D7%9C%D7%99-%D7%9C%D7%97%D7%A9%D7%95%D7%A3-%D7%90%D7%AA-%D7%94%D7%98%D7%95%D7%A7%D7%9F/">
+<meta property="og:title" content="איך לחבר טופס באתר למאנדיי (monday.com) בלי לחשוף את הטוקן">
+<meta property="og:description" content="רוצים שכל פנייה מהאתר שבניתם ב-AI תיכנס כפריט בלוח של monday? שלוש דרכים לעשות את זה, למה אסור לשים את ה-API token בקוד של האתר, ופרומפטים מוכנים לכל דרך.">
+<meta property="og:image" content="https://afias.dev/og-image.png">
+<meta property="article:published_time" content="2026-10-28T08:00:00.000Z">
+<meta property="article:author" content="אורי אפיאס">
+<meta property="article:tag" content="monday.com">
+<meta property="article:tag" content="טופס לידים">
+<meta property="article:tag" content="חיבורים">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="איך לחבר טופס באתר למאנדיי (monday.com) בלי לחשוף את הטוקן">
+<meta name="twitter:description" content="רוצים שכל פנייה מהאתר שבניתם ב-AI תיכנס כפריט בלוח של monday? שלוש דרכים לעשות את זה, למה אסור לשים את ה-API token בקוד של האתר, ופרומפטים מוכנים לכל דרך.">
+<meta name="twitter:image" content="https://afias.dev/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://afias.dev/#organization",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://afias.dev/#localbusiness",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/",
+      "parentOrganization": {
+        "@id": "https://afias.dev/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
+      "name": "אורי אפיאס",
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "inLanguage": "he"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://afias.dev/#author",
+      "name": "אורי אפיאס",
+      "worksFor": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/about/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "איך לחבר טופס באתר למאנדיי (monday.com) בלי לחשוף את הטוקן",
+      "description": "רוצים שכל פנייה מהאתר שבניתם ב-AI תיכנס כפריט בלוח של monday? שלוש דרכים לעשות את זה, למה אסור לשים את ה-API token בקוד של האתר, ופרומפטים מוכנים לכל דרך.",
+      "author": {
+        "@id": "https://afias.dev/#author"
+      },
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "datePublished": "2026-10-28T08:00:00.000Z",
+      "dateModified": "2026-10-28T08:00:00.000Z",
+      "keywords": "חיבור טופס למאנדיי, monday API token, טופס אתר monday, monday Make, monday Zapier, WorkForms",
+      "inLanguage": "he",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://afias.dev/blog/%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%98%D7%95%D7%A4%D7%A1-%D7%91%D7%90%D7%AA%D7%A8-%D7%9C%D7%9E%D7%90%D7%A0%D7%93%D7%99%D7%99-%D7%91%D7%9C%D7%99-%D7%9C%D7%97%D7%A9%D7%95%D7%A3-%D7%90%D7%AA-%D7%94%D7%98%D7%95%D7%A7%D7%9F/"
+      },
+      "wordCount": 913,
+      "articleSection": "חיבורים ואוטומציות",
+      "proficiencyLevel": "Beginner",
+      "citation": [
+        "https://developer.monday.com/api-reference/docs/authentication",
+        "https://developer.monday.com/api-reference/reference/items",
+        "https://apps.make.com/monday",
+        "https://apps.make.com/gateway",
+        "https://zapier.com/apps/monday/integrations",
+        "https://help.zapier.com/hc/en-us/articles/32337438839565"
+      ],
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "למה אסור לשים את ה-API token של monday בקוד של האתר?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "כי הוא פותח את כל החשבון שלכם. לפי monday, לטוקן אישי יש את כל ההרשאות שיש לכם בממשק. מי שמעתיק אותו מהדפדפן יכול לקרוא, לשנות ולמחוק כל מה שאתם יכולים."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "מה הדרך הכי פשוטה?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "טופס של monday (WorkForms) שמוטמע באתר. כל שליחה הופכת לפריט בלוח, בלי טוקן ובלי קוד שרת. החיסרון הוא שהעיצוב מוגבל למה שהטופס של monday מאפשר."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Make או Zapier, מה עדיף?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "תלוי במה שכבר יש לכם. שניהם יודעים ליצור פריט ב-monday. לפי Zapier, קבלת Webhook דורשת חבילה בתשלום, ולכן אם אתם בחבילה החינמית כדאי לבדוק את Make קודם. בשני המקרים, המחירים והמגבלות משתנים, אז שווה לבדוק באתר שלהם."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "אני כבר שמתי את הטוקן בקוד. מה עכשיו?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "מחליפים אותו. מעבירים את הקריאה לשרת או לכלי אוטומציה, ואז יוצרים טוקן חדש ב-monday כדי שהישן יפסיק לעבוד. אם יש לכם הרשאות מנהל, בדקו גם שלא בוצעו שינויים לא מוכרים בלוחות."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://afias.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "איך לחבר טופס באתר למאנדיי (monday.com) בלי לחשוף את הטוקן",
+          "item": "https://afias.dev/blog/%D7%90%D7%99%D7%9A-%D7%9C%D7%97%D7%91%D7%A8-%D7%98%D7%95%D7%A4%D7%A1-%D7%91%D7%90%D7%AA%D7%A8-%D7%9C%D7%9E%D7%90%D7%A0%D7%93%D7%99%D7%99-%D7%91%D7%9C%D7%99-%D7%9C%D7%97%D7%A9%D7%95%D7%A3-%D7%90%D7%AA-%D7%94%D7%98%D7%95%D7%A7%D7%9F/"
+        }
+      ]
+    }
+  ],
+  "image": "https://afias.dev/og-image.png"
+}
+</script>
+
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+<style>
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper)}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.site-header{padding:28px 0 0}
+.wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
+.wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass-deep)}
+article{padding:56px 0 80px}
+.meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
+h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
+.hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
+.body{font-size:18px;line-height:1.75}
+.body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
+.body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
+.body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
+.body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
+.body li{margin:0 0 8px}
+.body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
+.body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
+.body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
+.body .yt-facade{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;width:100%;aspect-ratio:16/9;box-sizing:border-box;padding:22px 24px;border-radius:14px;background:#1C1E24;color:#FAF8F3;text-decoration:none;line-height:1.35}
+.body .yt-facade:hover{color:#FAF8F3}
+.body .yt-facade-title{font-weight:700;font-size:clamp(17px,2.4vw,21px)}
+.body .yt-facade-play{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#B8862B;color:#1C1E24;font-weight:700;font-size:15px}
+.body .yt-facade-play::before{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent currentColor}
+.body .yt-facade:hover .yt-facade-play{background:#D7A53F}
+.body .yt-facade-note{font-size:13px;color:rgba(250,248,243,.8)}
+.body .yt-facade:focus-visible{outline:3px solid var(--brass-deep);outline-offset:3px}
+.body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
+.body th{background:#fff;font-weight:700}
+.body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
+.body pre code{border:0;padding:0;background:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
+.cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
+.cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
+@media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
+/* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+.skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+.skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+main:focus{outline:none}
+.body .prompt{margin:24px 0;padding:18px 22px;background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--brass);border-radius:16px}
+.body .prompt p{margin:0;font-size:17px;line-height:1.7}
+.body .prompt .prompt-label{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--brass-deep);margin:0 0 8px;letter-spacing:.02em}
+.body p code,.body li code,.body td code{direction:ltr;unicode-bidi:isolate;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.body .note{margin:24px 0;padding:16px 22px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.body .note p:last-child{margin:0}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+<div dir="rtl">
+  <header class="site-header"><div class="wrap"><a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a></div></header>
+
+  <main id="main" tabindex="-1" class="wrap">
+    <article>
+      <div class="meta">
+        <a href="/blog/" class="back">כל המאמרים</a>
+        <time datetime="2026-10-28T08:00:00.000Z">28 באוקטובר 2026</time>
+        <span>אורי אפיאס</span>
+      </div>
+      <h1>איך לחבר טופס באתר למאנדיי (monday.com) בלי לחשוף את הטוקן</h1>
+      <p class="lede">הרבה עסקים מנהלים את הלידים בלוח של monday, והאתר החדש שנבנה ב-AI צריך פשוט &quot;לזרוק&quot; כל פנייה לשם. כלי ה-AI ישמח לעשות את זה מהר, לפעמים מהר מדי: עם הטוקן האישי שלכם בתוך הקוד של העמוד. הנה איך עושים את זה נכון.</p>
+      <div class="body">
+<div dir="rtl" style="direction:rtl;text-align:right;">
+<p><strong>כדי שכל פנייה מהאתר תיכנס כפריט ללוח ב-monday, יש שלוש דרכים: להטמיע באתר טופס של monday, להעביר את הפנייה דרך כלי אוטומציה כמו Make או Zapier, או לשלוח אותה מפונקציה בשרת שמחזיקה את ה-API token.</strong> הדבר היחיד שאסור: לשים את הטוקן בקוד של העמוד, כי כל גולש יכול להעתיק אותו משם.</p>
+
+<h2>למה הטוקן של monday כל כך רגיש?</h2>
+<p>לפי <a href="https://developer.monday.com/api-reference/docs/authentication" target="_blank" rel="noopener">התיעוד של monday</a>, לטוקן אישי יש את כל ההרשאות שיש לכם בממשק: כל הלוחות, כל הפריטים וכל מה שאתם יכולים לעשות. בניגוד למפתחות שנועדו לדפדפן, אין לו גרסה "מוגבלת" שמתאימה לאתר.</p>
+<p>דמיינו שאתם נותנים לכל מי שנכנס לחנות את הכרטיס המגנטי שלכם, רק כדי שיוכל להשאיר פתק על השולחן. זה בדיוק מה שקורה כשהטוקן נמצא בקוד של האתר.</p>
+<p>אם אתם לא בטוחים איפה הוא נמצא אצלכם, בקשו מהכלי לבדוק:</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>בלי לשנות קוד: האם יש בפרויקט טוקן של monday.com? אם כן, איפה הוא שמור, והאם הוא נשלח לדפדפן (למשל בקוד של העמוד או במשתנה שמתחיל ב-VITE_)?<br>
+תסביר לי בשפה פשוטה מה קורה כשגולש שולח את הטופס.</p></div>
+
+<h2>דרך 1: טופס של monday (הכי פשוט)</h2>
+<p>ל-monday יש טפסים מובנים (WorkForms) שאפשר להטמיע באתר. כל שליחה הופכת לפריט בלוח, והעמודות מתמלאות לפי השדות בטופס. אין טוקן, אין קוד שרת ואין מה לתחזק.</p>
+<p>החיסרון: העיצוב מוגבל למה שהטופס של monday מאפשר, והוא לא תמיד ייראה בדיוק כמו שאר האתר. בשביל טופס יצירת קשר פשוט, זה בדרך כלל מספיק.</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>אני רוצה להחליף את טופס יצירת הקשר בטופס של monday.com. הנה קוד ההטמעה: [להדביק כאן].<br>
+תטמיע אותו במקום הטופס הקיים, תוודא שהוא נטען טוב גם במובייל, ותמחק את הקוד הישן של הטופס.</p></div>
+
+<h2>דרך 2: דרך Make או Zapier (בלי קוד שרת)</h2>
+<p>הטופס נשאר שלכם, עם העיצוב שלכם. כשהגולש שולח, האתר שולח את הנתונים לכתובת Webhook של כלי האוטומציה, והוא יוצר את הפריט ב-monday. הטוקן נשמר בתוך כלי האוטומציה, לא באתר.</p>
+<ul>
+<li><strong>ב-Make:</strong> יוצרים תרחיש שמתחיל ב-Webhooks > Custom webhook ומקבלים כתובת ייחודית. משם מוסיפים את <a href="https://apps.make.com/monday" target="_blank" rel="noopener">האפליקציה של monday</a> ופעולה שיוצרת פריט. לפי <a href="https://apps.make.com/gateway" target="_blank" rel="noopener">Make</a>, אפשר גם להגדיר מפתח שנשלח בכותרת <code>x-make-apikey</code>, כדי שרק האתר שלכם יוכל להפעיל את התרחיש.</li>
+<li><strong>ב-Zapier:</strong> יש <a href="https://zapier.com/apps/monday/integrations" target="_blank" rel="noopener">חיבור ל-monday</a>, אבל קבלת Webhook (Webhooks by Zapier) היא לפי <a href="https://help.zapier.com/hc/en-us/articles/32337438839565" target="_blank" rel="noopener">Zapier</a> אפליקציה בתשלום ולא זמינה בחבילה החינמית.</li>
+</ul>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>כשגולש שולח את טופס יצירת הקשר, תשלח את השדות (שם, טלפון, מייל, הודעה) ככה: POST בפורמט JSON לכתובת ה-Webhook הזו: [להדביק את הכתובת מ-Make].<br>
+תציג הודעת הצלחה רק אם השליחה הצליחה, והודעת שגיאה ברורה אם לא. אל תשים שום טוקן של monday באתר.</p></div>
+<p>כתובת ה-Webhook עצמה גלויה בדפדפן, וזה בסדר יחסית: היא יכולה רק להפעיל את התרחיש שהגדרתם, לא לפתוח את כל החשבון. כדי לצמצם הודעות זבל, מומלץ להוסיף את המפתח בכותרת, או להעביר את השליחה דרך פונקציה בשרת.</p>
+
+<h2>דרך 3: פונקציה בשרת (הכי גמיש)</h2>
+<p>אם האתר שלכם כבר מחובר לשרת, למשל ל-Supabase ב-Lovable, אפשר לשלוח את הפנייה ל-API של monday ישירות משם. הטוקן נשמר ב-Secrets ולא מגיע לדפדפן. זו הדרך הנכונה כשצריך לוגיקה: לבדוק אם הלקוח כבר קיים, לשייך לנציג, או לשמור את הפנייה גם במסד הנתונים.</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>תבנה פונקציה בצד השרת שמקבלת את פרטי הטופס ויוצרת פריט חדש בלוח monday.com מספר [מספר הלוח], דרך ה-API של monday.<br>
+הטוקן יישמר ב-Secrets בשם MONDAY_API_TOKEN ויבקש ממני להזין אותו בטופס המאובטח. הוא לא יופיע בשום קוד שנשלח לדפדפן.<br>
+תשמור כל פנייה גם בטבלת leads משלנו, כדי שלא תלך לאיבוד אם monday לא זמין.</p></div>
+<p>נקודה שכדאי לדעת: לכל עמודה בלוח יש מזהה (ID) ופורמט משלה. טלפון, מייל וסטטוס לא נשלחים כמו טקסט רגיל. אם הפריט נוצר אבל עמודות נשארות ריקות, זו בדרך כלל הסיבה. התיעוד של monday על <a href="https://developer.monday.com/api-reference/reference/items" target="_blank" rel="noopener">יצירת פריטים</a> מפרט את זה.</p>
+
+<h2>רשימת בדיקה אחרי החיבור</h2>
+<ol>
+<li>שלחו פנייה לדוגמה, ובדקו שנוצר פריט בלוח הנכון עם כל העמודות.</li>
+<li>בדקו שהטלפון והמייל נכנסו לעמודות הנכונות ולא לשם הפריט.</li>
+<li>נסו לשלוח בלי אינטרנט או עם שדה חובה ריק, ובדקו שמוצגת הודעת שגיאה ולא "תודה".</li>
+<li>בדקו שאין טוקן של monday בקוד של האתר (הפרומפט מתחילת המאמר).</li>
+</ol>
+
+<h2>רוצים שזה פשוט יעבוד?</h2>
+<p>אני מחבר אתרים שנבנו בכלי AI ל-monday ולמערכות אחרות, בדרך שמתאימה לגודל העסק: לפעמים זה טופס מוטמע ולפעמים פונקציה בשרת. המחיר נקבע אחרי שיחה קצרה. ואם אתם עוד מתלבטים איך לבנות את האתר עצמו, <a href="https://afias.dev/blog/%D7%90%D7%99%D7%9A-%D7%91%D7%95%D7%97%D7%A8%D7%99%D7%9D-%D7%97%D7%91%D7%A8%D7%94-%D7%9C%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8-%D7%9C%D7%A2%D7%A1%D7%A7-%D7%A7%D7%98%D7%9F-%D7%91-2026/">המדריך לבחירת סוג האתר</a> יעזור.</p>
+
+<h2>שאלות נפוצות על חיבור טפסים למאנדיי</h2>
+
+<h3>למה אסור לשים את ה-API token של monday בקוד של האתר?</h3>
+<p><strong>כי הוא פותח את כל החשבון שלכם.</strong> לפי monday, לטוקן אישי יש את כל ההרשאות שיש לכם בממשק. מי שמעתיק אותו מהדפדפן יכול לקרוא, לשנות ולמחוק כל מה שאתם יכולים.</p>
+
+<h3>מה הדרך הכי פשוטה?</h3>
+<p><strong>טופס של monday (WorkForms) שמוטמע באתר.</strong> כל שליחה הופכת לפריט בלוח, בלי טוקן ובלי קוד שרת. החיסרון הוא שהעיצוב מוגבל למה שהטופס של monday מאפשר.</p>
+
+<h3>Make או Zapier, מה עדיף?</h3>
+<p><strong>תלוי במה שכבר יש לכם.</strong> שניהם יודעים ליצור פריט ב-monday. לפי Zapier, קבלת Webhook דורשת חבילה בתשלום, ולכן אם אתם בחבילה החינמית כדאי לבדוק את Make קודם. בשני המקרים, המחירים והמגבלות משתנים, אז שווה לבדוק באתר שלהם.</p>
+
+<h3>אני כבר שמתי את הטוקן בקוד. מה עכשיו?</h3>
+<p><strong>מחליפים אותו.</strong> מעבירים את הקריאה לשרת או לכלי אוטומציה, ואז יוצרים טוקן חדש ב-monday כדי שהישן יפסיק לעבוד. אם יש לכם הרשאות מנהל, בדקו גם שלא בוצעו שינויים לא מוכרים בלוחות.</p>
+
+<h2>מקורות</h2>
+<ul>
+<li><a href="https://developer.monday.com/api-reference/docs/authentication" target="_blank" rel="noopener">monday.com API: Authentication</a></li>
+<li><a href="https://developer.monday.com/api-reference/reference/items" target="_blank" rel="noopener">monday.com API: Items</a></li>
+<li><a href="https://apps.make.com/monday" target="_blank" rel="noopener">Make: monday.com app</a></li>
+<li><a href="https://apps.make.com/gateway" target="_blank" rel="noopener">Make: Webhooks</a></li>
+<li><a href="https://zapier.com/apps/monday/integrations" target="_blank" rel="noopener">Zapier: monday.com integrations</a></li>
+<li><a href="https://help.zapier.com/hc/en-us/articles/32337438839565" target="_blank" rel="noopener">Zapier Help: Webhooks by Zapier</a></li>
+</ul>
+<p>המידע נבדק מול התיעוד הרשמי בתאריך הפרסום של המאמר. הכלים האלה משתנים מהר, ולכן כדאי לבדוק שוב בתיעוד לפני שינוי גדול.</p>
+</div>
+      </div>
+      <div class="tags"><span>monday.com</span><span>טופס לידים</span><span>חיבורים</span></div>
+
+      <section class="cta">
+        <h2>רוצים שהלידים ייכנסו למאנדיי בלי כאב ראש?</h2>
+        <p>ספרו לי איך הלוח שלכם בנוי ובאיזה כלי בניתם את האתר. אחרי שיחה קצרה תקבלו הצעת מחיר תוך 24 שעות.</p>
+        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%A9%D7%94%D7%98%D7%95%D7%A4%D7%A1%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99%20%D7%99%D7%9B%D7%A0%D7%99%D7%A1%20%D7%9C%D7%99%D7%93%D7%99%D7%9D%20%D7%9C%D7%9C%D7%95%D7%97%20%D7%91%D7%9E%D7%90%D7%A0%D7%93%D7%99%D7%99" target="_blank" rel="noopener">דברו איתי בוואטסאפ</a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
+    <span>© 2026 אורי אפיאס</span>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
+  </footer>
+</div>
+</body>
+</html>
