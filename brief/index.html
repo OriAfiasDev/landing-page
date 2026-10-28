@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Rubik:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="canonical" href="https://afias.dev/brief/" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>תבנית בריף לאתר: 32 שאלות לפני שבונים עם AI | afias.dev</title>
+    <meta name="description" content="אתרים שבונים עם AI נראים אותו דבר כי למודל חסר מידע. ממלאים את הבריף שאני עובד איתו, ומקבלים פרומפט מוכן להדבקה ל-Claude. שדה ריק מסומן [חסר], והמודל שואל במקום להמציא." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="afias.dev" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:url" content="https://afias.dev/brief/" />
+    <meta property="og:title" content="תבנית בריף לאתר: 32 שאלות לפני שבונים עם AI" />
+    <meta property="og:description" content="ממלאים את הבריף, ומקבלים פרומפט מוכן ל-Claude. שדה ריק מסומן [חסר], והמודל שואל במקום להמציא." />
+    <meta property="og:image" content="https://afias.dev/brief/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="תבנית בריף לאתר: 32 שאלות לפני שבונים עם AI" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="תבנית בריף לאתר: 32 שאלות לפני שבונים עם AI" />
+    <meta name="twitter:description" content="ממלאים את הבריף, ומקבלים פרומפט מוכן ל-Claude. שדה ריק מסומן [חסר], והמודל שואל במקום להמציא." />
+    <meta name="twitter:image" content="https://afias.dev/brief/og.png" />
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://afias.dev/brief/",
+      "url": "https://afias.dev/brief/",
+      "name": "תבנית בריף לאתר: 32 שאלות לפני שבונים עם AI | afias.dev",
+      "description": "אתרים שבונים עם AI נראים אותו דבר כי למודל חסר מידע. ממלאים את הבריף שאני עובד איתו, ומקבלים פרומפט מוכן להדבקה ל-Claude.",
+      "inLanguage": "he",
+      "isPartOf": { "@id": "https://afias.dev/#website" },
+      "about": { "@id": "https://afias.dev/#business" },
+      "breadcrumb": { "@id": "https://afias.dev/brief/#breadcrumb" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://afias.dev/brief/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "דף הבית", "item": "https://afias.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "בריף לאתר", "item": "https://afias.dev/brief/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "צריך למלא את כל השדות?",
+          "acceptedAnswer": { "@type": "Answer", "text": "לא. שדה ריק מופיע בפרומפט כ-[חסר], ו-Claude שואל עליו במקום להמציא. על שלושת השדות המסומנים ★ כדאי לא לוותר: דוגמת הטקסט שהעסק כתב בעצמו, והתחושה והעולם הפיזי של העסק. בלעדיהם האתר ייצא גנרי." }
+        },
+        {
+          "@type": "Question",
+          "name": "מה עושים כשהלקוח לא יודע לענות?",
+          "acceptedAnswer": { "@type": "Answer", "text": "משאירים ריק, או כותבים את מה שהוא כן אמר, במילים שלו. \"אני שונא אתרים עם סרטון ברקע\" עוזר למודל יותר מ\"מודרני ונקי\". לדוגמת הטקסט מספיקה הודעת וואטסאפ שהוא שלח לכם." }
+        },
+        {
+          "@type": "Question",
+          "name": "זה עובד גם עם מודלים אחרים?",
+          "acceptedAnswer": { "@type": "Answer", "text": "הפרומפט הוא טקסט רגיל, אז אפשר להדביק אותו לכל מודל. כתבתי אותו בשביל Claude, והסקיל להורדה בנוי ל-Claude Code." }
+        },
+        {
+          "@type": "Question",
+          "name": "המידע שאני ממלא נשמר?",
+          "acceptedAnswer": { "@type": "Answer", "text": "רק בדפדפן שלכם, כדי שתמצאו את הטיוטה כשתחזרו. שום דבר לא נשלח לשרת. הכפתור \"נקה טופס\" מוחק את הטיוטה." }
+        },
+        {
+          "@type": "Question",
+          "name": "למה זה בחינם?",
+          "acceptedAnswer": { "@type": "Answer", "text": "זה הבריף שאני ממלא לפני כל אתר שאני בונה. אין סיבה שיישב אצלי בתיקייה." }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+
+    <!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+    <style>
+      /* The inner-page language (paper and ink, Rubik 900 headings), turned
+         into a tool: the form is the page. Brass goes on the copy button and
+         the ★ fields only. */
+      :root {
+        --paper: #faf8f3;
+        --paper-deep: #f1ede3;
+        --ink: #1c1e24;
+        --brass: #b8862b;
+        --brass-light: #d7a53f;
+        --brass-text: #1c1e24;   /* ink on the gold buttons: 5.1:1 */
+        --brass-deep: #8a6420;   /* the gold, dark enough for text and focus rings on paper */
+        --line: #e5ddc9;
+        --field-line: #8f8471;   /* form fields need a 3:1 edge; --line is 1.4:1 */
+        --quiet: #736a5c;
+        --muted: rgba(28, 30, 36, 0.68);
+        --muted-soft: rgba(28, 30, 36, 0.65);
+        --mono: "JetBrains Mono", "Rubik", ui-monospace, monospace;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; background: var(--paper); }
+      body {
+        font-family: "Rubik", system-ui, sans-serif;
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--brass-deep); text-decoration: none; }
+      a:hover { color: var(--brass-light); }
+
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+      /* ---------- header ---------- */
+      .site-header { padding: 28px 0 0; }
+      .wordmark {
+        font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: 26px;
+        direction: ltr; display: inline-flex; align-items: baseline; gap: 2px; color: var(--ink);
+      }
+      .wordmark:hover { color: var(--ink); }
+      .wordmark span { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 17px; color: var(--brass-deep); }
+      .site-header .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 28px; }
+      .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+      .site-nav a { font-weight: 500; font-size: 16px; color: var(--ink); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 4px; }
+      .site-nav a:hover { color: var(--brass-deep); }
+      .crumbs { margin: 28px 0 0; font-size: 14px; color: var(--muted-soft); }
+      .crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+      .crumbs li + li::before { content: "←"; margin-inline-end: 6px; color: var(--quiet); }
+      .crumbs a { color: var(--brass-deep); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+
+      /* ---------- shared ---------- */
+      h1, h2 { margin: 0; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+      h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.06; letter-spacing: -0.035em; text-wrap: balance; }
+      .split span { display: block; }
+      .split .lead-in { margin-bottom: 0.2em; font-size: 0.36em; line-height: 1.2; letter-spacing: -0.02em; color: var(--quiet); }
+      .lead { margin: 22px 0 0; max-width: 52ch; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.65; color: var(--muted); text-wrap: pretty; }
+      .section-lead { margin: 16px 0 0; max-width: 58ch; font-size: clamp(17px, 1.4vw, 19px); line-height: 1.65; color: var(--muted); text-wrap: pretty; }
+      section { padding: clamp(64px, 10vh, 112px) 0 0; }
+      code { font-family: var(--mono); font-size: 0.88em; }
+      a:focus-visible, button:focus-visible, summary:focus-visible, pre:focus-visible {
+        outline: 3px solid var(--brass-deep); outline-offset: 3px; border-radius: 6px;
+      }
+      main p a { text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+      main p a:hover { color: var(--ink); }
+      .text-link { font-weight: 700; color: var(--brass-deep); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 4px; }
+      .text-link:hover { color: var(--ink); }
+
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;
+        font-family: "Rubik", sans-serif; font-weight: 700; font-size: 17px;
+        color: var(--brass-text); background: var(--brass);
+        padding: 15px 26px; border-radius: 999px; border: 0; cursor: pointer;
+        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s;
+      }
+      .btn:hover { color: var(--brass-text); background: var(--brass-light); transform: translateY(-2px); }
+      .btn:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 3px; }
+      .btn[data-done] { background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+      .btn--line {
+        background: transparent; color: var(--ink); border: 1.5px solid var(--ink);
+      }
+      .btn--line:hover { background: var(--ink); color: var(--paper); }
+      .btn--line:focus-visible { outline-color: var(--brass-deep); }
+
+      /* ---------- hero ---------- */
+      .hero { padding: clamp(36px, 7vh, 88px) 0 clamp(48px, 8vh, 96px); border-bottom: 1px solid var(--line); }
+      .hero h1 { max-width: 15ch; font-size: clamp(42px, 6.4vw, 96px); text-wrap: balance; }
+      .hero-foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 28px; margin-top: 26px; }
+      .hero-foot .text-link { font-size: 16px; }
+
+      /* ---------- why ---------- */
+      .why { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+      .defaults { list-style: none; margin: 0; padding: 0; counter-reset: d; border-top: 1px solid var(--ink); }
+      .defaults li {
+        counter-increment: d; display: grid; grid-template-columns: 3.2em minmax(0, 1fr); align-items: baseline;
+        padding: 18px 0; border-bottom: 1px solid var(--line); font-size: clamp(17px, 1.4vw, 19px); line-height: 1.5;
+      }
+      .defaults li::before { content: counter(d, decimal-leading-zero); font-family: var(--mono); font-size: 13px; color: var(--quiet); }
+      .defaults-after { margin: 22px 0 0; font-size: 17px; line-height: 1.65; font-weight: 500; }
+
+      /* ---------- how ---------- */
+      .how-steps { list-style: none; margin: clamp(28px, 4vh, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; counter-reset: s; }
+      .how-steps li { counter-increment: s; padding-top: 18px; border-top: 1px solid var(--ink); }
+      .how-steps li::before { content: counter(s); display: block; font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--quiet); }
+      .how-steps h3 { margin: 10px 0 6px; font-size: clamp(20px, 1.7vw, 23px); font-weight: 900; letter-spacing: -0.02em; }
+      .how-steps p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
+      .missing-note {
+        margin: clamp(32px, 5vh, 48px) 0 0; padding: clamp(24px, 3.4vw, 44px); border-radius: 24px;
+        background: var(--ink); color: var(--paper);
+      }
+      .missing-note p { margin: 0; max-width: 54ch; font-size: clamp(19px, 1.9vw, 25px); line-height: 1.5; font-weight: 500; text-wrap: pretty; }
+      .missing-note p + p { margin-top: 12px; font-size: 17px; font-weight: 400; color: rgba(250, 248, 243, 0.78); }
+      .missing-note code { color: var(--brass-light); }
+
+      /* ---------- the workbench: form + live prompt ---------- */
+      .bench-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 40px; }
+      .privacy { margin: 14px 0 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
+      .privacy strong { color: var(--ink); font-weight: 700; }
+      .bench { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 6fr); gap: clamp(24px, 3vw, 44px); align-items: start; margin-top: clamp(24px, 4vh, 36px); }
+
+      .counter { font-family: var(--mono); font-size: 14px; color: var(--quiet); white-space: nowrap; }
+      .counter b { font-weight: 700; color: var(--ink); }
+
+      .group { border-top: 1px solid var(--ink); }
+      .group:last-child { border-bottom: 1px solid var(--ink); }
+      .group summary { display: flex; align-items: center; gap: 14px; padding: 20px 0; cursor: pointer; }
+      .group summary::-webkit-details-marker { display: none; }
+      .group summary { list-style: none; }
+      .group h3 { margin: 0; flex: 1; font-size: clamp(20px, 1.8vw, 24px); font-weight: 900; letter-spacing: -0.02em; }
+      .group-count { font-family: var(--mono); font-size: 13px; color: var(--quiet); }
+      .group-count[data-full] { color: var(--ink); }
+      .plus {
+        flex: none; position: relative; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--field-line);
+        transition: background-color 0.2s, color 0.2s;
+      }
+      .plus::before, .plus::after {
+        content: ""; position: absolute; inset-inline-start: 50%; top: 50%; width: 11px; height: 1.5px; margin-inline-start: -5.5px; margin-top: -0.75px;
+        background: currentColor; transition: transform 0.25s;
+      }
+      .plus::after { transform: rotate(90deg); }
+      .group[open] .plus { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+      .group[open] .plus::after { transform: rotate(0deg); }
+      .group-body { padding: 4px 0 28px; }
+
+      .field { margin-bottom: 20px; }
+      .field label { display: block; font-weight: 500; font-size: 16px; line-height: 1.45; margin-bottom: 8px; }
+      .field input, .field textarea {
+        display: block; width: 100%; font-family: "Rubik", sans-serif; font-size: 16px; line-height: 1.55; color: var(--ink);
+        background: #fff; border: 1px solid var(--field-line); border-radius: 12px; padding: 12px 14px;
+      }
+      .field input:focus, .field textarea:focus { outline: 2px solid var(--brass-deep); outline-offset: 2px; border-color: var(--brass-deep); }
+      .field textarea { min-height: 96px; resize: vertical; }
+      .field textarea.big { min-height: 200px; }
+      /* The ★ fields: the two the skill asks for by name before it builds. */
+      .field--key { padding: 16px; margin-inline: -16px; border-radius: 16px; background: var(--paper-deep); }
+      .field--key label { font-weight: 700; }
+      .star { color: var(--brass); }
+      .key-hint { margin: -2px 0 10px; font-size: 14px; color: var(--quiet); }
+
+      .panel {
+        position: sticky; top: 20px; display: flex; flex-direction: column; max-height: calc(100vh - 40px);
+        border-radius: 20px; background: var(--ink); color: var(--paper); overflow: hidden;
+      }
+      .panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 16px 20px; border-bottom: 1px solid rgba(250, 248, 243, 0.14); }
+      .panel-title { margin: 0; font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: rgba(250, 248, 243, 0.78); }
+      .panel .counter { color: rgba(250, 248, 243, 0.72); }
+      .panel .counter b { color: var(--paper); }
+      .panel pre {
+        flex: 1 1 auto; min-height: 220px; margin: 0; padding: 18px 20px; overflow: auto;
+        font-family: var(--mono); font-size: 13.5px; line-height: 1.7; color: rgba(250, 248, 243, 0.9);
+        white-space: pre-wrap; overflow-wrap: anywhere; text-align: start;
+      }
+      .panel mark { background: none; color: var(--brass-light); }
+      .panel-foot { padding: 14px 20px 18px; border-top: 1px solid rgba(250, 248, 243, 0.14); }
+      .toggle { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.45; color: rgba(250, 248, 243, 0.86); cursor: pointer; }
+      .toggle input { flex: none; width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--brass-light); }
+      .toggle input:focus-visible { outline: 3px solid var(--brass-light); outline-offset: 2px; }
+      .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+      .panel .btn--line { color: var(--paper); border-color: rgba(250, 248, 243, 0.6); }
+      .panel .btn--line:hover { background: var(--paper); color: var(--ink); }
+      .panel .btn--line:focus-visible { outline-color: var(--brass-light); }
+      .clear {
+        margin-inline-start: auto; padding: 8px 4px; border: 0; background: none; cursor: pointer;
+        font-family: "Rubik", sans-serif; font-size: 15px; color: rgba(250, 248, 243, 0.78);
+        text-decoration: underline; text-underline-offset: 3px;
+      }
+      .clear:hover { color: var(--paper); }
+      .panel .clear:focus-visible { outline-color: var(--brass-light); }
+
+      /* Phones: the copy button stays on screen while you fill in the form. */
+      .dock { display: none; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+
+      /* ---------- download ---------- */
+      .download { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(24px, 6vw, 96px); align-items: start; }
+      .download p { margin: 0 0 12px; max-width: 58ch; font-size: 17px; line-height: 1.65; color: var(--muted); }
+      .download .btn { margin-top: 10px; }
+
+      /* ---------- faq (as on /pricing) ---------- */
+      .faq { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(28px, 6vw, 96px); align-items: start; }
+      .faq-list { border-top: 1px solid var(--line); }
+      .faq-item { border-bottom: 1px solid var(--line); }
+      .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; cursor: pointer; list-style: none; font-size: clamp(17px, 1.4vw, 19px); font-weight: 700; line-height: 1.4; }
+      .faq-item summary::-webkit-details-marker { display: none; }
+      .faq-item[open] .plus { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+      .faq-item[open] .plus::after { transform: rotate(0deg); }
+      .faq-item p { margin: 0; padding: 0 0 24px; max-width: 60ch; font-size: 16px; line-height: 1.7; color: rgba(28, 30, 36, 0.72); }
+
+      /* ---------- close ---------- */
+      .close { padding: clamp(64px, 10vh, 112px) 0 clamp(72px, 12vh, 140px); }
+      .close p { margin: 0; font-size: clamp(20px, 2vw, 26px); font-weight: 500; line-height: 1.5; }
+
+      /* ---------- footer ---------- */
+      footer { border-top: 1px solid var(--line); }
+      .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 18px; padding: 30px 24px 44px; font-size: 14px; color: var(--muted-soft); }
+      .footer-inner .wordmark { font-size: 22px; }
+      .footer-inner .wordmark span { font-size: 14px; }
+      .footer-inner nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+      .footer-inner nav a { color: inherit; text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+      .footer-inner nav a:hover { color: var(--ink); }
+
+      @media (max-width: 980px) {
+        .why, .download, .faq { grid-template-columns: 1fr; gap: 24px; }
+        .bench { grid-template-columns: 1fr; }
+        .panel { position: static; max-height: none; }
+        .panel pre { max-height: 60vh; }
+        .dock {
+          display: flex; align-items: center; justify-content: space-between; gap: 12px;
+          position: fixed; inset-inline: 0; bottom: 0; z-index: 50;
+          padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+          background: var(--paper); border-top: 1px solid var(--field-line);
+        }
+        .dock .btn { padding: 13px 22px; }
+        body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+        /* Keep a focused field from scrolling in under the dock (WCAG 2.4.11). */
+        html { scroll-padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+      }
+      @media (max-width: 720px) {
+        .wrap { padding: 0 16px; }
+        .how-steps { grid-template-columns: 1fr; gap: 22px; }
+        .field--key { margin-inline: -10px; padding: 14px 10px; }
+        .panel-head, .panel pre, .panel-foot { padding-inline: 16px; }
+        .actions .btn { flex: 1 1 auto; }
+        .clear { margin-inline-start: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: 0.001ms !important; } }
+      /* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+      .skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+      .skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+      main:focus{outline:none}
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a href="/" class="wordmark" aria-label="afias.dev, לדף הבית">afias<span>.dev</span></a>
+        <nav class="site-nav" aria-label="ראשי">
+          <ul>
+            <li><a href="/">דף הבית</a></li>
+            <li><a href="/pricing/">מחירון</a></li>
+            <li><a href="/about/">אודות</a></li>
+            <li><a href="/blog/">מאמרים</a></li>
+            <li><a href="/demo/">דמו חינם</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="פירורי לחם">
+          <ol>
+            <li><a href="/">דף הבית</a></li>
+            <li><a href="/brief/" aria-current="page">בריף לאתר</a></li>
+          </ol>
+        </nav>
+
+        <section class="hero" aria-labelledby="page-title">
+          <h1 class="split" id="page-title">
+            <span class="lead-in">תבנית בריף לאתר</span>
+            <span>אתרים שבונים עם AI נראים אותו דבר.</span>
+          </h1>
+          <p class="lead">הבעיה היא לא הפרומפט. הבעיה היא המידע שחסר למודל. בדף הזה יש את הבריף שאני ממלא לפני כל אתר: ממלאים אותו, ומקבלים פרומפט מוכן להדבקה ל-Claude.</p>
+          <div class="hero-foot">
+            <a class="text-link" href="#bench-title">ישר לטופס</a>
+          </div>
+        </section>
+
+        <section class="why" aria-labelledby="why-title">
+          <div>
+            <h2 id="why-title">כשחסר מידע, המודל משלים מהממוצע</h2>
+            <p class="section-lead">מודל שלא יודע מי הלקוח, איך העסק מדבר ומה רואים כשנכנסים אליו לא ממציא משהו חדש. הוא בוחר את מה שהכי סביר, וזה מה שכל שאר האתרים כבר בחרו.</p>
+          </div>
+          <div>
+            <ul class="defaults" aria-label="ברירות מחדל שהמודל בוחר כשחסר לו מידע">
+              <li>גרדיאנט סגול-כחול ב-hero.</li>
+              <li>hero ממורכז: כותרת ענקית, שורת תת-כותרת אחת, שני כפתורים צמודים.</li>
+              <li>שלושה כרטיסים זהים בשורה, עם אייקון עגול למעלה.</li>
+              <li><code>border-radius</code> גדול ואחיד על כל אלמנט, ואותו צל אפור ורך על הכול.</li>
+              <li>Heebo בעברית, מתוך רפלקס.</li>
+              <li>"פתרונות מותאמים אישית", "שירות אישי ומקצועי".</li>
+            </ul>
+            <p class="defaults-after">כל אחד מהם הוא מה שקורה כשאין החלטה. הבריף נותן למודל ממה להחליט.</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="how-title">
+          <h2 id="how-title">איך משתמשים בבריף</h2>
+          <ol class="how-steps">
+            <li>
+              <h3>ממלאים את הטופס</h3>
+              <p>עם הלקוח בשיחה, או לבד מתוך מה שכבר יש לכם ממנו.</p>
+            </li>
+            <li>
+              <h3>מעתיקים את הפרומפט</h3>
+              <p>הוא מתעדכן תוך כדי הקלדה. אפשר גם להוריד אותו כקובץ <code>.md</code>.</p>
+            </li>
+            <li>
+              <h3>מדביקים ל-Claude</h3>
+              <p>בצ'אט, או ב-Claude Code בתיקייה של הפרויקט.</p>
+            </li>
+          </ol>
+          <div class="missing-note">
+            <p>שדה שנשאר ריק מופיע בפרומפט כ-<code>[חסר]</code>. המודל לא ממציא לו תוכן. הוא מסמן את המקום ושואל אתכם בסוף.</p>
+            <p>לכן עדיף להשאיר שדה ריק מאשר לכתוב בו משהו כללי. "מודרני ונקי" הוא בדיוק המידע שהמודל כבר מנחש לבד.</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="bench-title" id="bench">
+          <div class="bench-head">
+            <div>
+              <h2 id="bench-title">הבריף: 32 שאלות</h2>
+              <p class="privacy"><strong>שום דבר לא נשלח לשרת.</strong> הטיוטה נשמרת רק בדפדפן שלכם, כדי שתמצאו אותה כשתחזרו.</p>
+            </div>
+            <p class="counter" aria-hidden="true">מילאתם <b data-filled>0</b> מתוך <span data-total>32</span></p>
+          </div>
+
+          <div class="bench">
+            <form id="brief" class="brief-form" data-clarity-mask="true" autocomplete="off" novalidate>
+              <details class="group" open>
+                <summary><h3>זהות</h3><span class="group-count"></span><span class="plus" aria-hidden="true"></span></summary>
+                <div class="group-body">
+                  <div class="field"><label for="f-name">שם העסק</label><input id="f-name" type="text" /></div>
+                  <div class="field"><label for="f-what">תחום ומה בדיוק נמכר</label><textarea id="f-what" rows="3"></textarea></div>
+                  <div class="field"><label for="f-area">מיקום / אזור שירות</label><input id="f-area" type="text" /></div>
+                  <div class="field"><label for="f-owner">מי הבעלים ומה הסיפור שלו</label><textarea id="f-owner" rows="3"></textarea></div>
+                  <div class="field"><label for="f-creds">ותק, מספרים, הסמכות</label><input id="f-creds" type="text" /></div>
+                </div>
+              </details>
+
+              <details class="group">
+                <summary><h3>קהל</h3><span class="group-count"></span><span class="plus" aria-hidden="true"></span></summary>
+                <div class="group-body">
+                  <div class="field"><label for="f-ideal">מי הלקוח האידיאלי (גיל, מצב, מה מטריד אותו)</label><textarea id="f-ideal" rows="3"></textarea></div>
+                  <div class="field"><label for="f-feel">מה הוא מרגיש רגע לפני שהוא פונה</label><input id="f-feel" type="text" /></div>
+                  <div class="field"><label for="f-fear">ממה הוא חושש</label><input id="f-fear" type="text" /></div>
+                  <div class="field"><label for="f-rival">מה גורם לו לבחור מתחרה</label><input id="f-rival" type="text" /></div>
+                </div>
+              </details>
+
+              <details class="group">
+                <summary><h3>מסר</h3><span class="group-count"></span><span class="plus" aria-hidden="true"></span></summary>
+                <div class="group-body">
+                  <div class="field"><label for="f-line">המשפט האחד שהאתר צריך להשאיר בראש</label><input id="f-line" type="text" /></div>
+                  <div class="field"><label for="f-strengths">שלוש חוזקות אמיתיות (לא "שירות אישי")</label><textarea id="f-strengths" rows="3"></textarea></div>
+                  <div class="field"><label for="f-diff">במה העסק שונה מהמתחרים בפועל</label><textarea id="f-diff" rows="3"></textarea></div>
+                  <div class="field"><label for="f-objection">התנגדות נפוצה והמענה לה</label><textarea id="f-objection" rows="3"></textarea></div>
+                </div>
+              </details>
+
+              <details class="group">
+                <summary><h3>טון</h3><span class="group-count"></span><span class="plus" aria-hidden="true"></span></summary>
+                <div class="group-body">
+                  <div class="field"><label for="f-person">גוף ראשון יחיד / רבים / ניטרלי</label><input id="f-person" type="text" /></div>
+                  <div class="field"><label for="f-adjectives">שלוש מילות תואר לטון (למשל: ישיר, חם, בלי רעש)</label><input id="f-adjectives" type="text" /></div>
+                  <div class="field"><label for="f-banned">שלוש מילים שאסור שיופיעו</label><input id="f-banned" type="text" /></div>
+                  <div class="field field--key">
+                    <label for="f-voice"><span class="star" aria-hidden="true">★</span> דוגמה לטקסט שהעסק כתב בעצמו (הדבק כמו שהוא — פוסט, הודעת וואטסאפ, ביו)</label>
+                    <p class="key-hint" id="h-voice">בלי השדה הזה האתר ייצא גנרי.</p>
+                    <textarea id="f-voice" class="big" aria-describedby="h-voice"></textarea>
+                  </div>
+                </div>
+              </details>
+
+              <details class="group">
+                <summary><h3>אווירה חזותית</h3><span class="group-count"></span><span class="plus" aria-hidden="true"></span></summary>
+                <div class="group-body">
+                  <div class="field field--key">
+                    <label for="f-mood"><span class="star" aria-hidden="true">★</span> תחושה רצויה במילים (לא "מודרני ונקי")</label>
+                    <p class="key-hint" id="h-mood">בלי השדה הזה האתר ייצא גנרי.</p>
+                    <textarea id="f-mood" rows="3" aria-describedby="h-mood"></textarea>
+                  </div>
+                  <div class="field field--key">
+                    <label for="f-physical"><span class="star" aria-hidden="true">★</span> מה הלקוח רואה בעולם הפיזי של העסק (חומרים, אור, צבעים, ריחות)</label>
+                    <p class="key-hint" id="h-physical">בלי השדה הזה האתר ייצא גנרי.</p>
+                    <textarea id="f-physical" rows="4" aria-describedby="h-physical"></textarea>
+                  </div>
+                  <div class="field"><label for="f-liked">מותגים או אתרים שאהובים עליי, ולמה</label><textarea id="f-liked" rows="3"></textarea></div>
+                  <div class="field"><label for="f-never">מה בשום אופן לא</label><input id="f-never" type="text" /></div>
+                  <div class="field"><label for="f-logo">לוגו וצבעים קיימים</label><input id="f-logo" type="text" /></div>
+                </div>
+              </details>
+
+              <details class="group">
+                <summary><h3>תוכן</h3><span class="group-count"></span><span class="plus" aria-hidden="true"></span></summary>
+                <div class="group-body">
+                  <div class="field"><label for="f-texts">טקסטים קיימים / ביקורות / עדויות (הדבק)</label><textarea id="f-texts" class="big"></textarea></div>
+                  <div class="field"><label for="f-services">שירותים ומה כולל כל אחד</label><textarea id="f-services" rows="4"></textarea></div>
+                  <div class="field"><label for="f-prices">מחירים — להציג? כן/לא</label><input id="f-prices" type="text" /></div>
+                  <div class="field"><label for="f-photos">תמונות זמינות ומה יש בהן</label><textarea id="f-photos" rows="3"></textarea></div>
+                  <div class="field"><label for="f-process">תהליך העבודה מול לקוח, שלב-שלב</label><textarea id="f-process" rows="4"></textarea></div>
+                  <div class="field"><label for="f-faq">שאלות נפוצות</label><textarea id="f-faq" rows="4"></textarea></div>
+                </div>
+              </details>
+
+              <details class="group">
+                <summary><h3>המרה</h3><span class="group-count"></span><span class="plus" aria-hidden="true"></span></summary>
+                <div class="group-body">
+                  <div class="field"><label for="f-action">הפעולה שאני רוצה שיעשו</label><input id="f-action" type="text" /></div>
+                  <div class="field"><label for="f-channel">ערוץ (וואטסאפ / טופס / טלפון) ופרטים מדויקים</label><input id="f-channel" type="text" /></div>
+                  <div class="field"><label for="f-social">רשתות וקישורים</label><textarea id="f-social" rows="3"></textarea></div>
+                  <div class="field"><label for="f-langs">שפות נדרשות</label><input id="f-langs" type="text" /></div>
+                </div>
+              </details>
+            </form>
+
+            <div class="panel" role="region" aria-labelledby="panel-title">
+              <div class="panel-head">
+                <h3 class="panel-title" id="panel-title">הפרומפט</h3>
+                <p class="counter" style="margin:0">מילאתם <b data-filled>0</b> מתוך <span data-total>32</span></p>
+              </div>
+              <pre id="prompt" tabindex="0" aria-label="הפרומפט שנבנה מהטופס" data-clarity-mask="true"></pre>
+              <div class="panel-foot">
+                <label class="toggle"><input type="checkbox" id="with-rules" checked /> לכלול את כללי העיצוב בפרומפט (בלי הסקיל). כבוי: הפרומפט מניח שהסקיל מותקן.</label>
+                <div class="actions">
+                  <button type="button" class="btn" data-copy>העתק פרומפט</button>
+                  <button type="button" class="btn btn--line" id="download-md">הורד כ-<span dir="ltr">.md</span></button>
+                  <button type="button" class="clear" id="clear">נקה טופס</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="sr-only" role="status" id="status"></p>
+        </section>
+
+        <section class="download" aria-labelledby="download-title">
+          <h2 id="download-title">הסקיל המלא, להורדה</h2>
+          <div>
+            <p>בתוך ה-zip יש את הסקיל <code>authentic-static-site</code> בעברית: הבריף, רשימת ברירות המחדל האסורות, כללי טיפוגרפיה ופריסה, וטכניקות גלילה ותנועה. זה מה שאני מתקין אצלי לפני כל אתר.</p>
+            <p>מחלצים את התיקייה לתוך <code dir="ltr">~/.claude/skills/</code>, ו-Claude Code טוען אותו לבד כשמבקשים לבנות אתר ללקוח.</p>
+            <a class="btn btn--line" href="/brief/authentic-static-site-he.zip" download data-skill-download>הורדת הסקיל (zip, 9KB)</a>
+          </div>
+        </section>
+
+        <section class="faq" aria-labelledby="faq-title">
+          <h2 id="faq-title">שאלות נפוצות</h2>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>צריך למלא את כל השדות?<span class="plus" aria-hidden="true"></span></summary>
+              <p>לא. שדה ריק מופיע בפרומפט כ-<code>[חסר]</code>, ו-Claude שואל עליו במקום להמציא. על שלושת השדות המסומנים ★ כדאי לא לוותר: דוגמת הטקסט שהעסק כתב בעצמו, והתחושה והעולם הפיזי של העסק. בלעדיהם האתר ייצא גנרי.</p>
+            </details>
+            <details class="faq-item">
+              <summary>מה עושים כשהלקוח לא יודע לענות?<span class="plus" aria-hidden="true"></span></summary>
+              <p>משאירים ריק, או כותבים את מה שהוא כן אמר, במילים שלו. "אני שונא אתרים עם סרטון ברקע" עוזר למודל יותר מ"מודרני ונקי". לדוגמת הטקסט מספיקה הודעת וואטסאפ שהוא שלח לכם.</p>
+            </details>
+            <details class="faq-item">
+              <summary>זה עובד גם עם מודלים אחרים?<span class="plus" aria-hidden="true"></span></summary>
+              <p>הפרומפט הוא טקסט רגיל, אז אפשר להדביק אותו לכל מודל. כתבתי אותו בשביל Claude, והסקיל להורדה בנוי ל-Claude Code.</p>
+            </details>
+            <details class="faq-item">
+              <summary>המידע שאני ממלא נשמר?<span class="plus" aria-hidden="true"></span></summary>
+              <p>רק בדפדפן שלכם, כדי שתמצאו את הטיוטה כשתחזרו. שום דבר לא נשלח לשרת. הכפתור "נקה טופס" מוחק את הטיוטה.</p>
+            </details>
+            <details class="faq-item">
+              <summary>למה זה בחינם?<span class="plus" aria-hidden="true"></span></summary>
+              <p>זה הבריף שאני ממלא לפני כל אתר שאני בונה. אין סיבה שיישב אצלי בתיקייה.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="close" aria-label="סגירה">
+          <p>רוצים שאני אבנה את זה בשבילכם? <a href="/demo/">יש דמו חינם</a>.</p>
+        </section>
+      </div>
+    </main>
+
+    <div class="dock" aria-label="העתקה מהירה" role="region">
+      <p class="counter" style="margin:0">מילאתם <b data-filled>0</b> מתוך <span data-total>32</span></p>
+      <button type="button" class="btn" data-copy>העתק פרומפט</button>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© 2026</span>
+        <a href="/" class="wordmark" aria-label="afias.dev, לדף הבית">afias<span>.dev</span></a>
+        <nav aria-label="תחתון">
+          <ul>
+            <li><a href="/pricing/">מחירון</a></li>
+            <li><a href="/about/">אודות</a></li>
+            <li><a href="/blog/">מאמרים</a></li>
+            <li><a href="/demo/">דמו חינם</a></li>
+            <li><a href="/accessibility/">הצהרת נגישות</a></li>
+            <li><a href="/privacy/">מדיניות פרטיות</a></li>
+            <li><a href="/cookies/">מדיניות עוגיות</a></li>
+            <li><button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      /* The brief, live. The form fields carry the brief's own wording in
+         their labels, so the prompt is read straight off the DOM: label text
+         is the line, the value (or [חסר]) follows it. Nothing leaves the
+         browser; the draft lives in localStorage when it's available. */
+      (function () {
+        var KEY = 'afias-brief-v1';
+        var MISSING = '[חסר]';
+        var form = document.getElementById('brief');
+        var out = document.getElementById('prompt');
+        var rules = document.getElementById('with-rules');
+        var status = document.getElementById('status');
+        var groups = [].slice.call(form.querySelectorAll('.group'));
+        var fields = [].slice.call(form.querySelectorAll('input, textarea'));
+
+        var OPENER = [
+          'אני בונה אתר סטטי לעסק אמיתי. אני רוצה שתבנה אותו מתוך הבריף שלמטה, ולא מתוך ברירות מחדל. כל החלטה בעיצוב ובקופי צריכה להתבסס על משהו שכתוב בבריף. מה שלא כתוב בבריף הוא לא עובדה.',
+          '',
+          'לפני הקוד, הצג בלוק החלטות קצר: כיוון, טיפוגרפיה, פלטה, מוטיב חתימה וקצב. אחרי זה תמשיך לבנות.'
+        ].join('\n');
+
+        var SKILL = 'השתמש בסקיל authentic-static-site. אם הוא לא מותקן אצלך, אמור לי לפני שאתה מתחיל.';
+
+        var RULES = [
+          '# כללים לבנייה',
+          '',
+          'אילוצים טכניים:',
+          '- HTML + CSS + JS בלבד. בלי פריימוורק, בלי שלב build, בלי npm, בלי Tailwind/Bootstrap/ערכת UI.',
+          '- CSS שנכתב ביד עם custom properties. ספריות JS חיצוניות: ברירת המחדל היא אפס.',
+          '- <html lang="he" dir="rtl">, עם logical properties (margin-inline, padding-block, inset-inline-start), לעולם לא left/right.',
+          '- נגישות: ניגודיות AA, מצב focus גלוי ומעוצב, סמנטיקה נכונה (header/nav/main/section/footer), וכל אנימציה מבוטלת תחת prefers-reduced-motion.',
+          '',
+          'ברירות מחדל אסורות. אתר שמכיל אחת מהן נכשל:',
+          '- גרדיאנט סגול-כחול, ורוד-כתום, או כל "גרדיאנט AI" ב-hero.',
+          '- hero ממורכז: כותרת ענקית, שורת תת-כותרת אחת, שני כפתורים צמודים.',
+          '- שלושה כרטיסים זהים בשורה עם אייקון עגול למעלה.',
+          '- border-radius גדול ואחיד על כל אלמנט, ועוד אותו צל אפור ורך על הכול.',
+          '- Inter / Poppins / Montserrat כבחירת ברירת מחדל. בעברית: Heebo מתוך רפלקס.',
+          '- אימוג\'ים בתור אייקונים. איורי סטוק. תמונות של אנשים בחליפות לוחצים ידיים.',
+          '- טקסט placeholder. אם חסר תוכן, כותבים [חסר: ...] ושואלים בסוף.',
+          '- אפקט מכונת כתיבה, מספרים שסופרים למעלה, רקעים של חלקיקים מרחפים.',
+          '- בקופי: "פתרונות מותאמים אישית", "חדשנות פוגשת מצוינות", "הסיפור שלנו מתחיל", "אנחנו מאמינים ש...", "בואו ניצור משהו מדהים יחד", "שירות אישי ומקצועי".',
+          '- כל שם תואר שבעל העסק לא היה אומר בקול, בפנים, ללקוח.',
+          '',
+          'הרשימה היא רצפה, לא תקרה. כל דבר שנקרא כמו ברירת מחדל ולא כמו החלטה שייך אליה.'
+        ].join('\n');
+
+        var CLOSER = 'שדה שמסומן [חסר] לא מולא. אל תמציא לו תוכן: לא עובדות, לא מספרים, לא ביקורות ולא מחירים. במקום שבו הוא נדרש, כתוב [חסר: שם השדה]. בסוף התשובה רשום את כל השדות החסרים ושאל אותי עליהם. אם חסרים השדות המסומנים ★, שאל עליהם לפני שאתה מתחיל לבנות.';
+
+        function labelOf(el) {
+          var l = form.querySelector('label[for="' + el.id + '"]');
+          return l.textContent.replace(/\s+/g, ' ').trim();
+        }
+        function filled(el) { return el.value.trim() !== ''; }
+
+        function build() {
+          var lines = [OPENER, '', '# תדריך העסק'];
+          groups.forEach(function (g) {
+            lines.push('', '## ' + g.querySelector('h3').textContent);
+            [].forEach.call(g.querySelectorAll('input, textarea'), function (el) {
+              var v = el.value.trim();
+              if (!v) { lines.push('- ' + labelOf(el) + ': ' + MISSING); return; }
+              if (v.indexOf('\n') === -1) { lines.push('- ' + labelOf(el) + ': ' + v); return; }
+              lines.push('- ' + labelOf(el) + ':');
+              v.split('\n').forEach(function (row) { lines.push(row.trim() ? '  ' + row.replace(/\s+$/, '') : ''); });
+            });
+          });
+          lines.push('', rules.checked ? RULES : SKILL, '', CLOSER);
+          return lines.join('\n');
+        }
+
+        function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        function count() { return fields.filter(filled).length; }
+
+        function render() {
+          out.innerHTML = esc(build()).split(MISSING).join('<mark>' + MISSING + '</mark>');
+          var n = count();
+          [].forEach.call(document.querySelectorAll('[data-filled]'), function (b) { b.textContent = n; });
+          groups.forEach(function (g) {
+            var own = [].slice.call(g.querySelectorAll('input, textarea'));
+            var k = own.filter(filled).length;
+            var c = g.querySelector('.group-count');
+            c.textContent = k + '/' + own.length;
+            if (k === own.length) c.setAttribute('data-full', ''); else c.removeAttribute('data-full');
+          });
+        }
+
+        /* ---------- draft ---------- */
+        function save() {
+          try {
+            var data = { v: {}, rules: rules.checked };
+            fields.forEach(function (el) { if (el.value) data.v[el.id] = el.value; });
+            localStorage.setItem(KEY, JSON.stringify(data));
+          } catch (e) {}
+        }
+        function load() {
+          try {
+            var data = JSON.parse(localStorage.getItem(KEY) || 'null');
+            if (!data) return;
+            fields.forEach(function (el) { if (data.v && typeof data.v[el.id] === 'string') el.value = data.v[el.id]; });
+            if (typeof data.rules === 'boolean') rules.checked = data.rules;
+          } catch (e) {}
+        }
+        var timer;
+        function changed() { render(); clearTimeout(timer); timer = setTimeout(save, 250); }
+
+        load();
+        render();
+        form.addEventListener('input', changed);
+        rules.addEventListener('change', changed);
+        window.addEventListener('pagehide', save);
+
+        /* ---------- copy ---------- */
+        function fallbackCopy(text) {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta);
+          return ok;
+        }
+        var copyButtons = [].slice.call(document.querySelectorAll('[data-copy]'));
+        var resetTimer;
+        function copied(ok) {
+          var label = ok ? 'הועתק' : 'ההעתקה נכשלה. סימנתי את הפרומפט, אפשר להעתיק ידנית';
+          if (!ok) {
+            // Leave the prompt selected, so a manual copy is one gesture away.
+            try {
+              var range = document.createRange(); range.selectNodeContents(out);
+              var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+              out.scrollIntoView({ block: 'nearest' });
+            } catch (e) {}
+          }
+          status.textContent = label;
+          copyButtons.forEach(function (b) { b.textContent = ok ? 'הועתק' : 'נכשל'; if (ok) b.setAttribute('data-done', ''); });
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(function () {
+            copyButtons.forEach(function (b) { b.textContent = 'העתק פרומפט'; b.removeAttribute('data-done'); });
+            status.textContent = '';
+          }, 2000);
+        }
+        function copy() {
+          var text = build();
+          afiasTrack('CopyPrompt', { custom: true, custom_data: { filled: count(), rules: rules.checked } });
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(function () { copied(true); }, function () { copied(fallbackCopy(text)); });
+          } else {
+            copied(fallbackCopy(text));
+          }
+        }
+        copyButtons.forEach(function (b) { b.addEventListener('click', copy); });
+
+        /* ---------- download .md ---------- */
+        document.getElementById('download-md').addEventListener('click', function () {
+          var name = document.getElementById('f-name').value.trim()
+            .replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+          var blob = new Blob([build() + '\n'], { type: 'text/markdown;charset=utf-8' });
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'brief' + (name ? '-' + name : '') + '.md';
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+        });
+
+        /* ---------- clear ---------- */
+        document.getElementById('clear').addEventListener('click', function () {
+          if (!window.confirm('למחוק את כל מה שמילאתם? אי אפשר לבטל את זה.')) return;
+          fields.forEach(function (el) { el.value = ''; });
+          rules.checked = true;
+          try { localStorage.removeItem(KEY); } catch (e) {}
+          render();
+          groups.forEach(function (g, i) { g.open = i === 0; });
+          status.textContent = 'הטופס נוקה';
+          document.getElementById('f-name').focus();
+        });
+      })();
+
+      /* Measurement, through the same afiasTrack as the rest of the site
+         (Pixel + /track with one shared event_id, only with consent). */
+      afiasTrack('ViewContent', { custom_data: { content_name: 'brief' } });
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest) return;
+        if (e.target.closest('[data-skill-download]')) { afiasTrack('DownloadSkill', { custom: true }); return; }
+        var link = e.target.closest('a[href^="/demo"]');
+        if (link) {
+          if (link.target === '_blank') { afiasTrack('DemoPageClick', { custom: true }); return; }
+          e.preventDefault(); afiasTrack('DemoPageClick', { custom: true });
+          var href = link.href;
+          setTimeout(function(){ window.location.href = href; }, 150);
+        }
+      });
+    </script>
+  </body>
+</html>
