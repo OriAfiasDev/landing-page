@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="canonical" href="https://afias.dev/work/maxstock/" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>ריבראנד קונספט למקס סטוק: כל ההחלטות | afias.dev</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="ריבראנד קונספט לא רשמי לאתר של מקס סטוק, מהניתוח דרך הלוגו ועד מפה של 65 סניפים. 72 החלטות מתועדות. אין קשר לרשת." />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="afias.dev" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:url" content="https://afias.dev/work/maxstock/" />
+    <meta property="og:title" content="המותג מבטיח כיף. האתר נראה כמו מחסן." />
+    <meta property="og:description" content="ריבראנד קונספט לא רשמי לאתר של מקס סטוק, מהניתוח דרך הלוגו ועד מפה של 65 סניפים. 72 החלטות מתועדות. אין קשר לרשת." />
+    <meta property="og:image" content="https://afias.dev/assets/work/max/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ריבראנד קונספט למקס סטוק: הלוגו החדש על אדום, עם סימון קונספט" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="המותג מבטיח כיף. האתר נראה כמו מחסן." />
+    <meta name="twitter:description" content="ריבראנד קונספט לא רשמי לאתר של מקס סטוק, מהניתוח דרך הלוגו ועד מפה של 65 סניפים. 72 החלטות מתועדות. אין קשר לרשת." />
+    <meta name="twitter:image" content="https://afias.dev/assets/work/max/og.jpg" />
+
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Article","@id":"https://afias.dev/work/maxstock/#article","url":"https://afias.dev/work/maxstock/","headline":"המותג מבטיח כיף. האתר נראה כמו מחסן.","description":"ריבראנד קונספט לא רשמי לאתר של מקס סטוק, מהניתוח דרך הלוגו ועד מפה של 65 סניפים. 72 החלטות מתועדות. אין קשר לרשת.","inLanguage":"he","datePublished":"2026-11-04","image":"https://afias.dev/assets/work/max/og.jpg","author":{"@id":"https://afias.dev/#author"},"isPartOf":{"@id":"https://afias.dev/#website"}},
+{"@type":"BreadcrumbList","@id":"https://afias.dev/work/maxstock/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"דף הבית","item":"https://afias.dev/"},{"@type":"ListItem","position":2,"name":"עבודות","item":"https://afias.dev/#portfolio"},{"@type":"ListItem","position":3,"name":"מקס סטוק, קונספט","item":"https://afias.dev/work/maxstock/"}]}
+]}
+    </script>
+
+    <!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+    <style>
+      /* The same language as the homepage: paper and ink, brass for the one
+         thing to press, huge Rubik 900 headings split into a quiet lead-in
+         and a loud line, and the avatar standing on a fold. */
+      :root {
+        --paper: #faf8f3;
+        --paper-deep: #f1ede3;
+        --ink: #1c1e24;
+        --brass: #b8862b;
+        --brass-light: #d7a53f;
+        --brass-text: #1c1e24;   /* ink on the gold buttons: 5.1:1 (the old brown was 4.2) */
+        --brass-deep: #8a6420;   /* the gold, dark enough for text and focus rings on paper */
+        --line: #e5ddc9;
+        --field-line: #8f8471;   /* form fields need a 3:1 edge; --line is 1.4:1 */
+        --quiet: #736a5c;   /* the lead-ins run as small as 12px, so 4.5:1 */
+        --muted: rgba(28, 30, 36, 0.68);
+        --muted-soft: rgba(28, 30, 36, 0.65);
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; background: var(--paper); }
+      body {
+        font-family: "Rubik", system-ui, sans-serif;
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--brass-deep); text-decoration: none; }
+      a:hover { color: var(--brass-light); }
+
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+      .glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+      .glow > div {
+        position: absolute; inset: 0;
+        background: radial-gradient(120% 70% at 50% 0%, rgba(184, 134, 43, 0.06) 0%, rgba(184, 134, 43, 0) 60%);
+      }
+      .page { position: relative; z-index: 1; }
+
+      /* ---------- header ---------- */
+      .site-header { padding: 28px 0 0; }
+      .wordmark {
+        font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: 26px;
+        direction: ltr; display: inline-flex; align-items: baseline; gap: 2px; color: var(--ink);
+      }
+      .wordmark:hover { color: var(--ink); }
+      .wordmark span { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 17px; color: var(--brass-deep); }
+
+      /* ---------- shared ---------- */
+      h1, h2 { margin: 0; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+      h2 { font-size: clamp(34px, 4.4vw, 60px); line-height: 1.04; letter-spacing: -0.035em; }
+      .split span { display: block; }
+      .split .lead-in { margin-bottom: 0.14em; font-size: 0.42em; line-height: 1.2; letter-spacing: -0.02em; color: var(--quiet); }
+      .lead { margin: 18px 0 0; max-width: 46ch; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.6; color: var(--muted); text-wrap: pretty; }
+      section { padding: clamp(64px, 11vh, 128px) 0 0; }
+
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 12px; white-space: nowrap;
+        font-family: "Rubik", sans-serif; font-weight: 700; font-size: clamp(17px, 1.4vw, 19px);
+        color: var(--brass-text); background: var(--brass);
+        padding: 19px 32px; border-radius: 999px; border: 0; cursor: pointer;
+        box-shadow: 0 10px 28px rgba(184, 134, 43, 0.28);
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, background-color 0.25s;
+      }
+      .btn:hover { color: var(--brass-text); background: var(--brass-light); transform: translateY(-2px); box-shadow: 0 16px 36px rgba(184, 134, 43, 0.36); }
+      .btn:focus-visible { outline: 3px solid var(--brass-deep); outline-offset: 4px; }
+      .btn[aria-disabled="true"] { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
+      .btn svg { flex: none; }
+
+      /* The waving/pointing avatar, as on the homepage: box W wide and 1.15W
+         tall, disc on the bottom edge, head breaking out of it. */
+      .avatar { position: relative; width: var(--w); aspect-ratio: 1 / 1.15; }
+      .avatar::before {
+        content: ""; position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 1; border-radius: 50%;
+        background: radial-gradient(circle at 50% 38%, #f4ebd8, #e4d2ac);
+      }
+      .avatar img {
+        position: absolute; bottom: 0; left: 50%; width: 125%; max-width: none; height: auto; transform: translateX(-50%);
+        pointer-events: none;   /* its transparent corners overlap the links beside it on phones; taps must reach them */
+        -webkit-mask-image: radial-gradient(40% 40% at 50% 60%, #000 99.4%, transparent 100%), linear-gradient(#000, #000);
+                mask-image: radial-gradient(40% 40% at 50% 60%, #000 99.4%, transparent 100%), linear-gradient(#000, #000);
+        -webkit-mask-size: 100% 100%, 100% 60%; mask-size: 100% 100%, 100% 60%;
+        -webkit-mask-position: 0 0, 0 0; mask-position: 0 0, 0 0;
+        -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      }
+
+      /* ---------- hero ---------- */
+      /* The avatar stands on the hero's bottom rule, a fifth of the disc
+         sunk under it, pointing up at the headline. */
+      .hero {
+        --w: clamp(240px, 26vw, 380px);
+        display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: clamp(32px, 5vw, 80px);
+        padding-top: clamp(48px, 9vh, 104px);
+        border-bottom: 1px solid var(--line); overflow: clip;
+      }
+      .hero-text { align-self: center; padding-bottom: clamp(48px, 9vh, 104px); }
+      .hero h1 { font-size: clamp(44px, 6vw, 92px); }
+      .hero h1 .lead-in { font-size: 0.36em; }
+      .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: clamp(28px, 4.5vh, 44px); }
+      .hero-note { font-size: 15px; color: var(--muted-soft); }
+      .hero .avatar { margin-bottom: calc(var(--w) * -0.2); }
+
+      /* ---------- steps ---------- */
+      .steps-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px 40px; }
+      .steps {
+        list-style: none; margin: clamp(32px, 5vh, 48px) 0 0; padding: 0;
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;
+      }
+      .step {
+        position: relative; padding: clamp(26px, 2.6vw, 34px); border-radius: 24px;
+        background: #fff; border: 1px solid var(--line);
+        box-shadow: 0 1px 0 rgba(28, 25, 20, 0.03), 0 24px 48px -36px rgba(28, 25, 20, 0.3);
+      }
+      .step .n {
+        display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+        border: 1px solid rgba(184, 134, 43, 0.4);
+        font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 13px; color: var(--brass-deep);
+      }
+      .step h3 { margin: 20px 0 8px; font-size: clamp(20px, 1.7vw, 23px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.25; }
+      .step p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
+
+      /* ---------- no catch ---------- */
+      .catch { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+      .notes { display: grid; gap: 20px; }
+      .note { margin: 0; padding: clamp(26px, 2.8vw, 36px); border-radius: 24px; background: #fff; border: 1px solid var(--line); }
+      .note h3 { margin: 0 0 12px; font-size: 15px; font-weight: 700; color: var(--brass-deep); }
+      .note p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--muted); }
+      /* The "why free" answer is a first-person statement: set it as one. */
+      .note--quote blockquote {
+        margin: 0; font-family: "Frank Ruhl Libre", serif; font-weight: 700;
+        font-size: clamp(22px, 2.1vw, 30px); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); text-wrap: pretty;
+      }
+      .note--quote figcaption { display: flex; align-items: center; gap: 12px; margin-top: 22px; font-size: 15px; font-weight: 500; color: var(--muted-soft); }
+      .face {
+        flex: none; position: relative; width: 40px; height: 40px; border-radius: 50%; overflow: hidden;
+        background: radial-gradient(circle at 50% 38%, #f4ebd8, #e4d2ac);
+      }
+      .face img { position: absolute; width: 190%; max-width: none; height: auto; left: -53%; top: -14%; }
+
+      /* ---------- footer ---------- */
+      footer { border-top: 1px solid var(--line); }
+      .footer-inner { display: flex; align-items: baseline; justify-content: center; gap: 8px; padding: 30px 24px 44px; font-size: 14px; color: var(--muted-soft); }
+      .footer-inner .wordmark { font-size: 22px; }
+      .footer-inner .wordmark span { font-size: 14px; }
+
+/* ---------- pricing ----------
+   Deliberately quiet after the portfolio: no pinning, no scroll theatre.
+   The only motion is a short fade-up as the cards come into view (CSS
+   scroll-driven, so browsers without it just show them) and a slight lift
+   on hover. */
+.pricing{padding:clamp(72px,12vh,140px) 0 clamp(64px,10vh,110px)}
+.pricing-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px 48px;margin:0 0 clamp(36px,6vh,56px)}
+.pricing-title{margin:0;max-width:16ch;font-weight:900;font-size:clamp(34px,4.4vw,60px);line-height:1.04;letter-spacing:-.035em;color:#1C1E24;text-wrap:balance}
+.pricing-included{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;font-size:15px;color:rgba(28,30,36,.65)}
+.pricing-included ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.pricing-included li{
+  display:flex;align-items:center;gap:7px;padding:8px 14px 8px 12px;border-radius:999px;
+  background:#fff;border:1px solid #e5ddc9;font-weight:500;color:#1C1E24;
+}
+.pricing-included li::before,.price-features li::before{
+  content:"";flex:none;width:18px;height:18px;border-radius:50%;
+  background:rgba(184,134,43,.14) center/11px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.3l2.2 2.2L9.5 3.5' fill='none' stroke='%23B8862B' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Every card has the same five rows (name, who it's for, price, button,
+   features), shared through subgrid, so the prices and buttons line up
+   across the three however long each description runs. */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.price-card{
+  position:relative;grid-row:span 5;display:grid;grid-template-rows:subgrid;row-gap:0;
+  padding:clamp(26px,2.6vw,34px);border-radius:24px;
+  background:#fff;border:1px solid #e5ddc9;
+  box-shadow:0 1px 0 rgba(28,25,20,.03),0 24px 48px -36px rgba(28,25,20,.3);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .35s ease;
+  scroll-margin-top:120px;
+}
+.price-card:hover{transform:translateY(-4px);border-color:rgba(184,134,43,.45);box-shadow:0 1px 0 rgba(28,25,20,.03),0 30px 60px -34px rgba(28,25,20,.38)}
+/* Arrived from a portfolio hashtag: say which card it meant. */
+.price-card:target{border-color:#B8862B;box-shadow:0 0 0 3px rgba(184,134,43,.22),0 24px 48px -36px rgba(28,25,20,.3)}
+.price-name{margin:0 0 10px;font-size:clamp(22px,1.9vw,26px);font-weight:900;letter-spacing:-.02em;line-height:1.2}
+.price-for{margin:0;font-size:16px;line-height:1.6;color:rgba(28,30,36,.64);text-wrap:pretty}
+.price-amount{
+  margin:24px 0 0;padding:22px 0 0;border-top:1px solid #ece5d5;
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;
+}
+.price-from{font-size:14px;color:rgba(28,30,36,.65)}
+.price-num{font-size:clamp(34px,3vw,42px);font-weight:900;letter-spacing:-.03em;line-height:1;color:#1C1E24}
+.price-once{font-size:13px;font-weight:500;color:rgba(28,30,36,.65)}
+.price-amount--quote{flex-direction:column;align-items:flex-start;gap:8px}
+.price-amount--quote .price-num{font-size:clamp(24px,2.1vw,30px);letter-spacing:-.025em}
+.price-cta{
+  margin:22px 0 0;display:flex;align-items:center;justify-content:center;text-align:center;
+  min-height:52px;padding:12px 20px;border-radius:999px;
+  font-size:16px;font-weight:700;color:#1C1E24;background:transparent;border:1.5px solid #1C1E24;
+  transition:background-color .25s ease,color .25s ease,border-color .25s ease;
+}
+.price-cta:hover{background:#1C1E24;color:#FAF8F3}
+.price-cta:focus-visible{outline:3px solid #8A6420;outline-offset:3px}
+.price-features{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:16px;color:rgba(28,30,36,.8)}
+.price-features li{display:flex;align-items:flex-start;gap:10px;line-height:1.45}
+.price-features li::before{margin-top:1px}
+.price-features .price-plus{font-weight:700;color:inherit}
+.price-features .price-plus::before{display:none}
+
+/* The one most people pick: ink, like the last card of the process deck. */
+.price-card--featured{background:#1C1E24;border-color:#1C1E24;color:#FAF8F3;box-shadow:0 30px 60px -30px rgba(28,25,20,.55)}
+.price-card--featured:hover{border-color:#1C1E24;box-shadow:0 36px 70px -30px rgba(28,25,20,.6)}
+.price-card--featured .price-for{color:rgba(250,248,243,.66)}
+.price-card--featured .price-amount{border-top-color:rgba(250,248,243,.12)}
+.price-card--featured .price-from,.price-card--featured .price-once{color:rgba(250,248,243,.55)}
+.price-card--featured .price-num{color:#D7A53F}
+.price-card--featured .price-cta{background:#B8862B;border-color:#B8862B;color:#1C1E24}
+.price-card--featured .price-cta:hover{background:#D7A53F;border-color:#D7A53F;color:#1C1E24}
+.price-card--featured .price-cta:focus-visible{outline-color:#D7A53F}
+.price-card--featured .price-features{color:rgba(250,248,243,.85)}
+.price-card--featured .price-features li::before{background-color:rgba(215,165,63,.16)}
+.price-badge{
+  position:absolute;top:-13px;inset-inline-start:28px;margin:0;
+  padding:6px 12px;border-radius:999px;background:#B8862B;color:#1C1E24;
+  font-size:13px;font-weight:700;line-height:1;
+}
+
+/* Ongoing care: a monthly add-on, so a different shape from the three. */
+.price-care{
+  margin-top:20px;padding:clamp(24px,3vw,36px) clamp(26px,3.2vw,40px);border-radius:24px;
+  background:#F1EDE3;border:1px solid #e5ddc9;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px 48px;
+}
+.price-care-text{flex:1 1 420px;max-width:64ch}
+.price-care-name{margin:0 0 8px;font-size:22px;font-weight:900;letter-spacing:-.02em}
+.price-care-desc{margin:0;font-size:16px;line-height:1.6;color:rgba(28,30,36,.72)}
+.price-care-note{margin:12px 0 0;font-size:14px;line-height:1.6;color:rgba(28,30,36,.65)}
+.price-care-amount{margin:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;flex:none}
+.price-care-amount .price-num{font-size:clamp(32px,2.8vw,40px)}
+.price-per{font-size:16px;font-weight:700;color:#1C1E24}
+.price-care-amount .price-once{flex-basis:100%}
+
+@supports (animation-timeline: view()){
+  .price-card,.price-care{animation:priceRise linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+  .price-card:nth-child(2){animation-range:entry 8% entry 63%}
+  .price-card:nth-child(3){animation-range:entry 16% entry 71%}
+}
+@keyframes priceRise{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+
+@media (max-width:980px){
+  .pricing-grid{grid-template-columns:1fr;max-width:560px;margin-inline:auto}
+  .price-card--featured{margin-top:8px}   /* room for its badge */
+}
+@media (max-width:640px){
+  .pricing{padding:64px 0 72px}
+  .pricing-grid{gap:16px}
+  .price-card{padding:26px 22px}
+  .price-care{padding:24px 22px}
+  .price-care-amount .price-once{flex-basis:auto}
+}
+/* ---------- faq ----------
+   Same frame as the process section: the heading held on one side, the
+   questions on the other. Answers open smoothly where the browser can
+   animate to height:auto, and simply open everywhere else. */
+.faq{
+  padding:clamp(72px,12vh,140px) 0 clamp(64px,10vh,110px);
+  display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:start;
+}
+.faq-head{position:sticky;top:120px}
+.faq-title{margin:0;font-weight:900;font-size:clamp(34px,4.4vw,60px);line-height:1.04;letter-spacing:-.035em;color:#1C1E24}
+.faq-sub{margin:16px 0 0;max-width:28ch;font-size:clamp(17px,1.4vw,19px);line-height:1.6;color:rgba(28,30,36,.65)}
+.faq-list{border-top:1px solid #e5ddc9}
+.faq-item{border-bottom:1px solid #e5ddc9}
+.faq-item summary{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 0;cursor:pointer;
+  font-size:clamp(17px,1.4vw,19px);font-weight:700;line-height:1.4;color:#1C1E24;
+}
+.faq-item summary:focus-visible{outline:2px solid #8A6420;outline-offset:4px;border-radius:6px}
+/* A plus that turns into a minus. */
+.faq-icon{
+  flex:none;position:relative;width:34px;height:34px;border-radius:50%;
+  border:1px solid #e5ddc9;color:#1C1E24;
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease;
+}
+.faq-icon::before,.faq-icon::after{
+  content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;border-radius:1px;background:currentColor;
+  transform:translate(-50%,-50%);
+}
+.faq-icon::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s ease}
+.faq-item summary:hover .faq-icon{border-color:#B8862B}
+.faq-item[open] .faq-icon{background:#1C1E24;border-color:#1C1E24;color:#FAF8F3}
+.faq-item[open] .faq-icon::after{transform:translate(-50%,-50%) rotate(0deg)}
+.faq-answer p{margin:0;padding:0 0 26px;max-width:60ch;font-size:16px;line-height:1.7;color:rgba(28,30,36,.72)}
+.faq-answer a{color:#8A6420;text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.faq-answer a:hover{color:#1C1E24}
+@supports (interpolate-size: allow-keywords) and selector(::details-content){
+  .faq-item{interpolate-size:allow-keywords}
+  .faq-item::details-content{height:0;overflow:clip;transition:height .35s ease,content-visibility .35s allow-discrete}
+  .faq-item[open]::details-content{height:auto}
+}
+@media (max-width:1023px){
+  .faq{grid-template-columns:1fr;gap:28px}
+  .faq-head{position:static}
+}
+@media (max-width:640px){
+  .faq{padding:64px 0 72px}
+  .faq-item summary{padding:20px 0}
+}
+
+      /* ---------- additions for the inner pages ---------- */
+      summary::-webkit-details-marker { display: none; }
+      summary { list-style: none; }
+      a:focus-visible { outline: 3px solid var(--brass-deep); outline-offset: 3px; border-radius: 6px; }
+      .site-header .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 28px; }
+      .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+      .site-nav a { font-weight: 500; font-size: 16px; color: var(--ink); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 4px; }
+      .site-nav a:hover { color: var(--brass-deep); }
+      .site-nav a[aria-current="page"] { color: var(--brass-deep); text-decoration-thickness: 2px; text-decoration-color: currentColor; }
+      .crumbs { margin: 28px 0 0; font-size: 14px; color: var(--muted-soft); }
+      .crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+      .crumbs li + li::before { content: "←"; margin-inline-end: 6px; color: var(--quiet); }
+      .crumbs a { color: var(--brass-deep); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+      .hero { padding-top: clamp(32px, 6vh, 72px); }
+      .hero-actions .text-link { font-weight: 700; color: var(--brass-deep); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 4px; }
+      .section-lead { margin: 16px 0 0; max-width: 56ch; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.6; color: var(--muted); }
+      .steps--seven { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .work-list { list-style: none; margin: clamp(32px, 5vh, 48px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+      .work-item { margin: 0; padding: clamp(24px, 2.6vw, 32px); border-radius: 24px; background: #fff; border: 1px solid var(--line); }
+      .work-item h3 { margin: 0 0 6px; font-size: clamp(20px, 1.7vw, 23px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.25; }
+      .work-item .status { display: inline-block; margin-inline-start: 8px; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(184, 134, 43, 0.45); font-size: 13px; font-weight: 500; color: var(--brass-deep); letter-spacing: 0; vertical-align: middle; }
+      .work-item .what { margin: 0 0 14px; font-size: 15px; color: var(--quiet); }
+      .work-item .decision { margin: 0 0 8px; font-weight: 700; font-size: 17px; line-height: 1.45; }
+      .work-item p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
+      .work-item .tag { display: inline-block; margin-top: 14px; font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--brass-deep); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+      .pricing-more { margin: 20px 0 0; font-size: 16px; }
+      .cta-card { margin: clamp(64px, 11vh, 128px) 0 0; padding: clamp(28px, 4vw, 56px); border-radius: 32px; background: var(--ink); color: var(--paper); }
+      .cta-card h2 { font-size: clamp(30px, 3.6vw, 48px); color: var(--paper); }
+      .cta-card .split .lead-in { color: rgba(250, 248, 243, 0.72); }
+      .cta-card p { margin: 18px 0 0; max-width: 56ch; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.6; color: rgba(250, 248, 243, 0.78); }
+      .cta-card .hero-actions a.text-link { color: var(--brass-light); }
+      .cta-card .btn:focus-visible, .cta-card a:focus-visible { outline-color: var(--brass-light); }
+      .page-end { padding-bottom: clamp(72px, 12vh, 140px); }
+      /* Links inside running text are underlined, so they don't rely on colour alone. */
+      main p a { text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+      main p a:hover { color: var(--ink); }
+      .footer-inner { flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+      .footer-inner nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+      .footer-inner nav a { color: inherit; text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+      .footer-inner nav a:hover { color: var(--ink); }
+      @media (max-width: 980px) { .steps--seven { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      @media (max-width: 900px) {
+        .hero { --w: min(62vw, 300px); grid-template-columns: 1fr; justify-items: center; text-align: center; row-gap: 12px; }
+        .hero-text { padding-bottom: 0; }
+        .hero .lead { margin-inline: auto; }
+        .hero-actions { justify-content: center; }
+        .steps, .catch { grid-template-columns: 1fr; gap: 20px; }
+        .work-list { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 640px) {
+        .hero-actions { flex-direction: column; align-items: stretch; }
+        .steps--seven { grid-template-columns: 1fr; }
+      }
+      @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: 0.001ms !important; } }
+      /* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+      .skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+      .skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+      main:focus{outline:none}
+    
+      /* ---------- case study ----------
+         A long read: one reading column, figures that step out of it. The
+         project's red and yellow appear only in the hero band and the screens. */
+      .cs-hero { --red: #D7191F; margin-top: 28px; padding: clamp(32px, 6vw, 72px) clamp(22px, 5vw, 64px) clamp(36px, 6vw, 72px); border-radius: 32px; background: #B5141A; color: #fff; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+      .cs-hero h1 { font-size: clamp(34px, 4.3vw, 62px); line-height: 1.08; }
+      .cs-hero h1 span { display: block; color: #FFE100; }
+      .cs-lead { margin: 22px 0 0; max-width: 46ch; font-size: clamp(18px, 1.6vw, 21px); line-height: 1.55; }
+      .cs-hero .btn { margin-top: 28px; background: #FFE100; color: #2A2420; box-shadow: none; }
+      .cs-hero .btn:hover { background: #fff; color: #2A2420; }
+      .cs-hero .btn:focus-visible { outline-color: #fff; }
+      .cs-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .cs-note { margin: 28px 0 0; padding: 18px 22px; border-radius: 16px; background: var(--paper-deep); font-size: 16px; line-height: 1.65; }
+      .cs-meta { margin: 28px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px 32px; }
+      .cs-meta div { border-top: 1px solid var(--line); padding-top: 10px; }
+      .cs-meta dt { font-size: 14px; font-weight: 700; color: var(--quiet); }
+      .cs-meta dd { margin: 4px 0 0; font-size: 16px; line-height: 1.55; }
+      .cs-meta a, .cs-body a { color: var(--brass-deep); text-decoration: underline; text-decoration-color: rgba(184, 134, 43, 0.5); text-underline-offset: 3px; }
+      .cs-toc { margin: 36px 0 0; }
+      .cs-toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+      .cs-toc a { display: inline-block; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 15px; color: var(--ink); }
+      .cs-toc a:hover { border-color: var(--brass); color: var(--ink); }
+      .cs-body { max-width: 760px; margin: 0 auto; font-size: 18px; line-height: 1.75; }
+      .cs-body section { padding-top: clamp(56px, 9vh, 96px); scroll-margin-top: 0; }
+      .cs-body h2 { font-size: clamp(30px, 3.6vw, 46px); line-height: 1.1; margin-bottom: 22px; }
+      .cs-body p { margin: 0 0 18px; }
+      .cs-body ul, .cs-body ol { margin: 0 0 18px; padding-inline-start: 22px; }
+      .cs-body li { margin-bottom: 12px; }
+      .cs-body code { font-family: 'JetBrains Mono', monospace; font-size: .85em; background: var(--paper-deep); padding: 2px 6px; border-radius: 6px; }
+      .cs-fig { margin: 32px 0 34px; }
+      .cs-fig figcaption { margin-top: 12px; font-size: 15px; line-height: 1.55; color: var(--muted); }
+      @media (min-width: 1000px) { .cs-fig:not(.cs-fig--wink):not(.cs-fig--faces):not(.cs-fig--phones) { margin-inline: -120px; } }
+      .cs-fig--two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .cs-fig--three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .cs-fig--two figcaption, .cs-fig--three figcaption { grid-column: 1 / -1; margin-top: 0; }
+      .cs-shot { position: relative; min-width: 0; }
+      .cs-shot img, .cs-shot video { display: block; width: 100%; height: auto; border-radius: 14px; background: #fff; box-shadow: 0 0 0 1px rgba(28, 30, 36, 0.1), 0 18px 40px -26px rgba(28, 30, 36, 0.5); }
+      .cs-phone img, .cs-phone video { border-radius: 22px; aspect-ratio: 600 / 1299; object-fit: cover; object-position: top; }
+      .cs-tag { position: absolute; z-index: 1; top: 10px; inset-inline-start: 10px; padding: 5px 11px; border-radius: 999px; font-size: 13px; font-weight: 700; line-height: 1.2; background: var(--ink); color: var(--paper); }
+      .cs-tag--after { background: #B5141A; color: #fff; }
+      .cs-hero .cs-shot img { box-shadow: 0 24px 40px -22px rgba(0, 0, 0, 0.6); }
+      .cs-fig--wink { max-width: 460px; }
+      .cs-faces { list-style: none; margin: 0; padding: 22px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; align-items: end; text-align: center; border-radius: 18px; background: #D7191F; color: #fff; font-size: 15px; font-weight: 700; }
+      .cs-faces li { margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; }
+      .cs-face { width: 72px; height: 84px; --ink: #D7191F; }
+      .face__body { fill: #FFE100; stroke: #FFE100; stroke-width: 52; stroke-linejoin: round; }
+      .face__dot { fill: #D7191F; }
+      .face__line { fill: none; stroke: #D7191F; stroke-width: 20; stroke-linecap: round; }
+      .face__fill { fill: #D7191F; }
+      .face__star { fill: #D7191F; stroke: #D7191F; stroke-width: 4; stroke-linejoin: round; }
+      .cs-table { margin: 22px 0 26px; overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+      .cs-table:focus-visible { outline: 3px solid var(--brass-deep); outline-offset: 3px; }
+      .cs-table table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.45; }
+      .cs-table th, .cs-table td { padding: 12px 16px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--line); }
+      .cs-table tr:last-child th, .cs-table tr:last-child td { border-bottom: 0; }
+      .cs-table thead th { font-size: 15px; background: var(--paper-deep); white-space: nowrap; }
+      .cs-table tbody th { font-weight: 500; }
+      .cs-cta { margin-top: 12px; }
+      .cs-cta p { color: inherit; }
+      .cs-cta .btn { margin-top: 10px; }
+      @media (max-width: 900px) {
+        .cs-hero { grid-template-columns: 1fr; border-radius: 24px; }
+      }
+      @media (max-width: 640px) {
+        .cs-body { font-size: 17px; }
+        .cs-fig--two:not(.cs-fig--phones) { grid-template-columns: 1fr; }
+        .cs-fig--three { grid-template-columns: repeat(3, 72vw); overflow-x: auto; margin-inline: -24px; padding-inline: 24px; scroll-snap-type: x proximity; }
+        .cs-fig--three .cs-shot { scroll-snap-align: center; }
+        .cs-fig--three figcaption { grid-column: 1; position: sticky; inset-inline-start: 0; width: calc(100vw - 48px); }
+        .cs-faces { grid-template-columns: repeat(3, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+    <div class="glow"><div></div></div>
+
+    <div class="page" dir="rtl">
+      <header class="site-header">
+        <div class="wrap">
+          <a href="/" class="wordmark" aria-label="afias.dev, לדף הבית">afias<span>.dev</span></a>
+          <nav class="site-nav" aria-label="ראשי">
+            <ul>
+              <li><a href="/">דף הבית</a></li>
+              <li><a href="/pricing/">מחירון</a></li>
+              <li><a href="/about/">אודות</a></li>
+              <li><a href="/blog/">מאמרים</a></li>
+              <li><a href="/demo/">דמו חינם</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <main id="main" tabindex="-1">
+        <div class="wrap">
+          <nav class="crumbs" aria-label="פירורי לחם">
+            <ol>
+              <li><a href="/">דף הבית</a></li>
+              <li><a href="/#portfolio">עבודות</a></li>
+              <li><a href="/work/maxstock/" aria-current="page">מקס סטוק, קונספט</a></li>
+            </ol>
+          </nav>
+
+          <header class="cs-hero">
+            <div>
+              <h1>המותג מבטיח כיף. <span>האתר נראה כמו מחסן.</span></h1>
+              <p class="cs-lead">ריבראנד קונספט לאתר של מקס סטוק: מהניתוח, דרך הלוגו והפרצוף הקורץ, ועד מפה של 65 סניפים שיודעת מה פתוח עכשיו. 72 החלטות, כולן מתועדות, כולל אלה שהתחרטתי עליהן.</p>
+              <a class="btn" href="https://max-rebrand.vercel.app/" target="_blank" rel="noopener">לאתר הקונספט <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11.5 2.5 2.5 11.5M4 2.5h7.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+            <div class="cs-pair"><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--before">לפני</span><img src="/assets/work/max/before-home-m.webp" alt="האתר הקיים בנייד, מכוסה בהודעות עוגיות וכפתורים צפים" width="600" height="1299" fetchpriority="high"></div><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--after">אחרי</span><img src="/assets/work/max/after-home-m.webp" alt="האתר החדש בנייד: הלוגו עם סימון קונספט, הסלוגן קריא, ומתחתיו מחלקות ומחירים" width="600" height="1299" fetchpriority="high"></div></div>
+          </header>
+
+          <p class="cs-note">קונספט אישי ולא רשמי. אין לי קשר לרשת מקס סטוק, והיא לא הזמינה את הפרויקט. המוצרים והמחירים באתר הקונספט מומצאים, ואין בו עגלה, קנייה או איסוף פרטים. התיאורים של האתר הקיים נכונים ליום שבו צילמתי אותו, 2.11.2026.</p>
+          <dl class="cs-meta"><div><dt>מה עשיתי</dt><dd>ניתוח, אפיון, עיצוב ופיתוח</dd></div><div><dt>מה נבנה</dt><dd>דף בית, דף צעצועים, 33 דפי מוצר, דף סניפים, עמוד מותג, לוגו, פביקון ואנימציית קריצה</dd></div><div><dt>איך</dt><dd>HTML, CSS ו-JS סטטיים, בלי פריימוורק. MapLibre למפה</dd></div><div><dt>מתי</dt><dd>נובמבר 2026</dd></div><div><dt>לאתר</dt><dd><a href="https://max-rebrand.vercel.app/" target="_blank" rel="noopener">max-rebrand.vercel.app</a></dd></div><div><dt>המקור</dt><dd><a href="https://www.maxstock.co.il/" target="_blank" rel="noopener">maxstock.co.il</a></dd></div></dl>
+          <nav class="cs-toc" aria-label="בעמוד הזה"><ol><li><a href="#why">למה דווקא מקס סטוק</a></li><li><a href="#audit">האבחון</a></li><li><a href="#spec">האפיון</a></li><li><a href="#brand">המותג</a></li><li><a href="#home">דף הבית</a></li><li><a href="#shelf">מהמדף למוצר</a></li><li><a href="#branches">סניפים</a></li><li><a href="#regrets">מה התחרטתי עליו</a></li><li><a href="#tech">התשתית</a></li><li><a href="#numbers">לפני ואחרי</a></li><li><a href="#limits">מה הקונספט הזה לא מוכיח</a></li><li><a href="#takeaway">מה לוקחים מזה לעסק קטן</a></li></ol></nav>
+
+          <article class="cs-body">
+            <section id="why" aria-labelledby="why-t"><h2 id="why-t">למה דווקא מקס סטוק</h2><p>חיפשתי מותג שכל ישראלי מכיר, עם פער גדול בין מה שהוא מבטיח למה שהאתר שלו מספר, וקרוב למסע הלקוח של עסק מקומי: רואים משהו באינטרנט, ונוסעים לחנות.</p><p>מקס סטוק עמד בשלושתם. בלוגו כתוב "כאן קונים בכיף", ובאתר יש מק"ט של 13 ספרות על כל כרטיס מוצר. ויש גם שאיפה שכבר נאמרה בקול: ב-2017 אמר המייסד אורי מקס לכלכליסט "אני חולם להפוך את מקס לאיקאה של ישראל".</p><p>קיבעתי לעצמי כלל אחד לפני שהתחלתי: אם אי אפשר להסביר החלטה במשפט אחד, היא עוד לא החלטה. התוצר של הפרויקט הזה הוא דרך החשיבה. האתר הוא ההוכחה שלה.</p></section><section id="audit" aria-labelledby="audit-t"><h2 id="audit-t">האבחון: חמש בעיות</h2><p>התחלתי מלצלם את האתר הקיים, ארבעה עמודים בנייד ובדסקטופ, לפני שנגעתי בעיצוב. כל ממצא קיבל מזהה, וכל החלטה בהמשך מצביעה על ממצא. כל ממצא גם מוסבר בבעיה שהוא יוצר למשתמש או למותג, ולא בטעם שלי. הביקורת היא על האתר, לא על מי שבנה אותו.</p><ol><li><strong>ההבטחה לא מגיעה לאתר.</strong> הסלוגן "כאן קונים בכיף" מופיע בלוגו בצהוב על אדום, בגובה של כמה פיקסלים, בניגודיות של 3.9:1. פשוט אי אפשר לקרוא אותו.</li><li><strong>לא ברור מה התפקיד של האתר.</strong> אין בו קנייה, והוא גם לא מוביל לחנות. בדף המוצר כתוב שהמלאי עשוי להשתנות בין הסניפים, ואין דרך לבדוק. הכלי "מצא את הסניף הקרוב" החזיר לי "לא נמצאו סניפים" במרכז תל אביב, ליד שישה סניפים.</li><li><strong>המחיר נעלם.</strong> ברשת שכל ההבטחה שלה היא מחיר, בדף הבית לא היה אף מחיר של מוצר. רק באנר "3 ב-100".</li><li><strong>רעש במקום כיף.</strong> במסך הראשון בנייד, שכבות צפות מכסות כרבע מהמסך: שתי הודעות עוגיות, וואטסאפ, נגישות, רשתות חברתיות וטולטיפ. כשהכול קורא לך, שום דבר לא בולט.</li><li><strong>אין מערכת.</strong> לפחות ארבעה גופנים, שישה סגנונות כפתור ועברית ואנגלית באותו מסך. כל באנר עוצב בנפרד.</li></ol><figure class="cs-fig cs-fig--three"><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--before">לפני</span><img src="/assets/work/max/before-home-m.webp" alt="האתר הקיים בנייד: הודעות עוגיות, וואטסאפ, נגישות ורשתות חברתיות מכסות חלק מהמסך הראשון" width="600" height="1299" loading="lazy" decoding="async"></div><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--before">לפני</span><img src="/assets/work/max/before-sku.webp" alt="כרטיס מוצר באתר הקיים: מק&quot;ט של 13 ספרות מעל המחיר" width="500" height="992" loading="lazy" decoding="async"></div><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--before">לפני</span><video src="/assets/work/max/before-near-m.mp4" poster="/assets/work/max/before-near-m.webp" width="420" height="910" controls muted playsinline preload="none" aria-label="הקלטה של האתר הקיים: לחיצה על מצא את הסניף הקרוב במרכז תל אביב מחזירה לא נמצאו סניפים"></video></div><figcaption>שכבות צפות במסך הראשון, המק"ט על כרטיס המוצר, ו"הסניף הקרוב" במרכז תל אביב. צולם ב-2.11.2026.</figcaption></figure><p>והיה גם הרבה מה לשמור: האדום והצהוב, "3 ב-100", צילומי הלייפסטייל, החיפוש בדף הסניפים, הלב לרשימת המשאלות, ומשפט אחד מצוין, "אפשר להציע לך חברות?". חומר הגלם היה שם. האתר פשוט לא בנה עליו.</p></section><section id="spec" aria-labelledby="spec-t"><h2 id="spec-t">האפיון: מה הכלל, ומה החריג</h2><p>לפני שעיצבתי משהו כתבתי אפיון: מי הקהל, מה הם שואלים, ומה סדר המסרים. הקהל והשאלות הם הנחות עבודה שלי, ואין מאחוריהן מחקר או נתונים של הרשת.</p><p>אישיות המותג נכתבה במשפט אחד: <strong>חבר טוב לקניות יומיומיות.</strong> ומתוך האפיון יצאו אחד-עשר עקרונות עיצוב. שלושה מהם הכריעו הכי הרבה ויכוחים:</p><ul><li><strong>מחיר הוא תוכן.</strong> בכל מקום שמופיע מוצר יש מחיר.</li><li><strong>עממי, לא בוטיק.</strong> ניקוי של אתר עמוס ומילה כמו "איקאה" דוחפים לאתר אוורירי, לבן ו"יקר". זה היה מתקן את האתר והורס את המותג. מקס הוא שופע וצבעוני, אז מורידים רעש, ולא מורידים שפע.</li><li><strong>כל תנועה היא תגובה.</strong> רציתי הרבה מיקרו-אינטראקציות, והאתר הקיים הראה מה קורה כשהכול זז לבד. הפתרון: הרבה תגובות, ואפס תנועת רקע.</li></ul><p>ההומור גם קיבל גבולות: הוא גר בשוליים, במצבי ריק, ב-404 ובקופונים. מחירים, שעות וכתובות כתובים יבש ומדויק. מי שמחפש שעת סגירה לא צריך בדיחה.</p></section><section id="brand" aria-labelledby="brand-t"><h2 id="brand-t">המותג: הצבעים נשארו, הקול השתנה</h2><p><strong>צבע.</strong> ריבראנד מפתה להתחיל מהצבעים, אבל בזכות האדום והצהוב מזהים את מקס סטוק לפני שקוראים מילה. אז הם נשארו, ומה שהשתנה הוא התפקיד: אדום למותג, לפעולה ולמחיר, וצהוב למבצע ולהדגשה. בדקתי כל שילוב. צהוב על אדום עובר רק בטקסט גדול, ומזה יצא כלל גודל ללוגו.</p><p><strong>טיפוגרפיה.</strong> כאן עיקר השינוי. Fredoka, גופן עגול שממשיך את אותיות הלוגו, לכל מה שאומר משהו: כותרות, כפתורים, מחירים וניווט. Rubik לכל מה שצריך להיקרא מהר: תיאורים, שעות וכתובות. בדקתי גם רישיון לכל גופן שנכנס, ושני מועמדים טובים נפסלו על זה. אחד מהם היה הכי מתאים בכל האוסף, ברישיון לא מסחרי.</p><p><strong>לוגו.</strong> MAX באותיות עגולות, וה-A הוא פרצוף קורץ עם עין כוכב. בפביקון נשאר רק ה-A, בלי הכוכב, כדי שיהיה קריא בגודל קטן. הלוגו שלי חזר בהתחלה על אותה טעות בדיוק: בגודל של הדר הסלוגן היה נעלם שוב. אז הסלוגן מופיע רק בגודל שעובר את הסף, ובהדר יש רק המילה.</p><figure class="cs-fig "><div class="cs-shot "><img src="/assets/work/max/brand-logo.webp" alt="הלוגו החדש, המילה והאייקון על אדום ועל לבן, כולם עם סימון קונספט" width="996" height="540" loading="lazy" decoding="async"></div><figcaption>הלוגו בעמוד המותג. בכל מקום שהוא מופיע, הוא מסומן כקונספט.</figcaption></figure><figure class="cs-fig cs-fig--wink"><div class="cs-shot "><video src="/assets/work/max/after-wink.mp4" poster="/assets/work/max/after-wink.webp" width="460" height="210" controls muted playsinline preload="none" aria-label="הקלטה של הלוגו קורץ כשמעבירים עליו את העכבר"></video></div><figcaption>קריצה אחת כשנוגעים בלוגו. הסרטון בלי קול.</figcaption></figure><p><strong>הפרצוף.</strong> זו ההחלטה שהכי משנה. הוא הופך את "בכיף" ממילה לדמות שיכולה להגיב: קורץ כשנוגעים בלוגו, מחייך כששומרים מוצר, עצוב כשאין תוצאות, ועומד על כל סניף במפה. בכוונה הוא מופיע רק ברגעים שוליים, ואף פעם לא ליד מידע.</p><figure class="cs-fig cs-fig--faces"><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="face-smile" viewBox="48 28 249 290">
+      <polygon class="face__body" points="172.5,66 259,276.2 201.75,276.2 172.5,231.63 143.25,276.2 86,276.2"/>
+      <circle class="face__dot" cx="134.5" cy="164" r="12"/><circle class="face__dot" cx="212.5" cy="164" r="12"/>
+      <path class="face__line" d="M120.5 206Q172.5 260 224.5 206"/>
+    </symbol><symbol id="face-wink" viewBox="48 28 249 290">
+      <polygon class="face__body" points="172.5,66 259,276.2 201.75,276.2 172.5,231.63 143.25,276.2 86,276.2"/>
+      <circle class="face__dot" cx="134.5" cy="164" r="12"/>
+      <path class="face__line" d="M197.5 168Q212.5 152 227.5 168"/>
+      <path class="face__line" d="M120.5 206Q172.5 260 224.5 206"/>
+    </symbol><symbol id="face-excited" viewBox="48 28 249 290">
+      <polygon class="face__body" points="172.5,66 259,276.2 201.75,276.2 172.5,231.63 143.25,276.2 86,276.2"/>
+      <path class="face__star" transform="translate(134.5 162) scale(1.25)" d="M0,-17 L5,-5 L18,-5 L8,3 L11,16 L0,8 L-11,16 L-8,3 L-18,-5 L-5,-5 Z"/>
+      <path class="face__star" transform="translate(212.5 162) scale(1.25)" d="M0,-17 L5,-5 L18,-5 L8,3 L11,16 L0,8 L-11,16 L-8,3 L-18,-5 L-5,-5 Z"/>
+      <path class="face__fill" d="M116 200Q172.5 290 229 200Z"/>
+    </symbol><symbol id="face-sad" viewBox="48 28 249 290">
+      <polygon class="face__body" points="172.5,66 259,276.2 201.75,276.2 172.5,231.63 143.25,276.2 86,276.2"/>
+      <circle class="face__dot" cx="134.5" cy="168" r="12"/><circle class="face__dot" cx="212.5" cy="168" r="12"/>
+      <path class="face__line" d="M130 240Q172.5 204 215 240"/>
+    </symbol></defs></svg><ul class="cs-faces"><li><svg class="cs-face" aria-hidden="true"><use href="#face-smile"/></svg><span>שומר</span></li><li><svg class="cs-face" aria-hidden="true"><use href="#face-wink"/></svg><span>קורץ</span></li><li><svg class="cs-face" aria-hidden="true"><use href="#face-excited"/></svg><span>מתלהב</span></li><li><svg class="cs-face" aria-hidden="true"><use href="#face-sad"/></svg><span>עצוב</span></li><li><img src="/assets/work/max/favicon-a.svg" alt="" width="24" height="24"><span>פביקון, 24px</span></li></ul><figcaption>הפרצוף במצבים השונים, והפביקון בגודל האמיתי שלו, בלי הכוכב.</figcaption></figure><p><strong>צורה.</strong> הצורות באו מהנייר של חנות דיסקאונט: קופון עם חריצים, פינה מחוררת כמו תווית מחיר, ושוליים של סוכך. בפינה המחוררת של כל כרטיס יושב הלב, במקום קבוע.</p><p><strong>תנועה.</strong> כל מיקרו-אינטראקציה רשומה במלאי, עם השאלה שהיא עונה עליה: מה הפעולה שלי עשתה, לאן זה הלך, או אם התקדמתי. מה שלא עונה על אף אחת מהן לא נכנס. בקוד של האתר אין אף <code dir="ltr">setTimeout</code> או <code dir="ltr">setInterval</code>. יש חריגה אחת, ואני עומד מאחוריה: בזמן איתור מיקום הפרצוף מסתכל לצדדים בלולאה, כי המתנה לאישור מיקום בלעדיו נראית כמו תקלה. היא נעצרת ברגע שיש תשובה.</p><p><strong>עמוד המותג</strong> נבנה מאותם קבצים שהאתר רץ עליהם: הצבעים, הגדלים, התזמונים והאייקונים נקראים מהמקור בזמן הבנייה, והרכיבים הם הרכיבים האמיתיים. עמוד מותג שכתוב ביד מתיישן ביום שמשנים צבע.</p></section><section id="home" aria-labelledby="home-t"><h2 id="home-t">דף הבית: לראות מחיר לפני שגוללים</h2><p>באתר הקיים המסר הראשון היה קרוסלה שזזה לבד, עם פרסומת למבצע זמני. אצלי המסר הראשון הוא המותג: הלוגו המלא, גדול, על אדום, והסלוגן סוף סוף קריא. כשגוללים, הלוגו מתכווץ עם הגלילה אל מרכז ההדר ונשאר שם, כך שיש שלט אחד ולא שניים. שום דבר לא זז בזמן. רק האצבע שלכם מזיזה אותו.</p><figure class="cs-fig cs-fig--two"><div class="cs-shot "><span class="cs-tag cs-tag--before">לפני</span><img src="/assets/work/max/before-home-d.webp" alt="דף הבית הקיים בדסקטופ: קרוסלה עם פרסומת למבצע זמני, הודעות עוגיות וכפתורים צפים" width="1200" height="750" loading="lazy" decoding="async"></div><div class="cs-shot "><span class="cs-tag cs-tag--after">אחרי</span><img src="/assets/work/max/after-home-d.webp" alt="דף הבית החדש בדסקטופ: הלוגו על אדום, המחלקות ומחירים במסך הראשון" width="1200" height="750" loading="lazy" decoding="async"></div><figcaption>אותו גודל מסך, אותו רגע: המסך הראשון בדסקטופ.</figcaption></figure><p>מתחת לפתיח באות המחלקות, כולן לפי סוג מוצר ולא בערבוב של עונה, מוצר ורגע, ומיד אחריהן "הכי אהובים עכשיו". בדסקטופ שמונה מחירים נכנסים למסך הראשון. בנייד שני מחירים מלאים, והכרטיס השלישי מציץ ומזמין להחליק.</p><figure class="cs-fig cs-fig--two cs-fig--phones"><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--after">אחרי</span><video src="/assets/work/max/after-logo.mp4" poster="/assets/work/max/after-logo.webp" width="540" height="1168" controls muted playsinline preload="none" aria-label="הקלטה של דף הבית החדש בנייד: בגלילה הלוגו מתכווץ אל מרכז ההדר"></video></div><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--after">אחרי</span><video src="/assets/work/max/after-gift.mp4" poster="/assets/work/max/after-gift.webp" width="540" height="1168" controls muted playsinline preload="none" aria-label="הקלטה של הגיפט קארד מתנדנד על הקצה כשמגיעים אליו בגלילה"></video></div><figcaption>הלוגו זז רק כשהאצבע זזה. הגיפט קארד מגיב רק כשמגיעים אליו. שני הסרטונים בלי קול.</figcaption></figure><ul><li><strong>חמישה באנרים גדולים</strong> הפכו לשני קופונים ולכרטיס אחד. בכל קופון יש חפץ שיושב על הקצה, חצי בפנים וחצי בחוץ, ומגיב רק כשמגיעים אליו. הגיפט קארד, למשל, מתנדנד על וו, כמו ליד הקופה.</li><li><strong>הקופי התחמם.</strong> "3 ב-100 בצעצועים" הפך ל"בוחרים שלושה, משלמים ₪100". "גיפט קארד" הפך ל"לא בטוחים מה לקנות? תנו להם לבחור."</li><li><strong>שלוש הזמנות להצטרף</strong> הפכו לאחת.</li><li><strong>"הכל מתחיל בנוחות של הבית"</strong> נשאר, כי זו פינה יפה באתר המקורי. אצלי היא החריג המכוון היחיד ל"עממי, לא בוטיק": בלי משטחי אדום ובלי מדבקות, עם תמונות באור יום. הפסקה של שלוש השורות מתחת לכותרת ירדה לשורה אחת.</li><li><strong>הדף נגמר בדרך לחנות.</strong> "הסניף הכי קרוב אליך" הוא הסקשן האחרון לפני הפוטר, והפוטר נסגר עם השלט שהדף נפתח בו.</li></ul><p>שתי הודעות העוגיות ירדו, כי הקונספט לא אוסף מידע ולא משתמש בעוגיות מעקב. באתר אמיתי שאוסף נתונים, ההודעה הזו צריכה להישאר. גם תוסף הנגישות ירד: הנגישות נבנתה לתוך ה-HTML, עם מקלדת, ניגודיות וטקסט אמיתי במקום טקסט צרוב בתמונה.</p><figure class="cs-fig cs-fig--phones"><div class="cs-shot "><img src="/assets/work/max/after-footer-d.webp" alt="הפוטר של האתר החדש, נסגר עם הלוגו על אדום" width="1200" height="672" loading="lazy" decoding="async"></div><figcaption>הפוטר נסגר עם השלט שהדף נפתח בו.</figcaption></figure></section><section id="shelf" aria-labelledby="shelf-t"><h2 id="shelf-t">מהמדף למוצר: למחוק מק"ט, להוסיף סיבה לנסוע</h2><p>המק"ט על הכרטיס הוא הממצא שהכי הגדיר את האתר הקיים. בכרטיס החדש יש תמונה, שם, מחיר ולב, ושום דבר שמעניין רק את המחסן.</p><p><strong>דף הצעצועים.</strong> במקום "מציג 1–24 מתוך 1205 תוצאות" וכמאה קישורים בסיידבר, יש פס שאומר כמה צעצועים יש ואיך למיין, וארבעה פילטרים: טווח מחיר, מחיר מיוחד, גיל וסוג. גיל היה הפילטר החסר, כי זו השאלה הראשונה בצעצוע. המספר בפס מתגלגל, והכרטיסים נוסעים למקומם החדש, כדי שסינון ירגיש כמו "צמצמתי" ולא כמו "איבדתי". הכתובת זוכרת את הסינון, אז "3 ב-100" מההדר נוחת עם המבצע מסומן, ואפשר לשלוח למישהו מדף מסונן.</p><figure class="cs-fig "><div class="cs-shot "><span class="cs-tag cs-tag--after">אחרי</span><video src="/assets/work/max/after-filter.mp4" poster="/assets/work/max/after-filter.webp" width="1080" height="675" controls muted playsinline preload="none" aria-label="הקלטה של דף הצעצועים: לחיצה על מסנן 3 ב-100 והכרטיסים נוסעים למקומם החדש"></video></div><figcaption>המספר מתגלגל והכרטיסים נוסעים למקומם, כדי שסינון ירגיש כמו "צמצמתי". הסרטון בלי קול.</figcaption></figure><p><strong>המדף.</strong> 37 צילומי מוצר של 32 צלמים שונים. זו בדיוק הבעיה של תמונות ספק בקנה מידה ורקע שונים, אז כתבתי סקריפט אחד שמעביר כל תמונה לאותו לבן ולאותו יחס בתוך הריבוע. כל התמונות ברישיון שמתיר שימוש מסחרי, ואף אחת מהן לא של הרשת.</p><p><strong>דף המוצר.</strong> כשלוחצים על כרטיס, הכרטיס גדל: אותה מסגרת, ואותו לב באותה פינה. הדף הקיים היה מבוי סתום, עם שם, מחיר ותמונה אחת "להמחשה בלבד". בחדש יש תיאור, גיל, מחיר בולט, והמחיר הקודם מחוק ושקט כשיש הנחה. המבצע מוסבר במשפט אחד במקום שבו מחליטים: "בוחרים 3 צעצועים עם המדבקה הצהובה, ומשלמים ₪100". ואין עגלה, ולכן הלב שומר ל"הרשימה שלי", רשימה לסניף שסופרת את 3 ב-100 כמו הקופה ונגמרת בכפתור "לסניף הקרוב".</p><p>"בדיקת מלאי בסניפים" הוא הכפתור הראשי בדף, והוא רק קורץ ואומר שזה קונספט. אין לי נתוני מלאי אמיתיים, ולא המצאתי מלאי לסניפים אמיתיים. המקום שלו מוכן.</p><figure class="cs-fig cs-fig--two"><div class="cs-shot "><span class="cs-tag cs-tag--before">לפני</span><img src="/assets/work/max/before-product-d.webp" alt="דף מוצר קיים: שם, מחיר, מק&quot;ט ותמונה אחת להמחשה בלבד" width="1200" height="750" loading="lazy" decoding="async"></div><div class="cs-shot "><span class="cs-tag cs-tag--after">אחרי</span><img src="/assets/work/max/after-product-d.webp" alt="דף מוצר חדש: מחיר בולט, הסבר על המבצע, גיל וכפתור בדיקת מלאי" width="1200" height="750" loading="lazy" decoding="async"></div><figcaption>דף המוצר: מבוי סתום מול דף שעונה על השאלות שלפני הנסיעה לחנות.</figcaption></figure></section><section id="branches" aria-labelledby="branches-t"><h2 id="branches-t">סניפים: "פתוח עכשיו", גם במוצאי שבת</h2><p>זה הדף שאני הכי אוהב, כי הוא עונה על שלוש שאלות פשוטות, לפי הסדר: מה קרוב, האם פתוח, ואיך מגיעים.</p><p><strong>מה קרוב.</strong> הרשימה האלפביתית, 12,667 פיקסלים של גלילה בנייד, הפכה למפה עם סיכה לכל סניף, ועל כל סיכה ה-A מהלוגו. "קרוב אליי" מחשב מרחק אמיתי מהקואורדינטות. מרכז תל אביב, שם "לא נמצאו סניפים", מחזיר עכשיו שישה סניפים בתוך 3 ק"מ, הראשון ב-0.8 ק"מ. בנייד הדף הוא מסך אחד: המפה נשארת, והרשימה היא מגירה שנמשכת מלמטה, כמו בכל אפליקציית מפות.</p><figure class="cs-fig cs-fig--two cs-fig--phones"><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--before">לפני</span><video src="/assets/work/max/before-near-m.mp4" poster="/assets/work/max/before-near-m.webp" width="420" height="910" controls muted playsinline preload="none" aria-label="הקלטה של האתר הקיים: מצא את הסניף הקרוב מחזיר לא נמצאו סניפים"></video></div><div class="cs-shot cs-phone"><span class="cs-tag cs-tag--after">אחרי</span><video src="/assets/work/max/after-near.mp4" poster="/assets/work/max/after-near.webp" width="540" height="1168" controls muted playsinline preload="none" aria-label="הקלטה של האתר החדש: לחיצה על קרוב אליי מקרבת את המפה והרשימה מסתדרת לפי מרחק"></video></div><figcaption>אותה נקודה במרכז תל אביב, אותה לחיצה. הסרטונים בלי קול.</figcaption></figure><p><strong>האם פתוח.</strong> בשדה "מוצאי שבת" היו 18 ניסוחים שונים ב-65 סניפים, אבל מאחוריהם עמדו מעט מאוד ערכים אמיתיים. הפכתי את הטקסט החופשי לנתונים, והדפדפן מחשב שקיעה לפי מיקום הסניף ומוסיף את הזמן של אותו סניף. במקום "כחצי שעה לאחר צאת השבת" כתוב "סגור · נפתח הערב בכ-17:55". ה"בכ-" נשאר בכוונה: לא מבטיחים יותר ממה שהסניף מבטיח.</p><p><strong>איך מגיעים.</strong> בדסקטופ לא היה קישור ניווט בכלל, והפעולה הראשית בכרטיס הייתה הצטרפות לקבוצת וואטסאפ. עכשיו "נווטו" הוא כפתור אחד שפותח את Waze מכתובת הסניף.</p><figure class="cs-fig "><div class="cs-shot "><span class="cs-tag cs-tag--after">אחרי</span><img src="/assets/work/max/after-branches-d.webp" alt="דף הסניפים בדסקטופ: מפה עם סיכות לצד רשימה לפי מרחק, עם שעות וכפתור ניווט" width="1200" height="750" loading="lazy" decoding="async"></div><figcaption>בדסקטופ המפה והרשימה יושבות זו לצד זו. "נווטו" הוא כפתור אחד.</figcaption></figure><p>ועוד החלטה אחת שנשמעת קטנה: מיקום מבקשים רק אחרי לחיצה, ומי שמסרב ממשיך לחפש רגיל.</p></section><section id="regrets" aria-labelledby="regrets-t"><h2 id="regrets-t">מה התחרטתי עליו</h2><p>החלק הכי מועיל ביומן ההחלטות הוא מה שבוטל. שמרתי את כל זה בכוונה:</p><ul><li><strong>שלוש מפות.</strong> קודם ציירתי מפה משלי: יפה, קלה ובלי גבולות. אבל היא הייתה קו חוף ומים, ומי שמחפש סניף מחפש רחוב. השנייה, עם אריחים של OpenStreetMap, הייתה עמוסה מדי. בשלישית עברתי למפה וקטורית וסיננתי אותה: כבישים ראשיים, ערים ומים. רחובות מופיעים רק כשמתקרבים. המחיר הוא ספרייה של כ-210KB, ושילמתי אותו.</li><li><strong>הצורות המתוקות.</strong> הגרסה הראשונה לקחה קשתות מה-M וחלוקים בצבעי פסטל. זה נראה כמו חדר משחקים. באפיון "ילדותי" כתוב בעמודת ה"לא", אז הם יצאו, והנייר של החנות נכנס.</li><li><strong>גופן התצוגה שאהבתי.</strong> Noot נבחר מתוך יותר ממאה גופנים, ובאתר הוא נראה כמו טעות. הכותרת האחרונה שהייתה בו עברה ל-Fredoka, ומהמשפחה נשארה רק הגרסה הקופצנית, בעמוד ה-404 ובעמוד המותג.</li><li><strong>משפט שלא היה שלי להמציא.</strong> "חולמים בגדול, משלמים בקטן" ישב יפה מתחת ללוגו. כשלא מצאתי אותו אצל הרשת, הוא ירד. בקונספט שנושא שם של מותג אמיתי, סלוגן לא מאומת נראה כמו ציטוט.</li><li><strong>המשחק של 3 ב-100.</strong> תכננתי מד שמתמלא עם קונפטי בסוף. אבל אין צ'קאאוט, ושמירה ברשימה היא לא בחירה למבצע. מד כזה היה מבטיח משהו שלא קורה.</li><li><strong>חדר התצוגה.</strong> הכיוון המקורי היה אתר שבנוי כמו חדר תצוגה של איקאה, עם חדרים ולוקים. בנייה של זה דורשת צילום שאין לי, וסקשן החדרים חזר על מה שהפינה השקטה כבר עשתה. נשארה פינה אחת טובה במקום שני רעיונות בינוניים.</li><li><strong>איורי המוצרים.</strong> הם היו עקביים, ונראו כמו משחק ולא כמו חנות. התחלפו בצילומים.</li></ul></section><section id="tech" aria-labelledby="tech-t"><h2 id="tech-t">התשתית</h2><p>האתר סטטי, בלי פריימוורק. הנתונים יושבים ב-JSON, וסקריפט בנייה קטן כותב אותם ישירות לתוך ה-HTML, כך שהמחירים שם עוד לפני ש-JavaScript רץ. ההדר, הפוטר והבאנרים נכתבים פעם אחת ומופיעים בכל דף, וכל 33 דפי המוצר נכתבים מתבנית אחת. הקוד נשאר קריא, כי הוא מופיע בסרטונים.</p><p>מדדתי Lighthouse בסוף, על שרת מקומי עם דחיסה כמו בפרודקשן. הפעם הראשונה לא הייתה נעימה: דף הסניפים קיבל 76 בנייד. האשם המרכזי היה הקוד שלי ולא המפה: בטעינה הרשימה נכתבה מחדש באותו סדר שכבר היה בה, וה-TBT ירד מ-1,180ms ל-20ms אחרי התיקון. נמצא גם באג נגישות שאף בדיקה ויזואלית לא הייתה תופסת: MapLibre דרסה את שמות הסניפים, וקורא מסך שמע "Map marker" במקום "אילת".</p><div class="cs-table" role="region" aria-label="טבלת התשתית" tabindex="0"><table><thead><tr><th scope="col">ביצועים · נגישות · Best Practices</th><th scope="col">נייד</th><th scope="col">דסקטופ</th></tr></thead><tbody><tr><th scope="row">בית</th><td>99 · 100 · 100</td><td>100 · 100 · 100</td></tr><tr><th scope="row">צעצועים</th><td>99 · 100 · 100</td><td>100 · 100 · 100</td></tr><tr><th scope="row">מוצר</th><td>99 · 100 · 100</td><td>100 · 100 · 100</td></tr><tr><th scope="row">סניפים</th><td>100 · 100 · 100</td><td>100 · 100 · 100</td></tr><tr><th scope="row">מותג</th><td>100 · 100 · 100</td><td>100 · 100 · 100</td></tr></tbody></table></div><p>שלושת ה-99 נשארו, ואני יודע למה: התמונה הראשונה היא צילום מוצר, ובטלפון היא צריכה את הרזולוציה הזו. SEO לא נמדד, כי כל האתר ב-<code dir="ltr">noindex</code>. והאתר הקיים לא נמדד, אז אין כאן השוואה אליו.</p></section><section id="numbers" aria-labelledby="numbers-t"><h2 id="numbers-t">לפני ואחרי</h2><div class="cs-table" role="region" aria-label="טבלת לפני ואחרי" tabindex="0"><table><thead><tr><th scope="col"></th><th scope="col">לפני</th><th scope="col">אחרי</th></tr></thead><tbody><tr><th scope="row">שכבות צפות במסך הראשון בנייד</th><td>6 ומעלה</td><td>2: פס הקונספט וההדר</td></tr><tr><th scope="row">גופנים</th><td>4 ומעלה, חלקם צרובים בתמונות</td><td>2, ועוד אחד רק ב-404 ובעמוד המותג. כולם טקסט אמיתי</td></tr><tr><th scope="row">סגנונות כפתור</th><td>6 לפחות</td><td>3</td></tr><tr><th scope="row">מוצרים עם מחיר בדף הבית</th><td>0</td><td>22 מתוך 22</td></tr><tr><th scope="row">שאלות שדף צעצוע עונה עליהן: מה, גיל, גודל, מחיר, מבצע, איפה</th><td>2</td><td>4. גודל ו"איפה" עדיין חסרים</td></tr><tr><th scope="row">מהבית לסניף קרוב שפתוח עכשיו</th><td>אין דרך</td><td>הקשה אחת ואישור מיקום</td></tr><tr><th scope="row">רשימת הסניפים בנייד</th><td>12,667px</td><td>מסך אחד</td></tr><tr><th scope="row">ניסוחים של מוצאי שבת</th><td>18</td><td>תשובה אחת מחושבת</td></tr><tr><th scope="row">הכוונה בדף הצעצועים</th><td>כמאה קישורים</td><td>4 פילטרים</td></tr></tbody></table></div></section><section id="limits" aria-labelledby="limits-t"><h2 id="limits-t">מה הקונספט הזה לא מוכיח</h2><ul><li><strong>סקאלה.</strong> במדף שלי 17 צעצועים, ובאתר הקיים 1,205. הוא מוכיח שפה וכיוון, ולא ניהול של קטלוג אמיתי.</li><li><strong>שיפור עסקי.</strong> אין לי נתונים של הרשת, ואף לקוח אמיתי לא השתמש באתר. המספרים למעלה הם ספירות ומדידות, לא המרות.</li><li><strong>נגישות מלאה.</strong> 100 ב-Lighthouse הוא בדיקה אוטומטית. היעד הוא WCAG 2.1 AA, ובדיקה ידנית מלאה עם קורא מסך היא שלב נוסף.</li><li><strong>חגים.</strong> "פתוח עכשיו" לא מטפל בחגים ובערבי חג, ובימים כאלה הוא עלול לטעות.</li></ul></section><section id="takeaway" aria-labelledby="takeaway-t"><h2 id="takeaway-t">מה לוקחים מזה לעסק קטן</h2><div class="cta-card cs-cta"><p>לרוב העסקים אין 65 סניפים. אבל השאלות הן אותן שאלות: מה המותג שלך כבר מבטיח, ואיפה האתר מפסיק לקיים את זה? מה הלקוח צריך לדעת לפני שהוא יוצא מהבית? ומה הצעד הבא שלו בכל עמוד?</p><p>ככה אני חושב על כל אתר, גם אם יש לך סניף אחד.</p><a class="btn" href="/demo/">אפשר להתחיל מדמו</a></div></section>
+          </article>
+
+          <div class="page-end"></div>
+        </div>
+      </main>
+
+      <footer>
+        <div class="footer-inner">
+          <span>© 2026</span>
+          <a href="/" class="wordmark" aria-label="afias.dev, לדף הבית">afias<span>.dev</span></a>
+          <nav aria-label="תחתון">
+            <ul>
+              <li><a href="/pricing/">מחירון</a></li>
+              <li><a href="/about/">אודות</a></li>
+              <li><a href="/blog/">מאמרים</a></li>
+              <li><a href="/demo/">דמו חינם</a></li>
+              <li><a href="/accessibility/">הצהרת נגישות</a></li>
+              <li><a href="/privacy/">מדיניות פרטיות</a></li>
+              <li><a href="/cookies/">מדיניות עוגיות</a></li>
+              <li><button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button></li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+    <script>
+      /* Same click measurement as the homepage: WhatsApp = Contact,
+         cal.com = Schedule, /demo = DemoPageClick (custom). */
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest && e.target.closest('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
+        if (link) {
+          if (link.target === '_blank') { afiasTrack('Contact'); return; }
+          e.preventDefault(); afiasTrack('Contact');
+          var href = link.href;
+          setTimeout(function(){ window.location.href = href; }, 150);
+          return;
+        }
+        var link = e.target.closest && e.target.closest('a[href*="cal.com"]');
+        if (link) {
+          if (link.target === '_blank') { afiasTrack('Schedule'); return; }
+          e.preventDefault(); afiasTrack('Schedule');
+          var href = link.href;
+          setTimeout(function(){ window.location.href = href; }, 150);
+          return;
+        }
+        var link = e.target.closest && e.target.closest('a[href^="/demo"]');
+        if (link) {
+          if (link.target === '_blank') { afiasTrack('DemoPageClick', { custom: true }); return; }
+          e.preventDefault(); afiasTrack('DemoPageClick', { custom: true });
+          var href = link.href;
+          setTimeout(function(){ window.location.href = href; }, 150);
+          return;
+        }
+      });
+    </script>
+  </body>
+</html>

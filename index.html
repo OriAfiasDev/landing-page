@@ -1254,13 +1254,13 @@ summary{list-style:none}
   padding:0 max(24px, calc((100% - 1180px) / 2));   /* lines up with the panels' 1180px column */
   display:flex;align-items:center;justify-content:space-between;gap:8px 40px;
   border-radius:32px 32px 0 0;
-  background:var(--work-bg,#1B231C);color:var(--work-fg,#F3EBDB);
+  background:var(--work-bg,#B5141A);color:var(--work-fg,#FFFFFF);
   transition:background-color .45s ease,color .45s ease;
 }
 .work-bar + .work-panel{margin-top:calc(-100vh - var(--dwell));margin-top:calc(-100svh - var(--dwell))}
 .work-title{margin:0;font-weight:900;font-size:clamp(28px,3.1vw,46px);line-height:1;letter-spacing:-.035em;white-space:nowrap}
-.work-title span{color:var(--work-accent,#E3C48C);transition:color .45s ease}
-.work-sub{margin:0;max-width:34ch;font-size:clamp(15px,1.15vw,17px);line-height:1.5;color:var(--work-muted,rgba(243,235,219,.55));transition:color .45s ease;text-wrap:balance}
+.work-title span{color:var(--work-accent,#FFE100);transition:color .45s ease}
+.work-sub{margin:0;max-width:34ch;font-size:clamp(15px,1.15vw,17px);line-height:1.5;color:var(--work-muted,rgba(255,255,255,.82));transition:color .45s ease;text-wrap:balance}
 .work-panel{
   position:sticky;top:0;flex:none;height:100vh;height:100svh;margin-bottom:var(--dwell);
   overflow:hidden;border-radius:32px 32px 0 0;
@@ -1373,6 +1373,7 @@ summary{list-style:none}
 .work-media--pages .work-browser:nth-child(2){bottom:4%;right:0;z-index:1;transform:translate(calc((1 - var(--f)) * -10%),calc((1 - var(--f)) * -12%))}
 
 /* Themes, from each project's own interface. */
+.work-panel--maxstock{--bg:#B5141A;--fg:#FFFFFF;--muted:rgba(255,255,255,.82);--soft:rgba(255,255,255,.92);--accent:#FFE100;--tagbg:rgba(255,225,0,.14);--taghover:rgba(255,225,0,.24)}
 .work-panel--shalva{--bg:#1B231C;--fg:#F3EBDB;--muted:rgba(243,235,219,.55);--soft:rgba(243,235,219,.8);--accent:#E3C48C;--tagbg:rgba(227,196,140,.14);--taghover:rgba(227,196,140,.24)}
 .work-panel--tavor{--bg:#F3EDE3;--fg:#141210;--muted:rgba(20,18,16,.62);--soft:rgba(20,18,16,.76);--accent:#A93C29;--tagbg:rgba(169,60,41,.1);--taghover:rgba(169,60,41,.12)}
 .work-panel--palma{--bg:#4E1424;--fg:#F6F1EC;--muted:rgba(246,241,236,.58);--soft:rgba(246,241,236,.8);--accent:#E6B4AC;--tagbg:rgba(230,180,172,.15);--taghover:rgba(230,180,172,.25)}
@@ -1392,6 +1393,10 @@ summary{list-style:none}
 .work-live:hover{background:var(--accent);color:var(--bg)}
 .work-live:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .work-live svg{flex:none}
+.work-actions{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:24px}
+.work-actions .work-live{margin-top:0}
+.work-live--quiet{border-color:transparent;padding-inline:12px}
+.work-live--quiet:hover{background:var(--tagbg);color:var(--accent)}
 
 /* A scroll sequence: frames stacked, each fading in over the one before as
    the panel holds (--t runs 0→3 with --h), ending on the last. */
@@ -2597,10 +2602,36 @@ summary{list-style:none}
           <p class="work-sub">בכל פרויקט יש החלטה אחת שכל השאר נבנה סביבה.</p>
         </header>
 
+        <article class="work-panel work-panel--maxstock" aria-labelledby="work-maxstock">
+          <div class="work-inner">
+            <div class="work-text">
+              <div class="work-meta"><span class="work-count" dir="ltr">01 / 10</span><a class="work-tag" href="#pricing">#קונספט</a></div>
+              <h3 class="work-name" id="work-maxstock">מקס סטוק <span class="work-status">קונספט לא רשמי</span></h3>
+              <p class="work-what">ריבראנד לאתר של רשת מוכרת. בלי הזמנה ובלי קשר אליה</p>
+              <p class="work-label">ההחלטה</p>
+              <p class="work-decision">הצבעים נשארו. הכיף הגיע לאתר.</p>
+              <p class="work-why">בלוגו כתוב "כאן קונים בכיף", ובאתר יש מק"ט של 13 ספרות על כל מוצר. אז מחיר הפך לתוכן, הפרצוף הקורץ נתן ל"בכיף" דמות, ומפה של 65 סניפים יודעת מה פתוח עכשיו. 72 החלטות, כולל אלה שהתחרטתי עליהן.</p>
+              <div class="work-actions">
+                <a class="work-live" href="/work/maxstock/">כל ההחלטות</a>
+                <a class="work-live work-live--quiet" href="https://max-rebrand.vercel.app/" target="_blank" rel="noopener">
+                  לאתר הקונספט
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11.5 2.5 2.5 11.5M4 2.5h7.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </div>
+            <!-- The logo shrinking into the header, played by this panel's own scroll. -->
+            <div class="work-media work-media--system work-media--seq">
+              <figure class="work-device work-browser"><a class="work-frames" href="/work/maxstock/" aria-label="מקס סטוק: כל ההחלטות"><img src="assets/work/maxstock-d1.webp" srcset="assets/work/maxstock-d1-720w.webp 720w, assets/work/maxstock-d1.webp 1440w" sizes="(max-width:900px) calc(100vw - 60px), 560px" alt="דף הבית של אתר הקונספט: הלוגו עם סימון קונספט מתכווץ אל ההדר בגלילה" width="1440" height="900" loading="lazy"><img src="assets/work/maxstock-d2.webp" srcset="assets/work/maxstock-d2-720w.webp 720w, assets/work/maxstock-d2.webp 1440w" sizes="(max-width:900px) calc(100vw - 60px), 560px" alt="" width="1440" height="900" loading="lazy"><img src="assets/work/maxstock-d3.webp" srcset="assets/work/maxstock-d3-720w.webp 720w, assets/work/maxstock-d3.webp 1440w" sizes="(max-width:900px) calc(100vw - 60px), 560px" alt="" width="1440" height="900" loading="lazy"><img src="assets/work/maxstock-d4.webp" srcset="assets/work/maxstock-d4-720w.webp 720w, assets/work/maxstock-d4.webp 1440w" sizes="(max-width:900px) calc(100vw - 60px), 560px" alt="" width="1440" height="900" loading="lazy"></a></figure>
+              <figure class="work-device work-phone work-phone--css" style="--i:0;--a:0"><a class="work-frames" href="/work/maxstock/" tabindex="-1" aria-hidden="true"><img src="assets/work/maxstock-m1.webp" srcset="assets/work/maxstock-m1-400w.webp 400w, assets/work/maxstock-m1.webp 600w" sizes="(max-width:900px) 200px, 262px" alt="" width="600" height="1298" loading="lazy"><img src="assets/work/maxstock-m2.webp" srcset="assets/work/maxstock-m2-400w.webp 400w, assets/work/maxstock-m2.webp 600w" sizes="(max-width:900px) 200px, 262px" alt="" width="600" height="1298" loading="lazy"><img src="assets/work/maxstock-m3.webp" srcset="assets/work/maxstock-m3-400w.webp 400w, assets/work/maxstock-m3.webp 600w" sizes="(max-width:900px) 200px, 262px" alt="" width="600" height="1298" loading="lazy"><img src="assets/work/maxstock-m4.webp" srcset="assets/work/maxstock-m4-400w.webp 400w, assets/work/maxstock-m4.webp 600w" sizes="(max-width:900px) 200px, 262px" alt="" width="600" height="1298" loading="lazy"></a></figure>
+            </div>
+          </div>
+          <div class="work-shade" aria-hidden="true"></div>
+        </article>
+
         <article class="work-panel work-panel--shalva" aria-labelledby="work-shalva">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">01 / 09</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">02 / 10</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
               <h3 class="work-name" id="work-shalva">שלווה קפה <span class="work-status">פרויקט הדגמה</span></h3>
               <p class="work-what">דף נחיתה לעגלת קפה בדיונית</p>
               <p class="work-label">ההחלטה</p>
@@ -2624,7 +2655,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--tavor" aria-labelledby="work-tavor">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">02 / 09</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">03 / 10</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
               <h3 class="work-name" id="work-tavor">סטודיו תבור <span class="work-status">פרויקט הדגמה</span></h3>
               <p class="work-what">דף נחיתה לסטודיו צילום חתונות בדיוני</p>
               <p class="work-label">ההחלטה</p>
@@ -2646,7 +2677,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--palma" aria-labelledby="work-palma">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">03 / 09</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">04 / 10</span><a class="work-tag" href="#price-tadmit">#אתר_תדמית</a></div>
               <h3 class="work-name" id="work-palma">סטודיו פאלמה <span class="work-status">פרויקט הדגמה</span></h3>
               <p class="work-what">דף נחיתה לסטודיו יופי בדיוני</p>
               <p class="work-label">ההחלטה</p>
@@ -2668,7 +2699,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--alata" aria-labelledby="work-alata">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">04 / 09</span><a class="work-tag" href="#pricing">#חנות_שופיפיי</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">05 / 10</span><a class="work-tag" href="#pricing">#חנות_שופיפיי</a></div>
               <h3 class="work-name" id="work-alata">ALATA</h3>
               <p class="work-what">חנות שופיפיי לאבקת אובה, לבית ולעסקים</p>
               <p class="work-label">ההחלטה</p>
@@ -2690,7 +2721,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--evently" aria-labelledby="work-evently">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">05 / 09</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">06 / 10</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-evently">Evently</h3>
               <p class="work-what">מכירת כרטיסים, חשבוניות וכניסה לאירועים</p>
               <p class="work-label">ההחלטה</p>
@@ -2709,7 +2740,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--spoti" aria-labelledby="work-spoti">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">06 / 09</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">07 / 10</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-spoti">Spoti</h3>
               <p class="work-what">מסלולי סיור עם כרטיסים ומפה חיה</p>
               <p class="work-label">ההחלטה</p>
@@ -2727,7 +2758,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--yame" aria-labelledby="work-yame">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">07 / 09</span><a class="work-tag" href="#price-admin">#אתר_עם_ממשק_ניהול</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">08 / 10</span><a class="work-tag" href="#price-admin">#אתר_עם_ממשק_ניהול</a></div>
               <h3 class="work-name" id="work-yame">YA-ME</h3>
               <p class="work-what">הזמנת שולחנות למסעדה</p>
               <p class="work-label">ההחלטה</p>
@@ -2745,7 +2776,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--viamar" aria-labelledby="work-viamar">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">08 / 09</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">09 / 10</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-viamar">VIA MAR <span class="work-status">בהקמה</span></h3>
               <p class="work-what">חנות תכשיטים אונליין</p>
               <p class="work-label">ההחלטה</p>
@@ -2763,7 +2794,7 @@ summary{list-style:none}
         <article class="work-panel work-panel--club" aria-labelledby="work-club">
           <div class="work-inner">
             <div class="work-text">
-              <div class="work-meta"><span class="work-count" dir="ltr">09 / 09</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
+              <div class="work-meta"><span class="work-count" dir="ltr">10 / 10</span><a class="work-tag" href="#price-full">#מערכת_מלאה</a></div>
               <h3 class="work-name" id="work-club">Exclusive Club</h3>
               <p class="work-what">מועדון לקוחות עם צד לקוח וצד ניהול</p>
               <p class="work-label">ההחלטה</p>
