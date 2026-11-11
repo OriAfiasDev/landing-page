@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://afias.dev/blog/%D7%94%D7%A7%D7%99%D7%A9%D7%95%D7%A8-%D7%9C%D7%90%D7%AA%D7%A8-%D7%9C%D7%90-%D7%9E%D7%A6%D7%99%D7%92-%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%91%D7%95%D7%95%D7%90%D7%98%D7%A1%D7%90%D7%A4-%D7%90%D7%99%D7%9A-%D7%9E%D7%AA%D7%A7%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%A0%D7%91%D7%A0%D7%94-%D7%91-ai/">
+<title>הקישור לאתר לא מציג תמונה בוואטסאפ? איך מתקנים באתר שנבנה ב-AI | afias.dev</title>
+<meta name="description" content="שולחים קישור לאתר שבניתם ב-Lovable, Bolt או Cursor ובוואטסאפ מופיע רק קישור יבש או תמונה של הכלי? הסבר פשוט על תגי Open Graph, גודל התמונה הנכון, כלי בדיקה ופרומפט מוכן לתיקון.">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="afias.dev">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://afias.dev/blog/%D7%94%D7%A7%D7%99%D7%A9%D7%95%D7%A8-%D7%9C%D7%90%D7%AA%D7%A8-%D7%9C%D7%90-%D7%9E%D7%A6%D7%99%D7%92-%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%91%D7%95%D7%95%D7%90%D7%98%D7%A1%D7%90%D7%A4-%D7%90%D7%99%D7%9A-%D7%9E%D7%AA%D7%A7%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%A0%D7%91%D7%A0%D7%94-%D7%91-ai/">
+<meta property="og:title" content="הקישור לאתר לא מציג תמונה בוואטסאפ? איך מתקנים באתר שנבנה ב-AI">
+<meta property="og:description" content="שולחים קישור לאתר שבניתם ב-Lovable, Bolt או Cursor ובוואטסאפ מופיע רק קישור יבש או תמונה של הכלי? הסבר פשוט על תגי Open Graph, גודל התמונה הנכון, כלי בדיקה ופרומפט מוכן לתיקון.">
+<meta property="og:image" content="https://afias.dev/og-image.png">
+<meta property="article:published_time" content="2026-10-28T08:00:00.000Z">
+<meta property="article:author" content="אורי אפיאס">
+<meta property="article:tag" content="תצוגה מקדימה בוואטסאפ">
+<meta property="article:tag" content="Open Graph">
+<meta property="article:tag" content="אתר שנבנה ב-AI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="הקישור לאתר לא מציג תמונה בוואטסאפ? איך מתקנים באתר שנבנה ב-AI">
+<meta name="twitter:description" content="שולחים קישור לאתר שבניתם ב-Lovable, Bolt או Cursor ובוואטסאפ מופיע רק קישור יבש או תמונה של הכלי? הסבר פשוט על תגי Open Graph, גודל התמונה הנכון, כלי בדיקה ופרומפט מוכן לתיקון.">
+<meta name="twitter:image" content="https://afias.dev/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://afias.dev/#organization",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://afias.dev/#localbusiness",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/",
+      "parentOrganization": {
+        "@id": "https://afias.dev/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
+      "name": "אורי אפיאס",
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "inLanguage": "he"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://afias.dev/#author",
+      "name": "אורי אפיאס",
+      "worksFor": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/about/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "הקישור לאתר לא מציג תמונה בוואטסאפ? איך מתקנים באתר שנבנה ב-AI",
+      "description": "שולחים קישור לאתר שבניתם ב-Lovable, Bolt או Cursor ובוואטסאפ מופיע רק קישור יבש או תמונה של הכלי? הסבר פשוט על תגי Open Graph, גודל התמונה הנכון, כלי בדיקה ופרומפט מוכן לתיקון.",
+      "author": {
+        "@id": "https://afias.dev/#author"
+      },
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "datePublished": "2026-10-28T08:00:00.000Z",
+      "dateModified": "2026-10-28T08:00:00.000Z",
+      "keywords": "קישור לא מציג תמונה בוואטסאפ, תצוגה מקדימה לקישור בוואטסאפ, og:image, Open Graph, תמונה לשיתוף קישור, Lovable og image",
+      "inLanguage": "he",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://afias.dev/blog/%D7%94%D7%A7%D7%99%D7%A9%D7%95%D7%A8-%D7%9C%D7%90%D7%AA%D7%A8-%D7%9C%D7%90-%D7%9E%D7%A6%D7%99%D7%92-%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%91%D7%95%D7%95%D7%90%D7%98%D7%A1%D7%90%D7%A4-%D7%90%D7%99%D7%9A-%D7%9E%D7%AA%D7%A7%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%A0%D7%91%D7%A0%D7%94-%D7%91-ai/"
+      },
+      "wordCount": 967,
+      "articleSection": "קידום וחשיפה",
+      "proficiencyLevel": "Beginner",
+      "citation": [
+        "https://docs.lovable.dev/features/seo-aeo",
+        "https://ogp.me/",
+        "https://developers.facebook.com/tools/debug/",
+        "https://developers.facebook.com/docs/sharing/webmasters/",
+        "https://www.linkedin.com/post-inspector/"
+      ],
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "למה בוואטסאפ מופיע הלוגו של Lovable במקום התמונה שלי?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "כי לא הוגדרה לאתר תמונת שיתוף משלו. לפי התיעוד של Lovable, המטא-דאטה שנוצרת בתחילת פרויקט כללית, ובדיקת ה-SEO שלה מסמנת מצב שבו קישורים משותפים עדיין מציגים את המיתוג של Lovable. הפתרון הוא להגדיר og:image משלכם בכל עמוד."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "איזה גודל תמונה צריך לתצוגה מקדימה?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1200 על 630 פיקסלים. Lovable ממליצה על תמונה בגודל 1200×630 ובמשקל של כמה מאות KB לכל היותר, וכותבת שוואטסאפ לא מציג תצוגה מקדימה לקבצים גדולים יותר."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "תיקנתי, אבל וואטסאפ עדיין מציג את התמונה הישנה. למה?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "כנראה בגלל זיכרון של תצוגה קודמת. אפליקציות ופלטפורמות שומרות תצוגות מקדימות שכבר יצרו. ב-Facebook אפשר לבקש קריאה מחדש בכלי Sharing Debugger. לבדיקה מהירה בוואטסאפ, טריק נפוץ הוא לשלוח את הקישור עם תוספת כמו ?v=2 בסוף, כדי שייקרא ככתובת חדשה."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "צריך תמונה שונה לכל עמוד?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא חובה, אבל עדיף. Lovable ממליצה על og:title, ‏og:description ו-og:image ייחודיים לכל עמוד, ולהימנע מתמונה כללית אחת לכל האתר. לאתר קטן, תמונה אחת טובה לכל האתר עדיפה בהרבה על שום תמונה."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://afias.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "הקישור לאתר לא מציג תמונה בוואטסאפ? איך מתקנים באתר שנבנה ב-AI",
+          "item": "https://afias.dev/blog/%D7%94%D7%A7%D7%99%D7%A9%D7%95%D7%A8-%D7%9C%D7%90%D7%AA%D7%A8-%D7%9C%D7%90-%D7%9E%D7%A6%D7%99%D7%92-%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%91%D7%95%D7%95%D7%90%D7%98%D7%A1%D7%90%D7%A4-%D7%90%D7%99%D7%9A-%D7%9E%D7%AA%D7%A7%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%A0%D7%91%D7%A0%D7%94-%D7%91-ai/"
+        }
+      ]
+    }
+  ],
+  "image": "https://afias.dev/og-image.png"
+}
+</script>
+
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+<style>
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper)}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.site-header{padding:28px 0 0}
+.wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
+.wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass-deep)}
+article{padding:56px 0 80px}
+.meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
+h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
+.hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
+.body{font-size:18px;line-height:1.75}
+.body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
+.body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
+.body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
+.body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
+.body li{margin:0 0 8px}
+.body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
+.body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
+.body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
+.body .yt-facade{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;width:100%;aspect-ratio:16/9;box-sizing:border-box;padding:22px 24px;border-radius:14px;background:#1C1E24;color:#FAF8F3;text-decoration:none;line-height:1.35}
+.body .yt-facade:hover{color:#FAF8F3}
+.body .yt-facade-title{font-weight:700;font-size:clamp(17px,2.4vw,21px)}
+.body .yt-facade-play{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#B8862B;color:#1C1E24;font-weight:700;font-size:15px}
+.body .yt-facade-play::before{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent currentColor}
+.body .yt-facade:hover .yt-facade-play{background:#D7A53F}
+.body .yt-facade-note{font-size:13px;color:rgba(250,248,243,.8)}
+.body .yt-facade:focus-visible{outline:3px solid var(--brass-deep);outline-offset:3px}
+.body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
+.body th{background:#fff;font-weight:700}
+.body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
+.body pre code{border:0;padding:0;background:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
+.cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
+.cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
+@media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
+/* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+.skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+.skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+main:focus{outline:none}
+.body .prompt{margin:24px 0;padding:18px 22px;background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--brass);border-radius:16px}
+.body .prompt p{margin:0;font-size:17px;line-height:1.7}
+.body .prompt .prompt-label{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--brass-deep);margin:0 0 8px;letter-spacing:.02em}
+.body p code,.body li code,.body td code{direction:ltr;unicode-bidi:isolate;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.body .note{margin:24px 0;padding:16px 22px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.body .note p:last-child{margin:0}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+<div dir="rtl">
+  <header class="site-header"><div class="wrap"><a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a></div></header>
+
+  <main id="main" tabindex="-1" class="wrap">
+    <article>
+      <div class="meta">
+        <a href="/blog/" class="back">כל המאמרים</a>
+        <time datetime="2026-10-28T08:00:00.000Z">28 באוקטובר 2026</time>
+        <span>אורי אפיאס</span>
+      </div>
+      <h1>הקישור לאתר לא מציג תמונה בוואטסאפ? איך מתקנים באתר שנבנה ב-AI</h1>
+      <p class="lede">שלחתם ללקוח קישור לאתר החדש, ובוואטסאפ הופיע קישור יבש בלי תמונה, או גרוע מזה: הלוגו של הכלי שבו בניתם את האתר. זה אחד התיקונים הכי קלים שיש, ואפשר לעשות אותו בעצמכם עם פרומפט אחד.</p>
+      <div class="body">
+<div dir="rtl" style="direction:rtl;text-align:right;">
+<p><strong>וואטסאפ, פייסבוק, לינקדאין וסלאק בונים את התצוגה המקדימה של קישור מתוך כמה שורות קוד נסתרות בראש העמוד, שנקראות תגי Open Graph. אם התגים חסרים, כלליים, או שהתמונה גדולה מדי, מקבלים קישור יבש או תמונה לא נכונה.</strong> ברוב האתרים שנבנו בכלי AI זה תיקון של כמה דקות.</p>
+
+<h2>מה זה Open Graph, בשפה פשוטה?</h2>
+<p><strong>Open Graph הוא "כרטיס ביקור" שהעמוד מגיש לאפליקציות שרוצות להציג אותו.</strong> כשאתם מדביקים קישור בוואטסאפ, השרתים של וואטסאפ ניגשים לעמוד וקוראים את הכרטיס: מה הכותרת, מה התיאור ואיזו תמונה להציג. הכרטיס הזה לא מופיע לגולשים באתר עצמו. הוא קיים רק בקוד.</p>
+<p>לפי <a href="https://ogp.me/" target="_blank" rel="noopener">התקן של Open Graph</a>, אלה התגים הבסיסיים:</p>
+<table tabindex="0">
+<thead><tr><th>תג</th><th>מה הוא קובע</th><th>דוגמה</th></tr></thead>
+<tbody>
+<tr><td><code>og:title</code></td><td>הכותרת המודגשת בכרטיס</td><td>סטודיו יוגה בחיפה</td></tr>
+<tr><td><code>og:description</code></td><td>שורת התיאור מתחת לכותרת</td><td>שיעורים קטנים, שיעור ניסיון בחינם</td></tr>
+<tr><td><code>og:image</code></td><td>התמונה</td><td>כתובת מלאה של תמונה, שמתחילה ב-https</td></tr>
+<tr><td><code>og:url</code></td><td>הכתובת הרשמית של העמוד</td><td>https://הדומיין-שלכם/</td></tr>
+</tbody>
+</table>
+<p>נקודה חשובה: לפי <a href="https://docs.lovable.dev/features/seo-aeo" target="_blank" rel="noopener">התיעוד של Lovable</a>, רוב הפלטפורמות האלה לא מריצות JavaScript. כלומר, התגים צריכים להיות כתובים בקוד שהעמוד מחזיר, ולא להתווסף אחרי שהעמוד נטען.</p>
+
+<h2>ארבע סיבות נפוצות לתצוגה שבורה</h2>
+<h3>1. התגים עדיין "כלליים"</h3>
+<p>כלי AI יוצרים בתחילת הפרויקט כותרת, תיאור ותמונה זמניים. Lovable כותבת במפורש שהמטא-דאטה ההתחלתית כללית, ובבדיקת ה-SEO שלה יש ממצא שנקרא בערך "Shared links still show Lovable&#39;s branding". אם בתצוגה מופיע הלוגו של הכלי, זו כמעט תמיד הסיבה.</p>
+<h3>2. התמונה כבדה מדי</h3>
+<p><strong>Lovable ממליצה על תמונת שיתוף בגודל 1200×630 פיקסלים ובמשקל של כמה מאות KB, וכותבת שוואטסאפ לא מציג תצוגה מקדימה לקבצים גדולים יותר.</strong> תמונה של 3MB שיצאה ישר מהמצלמה או מכלי עיצוב היא חשוד מיידי. כדאי לשמור אותה כ-JPG או WebP ולכווץ לפני שמעלים.</p>
+<h3>3. כתובת התמונה לא מלאה או לא ציבורית</h3>
+<p>אם כתובת התמונה היא משהו כמו <code>/images/share.png</code> במקום כתובת מלאה עם הדומיין, או שהתמונה יושבת במקום שדורש התחברות, השרת של וואטסאפ לא יצליח להוריד אותה. הכי בטוח: כתובת מלאה, שמתחילה ב-https, שנפתחת בחלון גלישה בסתר.</p>
+<h3>4. התיקון עוד לא פורסם, או שהתצוגה הישנה שמורה</h3>
+<p>שינוי שעשיתם בעורך לא קיים באתר החי עד שלוחצים Publish. וגם אחרי הפרסום, פלטפורמות שומרות תצוגות שכבר יצרו. Lovable ממליצה לפרסם לפני שבודקים, ולהשתמש בכלי הבדיקה של הפלטפורמות כדי לרענן תצוגות שמורות.</p>
+
+<h2>איך בודקים מה הפלטפורמות רואות</h2>
+<ul>
+<li><strong><a href="https://developers.facebook.com/tools/debug/" target="_blank" rel="noopener">Sharing Debugger של Meta</a></strong>: מדביקים כתובת, רואים בדיוק אילו תגים פייסבוק קרא, ואפשר ללחוץ "Scrape Again" כדי שיקרא מחדש. זו הבדיקה הכי קרובה למה שקורה בוואטסאפ.</li>
+<li><strong><a href="https://www.linkedin.com/post-inspector/" target="_blank" rel="noopener">Post Inspector של LinkedIn</a></strong>: אותו רעיון, ללינקדאין.</li>
+<li><strong>בתוך Lovable</strong>: לפי התיעוד, מעל התצוגה המקדימה יש בורר עמודים, ובריחוף על אייקון התצוגה של עמוד מופיע כרטיס <strong>Social</strong> שמראה את הכותרת, התיאור והתמונה שהפלטפורמות יקראו. אפשר להגיע אליו גם מחלון ה-Publish.</li>
+<li><strong>בוואטסאפ עצמו</strong>: שלחו את הקישור לעצמכם. אם התצוגה הישנה נתקעת, טריק נפוץ הוא להוסיף לקישור <code>?v=2</code> בסוף, כדי שייקרא ככתובת חדשה.</li>
+</ul>
+
+<h2>פרומפט לתיקון</h2>
+<p>הכינו תמונה בגודל 1200×630, עם שם העסק וטקסט קצר וקריא, והעלו אותה לפרויקט. אחר כך תנו לכלי את הבקשה הזו (היא עובדת ב-Lovable, ב-Bolt, ב-Cursor ובכלים דומים):</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>העליתי לפרויקט תמונת שיתוף בשם [שם הקובץ]. תוסיף לכל עמוד ציבורי באתר תגי Open Graph ו-Twitter Card:<br>
+og:title ו-og:description בעברית, שמתאימים לתוכן של אותו עמוד,<br>
+og:image עם כתובת מלאה: https://[הדומיין שלי]/[שם הקובץ],<br>
+og:url עם הכתובת המלאה של העמוד, og:type, og:locale=he_IL,<br>
+ו-twitter:card=summary_large_image.<br>
+התגים צריכים להופיע בקוד ה-HTML שהעמוד מחזיר, לא להתווסף רק אחרי טעינה ב-JavaScript.<br>
+תוודא שמשקל התמונה מתחת ל-300KB, ואם לא, תגיד לי.<br>
+לפני שאתה משנה, תכתוב לי רשימה של מה שאתה הולך לשנות.</p></div>
+<p>ב-Lovable אפשר גם להריץ את בדיקת ה-SEO תחת <strong>More → Analytics → SEO &amp; AI</strong> וללחוץ <strong>Try to fix</strong> על הממצאים של Open Graph. אחרי התיקון: Publish, ואז בדיקה ב-Sharing Debugger.</p>
+
+<div class="note"><p><strong>אם האתר מתארח מחוץ לכלי שבו נבנה</strong> (למשל קוד מ-Lovable או מ-Bolt שהעליתם ל-Netlify או ל-Vercel), ייתכן שהעמוד מחזיר לרובוטים דף כמעט ריק, ואז גם תגים מושלמים לא יעזרו אם הם מתווספים רק ב-JavaScript. במקרה כזה הבדיקה ב-Sharing Debugger תראה מיד מה חסר.</p></div>
+
+<h2>זה קשור גם לגוגל?</h2>
+<p>בעקיפין. תגי Open Graph נועדו לשיתוף ברשתות ובאפליקציות, אבל אותה בעיה בדיוק, עמוד שלא מחזיר תוכן לרובוטים, היא גם סיבה נפוצה לכך שאתר לא מופיע בגוגל. אם אתם רוצים לסדר את הבסיס הטכני כולו, כתבתי <a href="https://afias.dev/blog/%D7%A7%D7%99%D7%93%D7%95%D7%9D-%D7%91%D7%9E%D7%A0%D7%95%D7%A2%D7%99-ai-%D7%9E%D7%93%D7%A8%D7%99%D7%9A-geo-%D7%9C%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D/">מדריך לקידום במנועי AI</a> ו<a href="https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8%D7%99%D7%9D-ai-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%A7%D7%A6%D7%95%D7%A2%D7%99-%D7%9C%D7%91%D7%A2%D7%9C%D7%99-%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D/">מדריך לבניית אתרים בעזרת AI</a>.</p>
+
+<h2>מתי כדאי לקרוא למישהו?</h2>
+<p>אם הוספתם את התגים, Sharing Debugger עדיין לא רואה אותם, והכלי ממשיך לתקן ולשבור, כנראה שהבעיה היא באופן שבו העמוד מוגש ולא בתגים עצמם. את זה אני בודק ומתקן באתרים שנבנו בכלי AI. המחיר נקבע אחרי שיחה קצרה ובדיקה של האתר.</p>
+
+<h2>שאלות נפוצות על תצוגה מקדימה של קישורים</h2>
+
+<h3>למה בוואטסאפ מופיע הלוגו של Lovable במקום התמונה שלי?</h3>
+<p><strong>כי לא הוגדרה לאתר תמונת שיתוף משלו.</strong> לפי התיעוד של Lovable, המטא-דאטה שנוצרת בתחילת פרויקט כללית, ובדיקת ה-SEO שלה מסמנת מצב שבו קישורים משותפים עדיין מציגים את המיתוג של Lovable. הפתרון הוא להגדיר og:image משלכם בכל עמוד.</p>
+
+<h3>איזה גודל תמונה צריך לתצוגה מקדימה?</h3>
+<p><strong>1200 על 630 פיקסלים.</strong> Lovable ממליצה על תמונה בגודל 1200×630 ובמשקל של כמה מאות KB לכל היותר, וכותבת שוואטסאפ לא מציג תצוגה מקדימה לקבצים גדולים יותר.</p>
+
+<h3>תיקנתי, אבל וואטסאפ עדיין מציג את התמונה הישנה. למה?</h3>
+<p><strong>כנראה בגלל זיכרון של תצוגה קודמת.</strong> אפליקציות ופלטפורמות שומרות תצוגות מקדימות שכבר יצרו. ב-Facebook אפשר לבקש קריאה מחדש בכלי Sharing Debugger. לבדיקה מהירה בוואטסאפ, טריק נפוץ הוא לשלוח את הקישור עם תוספת כמו ?v=2 בסוף, כדי שייקרא ככתובת חדשה.</p>
+
+<h3>צריך תמונה שונה לכל עמוד?</h3>
+<p><strong>לא חובה, אבל עדיף.</strong> Lovable ממליצה על og:title, ‏og:description ו-og:image ייחודיים לכל עמוד, ולהימנע מתמונה כללית אחת לכל האתר. לאתר קטן, תמונה אחת טובה לכל האתר עדיפה בהרבה על שום תמונה.</p>
+
+<h2>מקורות</h2>
+<ul>
+<li><a href="https://docs.lovable.dev/features/seo-aeo" target="_blank" rel="noopener">Lovable Docs: Optimize your app for SEO and AI search (social previews)</a></li>
+<li><a href="https://ogp.me/" target="_blank" rel="noopener">The Open Graph protocol</a></li>
+<li><a href="https://developers.facebook.com/tools/debug/" target="_blank" rel="noopener">Meta: Sharing Debugger</a></li>
+<li><a href="https://developers.facebook.com/docs/sharing/webmasters/" target="_blank" rel="noopener">Meta for Developers: A Guide to Sharing for Webmasters</a></li>
+<li><a href="https://www.linkedin.com/post-inspector/" target="_blank" rel="noopener">LinkedIn Post Inspector</a></li>
+</ul>
+<p>המידע נבדק מול התיעוד הרשמי בתאריך הפרסום של המאמר. הכלים האלה משתנים מהר, ולכן כדאי לבדוק שוב בתיעוד לפני שינוי גדול.</p>
+</div>
+      </div>
+      <div class="tags"><span>תצוגה מקדימה בוואטסאפ</span><span>Open Graph</span><span>אתר שנבנה ב-AI</span></div>
+
+      <section class="cta">
+        <h2>התצוגה עדיין לא מסתדרת?</h2>
+        <p>שלחו לי את הקישור לאתר ואראה מה הרובוט של וואטסאפ מקבל. אחרי שיחה קצרה תקבלו הצעת מחיר תוך 24 שעות.</p>
+        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%94%D7%A7%D7%99%D7%A9%D7%95%D7%A8%20%D7%9C%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%99%20%D7%9C%D7%90%20%D7%9E%D7%A6%D7%99%D7%92%20%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%91%D7%95%D7%95%D7%90%D7%98%D7%A1%D7%90%D7%A4.%20%D7%90%D7%A4%D7%A9%D7%A8%20%D7%A2%D7%96%D7%A8%D7%94%3F" target="_blank" rel="noopener">דברו איתי בוואטסאפ</a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
+    <span>© 2026 אורי אפיאס</span>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
+  </footer>
+</div>
+</body>
+</html>
