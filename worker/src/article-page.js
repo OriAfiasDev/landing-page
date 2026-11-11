@@ -246,6 +246,8 @@ function consolidatedWinner(slug) {
  */
 export const LOCKED = new Set([
   // Every live (non-stub) post in blog/, all hand-edited in the repo (2026-10-20)
+  'אתר-lovable-לא-מופיע-בגוגל-מה-בודקים-ואיך-מתקנים', // vibe-coders post, written in repo (2026-10-28)
+  'אתר-lovable-לא-מופיע-בגוגל-מה-בודקים-ואיך-מתקנים', // vibe-coders post, written in repo (2026-10-28)
   'איך-בוחרים-חברה-לבניית-אתר-לעסק-קטן-ב-2026',
   'אפיון-אתר-לעסקים-קטנים-המדריך-המלא-ל-2026',
   'בניית-אתר-למסעדה-המדריך-המלא-לבעלי-עסקים-ב-2026',
