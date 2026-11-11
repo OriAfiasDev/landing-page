@@ -264,6 +264,7 @@ export const LOCKED = new Set([
   'וורדפרס-או-וויקס-השוואה-כנה-לעסק-קטן',
   'חוק-נגישות-אתרים-מי-חייב-מה-התקן-ומה-הסיכון',
   'קידום-במנועי-ai-מדריך-geo-לעסקים-קטנים',
+  'אין-מחבר-מוכן-איך-לחבר-את-האתר-שבניתם-ב-ai-עם-make-zapier-או-n8n', // vibe-coders post, written in repo (2026-10-28)
 ]);
 
 /** True when the webhook must not write blog/<slug>/index.html (see LOCKED). */
