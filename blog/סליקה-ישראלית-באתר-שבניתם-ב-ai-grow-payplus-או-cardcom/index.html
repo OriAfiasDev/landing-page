@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://afias.dev/blog/%D7%A1%D7%9C%D7%99%D7%A7%D7%94-%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-grow-payplus-%D7%90%D7%95-cardcom/">
+<title>סליקה ישראלית באתר שבניתם ב-AI: Grow, PayPlus או Cardcom | afias.dev</title>
+<meta name="description" content="כלי AI מציעים לחבר Stripe, אבל לעסק ישראלי זה לא תמיד אפשרי. הסבר פשוט איך עובד חיבור ל-Grow (משולם), PayPlus או Cardcom, מה חייב לקרות בשרת, ופרומפטים שעוזרים לכלי לבנות את זה נכון.">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="afias.dev">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://afias.dev/blog/%D7%A1%D7%9C%D7%99%D7%A7%D7%94-%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-grow-payplus-%D7%90%D7%95-cardcom/">
+<meta property="og:title" content="סליקה ישראלית באתר שבניתם ב-AI: Grow, PayPlus או Cardcom">
+<meta property="og:description" content="כלי AI מציעים לחבר Stripe, אבל לעסק ישראלי זה לא תמיד אפשרי. הסבר פשוט איך עובד חיבור ל-Grow (משולם), PayPlus או Cardcom, מה חייב לקרות בשרת, ופרומפטים שעוזרים לכלי לבנות את זה נכון.">
+<meta property="og:image" content="https://afias.dev/og-image.png">
+<meta property="article:published_time" content="2026-10-28T08:00:00.000Z">
+<meta property="article:author" content="אורי אפיאס">
+<meta property="article:tag" content="סליקה">
+<meta property="article:tag" content="Grow / PayPlus / Cardcom">
+<meta property="article:tag" content="תשלומים באתר">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="סליקה ישראלית באתר שבניתם ב-AI: Grow, PayPlus או Cardcom">
+<meta name="twitter:description" content="כלי AI מציעים לחבר Stripe, אבל לעסק ישראלי זה לא תמיד אפשרי. הסבר פשוט איך עובד חיבור ל-Grow (משולם), PayPlus או Cardcom, מה חייב לקרות בשרת, ופרומפטים שעוזרים לכלי לבנות את זה נכון.">
+<meta name="twitter:image" content="https://afias.dev/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://afias.dev/#organization",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://afias.dev/#localbusiness",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/",
+      "parentOrganization": {
+        "@id": "https://afias.dev/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
+      "name": "אורי אפיאס",
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "inLanguage": "he"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://afias.dev/#author",
+      "name": "אורי אפיאס",
+      "worksFor": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/about/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "סליקה ישראלית באתר שבניתם ב-AI: Grow, PayPlus או Cardcom",
+      "description": "כלי AI מציעים לחבר Stripe, אבל לעסק ישראלי זה לא תמיד אפשרי. הסבר פשוט איך עובד חיבור ל-Grow (משולם), PayPlus או Cardcom, מה חייב לקרות בשרת, ופרומפטים שעוזרים לכלי לבנות את זה נכון.",
+      "author": {
+        "@id": "https://afias.dev/#author"
+      },
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "datePublished": "2026-10-28T08:00:00.000Z",
+      "dateModified": "2026-10-28T08:00:00.000Z",
+      "keywords": "סליקה באתר, Grow משולם API, PayPlus API, Cardcom API, סליקה ישראלית Lovable, דף תשלום מאובטח",
+      "inLanguage": "he",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://afias.dev/blog/%D7%A1%D7%9C%D7%99%D7%A7%D7%94-%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-grow-payplus-%D7%90%D7%95-cardcom/"
+      },
+      "wordCount": 933,
+      "articleSection": "תשלומים וסליקה",
+      "proficiencyLevel": "Beginner",
+      "citation": [
+        "https://stripe.com/global",
+        "https://developers.grow.business/reference/regular-payment-overview",
+        "https://developers.grow.business/reference/server-to-server-callback",
+        "https://docs.payplus.co.il/reference/website-or-app",
+        "https://docs.payplus.co.il/reference/post_paymentpages-generatelink",
+        "https://kb.cardcom.solutions/apijosn/en/articles/503/create-payment-page-retrieve-transaction-details"
+      ],
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "אפשר להשתמש ב-Stripe לעסק ישראלי?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "בדרך כלל לא ישירות. ישראל לא מופיעה כיום ברשימת המדינות ש-Stripe תומכת בהן לפתיחת חשבון עסקי. לכן עסקים ישראלים עובדים בדרך כלל עם חברות סליקה מקומיות כמו Grow, ‏PayPlus או Cardcom."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "מה עדיף: Grow, PayPlus או Cardcom?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "זה תלוי בעסק, לא בטכנולוגיה. מבחינת החיבור לאתר, שלושתן עובדות בדרך דומה: דף תשלום מאובטח שנוצר מהשרת, והודעה לשרת אחרי התשלום. ההחלטה היא בעיקר על עמלות, שירות ומה עוד אתם צריכים מהן. את זה כדאי לשאול אותן ישירות."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "אפשר לחבר סליקה בלי שרת?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא באמת. שלוש החברות דורשות שהבקשה ליצירת דף התשלום תצא מהשרת, עם מפתחות שאסור שיגיעו לדפדפן. ב-Lovable זה אומר פונקציה בצד השרת, ובכלים אחרים משהו דומה."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "הלקוח מזין את פרטי הכרטיס באתר שלי?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא, וטוב שכך. בדרך שמתוארת כאן הלקוח מזין את פרטי הכרטיס בדף מאובטח של חברת הסליקה, בחלון בתוך האתר (iframe) או בדף נפרד. פרטי הכרטיס לא עוברים דרך האתר שלכם."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://afias.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "סליקה ישראלית באתר שבניתם ב-AI: Grow, PayPlus או Cardcom",
+          "item": "https://afias.dev/blog/%D7%A1%D7%9C%D7%99%D7%A7%D7%94-%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-grow-payplus-%D7%90%D7%95-cardcom/"
+        }
+      ]
+    }
+  ],
+  "image": "https://afias.dev/og-image.png"
+}
+</script>
+
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+<style>
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper)}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.site-header{padding:28px 0 0}
+.wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
+.wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass-deep)}
+article{padding:56px 0 80px}
+.meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
+h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
+.hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
+.body{font-size:18px;line-height:1.75}
+.body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
+.body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
+.body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
+.body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
+.body li{margin:0 0 8px}
+.body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
+.body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
+.body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
+.body .yt-facade{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;width:100%;aspect-ratio:16/9;box-sizing:border-box;padding:22px 24px;border-radius:14px;background:#1C1E24;color:#FAF8F3;text-decoration:none;line-height:1.35}
+.body .yt-facade:hover{color:#FAF8F3}
+.body .yt-facade-title{font-weight:700;font-size:clamp(17px,2.4vw,21px)}
+.body .yt-facade-play{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#B8862B;color:#1C1E24;font-weight:700;font-size:15px}
+.body .yt-facade-play::before{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent currentColor}
+.body .yt-facade:hover .yt-facade-play{background:#D7A53F}
+.body .yt-facade-note{font-size:13px;color:rgba(250,248,243,.8)}
+.body .yt-facade:focus-visible{outline:3px solid var(--brass-deep);outline-offset:3px}
+.body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
+.body th{background:#fff;font-weight:700}
+.body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
+.body pre code{border:0;padding:0;background:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
+.cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
+.cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
+@media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
+/* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+.skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+.skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+main:focus{outline:none}
+.body .prompt{margin:24px 0;padding:18px 22px;background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--brass);border-radius:16px}
+.body .prompt p{margin:0;font-size:17px;line-height:1.7}
+.body .prompt .prompt-label{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--brass-deep);margin:0 0 8px;letter-spacing:.02em}
+.body p code,.body li code,.body td code{direction:ltr;unicode-bidi:isolate;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.body .note{margin:24px 0;padding:16px 22px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.body .note p:last-child{margin:0}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+<div dir="rtl">
+  <header class="site-header"><div class="wrap"><a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a></div></header>
+
+  <main id="main" tabindex="-1" class="wrap">
+    <article>
+      <div class="meta">
+        <a href="/blog/" class="back">כל המאמרים</a>
+        <time datetime="2026-10-28T08:00:00.000Z">28 באוקטובר 2026</time>
+        <span>אורי אפיאס</span>
+      </div>
+      <h1>סליקה ישראלית באתר שבניתם ב-AI: Grow, PayPlus או Cardcom</h1>
+      <p class="lede">בניתם ב-Lovable או ב-Bolt אתר שמוכר משהו, ביקשתם &quot;תוסיף תשלום&quot;, והכלי חיבר Stripe. ואז גיליתם שאתם צריכים חברת סליקה ישראלית. החדשות הטובות: Grow, ‏PayPlus ו-Cardcom עובדות בערך באותה צורה. הנה איך, בלי מונחים מיותרים.</p>
+      <div class="body">
+<div dir="rtl" style="direction:rtl;text-align:right;">
+<p><strong>כדי לחבר סליקה ישראלית לאתר שנבנה ב-AI, השרת של האתר מבקש מחברת הסליקה ליצור דף תשלום מאובטח, הלקוח משלם בדף הזה, וחברת הסליקה מודיעה לשרת שהתשלום עבר.</strong> כך זה עובד ב-Grow (לשעבר משולם), ב-PayPlus וב-Cardcom. ההבדלים ביניהן הם בעיקר בשמות ובפרטים. הדבר החשוב: שני השלבים הראשונים והאחרון קורים בשרת, לא בדפדפן.</p>
+
+<h2>למה לא פשוט Stripe?</h2>
+<p>כלי AI כמו Lovable מגיעים עם חיבור מוכן ל-Stripe, ולכן זה מה שהם מציעים קודם. אבל ישראל לא מופיעה כיום <a href="https://stripe.com/global" target="_blank" rel="noopener">ברשימת המדינות ש-Stripe תומכת בהן</a> לפתיחת חשבון עסקי. אז אם העסק שלכם רשום בישראל, כנראה תצטרכו חברת סליקה מקומית. ומכיוון שלחברות האלה אין חיבור מוכן בכלי ה-AI, צריך להסביר לכלי בדיוק מה לבנות.</p>
+
+<h2>איך זה עובד: הדימוי של הקופה</h2>
+<p>חשבו על חנות שבה הקופאי לא נוגע בכסף. הוא מקליד את הסכום בקופה של חברת האשראי, הלקוח מעביר כרטיס במכשיר של החברה, והקופה מדפיסה אישור. האתר שלכם הוא הקופאי:</p>
+<ol>
+<li><strong>יצירת דף תשלום.</strong> השרת שלכם שולח לחברת הסליקה את הסכום, פרטי ההזמנה וכתובות לחזרה, ומקבל קישור לדף תשלום. ב-Grow זה נקרא <a href="https://developers.grow.business/reference/regular-payment-overview" target="_blank" rel="noopener">CreatePaymentProcess</a>, ב-PayPlus זה <a href="https://docs.payplus.co.il/reference/post_paymentpages-generatelink" target="_blank" rel="noopener">GenerateLink</a>, וב-Cardcom זה <a href="https://kb.cardcom.solutions/apijosn/en/articles/503/create-payment-page-retrieve-transaction-details" target="_blank" rel="noopener">LowProfile/Create</a>.</li>
+<li><strong>הלקוח משלם בדף של חברת הסליקה.</strong> בחלון בתוך האתר (iframe) או בדף נפרד. פרטי הכרטיס לא עוברים דרך האתר שלכם.</li>
+<li><strong>חברת הסליקה מודיעה לשרת.</strong> היא שולחת לכתובת שהגדרתם הודעה מסודרת על התשלום. זה נקרא callback או webhook, ובשלב הזה מסמנים את ההזמנה כ"שולמה".</li>
+<li><strong>הלקוח חוזר לדף תודה.</strong> הדף הזה נועד לחוויה של הלקוח, לא לאישור התשלום. על זה בהמשך.</li>
+</ol>
+
+<h2>שלוש טעויות שכלי AI עושים בסליקה</h2>
+<h3>1. מפתחות של חברת הסליקה בקוד של העמוד</h3>
+<p>שלוש החברות דורשות שהבקשה ליצירת דף התשלום תצא מהשרת. ב-Grow, לפי התיעוד, קריאות מהדפדפן נחסמות. ב-PayPlus הבקשה נשלחת עם מפתח API ומפתח סודי, ששניהם צריכים לשבת בשרת. אם הכלי שם אותם בקוד של העמוד, כל גולש יכול להעתיק אותם.</p>
+<h3>2. הסכום מגיע מהדפדפן</h3>
+<p>אם האתר שולח לשרת "תחייב 49 ₪", גולש מתוחכם יכול לשנות את זה ל-1 ₪. השרת צריך לחשב את הסכום בעצמו, לפי המוצרים בהזמנה.</p>
+<h3>3. "הגעתי לדף התודה" = "שילמתי"</h3>
+<p>זו הטעות הכי נפוצה. לפי Cardcom, אסור להסתמך על דף ההצלחה, כי הלקוח יכול לסגור את הדפדפן לפני שהוא מגיע אליו. והפוך: מישהו יכול להגיע לדף התודה בלי לשלם. האישור האמיתי הוא ההודעה מחברת הסליקה לשרת. לכן הסימון "שולם" קורה רק בשרת, אחרי שההודעה נבדקה.</p>
+
+<h2>פרומפט לבניית החיבור</h2>
+<p>הפרומפט הזה עובד כבסיס לכל אחת משלוש החברות. מחליפים את השם ומצרפים קישור לתיעוד:</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>אני רוצה לחבר סליקה דרך [Grow / PayPlus / Cardcom]. התיעוד: [קישור לתיעוד של החברה].<br>
+1. צור טבלת orders עם סטטוס (pending / paid / failed) וסכום שהשרת מחשב לפי המוצרים. לא לקבל סכום מהדפדפן.<br>
+2. צור פונקציה בצד השרת שיוצרת דף תשלום אצל חברת הסליקה ומחזירה את הקישור. המפתחות יישמרו ב-Secrets, לא בקוד של העמוד, ותבקש ממני להזין אותם בטופס המאובטח.<br>
+3. צור כתובת בשרת שמקבלת את ההודעה מחברת הסליקה אחרי התשלום, בודקת אותה לפי התיעוד, ורק אז מסמנת את ההזמנה כ-paid. אם אותה הודעה מגיעה פעמיים, לא לעדכן פעמיים.<br>
+4. דף התודה רק מציג את הסטטוס מהטבלה. הוא לא מסמן שום דבר כשולם.<br>
+לפני שאתה כותב קוד, תסביר לי את התוכנית בשפה פשוטה.</p></div>
+
+<div class="note"><p><strong>חשוב:</strong> כתובות החזרה וכתובת ההודעה חייבות להיות כתובות ציבוריות. לפי התיעוד של Grow ושל Cardcom, ‏localhost לא יעבוד, ובדרך כלל נדרש HTTPS. לכן בודקים על האתר שפורסם או על כתובת בדיקה ציבורית, לא על המחשב.</p></div>
+
+<h2>מה לבקש מחברת הסליקה לפני שמתחילים</h2>
+<ul>
+<li><strong>גישה לסביבת בדיקות (sandbox)</strong> ופרטי כרטיס לבדיקה, כדי לבדוק בלי לחייב כרטיס אמיתי.</li>
+<li><strong>המפתחות ופרטי המסוף</strong>, בדיוק כמו שהם נקראים בתיעוד, כדי שתוכלו להזין אותם ב-Secrets.</li>
+<li><strong>קישור לתיעוד המעודכן</strong> של דף התשלום ושל ההודעה לשרת.</li>
+<li><strong>האם הם מפיקים גם חשבונית או קבלה</strong>, ואיך מחברים את זה.</li>
+<li><strong>אילו אמצעי תשלום נתמכים</strong> בדף, אם זה חשוב לכם.</li>
+</ul>
+
+<h2>לפני שעולים לאוויר</h2>
+<ol>
+<li>תשלום בדיקה מוצלח: ההזמנה עברה ל-paid?</li>
+<li>תשלום שנכשל או בוטל: ההזמנה לא סומנה כשולמה?</li>
+<li>סגירת הדפדפן מיד אחרי התשלום: ההזמנה עדיין סומנה כשולמה?</li>
+<li>כניסה ישירה לכתובת של דף התודה בלי לשלם: לא קרה כלום?</li>
+<li>אין מפתחות של חברת הסליקה בקוד שנשלח לדפדפן?</li>
+</ol>
+
+<h2>רוצים שמישהו יחבר את זה?</h2>
+<p>סליקה היא המקום שבו "כמעט עובד" עולה כסף. אני מחבר אתרים שנבנו בכלי AI ל-Grow, ‏PayPlus ו-Cardcom, ובודק את כל המקרים שלמעלה לפני העלייה לאוויר. המחיר נקבע אחרי שיחה קצרה. ואם אתם רק מתחילים, <a href="https://afias.dev/blog/%D7%90%D7%A4%D7%99%D7%95%D7%9F-%D7%90%D7%AA%D7%A8-%D7%9C%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%9C%D7%90-%D7%9C-2026/">מדריך האפיון</a> יעזור לכם להגדיר מה האתר צריך לעשות לפני שבונים.</p>
+
+<h2>שאלות נפוצות על סליקה ישראלית באתר</h2>
+
+<h3>אפשר להשתמש ב-Stripe לעסק ישראלי?</h3>
+<p><strong>בדרך כלל לא ישירות.</strong> ישראל לא מופיעה כיום ברשימת המדינות ש-Stripe תומכת בהן לפתיחת חשבון עסקי. לכן עסקים ישראלים עובדים בדרך כלל עם חברות סליקה מקומיות כמו Grow, ‏PayPlus או Cardcom.</p>
+
+<h3>מה עדיף: Grow, PayPlus או Cardcom?</h3>
+<p><strong>זה תלוי בעסק, לא בטכנולוגיה.</strong> מבחינת החיבור לאתר, שלושתן עובדות בדרך דומה: דף תשלום מאובטח שנוצר מהשרת, והודעה לשרת אחרי התשלום. ההחלטה היא בעיקר על עמלות, שירות ומה עוד אתם צריכים מהן. את זה כדאי לשאול אותן ישירות.</p>
+
+<h3>אפשר לחבר סליקה בלי שרת?</h3>
+<p><strong>לא באמת.</strong> שלוש החברות דורשות שהבקשה ליצירת דף התשלום תצא מהשרת, עם מפתחות שאסור שיגיעו לדפדפן. ב-Lovable זה אומר פונקציה בצד השרת, ובכלים אחרים משהו דומה.</p>
+
+<h3>הלקוח מזין את פרטי הכרטיס באתר שלי?</h3>
+<p><strong>לא, וטוב שכך.</strong> בדרך שמתוארת כאן הלקוח מזין את פרטי הכרטיס בדף מאובטח של חברת הסליקה, בחלון בתוך האתר (iframe) או בדף נפרד. פרטי הכרטיס לא עוברים דרך האתר שלכם.</p>
+
+<h2>מקורות</h2>
+<ul>
+<li><a href="https://stripe.com/global" target="_blank" rel="noopener">Stripe: Global availability</a></li>
+<li><a href="https://developers.grow.business/reference/regular-payment-overview" target="_blank" rel="noopener">Grow Developers: Regular payment overview</a></li>
+<li><a href="https://developers.grow.business/reference/server-to-server-callback" target="_blank" rel="noopener">Grow Developers: Server to server callback</a></li>
+<li><a href="https://docs.payplus.co.il/reference/website-or-app" target="_blank" rel="noopener">PayPlus Docs: Website or app</a></li>
+<li><a href="https://docs.payplus.co.il/reference/post_paymentpages-generatelink" target="_blank" rel="noopener">PayPlus Docs: PaymentPages/GenerateLink</a></li>
+<li><a href="https://kb.cardcom.solutions/apijosn/en/articles/503/create-payment-page-retrieve-transaction-details" target="_blank" rel="noopener">Cardcom KB: Create payment page & retrieve transaction details</a></li>
+</ul>
+<p>המידע נבדק מול התיעוד הרשמי בתאריך הפרסום של המאמר. הכלים האלה משתנים מהר, ולכן כדאי לבדוק שוב בתיעוד לפני שינוי גדול.</p>
+</div>
+      </div>
+      <div class="tags"><span>סליקה</span><span>Grow / PayPlus / Cardcom</span><span>תשלומים באתר</span></div>
+
+      <section class="cta">
+        <h2>רוצים שהסליקה תעבוד בלי הפתעות?</h2>
+        <p>ספרו לי עם איזו חברת סליקה אתם עובדים (או מתלבטים) ובאיזה כלי בניתם את האתר. אחרי שיחה קצרה תקבלו הצעת מחיר תוך 24 שעות.</p>
+        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%91%D7%A0%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%D7%A8%20%D7%91-AI%20%D7%95%D7%90%D7%A0%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%20%D7%9C%D7%97%D7%91%D7%A8%20%D7%A1%D7%9C%D7%99%D7%A7%D7%94%20%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%AA" target="_blank" rel="noopener">דברו איתי בוואטסאפ</a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
+    <span>© 2026 אורי אפיאס</span>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
+  </footer>
+</div>
+</body>
+</html>
