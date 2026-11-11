@@ -262,6 +262,7 @@ export const LOCKED = new Set([
   'עיצוב-אתר-תדמית-לעסקים-קטנים-ב2026-מדריך-מקצועי',
   // Written directly in the repo, never published through Hoox (2026-10-21)
   'וורדפרס-או-וויקס-השוואה-כנה-לעסק-קטן',
+  'מה-זה-webhook-הסבר-פשוט-למי-שבנה-אתר-עם-ai', // vibe-coders post, written in repo (2026-10-28)
   'חוק-נגישות-אתרים-מי-חייב-מה-התקן-ומה-הסיכון',
   'קידום-במנועי-ai-מדריך-geo-לעסקים-קטנים',
 ]);
