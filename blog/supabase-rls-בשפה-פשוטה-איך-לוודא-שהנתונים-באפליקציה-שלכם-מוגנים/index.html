@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://afias.dev/blog/supabase-rls-%D7%91%D7%A9%D7%A4%D7%94-%D7%A4%D7%A9%D7%95%D7%98%D7%94-%D7%90%D7%99%D7%9A-%D7%9C%D7%95%D7%95%D7%93%D7%90-%D7%A9%D7%94%D7%A0%D7%AA%D7%95%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94-%D7%A9%D7%9C%D7%9B%D7%9D-%D7%9E%D7%95%D7%92%D7%A0%D7%99%D7%9D/">
+<title>Supabase RLS בשפה פשוטה: איך לוודא שהנתונים באפליקציה שלכם מוגנים | afias.dev</title>
+<meta name="description" content="בניתם אפליקציה ב-Lovable או ב-Bolt עם Supabase? הסבר פשוט מה זה RLS, למה בלעדיו כל אחד יכול לקרוא את הנתונים של הלקוחות שלכם, איך בודקים תוך דקות ופרומפטים מוכנים לתיקון.">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="afias.dev">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://afias.dev/blog/supabase-rls-%D7%91%D7%A9%D7%A4%D7%94-%D7%A4%D7%A9%D7%95%D7%98%D7%94-%D7%90%D7%99%D7%9A-%D7%9C%D7%95%D7%95%D7%93%D7%90-%D7%A9%D7%94%D7%A0%D7%AA%D7%95%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94-%D7%A9%D7%9C%D7%9B%D7%9D-%D7%9E%D7%95%D7%92%D7%A0%D7%99%D7%9D/">
+<meta property="og:title" content="Supabase RLS בשפה פשוטה: איך לוודא שהנתונים באפליקציה שלכם מוגנים">
+<meta property="og:description" content="בניתם אפליקציה ב-Lovable או ב-Bolt עם Supabase? הסבר פשוט מה זה RLS, למה בלעדיו כל אחד יכול לקרוא את הנתונים של הלקוחות שלכם, איך בודקים תוך דקות ופרומפטים מוכנים לתיקון.">
+<meta property="og:image" content="https://afias.dev/og-image.png">
+<meta property="article:published_time" content="2026-10-28T08:00:00.000Z">
+<meta property="article:author" content="אורי אפיאס">
+<meta property="article:tag" content="Supabase RLS">
+<meta property="article:tag" content="אבטחת אפליקציה">
+<meta property="article:tag" content="Lovable">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Supabase RLS בשפה פשוטה: איך לוודא שהנתונים באפליקציה שלכם מוגנים">
+<meta name="twitter:description" content="בניתם אפליקציה ב-Lovable או ב-Bolt עם Supabase? הסבר פשוט מה זה RLS, למה בלעדיו כל אחד יכול לקרוא את הנתונים של הלקוחות שלכם, איך בודקים תוך דקות ופרומפטים מוכנים לתיקון.">
+<meta name="twitter:image" content="https://afias.dev/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://afias.dev/#organization",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://afias.dev/#localbusiness",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/",
+      "parentOrganization": {
+        "@id": "https://afias.dev/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
+      "name": "אורי אפיאס",
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "inLanguage": "he"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://afias.dev/#author",
+      "name": "אורי אפיאס",
+      "worksFor": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/about/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Supabase RLS בשפה פשוטה: איך לוודא שהנתונים באפליקציה שלכם מוגנים",
+      "description": "בניתם אפליקציה ב-Lovable או ב-Bolt עם Supabase? הסבר פשוט מה זה RLS, למה בלעדיו כל אחד יכול לקרוא את הנתונים של הלקוחות שלכם, איך בודקים תוך דקות ופרומפטים מוכנים לתיקון.",
+      "author": {
+        "@id": "https://afias.dev/#author"
+      },
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "datePublished": "2026-10-28T08:00:00.000Z",
+      "dateModified": "2026-10-28T08:00:00.000Z",
+      "keywords": "Supabase RLS, Row Level Security, אבטחת Supabase, אבטחת אפליקציה שנבנתה ב-AI, Lovable אבטחה, RLS disabled",
+      "inLanguage": "he",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://afias.dev/blog/supabase-rls-%D7%91%D7%A9%D7%A4%D7%94-%D7%A4%D7%A9%D7%95%D7%98%D7%94-%D7%90%D7%99%D7%9A-%D7%9C%D7%95%D7%95%D7%93%D7%90-%D7%A9%D7%94%D7%A0%D7%AA%D7%95%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94-%D7%A9%D7%9C%D7%9B%D7%9D-%D7%9E%D7%95%D7%92%D7%A0%D7%99%D7%9D/"
+      },
+      "wordCount": 1080,
+      "articleSection": "אבטחה ונתונים",
+      "proficiencyLevel": "Beginner",
+      "citation": [
+        "https://supabase.com/docs/guides/database/postgres/row-level-security",
+        "https://supabase.com/docs/guides/api/api-keys",
+        "https://supabase.com/docs/guides/database/database-advisors",
+        "https://docs.lovable.dev/features/security",
+        "https://docs.lovable.dev/tips-tricks/security-best-practices"
+      ],
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "האם זה בסדר שהמפתח של Supabase מופיע בקוד של האתר?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "המפתח הציבורי כן, המפתח הסודי לא. לפי Supabase, ה-publishable key (וגם ה-anon key הישן) נועד להיות גלוי בדפדפן, והוא מגיע רק למה שמדיניות ה-RLS מאפשרת. ה-secret key (או service_role הישן) עוקף את ה-RLS, ואסור שיופיע בדפדפן או בקוד שנשמר ב-GitHub."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "הפעלתי RLS ועכשיו האפליקציה לא מציגה כלום. מה קרה?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "זה צפוי. כשמפעילים RLS בלי מדיניות, לפי Supabase אי אפשר לגשת לטבלה בכלל דרך המפתח הציבורי. צריך להוסיף מדיניות שמתירה בדיוק את מה שהאפליקציה צריכה, למשל שכל משתמש רואה רק את השורות שלו."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Lovable לא בודקת את זה בשבילי?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "בודקת, אבל לא מבטיחה. לפי Lovable, סריקה מהירה רצה בכל פרסום ובודקת בין היתר טבלאות בלי RLS ומדיניות שמתירה לכולם. Lovable עצמה כותבת שהכלים האלה לא מחליפים בדיקת אבטחה יסודית."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "איך אני יודע אם מישהו כבר קרא את הנתונים?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא תמיד אפשר לדעת. אם טבלה עם מידע רגיש הייתה פתוחה, כדאי לתקן מיד, לבדוק את הלוגים בלוח הבקרה של Supabase ולהתייעץ עם איש מקצוע. אם יש שם מידע אישי של לקוחות, כדאי לבדוק גם מה החובות שלכם לפי דיני הגנת הפרטיות."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://afias.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Supabase RLS בשפה פשוטה: איך לוודא שהנתונים באפליקציה שלכם מוגנים",
+          "item": "https://afias.dev/blog/supabase-rls-%D7%91%D7%A9%D7%A4%D7%94-%D7%A4%D7%A9%D7%95%D7%98%D7%94-%D7%90%D7%99%D7%9A-%D7%9C%D7%95%D7%95%D7%93%D7%90-%D7%A9%D7%94%D7%A0%D7%AA%D7%95%D7%A0%D7%99%D7%9D-%D7%91%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94-%D7%A9%D7%9C%D7%9B%D7%9D-%D7%9E%D7%95%D7%92%D7%A0%D7%99%D7%9D/"
+        }
+      ]
+    }
+  ],
+  "image": "https://afias.dev/og-image.png"
+}
+</script>
+
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+<style>
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper)}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.site-header{padding:28px 0 0}
+.wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
+.wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass-deep)}
+article{padding:56px 0 80px}
+.meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
+h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
+.hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
+.body{font-size:18px;line-height:1.75}
+.body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
+.body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
+.body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
+.body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
+.body li{margin:0 0 8px}
+.body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
+.body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
+.body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
+.body .yt-facade{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;width:100%;aspect-ratio:16/9;box-sizing:border-box;padding:22px 24px;border-radius:14px;background:#1C1E24;color:#FAF8F3;text-decoration:none;line-height:1.35}
+.body .yt-facade:hover{color:#FAF8F3}
+.body .yt-facade-title{font-weight:700;font-size:clamp(17px,2.4vw,21px)}
+.body .yt-facade-play{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#B8862B;color:#1C1E24;font-weight:700;font-size:15px}
+.body .yt-facade-play::before{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent currentColor}
+.body .yt-facade:hover .yt-facade-play{background:#D7A53F}
+.body .yt-facade-note{font-size:13px;color:rgba(250,248,243,.8)}
+.body .yt-facade:focus-visible{outline:3px solid var(--brass-deep);outline-offset:3px}
+.body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
+.body th{background:#fff;font-weight:700}
+.body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
+.body pre code{border:0;padding:0;background:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
+.cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
+.cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
+@media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
+/* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+.skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+.skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+main:focus{outline:none}
+.body .prompt{margin:24px 0;padding:18px 22px;background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--brass);border-radius:16px}
+.body .prompt p{margin:0;font-size:17px;line-height:1.7}
+.body .prompt .prompt-label{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--brass-deep);margin:0 0 8px;letter-spacing:.02em}
+.body p code,.body li code,.body td code{direction:ltr;unicode-bidi:isolate;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.body .note{margin:24px 0;padding:16px 22px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.body .note p:last-child{margin:0}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+<div dir="rtl">
+  <header class="site-header"><div class="wrap"><a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a></div></header>
+
+  <main id="main" tabindex="-1" class="wrap">
+    <article>
+      <div class="meta">
+        <a href="/blog/" class="back">כל המאמרים</a>
+        <time datetime="2026-10-28T08:00:00.000Z">28 באוקטובר 2026</time>
+        <span>אורי אפיאס</span>
+      </div>
+      <h1>Supabase RLS בשפה פשוטה: איך לוודא שהנתונים באפליקציה שלכם מוגנים</h1>
+      <p class="lede">אם האפליקציה שבניתם ב-AI שומרת לידים, הזמנות או פרטי משתמשים ב-Supabase, יש הגדרה אחת שקובעת אם זרים יכולים לקרוא אותם. היא נקראת RLS, ושווה לבדוק אותה עוד היום. בלי קוד, ועם פרומפטים מוכנים.</p>
+      <div class="body">
+<div dir="rtl" style="direction:rtl;text-align:right;">
+<p><strong>RLS (Row Level Security) הוא שומר בכניסה לכל טבלה במסד הנתונים: הוא בודק מי מבקש ומחליט אילו שורות מותר לו לראות או לשנות. ב-Supabase, טבלה בלי RLS שנגישה דרך ה-API פתוחה לקריאה ולכתיבה לכל מי שיש לו את המפתח הציבורי, והמפתח הזה גלוי בקוד של האתר שלכם.</strong> לכן זו ההגדרה הראשונה שכדאי לבדוק בכל אפליקציה שנבנתה ב-AI ושומרת מידע.</p>
+
+<h2>למה זה בכלל בעיה? הסבר בלי מילים טכניות</h2>
+<p>באפליקציות שבנויות על Supabase, הרבה פעמים הדפדפן של הגולש מדבר ישירות עם מסד הנתונים. כדי לעשות את זה, הקוד של האתר מכיל מפתח. Supabase עצמה משתמשת בדימוי טוב: <a href="https://supabase.com/docs/guides/api/api-keys" target="_blank" rel="noopener">המפתח הציבורי</a> הוא כמו מפתח שמודבק על דלת הכניסה לבניין. הוא פותח את הלובי, וזהו. מה שקובע לאיזו דירה כל אחד נכנס הוא ה-RLS.</p>
+<p>בלי RLS, הלובי מוביל ישר לכל הדירות. כל מי שפותח את כלי המפתחים בדפדפן יכול לראות את המפתח, ולפי <a href="https://supabase.com/docs/guides/database/postgres/row-level-security" target="_blank" rel="noopener">התיעוד של Supabase</a>, טבלה כזו פתוחה לקריאה ולכתיבה לכל תפקיד שקיבל אליה הרשאה. Supabase ממליצה להפעיל RLS על כל טבלה שנגישה דרך ה-API, בלי יוצא מן הכלל.</p>
+
+<h2>איך בודקים, תוך כמה דקות</h2>
+<h3>אם אתם עובדים עם Supabase ישירות</h3>
+<p>בלוח הבקרה של Supabase יש <a href="https://supabase.com/docs/guides/database/database-advisors" target="_blank" rel="noopener">Security Advisor</a>. הוא מריץ בדיקות אוטומטיות על מסד הנתונים, ואחת מהן נקראת "RLS disabled in public", כלומר טבלה ציבורית בלי RLS. כל ממצא כזה על טבלה עם מידע אמיתי הוא דחוף.</p>
+<h3>אם בניתם ב-Lovable</h3>
+<p>לפי <a href="https://docs.lovable.dev/features/security" target="_blank" rel="noopener">Lovable</a>, סריקה מהירה (Quick scan) רצה אוטומטית בכל פרסום. היא בודקת בין היתר טבלאות בלי RLS, כללי גישה שמתירים לכולם, והגנה על סיסמאות שדלפו. יש גם סריקה עמוקה (Deep scan) שבודקת את הלוגיקה של האפליקציה, למשל משתמשים שיכולים לראות או לשנות מידע שלא שלהם. את הכללים עצמם אפשר לראות תחת <strong>More → Database → Manage → Policies</strong>.</p>
+<p>ובכל כלי, אפשר פשוט לשאול:</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>בלי לשנות שום דבר: תעבור על כל הטבלאות במסד הנתונים ותכין לי טבלה עם העמודות: שם הטבלה, איזה מידע יש בה, האם RLS מופעל, ומי יכול לקרוא, להוסיף, לעדכן ולמחוק (גולש לא מחובר, משתמש מחובר, רק בעל השורה, רק מנהל).<br>
+תסמן באדום כל טבלה שמשתמש לא מחובר יכול לקרוא ממנה מידע אישי, וכל מדיניות שמשתמשת ב-using (true).<br>
+תסביר לי בעברית פשוטה.</p></div>
+
+<h2>חמש מלכודות נפוצות</h2>
+<ol>
+<li><strong>RLS כבוי.</strong> המקרה הפשוט והמסוכן ביותר. טבלה שנוצרה בדרך שלא הפעילה RLS, ואף אחד לא שם לב.</li>
+<li><strong>RLS מופעל, אבל הדלת פתוחה.</strong> מדיניות עם <code>using (true)</code> פירושה "כולם מורשים". זה בסדר לטבלה של מאמרים ציבוריים, ולא בסדר לטבלה של לידים או הזמנות. כלי AI כותבים לפעמים מדיניות כזו כדי ש"זה פשוט יעבוד".</li>
+<li><strong>Views שעוקפים את השומר.</strong> לפי Supabase, view רגיל רץ בהרשאות של מי שיצר אותו, ולכן יכול לחשוף שורות שהטבלה עצמה מסתירה. בגרסאות חדשות של Postgres הפתרון הוא <code>security_invoker = true</code>.</li>
+<li><strong>תפקיד "מנהל" שנשמר במקום שהמשתמש יכול לשנות.</strong> לפי Supabase, user_metadata ניתן לשינוי על ידי המשתמש עצמו, ולכן אסור להחליט לפיו מי מנהל.</li>
+<li><strong>המפתח הסודי בדפדפן.</strong> ה-secret key (או service_role הישן) עוקף את ה-RLS לגמרי. אם הוא בקוד של האתר, כל ההגדרות שלמעלה לא משנות. Supabase כותבת שאסור לחשוף אותו בדפדפן או בקוד שנשמר ב-GitHub.</li>
+</ol>
+
+<h2>איך מתקנים: פרומפט לפי סוג הטבלה</h2>
+<p>הכי בטוח לתקן טבלה אחרי טבלה, ולהגיד לכלי בדיוק מי צריך לראות מה. דוגמה לטבלת לידים מטופס יצירת קשר:</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>בטבלה [leads]: תפעיל RLS ותגדיר מדיניות כך ש:<br>
+- גולש לא מחובר יכול רק להוסיף שורה חדשה (insert), בלי לקרוא שום דבר.<br>
+- רק משתמש שמוגדר כמנהל בטבלת הרשאות נפרדת יכול לקרוא, לעדכן ולמחוק. אל תסתמך על user_metadata כדי לקבוע מי מנהל.<br>
+- אף מדיניות לא משתמשת ב-using (true).<br>
+תראה לי את המדיניות לפני שאתה מפעיל אותה, ותסביר מה כל אחת עושה.</p></div>
+<p>ולטבלה שבה כל משתמש רואה רק את המידע שלו, כמו הזמנות או פרופיל:</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>בטבלה [orders]: תפעיל RLS. כל משתמש מחובר יכול לקרוא ולעדכן רק שורות שבהן user_id שווה ל-auth.uid(). משתמש לא מחובר לא יכול לגשת בכלל.<br>
+אם יש views שמציגים מידע מהטבלה הזו, תוודא שהם מכבדים את ה-RLS (security_invoker).<br>
+אחרי השינוי, תבדוק שהאפליקציה עדיין עובדת למשתמש רגיל ולמנהל.</p></div>
+<p>אחרי הפעלת RLS, אל תיבהלו אם משהו מפסיק להופיע. לפי Supabase, טבלה עם RLS ובלי מדיניות לא נגישה בכלל דרך המפתח הציבורי. זה סימן שהשומר עובד, ועכשיו צריך להגדיר לו את הכללים. Supabase גם ממליצה לכתוב בדיקות שמוודאות מה מותר ומה אסור לכל סוג משתמש, ואפשר לבקש מהכלי לכתוב אותן.</p>
+
+<div class="note"><p><strong>חשוב לדעת:</strong> סריקות אוטומטיות הן התחלה טובה, אבל Lovable עצמה כותבת שהן לא מחליפות בדיקת אבטחה יסודית. אם האפליקציה שומרת מידע אישי של לקוחות, תשלומים או מסמכים, שווה שמישהו שמבין יעבור על ההרשאות לפני שמפרסמים לקהל רחב.</p></div>
+
+<h2>איך זה קשור לבניית אתר בכלל?</h2>
+<p>אתר תדמית רגיל בדרך כלל לא צריך מסד נתונים בכלל, ולכן אין לו את הבעיה הזו. ברגע שמוסיפים התחברות, אזור אישי או ניהול לידים, צריך לחשוב על הרשאות כבר בשלב האפיון. כתבתי על זה <a href="https://afias.dev/blog/%D7%90%D7%A4%D7%99%D7%95%D7%9F-%D7%90%D7%AA%D7%A8-%D7%9C%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%9C%D7%90-%D7%9C-2026/">מדריך לאפיון אתר</a>, ויש גם <a href="https://afias.dev/blog/%D7%91%D7%A0%D7%99%D7%99%D7%AA-%D7%90%D7%AA%D7%A8%D7%99%D7%9D-ai-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%A7%D7%A6%D7%95%D7%A2%D7%99-%D7%9C%D7%91%D7%A2%D7%9C%D7%99-%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D/">מדריך לבניית אתרים בעזרת AI</a> שמסביר מה כדאי לבנות לבד ומה לא.</p>
+
+<h2>מתי כדאי לקרוא למישהו?</h2>
+<p>אם הסריקות מראות ממצאים אדומים ואתם לא בטוחים מה כל מדיניות עושה, או שכל תיקון שובר משהו אחר באפליקציה, אני עובר על הטבלאות וההרשאות, מסביר מה מצאתי ומתקן. המחיר נקבע אחרי שיחה קצרה ובדיקה של הפרויקט.</p>
+
+<h2>שאלות נפוצות על Supabase RLS</h2>
+
+<h3>האם זה בסדר שהמפתח של Supabase מופיע בקוד של האתר?</h3>
+<p><strong>המפתח הציבורי כן, המפתח הסודי לא.</strong> לפי Supabase, ה-publishable key (וגם ה-anon key הישן) נועד להיות גלוי בדפדפן, והוא מגיע רק למה שמדיניות ה-RLS מאפשרת. ה-secret key (או service_role הישן) עוקף את ה-RLS, ואסור שיופיע בדפדפן או בקוד שנשמר ב-GitHub.</p>
+
+<h3>הפעלתי RLS ועכשיו האפליקציה לא מציגה כלום. מה קרה?</h3>
+<p><strong>זה צפוי.</strong> כשמפעילים RLS בלי מדיניות, לפי Supabase אי אפשר לגשת לטבלה בכלל דרך המפתח הציבורי. צריך להוסיף מדיניות שמתירה בדיוק את מה שהאפליקציה צריכה, למשל שכל משתמש רואה רק את השורות שלו.</p>
+
+<h3>Lovable לא בודקת את זה בשבילי?</h3>
+<p><strong>בודקת, אבל לא מבטיחה.</strong> לפי Lovable, סריקה מהירה רצה בכל פרסום ובודקת בין היתר טבלאות בלי RLS ומדיניות שמתירה לכולם. Lovable עצמה כותבת שהכלים האלה לא מחליפים בדיקת אבטחה יסודית.</p>
+
+<h3>איך אני יודע אם מישהו כבר קרא את הנתונים?</h3>
+<p><strong>לא תמיד אפשר לדעת.</strong> אם טבלה עם מידע רגיש הייתה פתוחה, כדאי לתקן מיד, לבדוק את הלוגים בלוח הבקרה של Supabase ולהתייעץ עם איש מקצוע. אם יש שם מידע אישי של לקוחות, כדאי לבדוק גם מה החובות שלכם לפי דיני הגנת הפרטיות.</p>
+
+<h2>מקורות</h2>
+<ul>
+<li><a href="https://supabase.com/docs/guides/database/postgres/row-level-security" target="_blank" rel="noopener">Supabase Docs: Row Level Security</a></li>
+<li><a href="https://supabase.com/docs/guides/api/api-keys" target="_blank" rel="noopener">Supabase Docs: Understanding API keys</a></li>
+<li><a href="https://supabase.com/docs/guides/database/database-advisors" target="_blank" rel="noopener">Supabase Docs: Database Advisors</a></li>
+<li><a href="https://docs.lovable.dev/features/security" target="_blank" rel="noopener">Lovable Docs: Security</a></li>
+<li><a href="https://docs.lovable.dev/tips-tricks/security-best-practices" target="_blank" rel="noopener">Lovable Docs: Security best practices</a></li>
+</ul>
+<p>המידע נבדק מול התיעוד הרשמי בתאריך הפרסום של המאמר. הכלים האלה משתנים מהר, ולכן כדאי לבדוק שוב בתיעוד לפני שינוי גדול.</p>
+</div>
+      </div>
+      <div class="tags"><span>Supabase RLS</span><span>אבטחת אפליקציה</span><span>Lovable</span></div>
+
+      <section class="cta">
+        <h2>רוצים עין נוספת על ההרשאות?</h2>
+        <p>שלחו לי שתי שורות על האפליקציה ואיזה מידע היא שומרת. אחרי שיחה קצרה תקבלו הצעת מחיר לבדיקה תוך 24 שעות.</p>
+        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94%20%D7%A2%D7%9D%20Supabase%20%D7%95%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%95%D7%95%D7%93%D7%90%20%D7%A9%D7%94-RLS%20%D7%9E%D7%95%D7%92%D7%93%D7%A8%20%D7%A0%D7%9B%D7%95%D7%9F." target="_blank" rel="noopener">דברו איתי בוואטסאפ</a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
+    <span>© 2026 אורי אפיאס</span>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
+  </footer>
+</div>
+</body>
+</html>
