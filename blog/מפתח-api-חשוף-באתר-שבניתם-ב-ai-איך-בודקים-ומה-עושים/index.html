@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Rubik:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://afias.dev/blog/%D7%9E%D7%A4%D7%AA%D7%97-api-%D7%97%D7%A9%D7%95%D7%A3-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%90%D7%99%D7%9A-%D7%91%D7%95%D7%93%D7%A7%D7%99%D7%9D-%D7%95%D7%9E%D7%94-%D7%A2%D7%95%D7%A9%D7%99%D7%9D/">
+<title>מפתח API חשוף באתר שבניתם ב-AI: איך בודקים ומה עושים | afias.dev</title>
+<meta name="description" content="כלי AI שמים לפעמים מפתחות סודיים בקוד שכל גולש יכול לראות. הסבר פשוט איזה מפתח מותר שיהיה גלוי ואיזה לא, איך בודקים באתר שנבנה ב-Lovable, Bolt או Cursor, ומה עושים אם מפתח דלף.">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="afias.dev">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://afias.dev/blog/%D7%9E%D7%A4%D7%AA%D7%97-api-%D7%97%D7%A9%D7%95%D7%A3-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%90%D7%99%D7%9A-%D7%91%D7%95%D7%93%D7%A7%D7%99%D7%9D-%D7%95%D7%9E%D7%94-%D7%A2%D7%95%D7%A9%D7%99%D7%9D/">
+<meta property="og:title" content="מפתח API חשוף באתר שבניתם ב-AI: איך בודקים ומה עושים">
+<meta property="og:description" content="כלי AI שמים לפעמים מפתחות סודיים בקוד שכל גולש יכול לראות. הסבר פשוט איזה מפתח מותר שיהיה גלוי ואיזה לא, איך בודקים באתר שנבנה ב-Lovable, Bolt או Cursor, ומה עושים אם מפתח דלף.">
+<meta property="og:image" content="https://afias.dev/og-image.png">
+<meta property="article:published_time" content="2026-10-28T08:00:00.000Z">
+<meta property="article:author" content="אורי אפיאס">
+<meta property="article:tag" content="מפתח API">
+<meta property="article:tag" content="אבטחת אפליקציה">
+<meta property="article:tag" content="Lovable Secrets">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="מפתח API חשוף באתר שבניתם ב-AI: איך בודקים ומה עושים">
+<meta name="twitter:description" content="כלי AI שמים לפעמים מפתחות סודיים בקוד שכל גולש יכול לראות. הסבר פשוט איזה מפתח מותר שיהיה גלוי ואיזה לא, איך בודקים באתר שנבנה ב-Lovable, Bolt או Cursor, ומה עושים אם מפתח דלף.">
+<meta name="twitter:image" content="https://afias.dev/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://afias.dev/#organization",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://afias.dev/#localbusiness",
+      "name": "אורי אפיאס",
+      "url": "https://afias.dev/",
+      "parentOrganization": {
+        "@id": "https://afias.dev/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://afias.dev/#website",
+      "url": "https://afias.dev/",
+      "name": "אורי אפיאס",
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "inLanguage": "he"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://afias.dev/#author",
+      "name": "אורי אפיאס",
+      "worksFor": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "url": "https://afias.dev/about/",
+      "sameAs": [
+        "https://github.com/OriAfiasDev"
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "מפתח API חשוף באתר שבניתם ב-AI: איך בודקים ומה עושים",
+      "description": "כלי AI שמים לפעמים מפתחות סודיים בקוד שכל גולש יכול לראות. הסבר פשוט איזה מפתח מותר שיהיה גלוי ואיזה לא, איך בודקים באתר שנבנה ב-Lovable, Bolt או Cursor, ומה עושים אם מפתח דלף.",
+      "author": {
+        "@id": "https://afias.dev/#author"
+      },
+      "publisher": {
+        "@id": "https://afias.dev/#organization"
+      },
+      "datePublished": "2026-10-28T08:00:00.000Z",
+      "dateModified": "2026-10-28T08:00:00.000Z",
+      "keywords": "מפתח API חשוף, API key בקוד, אבטחת מפתחות API, Lovable secrets, VITE_ משתנה סביבה, החלפת מפתח שדלף",
+      "inLanguage": "he",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://afias.dev/blog/%D7%9E%D7%A4%D7%AA%D7%97-api-%D7%97%D7%A9%D7%95%D7%A3-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%90%D7%99%D7%9A-%D7%91%D7%95%D7%93%D7%A7%D7%99%D7%9D-%D7%95%D7%9E%D7%94-%D7%A2%D7%95%D7%A9%D7%99%D7%9D/"
+      },
+      "wordCount": 1030,
+      "articleSection": "אבטחה ונתונים",
+      "proficiencyLevel": "Beginner",
+      "citation": [
+        "https://docs.lovable.dev/features/secrets",
+        "https://docs.lovable.dev/integrations/any-api",
+        "https://vite.dev/guide/env-and-mode",
+        "https://supabase.com/docs/guides/api/api-keys",
+        "https://docs.stripe.com/keys"
+      ],
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "איך אדע אם מפתח מסוים מותר שיהיה גלוי?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "בודקים בתיעוד של השירות שהנפיק אותו. שירותים כמו Supabase ו-Stripe מסמנים במפורש מפתחות שמותר לחשוף, ומכנים אותם publishable. כל מפתח שנקרא secret, private, service_role או token אישי צריך להישאר בצד השרת."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "מחקתי את המפתח מהקוד. זה מספיק?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא. אם המפתח היה בקוד שפורסם, או נשמר בהיסטוריה של GitHub, צריך להניח שמישהו כבר ראה אותו. הדרך הבטוחה היא לבטל אותו אצל השירות שהנפיק אותו וליצור מפתח חדש."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "מה ההבדל בין Secret ב-Lovable למשתנה שמתחיל ב-VITE_?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Secret נשאר בשרת, VITE_ מגיע לדפדפן. לפי Lovable, ‏Secrets מוצפנים, נטענים לפונקציות בשרת ולא מגיעים לדפדפן. לפי התיעוד של Vite, משתנה שמתחיל ב-VITE_ נכנס לקוד שנשלח לגולש, ולכן מתאים רק לערכים ציבוריים."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "האם מותר להדביק מפתח בצ'אט של כלי ה-AI?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "עדיף להשתמש בטופס המאובטח. Lovable בדרך כלל מבקשת מפתחות דרך שדה מאובטח בצ'אט, ושומרת אותם כ-Secret. בכלים אחרים, כדאי לשאול איפה המפתח נשמר לפני שמדביקים אותו, ולא להכניס מפתח סודי לקובץ שנשלח לדפדפן."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://afias.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "מאמרים",
+          "item": "https://afias.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "מפתח API חשוף באתר שבניתם ב-AI: איך בודקים ומה עושים",
+          "item": "https://afias.dev/blog/%D7%9E%D7%A4%D7%AA%D7%97-api-%D7%97%D7%A9%D7%95%D7%A3-%D7%91%D7%90%D7%AA%D7%A8-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%9D-%D7%91-ai-%D7%90%D7%99%D7%9A-%D7%91%D7%95%D7%93%D7%A7%D7%99%D7%9D-%D7%95%D7%9E%D7%94-%D7%A2%D7%95%D7%A9%D7%99%D7%9D/"
+        }
+      ]
+    }
+  ],
+  "image": "https://afias.dev/og-image.png"
+}
+</script>
+
+<!-- Analytics only after consent (GA4, Clarity, Meta Pixel + /track): see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+
+<style>
+:root{--paper:#FAF8F3;--ink:#1C1E24;--brass:#B8862B;--brass-light:#D7A53F;--brass-deep:#8A6420;--line:#e5ddc9;--muted:rgba(28,30,36,.65);--muted-soft:rgba(28,30,36,.65)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper)}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--brass-deep);text-decoration:none}a:hover{color:var(--ink)}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.site-header{padding:28px 0 0}
+.wordmark{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:26px;direction:ltr;display:inline-flex;align-items:baseline;gap:2px;color:var(--ink)}
+.wordmark span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--brass-deep)}
+article{padding:56px 0 80px}
+.meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-soft);letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.meta .back{color:var(--brass-deep)}.meta .back::before{content:"→ "}
+h1{font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.16;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.62;color:var(--muted);margin:0 0 34px;text-wrap:pretty}
+.hero-image{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);margin:0 0 40px;display:block}
+.body{font-size:18px;line-height:1.75}
+.body h2{font-weight:900;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;line-height:1.18;margin:48px 0 14px}
+.body h3{font-weight:700;font-size:clamp(20px,2.4vw,24px);letter-spacing:-.01em;margin:36px 0 10px}
+.body p{margin:0 0 22px}
+.body a{text-decoration:underline;text-decoration-color:rgba(184,134,43,.5);text-underline-offset:3px}
+.body [data-hoox-watermark],.body [data-hoox-watermark] a{color:var(--muted-soft) !important}
+.body ul,.body ol{padding-inline-start:26px;margin:0 0 22px}
+.body li{margin:0 0 8px}
+.body img{max-width:100%;height:auto;border-radius:16px;border:1px solid var(--line)}
+.body blockquote{margin:28px 0;padding:18px 24px;border-inline-start:3px solid var(--brass);background:#fff;border-radius:0 16px 16px 0;color:var(--muted)}
+.body table{width:100%;border-collapse:collapse;margin:0 0 22px;display:block;overflow-x:auto}
+.body table:focus-visible{outline:3px solid var(--brass-deep);outline-offset:2px}
+.body .yt-facade{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;width:100%;aspect-ratio:16/9;box-sizing:border-box;padding:22px 24px;border-radius:14px;background:#1C1E24;color:#FAF8F3;text-decoration:none;line-height:1.35}
+.body .yt-facade:hover{color:#FAF8F3}
+.body .yt-facade-title{font-weight:700;font-size:clamp(17px,2.4vw,21px)}
+.body .yt-facade-play{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#B8862B;color:#1C1E24;font-weight:700;font-size:15px}
+.body .yt-facade-play::before{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent currentColor}
+.body .yt-facade:hover .yt-facade-play{background:#D7A53F}
+.body .yt-facade-note{font-size:13px;color:rgba(250,248,243,.8)}
+.body .yt-facade:focus-visible{outline:3px solid var(--brass-deep);outline-offset:3px}
+.body th,.body td{border:1px solid var(--line);padding:10px 14px;text-align:start}
+.body th{background:#fff;font-weight:700}
+.body code{font-family:'JetBrains Mono',monospace;font-size:.92em;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.body pre{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto;direction:ltr;text-align:left}
+.body pre code{border:0;padding:0;background:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brass-deep);border:1px solid rgba(184,134,43,.45);border-radius:999px;padding:6px 12px}
+.cta{margin:64px 0 0;padding:32px;background:#fff;border:1px solid var(--line);border-radius:24px;text-align:center}
+.cta h2{font-weight:900;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 10px}
+.cta p{color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px}
+.btn{display:inline-block;font-weight:700;font-size:16px;color:var(--ink);background:var(--brass);padding:15px 30px;border-radius:999px;box-shadow:0 8px 24px rgba(184,134,43,.22);transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(184,134,43,.35);color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted-soft)}
+@media (max-width:640px){article{padding:40px 0 60px}.body{font-size:17px}}
+/* Skip link (WCAG 2.4.1): off-screen until it takes keyboard focus. */
+.skip-link{position:fixed;top:12px;inset-inline-start:12px;z-index:1000;padding:12px 20px;border-radius:999px;background:#1C1E24;color:#FAF8F3;font-family:'Rubik',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;transform:translateY(-200%)}
+.skip-link:focus{transform:none;color:#FAF8F3;outline:3px solid #8A6420;outline-offset:2px}
+main:focus{outline:none}
+.body .prompt{margin:24px 0;padding:18px 22px;background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--brass);border-radius:16px}
+.body .prompt p{margin:0;font-size:17px;line-height:1.7}
+.body .prompt .prompt-label{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--brass-deep);margin:0 0 8px;letter-spacing:.02em}
+.body p code,.body li code,.body td code{direction:ltr;unicode-bidi:isolate;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.body .note{margin:24px 0;padding:16px 22px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.body .note p:last-child{margin:0}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+<div dir="rtl">
+  <header class="site-header"><div class="wrap"><a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a></div></header>
+
+  <main id="main" tabindex="-1" class="wrap">
+    <article>
+      <div class="meta">
+        <a href="/blog/" class="back">כל המאמרים</a>
+        <time datetime="2026-10-28T08:00:00.000Z">28 באוקטובר 2026</time>
+        <span>אורי אפיאס</span>
+      </div>
+      <h1>מפתח API חשוף באתר שבניתם ב-AI: איך בודקים ומה עושים</h1>
+      <p class="lede">כשמחברים אתר לשירות חיצוני, כמו מערכת סליקה, ChatGPT או CRM, מקבלים מפתח. חלק מהמפתחות נועדו להיות גלויים, ואחרים שווים כסף למי שמוצא אותם. הנה איך יודעים מה יש אצלכם, ומה עושים אם מפתח סודי כבר יצא החוצה.</p>
+      <div class="body">
+<div dir="rtl" style="direction:rtl;text-align:right;">
+<p><strong>מפתח API חשוף הוא מפתח סודי שנמצא בקוד שהדפדפן של הגולש מקבל. כל מי שיודע לפתוח את כלי המפתחים בדפדפן יכול להעתיק אותו ולהשתמש בו על חשבונכם: לשלוח בקשות ל-ChatGPT, לקרוא את מסד הנתונים או לבצע פעולות במערכת הסליקה.</strong> הכלל הפשוט: מפתח סודי צריך לשבת בשרת, אף פעם לא בקוד של העמוד.</p>
+
+<h2>יש מפתחות שמותר שיהיו גלויים?</h2>
+<p><strong>כן, וזה מבלבל הרבה אנשים.</strong> חלק מהשירותים מנפיקים שני סוגי מפתחות: אחד לדפדפן ואחד לשרת. Supabase משתמשת בדימוי טוב: המפתח הציבורי הוא כמו מפתח שמודבק על דלת הבניין ופותח רק את הלובי, והמפתח הסודי הוא מפתח מאסטר לכל הדירות.</p>
+<table tabindex="0">
+<thead><tr><th>מפתח</th><th>מותר בדפדפן?</th><th>לפי</th></tr></thead>
+<tbody>
+<tr><td>Supabase publishable (‏<code>sb_publishable_</code>) או anon הישן</td><td>כן. הוא מגיע רק למה שה-RLS מתיר</td><td><a href="https://supabase.com/docs/guides/api/api-keys" target="_blank" rel="noopener">Supabase</a></td></tr>
+<tr><td>Supabase secret (‏<code>sb_secret_</code>) או service_role הישן</td><td>לא, אף פעם. הוא עוקף את כל ה-RLS</td><td><a href="https://supabase.com/docs/guides/api/api-keys" target="_blank" rel="noopener">Supabase</a></td></tr>
+<tr><td>Stripe publishable (‏<code>pk_</code>)</td><td>כן. הוא לא יכול לבצע חיובים או לקרוא נתוני חשבון</td><td><a href="https://docs.stripe.com/keys" target="_blank" rel="noopener">Stripe</a></td></tr>
+<tr><td>Stripe secret (‏<code>sk_</code>)</td><td>לא</td><td><a href="https://docs.stripe.com/keys" target="_blank" rel="noopener">Stripe</a></td></tr>
+<tr><td>מפתח של OpenAI או של שירות AI אחר</td><td>לא. כל בקשה עולה כסף</td><td>מדיניות השירות</td></tr>
+<tr><td>מפתחות של חברות סליקה ישראליות</td><td>לא. Grow, ‏PayPlus ו-Cardcom דורשות קריאות מהשרת בלבד</td><td>התיעוד של כל חברה</td></tr>
+<tr><td>טוקן אישי של monday או מפתח של HubSpot</td><td>לא. הוא פותח את החשבון שלכם</td><td>התיעוד של כל שירות</td></tr>
+</tbody>
+</table>
+<p>ויש מקרה ביניים: לפי <a href="https://docs.lovable.dev/integrations/any-api" target="_blank" rel="noopener">Lovable</a>, מפתחות שהספק תכנן לשימוש בדפדפן, כמו מפתח דפדפן של Google Maps, שייכים לקוד של העמוד, ומגבילים אותם לדומיינים שלכם.</p>
+
+<h2>איך מפתח סודי מגיע לדפדפן בכלל?</h2>
+<p>בדרך כלל באחת משלוש דרכים:</p>
+<ol>
+<li><strong>הכלי כתב את המפתח ישירות בקוד</strong>, כי ביקשתם "תחבר את ChatGPT" והוא בחר בדרך הקצרה.</li>
+<li><strong>המפתח נשמר במשתנה שמתחיל ב-<code>VITE_</code>.</strong> הרבה אתרים שנבנים בכלי AI משתמשים ב-Vite. לפי <a href="https://vite.dev/guide/env-and-mode" target="_blank" rel="noopener">התיעוד של Vite</a>, משתנה שמתחיל ב-<code>VITE_</code> נכנס לקוד שנשלח לדפדפן. השם נראה "מוסתר" בקובץ <code>.env</code>, אבל הערך גלוי לכל גולש.</li>
+<li><strong>הקוד נשמר ב-GitHub ציבורי</strong> עם קובץ <code>.env</code> או עם המפתח בתוך הקוד. גם אם מחקתם אותו אחר כך, הוא נשאר בהיסטוריה.</li>
+</ol>
+
+<h2>איך עושים את זה נכון ב-Lovable</h2>
+<p>לפי <a href="https://docs.lovable.dev/features/secrets" target="_blank" rel="noopener">התיעוד של Lovable</a>, יש מקום מיוחד למפתחות שנקרא <strong>Secrets</strong>. הערכים שם מוצפנים, נטענים לפונקציות שרצות בשרת (Edge Functions, או server functions בפרויקטים חדשים) ולא מגיעים לדפדפן. אחרי שנשמרו, אי אפשר לראות אותם שוב, רק להחליף או למחוק. מנהלים אותם תחת <strong>More → Settings → Secrets</strong>.</p>
+<p>בדרך כלל לא צריך להוסיף אותם ידנית: כשפיצ'ר צריך מפתח, Lovable מבקשת אותו דרך שדה מאובטח בצ'אט. ולשירותים נפוצים יש Connectors, שבהם המפתח נשמר מחוץ לקוד של האפליקציה לגמרי.</p>
+<p>בכלים אחרים, כמו Bolt, ‏Cursor או v0, העיקרון זהה גם אם השמות שונים: המפתח הסודי נשמר במשתנה סביבה בצד השרת, והקוד שרץ בדפדפן פונה לשרת שלכם ולא ישירות לשירות.</p>
+
+<h2>איך בודקים אם יש אצלכם מפתח חשוף</h2>
+<p>הדרך הכי פשוטה היא לבקש מהכלי לעשות בדיקה, בלי לשנות כלום:</p>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>בלי לשנות שום קוד: תחפש בכל הפרויקט מפתחות API, טוקנים וסיסמאות. כולל קבצי .env, משתנים שמתחילים ב-VITE_ או NEXT_PUBLIC_, וערכים שכתובים ישירות בקוד.<br>
+לכל אחד תכתוב: לאיזה שירות הוא שייך, אם הוא נשלח לדפדפן או נשאר בשרת, ואם לפי התיעוד של השירות מותר שהוא יהיה גלוי.<br>
+תסמן באדום כל מפתח סודי שמגיע לדפדפן.</p></div>
+<p>ב-Lovable, הסריקה העמוקה (Deep scan) בודקת בין היתר סודות שנמצאים בקוד או במאגר. ומי שרוצה לבדוק לבד: פותחים את האתר החי, לוחצים F12, נכנסים ללשונית Sources ומחפשים (Ctrl+Shift+F) מילים כמו <code>sk_</code>, <code>secret</code> או <code>api_key</code>.</p>
+
+<h2>מצאתם מפתח סודי חשוף? ככה מתקנים</h2>
+<ol>
+<li><strong>לא ממהרים למחוק מהקוד.</strong> קודם מבינים איך הוא הגיע לשם, כדי שהמפתח החדש לא יגיע לאותו מקום. גם Supabase ממליצה לתקן קודם את שורש הבעיה.</li>
+<li><strong>מעבירים את הקריאה לשרת.</strong> בעזרת הפרומפט למטה.</li>
+<li><strong>מחליפים את המפתח.</strong> נכנסים ללוח הבקרה של השירות, יוצרים מפתח חדש, שומרים אותו ב-Secrets, ורק אז מבטלים את הישן. ב-Supabase התהליך הזה מתואר במסמך על <a href="https://supabase.com/docs/guides/api/api-keys" target="_blank" rel="noopener">מפתחות API</a>.</li>
+<li><strong>בודקים שימוש חריג.</strong> חיובים לא מוכרים אצל ספק ה-AI, פעולות לא מוכרות במערכת הסליקה, או שינויים במסד הנתונים.</li>
+</ol>
+<div class="prompt"><p class="prompt-label">פרומפט להעתקה</p><p>המפתח של [שם השירות] נמצא כרגע בקוד שנשלח לדפדפן. תעביר את כל הקריאות לשירות הזה לפונקציה בצד השרת, שתקרא את המפתח מ-Secrets בשם [SERVICE_API_KEY]. הקוד בדפדפן יפנה רק לפונקציה שלנו.<br>
+תוודא שהמפתח לא מופיע יותר באף קובץ שנשלח לדפדפן ולא בשום משתנה שמתחיל ב-VITE_.<br>
+אחרי זה תבקש ממני להזין מפתח חדש בטופס המאובטח. את הישן אני אבטל בעצמי.</p></div>
+
+<div class="note"><p><strong>למה לבטל ולא רק להסתיר?</strong> מפתח שהיה גלוי באתר חי, אפילו לכמה שעות, יכול היה להיאסף. אחרי שמחליפים אותו, המפתח הישן כבר לא שווה כלום, גם אם מישהו שמר אותו.</p></div>
+
+<h2>מתי כדאי לקרוא למישהו?</h2>
+<p>אם מצאתם מפתח סודי חשוף של מערכת סליקה, של מסד נתונים עם מידע על לקוחות, או של שירות שגובה כסף לפי שימוש, ואתם לא בטוחים שהתיקון מלא, כדאי שמישהו יעבור על זה. אני בודק אתרים שנבנו בכלי AI, מעביר את מה שצריך לשרת ומוודא ששום דבר סודי לא נשאר בדפדפן. המחיר נקבע אחרי שיחה קצרה. ואם אתם עוד בשלב התכנון, <a href="https://afias.dev/blog/%D7%90%D7%A4%D7%99%D7%95%D7%9F-%D7%90%D7%AA%D7%A8-%D7%9C%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%A7%D7%98%D7%A0%D7%99%D7%9D-%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A-%D7%94%D7%9E%D7%9C%D7%90-%D7%9C-2026/">מדריך האפיון</a> יעזור לחשוב מראש לאילו שירותים האתר יתחבר.</p>
+
+<h2>שאלות נפוצות על מפתחות API חשופים</h2>
+
+<h3>איך אדע אם מפתח מסוים מותר שיהיה גלוי?</h3>
+<p><strong>בודקים בתיעוד של השירות שהנפיק אותו.</strong> שירותים כמו Supabase ו-Stripe מסמנים במפורש מפתחות שמותר לחשוף, ומכנים אותם publishable. כל מפתח שנקרא secret, private, service_role או token אישי צריך להישאר בצד השרת.</p>
+
+<h3>מחקתי את המפתח מהקוד. זה מספיק?</h3>
+<p><strong>לא.</strong> אם המפתח היה בקוד שפורסם, או נשמר בהיסטוריה של GitHub, צריך להניח שמישהו כבר ראה אותו. הדרך הבטוחה היא לבטל אותו אצל השירות שהנפיק אותו וליצור מפתח חדש.</p>
+
+<h3>מה ההבדל בין Secret ב-Lovable למשתנה שמתחיל ב-VITE_?</h3>
+<p><strong>Secret נשאר בשרת, VITE_ מגיע לדפדפן.</strong> לפי Lovable, ‏Secrets מוצפנים, נטענים לפונקציות בשרת ולא מגיעים לדפדפן. לפי התיעוד של Vite, משתנה שמתחיל ב-VITE_ נכנס לקוד שנשלח לגולש, ולכן מתאים רק לערכים ציבוריים.</p>
+
+<h3>האם מותר להדביק מפתח בצ'אט של כלי ה-AI?</h3>
+<p><strong>עדיף להשתמש בטופס המאובטח.</strong> Lovable בדרך כלל מבקשת מפתחות דרך שדה מאובטח בצ'אט, ושומרת אותם כ-Secret. בכלים אחרים, כדאי לשאול איפה המפתח נשמר לפני שמדביקים אותו, ולא להכניס מפתח סודי לקובץ שנשלח לדפדפן.</p>
+
+<h2>מקורות</h2>
+<ul>
+<li><a href="https://docs.lovable.dev/features/secrets" target="_blank" rel="noopener">Lovable Docs: Secrets</a></li>
+<li><a href="https://docs.lovable.dev/integrations/any-api" target="_blank" rel="noopener">Lovable Docs: Integrate any API with Lovable</a></li>
+<li><a href="https://vite.dev/guide/env-and-mode" target="_blank" rel="noopener">Vite: Env Variables and Modes</a></li>
+<li><a href="https://supabase.com/docs/guides/api/api-keys" target="_blank" rel="noopener">Supabase Docs: Understanding API keys</a></li>
+<li><a href="https://docs.stripe.com/keys" target="_blank" rel="noopener">Stripe Docs: API keys</a></li>
+</ul>
+<p>המידע נבדק מול התיעוד הרשמי בתאריך הפרסום של המאמר. הכלים האלה משתנים מהר, ולכן כדאי לבדוק שוב בתיעוד לפני שינוי גדול.</p>
+</div>
+      </div>
+      <div class="tags"><span>מפתח API</span><span>אבטחת אפליקציה</span><span>Lovable Secrets</span></div>
+
+      <section class="cta">
+        <h2>לא בטוחים מה חשוף אצלכם?</h2>
+        <p>שלחו לי שתי שורות על האתר ולאילו שירותים הוא מחובר. אחרי שיחה קצרה תקבלו הצעת מחיר לבדיקה תוך 24 שעות.</p>
+        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%97%D7%95%D7%A9%D7%A9%20%D7%A9%D7%99%D7%A9%20%D7%9E%D7%A4%D7%AA%D7%97%20API%20%D7%97%D7%A9%D7%95%D7%A3%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99.%20%D7%90%D7%A4%D7%A9%D7%A8%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%3F" target="_blank" rel="noopener">דברו איתי בוואטסאפ</a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <a href="/" class="wordmark" style="color:inherit;">afias<span>.dev</span></a>
+    <span>© 2026 אורי אפיאס</span>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
+    <button type="button" class="consent-open" data-consent-open>הגדרות עוגיות</button>
+  </footer>
+</div>
+</body>
+</html>
