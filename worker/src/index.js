@@ -12,6 +12,13 @@
  *               Responds with { ok: true, issueId } so the browser can hold onto it.
  *   step 2  ->  commentCreate on that same issue with the contact details.
  *
+ * A sibling route takes the short form on the homepage's "campaign landing
+ * page" track:
+ *
+ *   POST /api/landing-request  ->  one Linear issue ("דף נחיתה לקמפיין - <name>")
+ *                                  with the name, phone, link and monthly budget,
+ *                                  labelled "דף נחיתה לקמפיין", due the next day.
+ *
  * A second, independent route handles Meta Conversions API:
  *
  *   POST /track  ->  mirrors a browser Pixel event server-side, sharing the
@@ -42,6 +49,11 @@ const LINEAR_API = 'https://api.linear.app/graphql';
 const LABEL_NAME = 'בקשת דמו';
 const DUE_DAYS = 3;
 
+// The homepage's short form. The page promises an answer within a working day.
+const LANDING_PATH = '/api/landing-request';
+const LANDING_LABEL = 'דף נחיתה לקמפיין';
+const LANDING_DUE_DAYS = 1;
+
 const TRACK_PATH = '/track';
 const HOOX_PATH = '/api/hoox-webhook';
 
@@ -62,6 +74,8 @@ const ALLOWED_EVENTS = new Set([
   'DemoPageClick',
   'CopyPrompt',      // /brief
   'DownloadSkill',   // /brief
+  'InitiateCheckout',    // homepage: the diagnosis button
+  'CalculatorComplete',  // homepage: the calculator has every number it needs
 ]);
 
 /* ------------------------------------------------------------------ */
@@ -74,6 +88,8 @@ const ALLOWED_ORIGINS = [
   'https://www.afias.dev',
   'http://localhost:8000',
   'http://127.0.0.1:8000',
+  'http://localhost:8791',   // the preview server in .claude/launch.json
+  'http://127.0.0.1:8791',
 ];
 
 function corsHeaders(origin) {
@@ -130,10 +146,11 @@ async function linear(env, query, variables) {
 }
 
 /**
- * Return the id of the "בקשת דמו" label on this team, creating it if missing.
- * Returns null rather than throwing — a missing label must never cost us a lead.
+ * Return the id of a label on this team (by default "בקשת דמו"), creating it
+ * if missing. Returns null rather than throwing — a missing label must never
+ * cost us a lead.
  */
-async function ensureLabel(env) {
+async function ensureLabel(env, name = LABEL_NAME) {
   try {
     const found = await linear(
       env,
@@ -142,7 +159,7 @@ async function ensureLabel(env) {
            nodes { id }
          }
        }`,
-      { teamId: env.LINEAR_TEAM_ID, name: LABEL_NAME }
+      { teamId: env.LINEAR_TEAM_ID, name }
     );
 
     const existing = found.issueLabels.nodes[0];
@@ -155,7 +172,7 @@ async function ensureLabel(env) {
        }`,
       {
         input: {
-          name: LABEL_NAME,
+          name,
           teamId: env.LINEAR_TEAM_ID,
           color: '#B8862B',
         },
@@ -287,8 +304,58 @@ async function handleStep2(env, data) {
 }
 
 /* ------------------------------------------------------------------ */
-/* entrypoint                                                          */
+/* the homepage's short form (campaign landing page)                   */
 /* ------------------------------------------------------------------ */
+
+/**
+ * One step, one issue. Name and phone are what it takes to answer, so they
+ * are required; the link and the budget are what the answer is about, and
+ * are filed as given.
+ */
+async function handleLandingRequest(env, data) {
+  const name = clean(data.name, 200);
+  const phone = clean(data.phone, 60);
+  if (!name || !phone) {
+    return { status: 400, body: { ok: false, error: 'name and phone are required' } };
+  }
+
+  const link = clean(data.link, 600);
+  const budget = clean(data.budget, 60);
+
+  const description = [
+    '**פנייה חדשה: דף נחיתה לקמפיין**',
+    '',
+    `**שם:** ${name}`,
+    `**טלפון:** ${phone}`,
+    `**קישור לדף / למודעה:** ${link || '_לא צוין_'}`,
+    `**תקציב חודשי:** ${budget || '_לא צוין_'}`,
+    '',
+    '---',
+    '',
+    '_הגיע מהטופס בדף הבית. הובטחה תשובה בכתב בוואטסאפ תוך יום עבודה._',
+  ].join('\n');
+
+  const labelId = await ensureLabel(env, LANDING_LABEL);
+
+  await linear(
+    env,
+    `mutation($input: IssueCreateInput!) {
+       issueCreate(input: $input) { success issue { id } }
+     }`,
+    {
+      input: {
+        teamId: env.LINEAR_TEAM_ID,
+        projectId: env.LINEAR_PROJECT_ID,
+        title: `${LANDING_LABEL} - ${name}`,
+        description,
+        dueDate: dueDate(LANDING_DUE_DAYS),
+        ...(labelId ? { labelIds: [labelId] } : {}),
+      },
+    }
+  );
+
+  return { status: 200, body: { ok: true } };
+}
 
 /* ------------------------------------------------------------------ */
 /* Meta Conversions API                                                */
@@ -668,6 +735,18 @@ export default {
     // the bot believes it succeeded and doesn't come back to retry.
     if (clean(data.company_url, 200)) {
       return json({ ok: true, issueId: null }, 200, origin);
+    }
+
+    // The homepage's short form. Everything else falls through to the demo
+    // form exactly as before.
+    if (new URL(request.url).pathname === LANDING_PATH) {
+      try {
+        const { status, body } = await handleLandingRequest(env, data);
+        return json(body, status, origin);
+      } catch (err) {
+        console.error('landing form failed:', err.message);
+        return json({ ok: false, error: 'internal error' }, 500, origin);
+      }
     }
 
     try {

@@ -1,16 +1,41 @@
 # afias-demo
 
-Three routes on one Worker.
+Four routes on one Worker.
 
 | route | what it does |
 | --- | --- |
 | `POST /api/demo-request` | the free-demo form (AFI-24) -> a Linear issue |
+| `POST /api/landing-request` | the homepage's short form (campaign landing page) -> a Linear issue |
 | `POST /track` | mirrors a browser Pixel event to Meta's Conversions API |
 | `POST /api/hoox-webhook` | receives published articles from Hoox -> `blog/<slug>/` in the repo |
 
-The first two are browser-facing and share the CORS allowlist. The webhook is
+The first three are browser-facing and share the CORS allowlist. The webhook is
 server-to-server, authenticates with an HMAC instead, and is dispatched before
-the allowlist ever runs. None of the three knows about the others.
+the allowlist ever runs. None of the four knows about the others.
+
+## The homepage form
+
+The "דף נחיתה לקמפיין" card on the homepage opens a four-field form: name,
+phone, a link to the current page or ad, and the monthly budget. It posts to
+`/api/landing-request` and becomes **one** Linear issue, in the same team and
+project as the demo requests:
+
+| | |
+| --- | --- |
+| title | `דף נחיתה לקמפיין - <name>` |
+| label | `דף נחיתה לקמפיין` (created on first use, like `בקשת דמו`) |
+| due date | today + 1 day: the page promises an answer within a working day |
+| required | name and phone. The link and the budget are filed as given |
+
+It shares the demo form's honeypot (`company_url`) and its CORS allowlist.
+
+**Deploy order does not matter.** The page also sends the three fields the
+demo form's first step expects (`business`, `website`, `about`, with the phone
+and the budget written into `about`). A Worker that predates this route has no
+`/api/landing-request`, so the request falls through to the demo handler and is
+filed as a demo request instead of being refused. Mislabelled, but not lost.
+Once this version is deployed (`npx wrangler deploy`) the new route takes over
+and the extra fields are ignored.
 
 ## The demo form
 

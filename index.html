@@ -214,6 +214,7 @@ main{display:block;padding-top:var(--bar)}
 .inp input::placeholder{color:var(--muted);opacity:1}
 .inp input:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 .inp input:disabled{border-style:dashed;color:var(--muted)}
+.inp input[aria-invalid="true"]{border:2px solid var(--paper)}
 .inp--text input{font-family:var(--sans);font-size:18px;direction:rtl;text-align:start}
 .inp--ltr input{font-family:var(--sans);font-size:17px;direction:ltr;text-align:left}
 .chk{display:inline-flex;align-items:center;gap:10px;margin-top:12px;min-height:28px;font-size:16px;cursor:pointer}
@@ -322,6 +323,7 @@ main{display:block;padding-top:var(--bar)}
 .lead-form{display:grid;gap:16px;padding-top:4px}
 .form-msg{padding:14px 16px;border:1px solid var(--field);font-size:16px;line-height:1.5}
 .form-msg:focus{outline:2px solid var(--brass);outline-offset:2px}
+.form-msg a{text-decoration-color:var(--brass);text-underline-offset:3px}
 .form-note{font-size:14px;color:var(--muted)}
 .form-note a{text-decoration-color:var(--brass);text-underline-offset:3px}
 .done{padding:20px;border:1px solid var(--brass);font-size:clamp(19px,1.8vw,22px);font-weight:700;line-height:1.35}
@@ -987,7 +989,8 @@ main{display:block;padding-top:var(--bar)}
 
 <script>
 /* afias.dev homepage. One file, no dependencies, no build step.
-   In order: helpers, the page's figures, the calculator. Each part looks up
+   In order: what still waits for an answer, helpers, the page's figures,
+   the calculator, the diagnosis buttons, the short form. Each part looks up
    what it needs and returns quietly if it is not there, so the page never
    depends on any one of them. */
 (function () {
@@ -995,6 +998,25 @@ main{display:block;padding-top:var(--bar)}
   var doc = document;
   function $(sel, ctx) { return (ctx || doc).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(sel)); }
+
+  /* ---------- what still waits for an answer ----------
+     Fill these in here and nothing else on the page needs to change. */
+  var CONFIG = {
+    // TODO: SUMIT_PAYMENT_URL. The payment page for the diagnosis (490). Until
+    // it is set, the diagnosis buttons stay what they are in the markup:
+    // WhatsApp links with a ready message. Never a dead button.
+    SUMIT_PAYMENT_URL: '',
+    // TODO: INTAKE_FORM_URL. The details form a buyer is sent to after paying
+    // (name, phone, where the ad leads, the ad itself, monthly budget, and
+    // optionally last month's clicks and leads). The redirect itself is set
+    // on SUMIT's side, as the payment page's "after payment" address; it is
+    // written down here only so the two addresses live in one place.
+    INTAKE_FORM_URL: '',
+    // The short form on the landing-page track goes to the repo's own Worker,
+    // which files it in Linear (see worker/README.md).
+    FORM_ENDPOINT: 'https://afias-demo.afias.workers.dev/api/landing-request',
+    WHATSAPP: 'https://wa.me/972542533533?text='
+  };
 
   /* ---------- figures, as text ---------- */
   var nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
@@ -1224,6 +1246,114 @@ main{display:block;padding-top:var(--bar)}
     slider.addEventListener('input', slide);
     window.addEventListener('pageshow', function () { render(true); });   // the browser may have restored the fields
     render(true);
+  })();
+
+  /* ---------- the diagnosis buttons ---------- */
+  (function checkout() {
+    if (!CONFIG.SUMIT_PAYMENT_URL) return;
+    $$('[data-checkout]').forEach(function (a) {
+      a.href = CONFIG.SUMIT_PAYMENT_URL;
+      a.removeAttribute('target');          // paying happens in this tab
+    });
+  })();
+
+  /* ---------- the short form (campaign landing page) ----------
+     The button is a WhatsApp link in the markup, so it does something even
+     with no script. Here it opens the form instead: name, phone, the current
+     page or ad, the monthly budget. Sent to the Worker, which files it. */
+  (function leadForm() {
+    var opener = $('[data-open-form]'), form = $('[data-lead-form]');
+    if (!opener || !form) return;
+    var err = $('#lead-err'), done = $('#lead-done'), submit = $('[data-lead-submit]', form);
+    var el = form.elements, sending = false;
+
+    opener.setAttribute('role', 'button');
+    opener.setAttribute('aria-expanded', 'false');
+    function open(e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;   // a deliberate new-tab click keeps the WhatsApp link
+      e.preventDefault();
+      var m = window.afiasFunnel.get();     // the calculator may already know the budget
+      if (m && !m.example && m.budget && !el.budget.value) el.budget.value = nf0.format(m.budget);
+      form.hidden = false;
+      opener.hidden = true;
+      el.name.focus();
+      doc.dispatchEvent(new CustomEvent('lead:open'));
+    }
+    opener.addEventListener('click', open);
+    opener.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Spacebar') open(e); });
+
+    // An error about a field marks the field and is read with it. One about
+    // the request itself takes focus, so a screen reader says what happened.
+    function fail(html, fields) {
+      err.innerHTML = html;
+      err.hidden = false;
+      if (!fields) { err.focus(); return; }
+      fields.forEach(function (f) { f.setAttribute('aria-invalid', 'true'); f.setAttribute('aria-describedby', 'lead-err'); });
+      fields[0].focus();
+    }
+    function unmark(f) { f.removeAttribute('aria-invalid'); f.removeAttribute('aria-describedby'); }
+    function clear() { err.hidden = true; err.textContent = ''; $$('[aria-invalid]', form).forEach(unmark); }
+    form.addEventListener('input', function (e) { if (e.target.hasAttribute('aria-invalid')) unmark(e.target); });
+
+    function finish() {
+      form.hidden = true;
+      done.hidden = false;
+      done.focus();
+      doc.dispatchEvent(new CustomEvent('lead:sent'));
+    }
+    // aria-disabled, not disabled: a disabled button drops keyboard focus to
+    // the page, and the person loses their place while it sends.
+    function busy(on) {
+      sending = on;
+      if (on) submit.setAttribute('aria-disabled', 'true'); else submit.removeAttribute('aria-disabled');
+      submit.textContent = on ? 'שולח...' : 'שליחה';
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (sending) return;
+      clear();
+      var name = el.name.value.trim(), phone = el.phone.value.trim();
+      var link = el.link.value.trim(), budget = el.budget.value.trim();
+      var bad = [];
+      if (!name) bad.push(el.name);
+      if (phone.replace(/\D/g, '').length < 9) bad.push(el.phone);
+      if (bad.length) {
+        fail(bad.length === 2 ? 'צריך שם וטלפון כדי שאוכל לחזור אליך.'
+           : bad[0] === el.name ? 'צריך שם כדי שאדע למי לחזור.'
+           : 'צריך מספר טלפון מלא כדי שאוכל לחזור אליך.', bad);
+        return;
+      }
+      if (el.company_url.value) { finish(); return; }   // the honeypot: a person never fills a field they cannot see
+
+      busy(true);
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timeout = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+      fetch(CONFIG.FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: ctrl ? ctrl.signal : undefined,
+        body: JSON.stringify({
+          name: name, phone: phone, link: link, budget: budget, company_url: '',
+          // The same request in the demo form's shape, for a Worker that
+          // predates /api/landing-request: it files this as a demo request
+          // rather than refusing it (worker/README.md, "The homepage form").
+          business: name, website: link,
+          about: 'פנייה מדף הבית: דף נחיתה לקמפיין\nטלפון: ' + phone + '\nתקציב חודשי: ' + (budget || 'לא צוין')
+        })
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok || !data.ok) throw new Error('request failed');
+        });
+      }).then(finish).catch(function () {
+        busy(false);
+        // Nothing typed is lost: the same details, ready to send as a message.
+        var text = 'היי אורי, בוא נבנה דף נחיתה לקמפיין שלי.\nשם: ' + name +
+                   (link ? '\nקישור: ' + link : '') + (budget ? '\nתקציב חודשי: ' + budget : '');
+        fail('משהו השתבש בשליחה. אפשר לנסות שוב, או <a href="' + CONFIG.WHATSAPP + encodeURIComponent(text) +
+             '" target="_blank" rel="noopener">לשלוח לי את זה בוואטסאפ</a>.');
+      }).then(function () { clearTimeout(timeout); });
+    });
   })();
 
   if (!page) setPage(exampleModel());
