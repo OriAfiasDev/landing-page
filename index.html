@@ -125,6 +125,13 @@ main:focus{outline:none}
 .wrap{position:relative;z-index:1;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
 .lead{margin-top:clamp(16px,2.4vh,24px);max-width:52ch;font-size:clamp(17px,1.5vw,20px);color:var(--text)}
 
+/* ---------- the stream ----------
+   One canvas for the whole page, fixed behind the content. Every dot is a
+   share of the clicks; the script below moves them. 100lvh, not 100%: on a
+   phone the visible height changes as the address bar comes and goes, and a
+   canvas that followed it would be resized (and cleared) mid-scroll. */
+.stream{position:fixed;top:0;left:0;z-index:0;width:100%;height:100vh;height:100lvh;pointer-events:none}
+
 /* ---------- buttons and links ----------
    Hover and focus change colour only. Nothing on this page moves unless it
    is showing a number. */
@@ -194,7 +201,8 @@ main{display:block;padding-top:var(--bar)}
 /* The meter: the stage this screen is in, as a figure. */
 .meter{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 20px;padding-top:16px;border-top:1px solid var(--line)}
 .meter-label{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;font-size:clamp(17px,1.7vw,22px);font-weight:500}
-.meter-legend{margin-top:8px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.meter-legend{margin-top:8px;display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.has-stream .meter-legend{display:flex}        /* a legend for the dots only when there are dots */
 .dot{flex:none;display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--brass)}
 .meter-num{font-size:clamp(64px,17vw,208px);font-weight:700;line-height:.8;letter-spacing:-.055em;margin-bottom:-.02em}
 @media (max-width:759px){.hero .wrap{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}}   /* the WhatsApp button's corner */
@@ -273,7 +281,10 @@ main{display:block;padding-top:var(--bar)}
   clip-path:polygon(0 0,100% 0,100% calc(100% - var(--hop)),calc(var(--neck-x) + var(--neck-w) / 2) 100%,calc(var(--neck-x) - var(--neck-w) / 2) 100%,0 calc(100% - var(--hop)));
 }
 .paper :focus-visible{outline-color:var(--ink)}
-.neck{position:absolute;left:var(--neck-x);bottom:0;width:var(--neck-w);height:1px;transform:translateX(-50%);pointer-events:none}
+/* An invisible box the size of the hopper's spout and as tall as the hopper:
+   the stream reads the funnel's geometry from it instead of redoing the CSS
+   arithmetic. */
+.neck{position:absolute;left:var(--neck-x);bottom:0;width:var(--neck-w);height:var(--hop);transform:translateX(-50%);pointer-events:none}
 .exhibit{margin-top:clamp(36px,7vh,80px);display:grid;gap:clamp(32px,5vh,56px)}
 .findings{display:grid;gap:clamp(28px,4.5vh,48px)}
 .finding{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;align-items:start}
@@ -1357,6 +1368,324 @@ main{display:block;padding-top:var(--bar)}
   })();
 
   if (!page) setPage(exampleModel());
+
+  /* ---------- the stream ----------
+     Scrolling the page is going down the funnel, and the dots are the
+     clicks. Each dot stands for the same number of clicks (the hero says how
+     many), so how many dots there are at any depth is the figure for that
+     depth, not an effect.
+
+     Where a dot is, is a function of three things only: the clock, how far
+     the page is scrolled, and the dot's own constants. There is no physics
+     and no state to drift, so a jump to any point of the page draws the same
+     picture a slow scroll would have reached, and scrolling back rewinds it.
+
+     Down the page:
+       hero, calculator   the clicks fall across the whole screen
+       the paper section  the paper narrows into a hopper, and the dots that
+                          will not become leads pile up above its neck: the
+                          bottleneck. Only the future leads drip through.
+       the funnel         the pile empties through the neck and falls past
+                          the four figures. At "leads" all but the leads
+                          drift sideways and fade; at "deals", all but the
+                          deals.
+       the rest           what is left runs on down the page
+       the close          the clicks are all there again: they are paid for
+
+     No stream at all under prefers-reduced-motion (or ?motion=off, to see
+     that version): the page is then still, with every figure at rest. */
+  (function stream() {
+    var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    if ((mq && mq.matches) || /[?&]motion=off\b/.test(location.search)) return;
+    var neckEl = $('[data-neck]'), rowLeads = $('[data-frow="leads"]'), rowDeals = $('[data-frow="deals"]');
+    var closeEl = $('#start');
+    if (!neckEl || !rowLeads || !rowDeals || !window.requestAnimationFrame) return;
+    var canvas = doc.createElement('canvas'), ctx = canvas.getContext && canvas.getContext('2d');
+    if (!ctx) return;
+    canvas.className = 'stream';
+    canvas.setAttribute('aria-hidden', 'true');
+    doc.body.appendChild(canvas);
+    doc.documentElement.classList.add('has-stream');
+
+    var TAU = Math.PI * 2, MAXP = 250, M = 28, STEPS = 10;
+    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function smooth(v) { v = clamp01(v); return v * v * (3 - 2 * v); }
+    function easeOut(v) { v = clamp01(v); return 1 - (1 - v) * (1 - v) * (1 - v); }
+
+    // A fixed seed: the same field of dots on every visit.
+    var seed = 20261115;
+    function rnd() {
+      seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+    function shuffled(n) {
+      var a = [], i, j, x;
+      for (i = 0; i < n; i++) a.push(i);
+      for (i = n - 1; i > 0; i--) { j = Math.floor(rnd() * (i + 1)); x = a[i]; a[i] = a[j]; a[j] = x; }
+      return a;
+    }
+    var P = [];
+    (function () {
+      var lanes = shuffled(MAXP), starts = shuffled(MAXP), ranks = shuffled(MAXP);
+      for (var i = 0; i < MAXP; i++) P.push({
+        u: -1 + 2 * (lanes[i] + rnd()) / MAXP,    // its lane across the stream, -1..1 (spread evenly, then jittered)
+        ph: (starts[i] + rnd()) / MAXP,           // where in the fall it starts
+        sp: 0.75 + rnd() * 0.55,                  // its own pace
+        k: rnd(),                                 // a private constant, for whatever should differ from dot to dot
+        rank: ranks[i]                            // how far down the funnel it gets: the lower, the further
+      });
+    })();
+
+    var W = 0, H = 0, dpr = 1, small = false, quality = 1;
+    var R, DX, DY, JET, HW1, HW2, ZUP, ZLEN, SPREAD, ALPHA;
+    // The funnel's landmarks, in document px. Until measured, all out of reach.
+    var G = { hop: 1e9, neck: 1e9, nx: 0, nw: 30, t1: 1e9, t2: 1e9, close: 1e9 };
+    var N = 0, n1 = 0, n2 = 0, Nh = 0, unknown = false, unit = 6;
+    var slots = [], heights = [0];
+    var dirty = true, stale = true;
+
+    function size() {
+      W = doc.documentElement.clientWidth;
+      H = canvas.clientHeight || window.innerHeight;
+      small = W < 760;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      if (small) { R = 2.4; DX = 10; DY = 8.7; JET = 26; HW1 = 7; HW2 = 3; ZUP = 160; ZLEN = 220; SPREAD = 96; ALPHA = 0.62; }
+      else { R = 3; DX = 13; DY = 11.3; JET = 64; HW1 = 14; HW2 = 5; ZUP = 200; ZLEN = 280; SPREAD = 210; ALPHA = 0.85; }
+    }
+
+    /* How many dots, and how many of them get how far. The example (1,500
+       clicks) uses every dot the screen is allowed: 250, or 60 on a phone.
+       Other figures keep that scale until they would need more dots than
+       allowed, and then each dot simply stands for more clicks. */
+    function recount() {
+      var m = page || {}, clicks = m.clicks > 0 ? m.clicks : 0;
+      var most = small ? 60 : 250, allowed = Math.round(most * quality);
+      N = Math.round(clicks / (1500 / most));
+      N = Math.max(Math.min(24, Math.round(clicks)), Math.min(allowed, N));
+      unit = N ? clicks / N : 0;
+      unknown = m.leads == null;
+      n1 = (unknown || !(m.leads > 0)) ? 0 : Math.max(1, Math.min(N, Math.round(m.leads / unit)));
+      n2 = (unknown || !(m.deals > 0)) ? 0 : Math.max(1, Math.min(n1, Math.round(m.deals / unit)));
+      Nh = N - n1;
+      var label = (unit >= 10 || unit === Math.round(unit)) ? nf0.format(unit) : nf1.format(unit);
+      $$('[data-bind="unit"]').forEach(function (el) { el.textContent = label; });
+      heap();
+      dirty = true;
+    }
+
+    function docTop(el) { return el.getBoundingClientRect().top + window.pageYOffset; }
+    function measure() {
+      var r = neckEl.getBoundingClientRect(), sy = window.pageYOffset;
+      G.nx = r.left + r.width / 2; G.nw = r.width;
+      G.hop = r.top + sy; G.neck = r.bottom + sy;
+      G.t1 = docTop(rowLeads); G.t2 = docTop(rowDeals);
+      G.close = closeEl ? docTop(closeEl) : 1e9;
+      heap();
+      stale = false; dirty = true;
+    }
+
+    /* The heap: rows of dots between the hopper's walls, from the neck up.
+       Each row runs the other way from the one below it, so the k-th and
+       (k+1)-th places are always neighbours: when the heap drains, every dot
+       moves one place towards the neck, like a queue. heights[k] is how tall
+       the heap stands with k dots in it. */
+    function heap() {
+      slots = []; heights = [0];
+      var hop = Math.max(1, G.neck - G.hop), pad = R + 2, row = 0;
+      while (slots.length < Nh && row < 400) {
+        var h = R + 3 + row * DY, k = h / hop;
+        var left = (G.nx - G.nw / 2) * (1 - k) + pad;
+        var right = G.nx + G.nw / 2 + (W - G.nx - G.nw / 2) * k - pad;
+        var n = Math.max(1, Math.floor((right - left) / DX) + 1), x0 = (left + right - (n - 1) * DX) / 2;
+        for (var i = 0; i < n && slots.length < Nh; i++) {
+          slots.push({ x: x0 + (row % 2 ? n - 1 - i : i) * DX, y: -h });
+          heights.push(h + R);
+        }
+        row++;
+      }
+    }
+
+    // Dots are drawn in ten batches by opacity: one path and one fill each.
+    var bx = [], by = [], bn = [];
+    for (var b = 0; b <= STEPS; b++) { bx.push(new Float32Array(MAXP)); by.push(new Float32Array(MAXP)); bn.push(0); }
+    function dot(x, y, a) {
+      if (y < -M || y > H + M || x < -M || x > W + M) return;
+      var s = Math.round(a * STEPS);
+      if (s < 1) return;
+      if (s > STEPS) s = STEPS;
+      var i = bn[s]++;
+      bx[s][i] = x; by[s][i] = y;
+    }
+
+    var clock = 0, opening = window.pageYOffset < 80;   // the clicks arrive: only when the visit starts at the top
+
+    function draw(sy) {
+      var neckY = G.neck - sy;                                   // the neck, on screen
+      // The heap builds while the neck climbs from the foot of the screen to
+      // just past the middle, stands for a moment, and empties through the
+      // neck as the neck leaves the screen.
+      var filled = clamp01((H * 0.98 - neckY) / (H * 0.42)) * Nh;
+      var drained = clamp01((H * 0.46 - neckY) / (H * 0.52)) * Nh;
+      var surface = neckY - heights[Math.min(Nh, Math.round(filled))];
+      var endAbove = Math.min(H + M, surface);                   // falling dots stop at the heap's surface
+      var startBelow = Math.max(-M, neckY);                      // and released ones start at the neck
+      var flow = clock * 0.1 + sy * 0.55 / H;                    // how far the stream has run, in screens: time, plus the scroll
+      var drop = opening ? (1 - easeOut(clock / 1.6)) * (H + M) : 0;
+      var i, s;
+      for (s = 0; s <= STEPS; s++) bn[s] = 0;
+
+      for (i = 0; i < MAXP; i++) {
+        var p = P[i];
+        if (p.rank >= N) continue;
+        var f = p.ph + flow * p.sp; f -= Math.floor(f);
+        var y, a = 1;
+        if (p.rank >= n1) {                                      // it will not become a lead: it meets the heap
+          var h = p.rank - n1;
+          if (h >= filled) {                                     // still falling towards it
+            y = -M + f * (endAbove + M);
+            a = clamp01((h - filled) / 2);
+          } else if (h >= drained) {                             // in the heap, one place nearer the neck for every dot that leaves
+            var q = h - drained, j = Math.floor(q), A = slots[j], B = slots[j + 1] || A;
+            if (A) dot(A.x + (B.x - A.x) * (q - j), neckY + A.y + (B.y - A.y) * (q - j), clamp01(filled - h));
+            continue;
+          } else {                                               // through the neck
+            y = startBelow + f * (H + M - startBelow);
+            a = clamp01((drained - h) / 2);
+          }
+        } else y = -M + f * (H + 2 * M);                         // a future lead: nothing stops it
+        y -= drop * (0.3 + 0.7 * p.k);
+
+        var d = sy + y, cx, hw, off = 0;                         // d: how deep in the page this dot is
+        if (d < G.hop) { cx = W / 2; hw = W / 2 - R; }           // open page: the whole width
+        else if (d < G.neck) {                                   // between the hopper's walls
+          var t = (d - G.hop) / (G.neck - G.hop), l = t * (G.nx - G.nw / 2), r = W + t * (G.nx + G.nw / 2 - W);
+          cx = (l + r) / 2; hw = Math.max(1, (r - l) / 2 - R);
+        } else {                                                 // below the neck
+          cx = G.nx;
+          hw = G.nw / 2 + (JET - G.nw / 2) * smooth((d - G.neck) / 160);
+          var q1 = clamp01((d - G.t1 + ZUP) / ZLEN), dir = p.u < 0 ? -1 : 1, reach = 0.55 + 0.45 * p.k;
+          if (p.rank >= n1) {                                    // clicks to leads: this one falls away
+            a *= unknown ? 1 - q1 : Math.pow(1 - q1, 1.4);       // (with no figure for the stage, it just fades where it is)
+            if (!unknown) off = dir * easeOut(q1) * SPREAD * reach;
+          } else {
+            hw += (HW1 - hw) * smooth(q1);
+            var q2 = clamp01((d - G.t2 + ZUP) / ZLEN);
+            if (p.rank >= n2) { a *= Math.pow(1 - q2, 1.4); off = dir * easeOut(q2) * SPREAD * 0.6 * reach; }   // leads to deals
+            else hw += (HW2 - hw) * smooth(q2);
+          }
+          var back = smooth((d - G.close + H * 0.45) / (H * 0.6));
+          if (back > 0) {                                        // the close: the clicks are all there again
+            var here = clamp01(n2 + (N - n2) * back - p.rank);
+            if (here > a) { a = here; off = 0; }
+            cx += (W / 2 - cx) * back; hw += (W / 2 - R - hw) * back;
+          }
+        }
+        // Quieter behind running text, full strength from the hopper to the last figure.
+        a *= ALPHA + (1 - ALPHA) * smooth((d - G.hop + 200) / 200) * (1 - smooth((d - G.t2 - 500) / 240));
+        dot(cx + p.u * hw + off, y, a);
+      }
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#B8862B';
+      for (s = 1; s <= STEPS; s++) {
+        var n = bn[s];
+        if (!n) continue;
+        ctx.globalAlpha = s / STEPS;
+        ctx.beginPath();
+        for (i = 0; i < n; i++) { ctx.moveTo(bx[s][i] + R, by[s][i]); ctx.arc(bx[s][i], by[s][i], R, 0, TAU); }
+        ctx.fill();
+      }
+    }
+
+    /* The figures that move with the stream. The bar says which stage the
+       middle of the screen is in. The two big numbers count down as their
+       line of the funnel comes up the screen: "leads" starts at the number of
+       clicks and lands on the number of leads, in step with the dots falling
+       away beside it. */
+    var stageEls = $$('[data-stage]'), stage = 'clicks';
+    var leadsNum = $('.fnum', rowLeads), dealsNum = $('.fnum', rowDeals), meter = $('[data-count]');
+    function roll(el, from, to, q) {
+      if (!el || from == null || to == null) return;             // an unknown stage keeps its "?"
+      var a = fmtCount(from), z = fmtCount(to);
+      var text = q >= 1 ? z : fmtCount(Math.round(from + (to - from) * easeOut(q)));
+      el.style.setProperty('--chars', Math.max(parseFloat(widthInDigits(a)), parseFloat(widthInDigits(z))));   // one size for the whole count
+      if (el.textContent !== text) { el.textContent = text; el.__html = text; }
+    }
+    function readouts(sy) {
+      var m = page;
+      if (!m) return;
+      var mid = sy + H * 0.5;
+      var now = mid > G.close - H * 0.15 ? 'clicks' : mid > G.t2 ? 'deals' : mid > G.t1 ? 'leads' : 'clicks';
+      if (now !== stage) {
+        stage = now;
+        stageEls.forEach(function (el) { el.classList.toggle('is-on', el.getAttribute('data-stage') === now); });
+      }
+      roll(leadsNum, m.clicks, m.leads, clamp01((H * 0.86 - (G.t1 - sy)) / (H * 0.42)));
+      roll(dealsNum, m.leads, m.deals, clamp01((H * 0.86 - (G.t2 - sy)) / (H * 0.42)));
+    }
+
+    var raf = 0, last = 0, lastSy = -1, frames = 0, slow = 0;
+    function tick(now) {
+      raf = requestAnimationFrame(tick);
+      var dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+      last = now;
+      clock += dt;
+      if (stale) measure();
+      var sy = window.pageYOffset;
+      draw(sy);
+      if (dirty || sy !== lastSy) { dirty = false; lastSy = sy; readouts(sy); }
+      if (opening && meter && page) {                            // the meter counts the clicks in as they arrive
+        if (clock >= 1.6) { opening = false; put(meter, fmtCount(page.clicks)); }
+        else { var c = fmtCount(Math.round(page.clicks * easeOut(clock / 1.6))); meter.textContent = c; meter.__html = c; }
+      }
+      // A device that cannot keep up gets fewer dots, once: each then stands for more clicks.
+      if (frames < 150 && dt) {
+        frames++;
+        if (dt > 0.024) slow++;
+        if (frames === 150 && slow > 75) { quality = 0.6; recount(); }
+      }
+    }
+    function start() { if (!raf && !doc.hidden) { last = 0; raf = requestAnimationFrame(tick); } }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+
+    var seenW = -1, seenH = -1;
+    function resized() {
+      var w = doc.documentElement.clientWidth, h = canvas.clientHeight;
+      if (w !== seenW || h !== seenH) { seenW = w; seenH = h; size(); recount(); }
+      stale = true;
+    }
+    function gone() {                                            // reduced motion switched on while the page is open
+      if (!mq.matches) return;
+      stop();
+      if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+      doc.documentElement.classList.remove('has-stream');
+      if (page) setPage(page);                                   // every figure back at rest
+    }
+
+    window.addEventListener('resize', resized);
+    window.addEventListener('load', function () { stale = true; });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { stale = true; });
+    // Anything that changes the page's height (the calculator's result, the form, a question opening) moves the landmarks.
+    if (window.ResizeObserver) new ResizeObserver(function () { stale = true; }).observe(doc.body);
+    doc.addEventListener('funnel:change', recount);
+    doc.addEventListener('visibilitychange', function () { if (doc.hidden) stop(); else start(); });
+    if (mq) { if (mq.addEventListener) mq.addEventListener('change', gone); else if (mq.addListener) mq.addListener(gone); }
+
+    // For checking a frame by hand: afiasFunnel.stream.draw(seconds, scrollY).
+    window.afiasFunnel.stream = {
+      draw: function (seconds, sy) { if (seconds != null) clock = seconds; if (stale) measure(); sy = sy == null ? window.pageYOffset : sy; draw(sy); readouts(sy); },
+      state: function () { return { dots: N, leads: n1, deals: n2, heap: Nh, unit: unit, width: W, height: H, marks: G }; }
+    };
+
+    resized();
+    measure();
+    start();
+  })();
 })();
 </script>
 
