@@ -249,6 +249,8 @@ main{display:block;padding-top:var(--bar)}
 .range input::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-11px;border:0;border-radius:50%;background:var(--brass)}
 .range input::-moz-range-thumb{width:24px;height:24px;border:0;border-radius:50%;background:var(--brass)}
 .range input:focus-visible{outline:2px solid var(--brass);outline-offset:4px}
+.whatif.is-off label,.whatif.is-off .range{opacity:.45}
+.range input:disabled{cursor:not-allowed}
 .gain{margin-top:16px;font-size:clamp(18px,1.7vw,22px);font-weight:500;line-height:1.35}
 .gain .num{display:block;font-size:clamp(40px,5.4vw,68px);font-weight:700;line-height:1;letter-spacing:-.045em;color:var(--brass);margin-bottom:6px;text-align:right}
 
@@ -606,11 +608,11 @@ main{display:block;padding-top:var(--bar)}
       <ol class="frows" data-frows>
         <li class="frow" data-frow="budget">
           <p class="frow-k">תקציב <span class="tag" data-example>דוגמה</span></p>
-          <p class="fnum num" data-bind="budget" style="--chars:6"><span class="cur">₪</span>6,000</p>
+          <p class="fnum num" data-bind="budget" style="--chars:5.1"><span class="cur">₪</span>6,000</p>
         </li>
         <li class="frow" data-frow="clicks">
           <p class="frow-k">לחיצות</p>
-          <p class="fnum num" data-bind="clicks" style="--chars:5">1,500</p>
+          <p class="fnum num" data-bind="clicks" style="--chars:4.5">1,500</p>
           <h2 class="fcap" id="funnel-t">את הלחיצות אתה כבר קונה.</h2>
         </li>
         <li class="frow frow--on" data-frow="leads">
@@ -982,6 +984,251 @@ main{display:block;padding-top:var(--bar)}
     <button type="button" class="consent-open" data-consent-open="">הגדרות עוגיות</button>
   </div>
 </footer>
+
+<script>
+/* afias.dev homepage. One file, no dependencies, no build step.
+   In order: helpers, the page's figures, the calculator. Each part looks up
+   what it needs and returns quietly if it is not there, so the page never
+   depends on any one of them. */
+(function () {
+  'use strict';
+  var doc = document;
+  function $(sel, ctx) { return (ctx || doc).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(sel)); }
+
+  /* ---------- figures, as text ---------- */
+  var nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  var nf1 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 });
+  // Clicks, leads, deals. Under ten, a fraction is the difference between
+  // "four deals" and "almost five", so one decimal is kept there.
+  function fmtCount(n) {
+    if (n == null || !isFinite(n)) return null;
+    return (n >= 10 || n === Math.round(n)) ? nf0.format(n) : nf1.format(n);
+  }
+  function fmtMoney(n) {
+    return (n == null || !isFinite(n)) ? null : '<span class="cur">₪</span>' + nf0.format(n);
+  }
+  function fmtPct(n) { return nf1.format(n) + '%'; }
+
+  // How wide a figure is, in digit-widths: the funnel's big numbers size
+  // themselves to their lane with it (see .fnum).
+  function widthInDigits(text) {
+    var n = 0;
+    for (var i = 0; i < text.length; i++) {
+      var c = text.charAt(i);
+      n += (c === ',' || c === '.') ? 0.45 : c === '₪' ? 0.62 : 1;
+    }
+    return Math.max(1, n).toFixed(2);
+  }
+  function put(el, html) {
+    if (!el) return;
+    if (el.__html !== html) { el.innerHTML = html; el.__html = html; }
+    if (el.classList.contains('fnum')) el.style.setProperty('--chars', widthInDigits(el.textContent));
+  }
+
+  /* ---------- the funnel, as arithmetic ----------
+     clicks = budget / cost per click
+     leads  = clicks x share who get in touch
+     deals  = leads x share who close
+     income = deals x what a deal is worth
+     A step whose input is missing is null, and so is everything after it. */
+  var EXAMPLE = { budget: 6000, cpc: 4, rate: 2, close: 20, value: 1500 };   // 1,500 clicks, 30 leads, 6 deals
+  function compute(v) {
+    var clicks = (v.budget != null && v.cpc) ? v.budget / v.cpc : null;
+    var leads = (clicks != null && v.rate != null) ? clicks * v.rate / 100 : null;
+    var deals = (leads != null && v.close != null) ? leads * v.close / 100 : null;
+    var revenue = (deals != null && v.value != null) ? deals * v.value : null;
+    return { budget: v.budget, clicks: clicks, leads: leads, deals: deals, revenue: revenue };
+  }
+
+  /* ---------- the page's figures ----------
+     Everything outside the calculator that shows a funnel figure (the bar,
+     the hero meter, the funnel section, and later the stream) reads one
+     model. It is the worked example until the calculator is filled in, and
+     the visitor's own numbers after that. Kept in memory only. */
+  var page = null;
+  function setPage(model) {
+    page = model;
+    $$('[data-bind]').forEach(function (el) {
+      var key = el.getAttribute('data-bind');
+      if (key === 'unit') return;                                   // set by the stream
+      // A stage the visitor could not give a number for is a question mark,
+      // which is the honest figure for it.
+      put(el, key === 'budget' ? fmtMoney(model.budget) : (model[key] == null ? '?' : fmtCount(model[key])));
+    });
+    $$('[data-example]').forEach(function (el) { el.hidden = !model.example; });
+    doc.dispatchEvent(new CustomEvent('funnel:change', { detail: model }));
+  }
+  function exampleModel() {
+    var m = compute(EXAMPLE);
+    m.example = true; m.known = true;
+    return m;
+  }
+  window.afiasFunnel = { get: function () { return page; } };
+
+  /* ---------- the calculator ----------
+     Works as you type, one step at a time: each field you fill brings the
+     next figure in. Nothing typed at all means the worked example, marked
+     as one. Once every step has a number, the rest of the page switches to
+     the visitor's figures. */
+  (function calculator() {
+    var form = $('[data-calc-form]'), out = $('[data-calc-out]');
+    if (!form || !out) return;
+    var KEYS = ['budget', 'cpc', 'rate', 'close', 'value'];
+    var field = {};
+    KEYS.forEach(function (k) { field[k] = form.elements[k]; });
+    var unknown = form.elements.unknown;
+    var todayBox = $('[data-out-today]', out), unknownBox = $('[data-out-unknown]', out);
+    var unknownLine = $('.unknown-t', out);
+    var o = {};
+    $$('[data-o]', out).forEach(function (el) { o[el.getAttribute('data-o')] = el; });
+    var ifs = $$('[data-if]', out);
+    var tag = $('[data-example-calc]', out), status = $('[data-calc-status]', out);
+    var whatif = $('[data-whatif]', out), slider = $('#c-what'), what = $('[data-what]', out);
+    var gain = $('[data-gain]', out), gainN = $('[data-gain-n]', out);
+
+    // "1,500", "1500", "4.5" and "4,5" all mean what the person typing them means.
+    function parse(str) {
+      var s = String(str || '').replace(/[^\d.,]/g, '');
+      if (!s) return null;
+      if (s.indexOf('.') >= 0 || /^\d{1,3}(,\d{3})+$/.test(s)) s = s.replace(/,/g, '');
+      else s = s.replace(',', '.').replace(/,/g, '');
+      var n = parseFloat(s);
+      return isFinite(n) ? n : null;
+    }
+    function read() {
+      var v = {}, any = false;
+      KEYS.forEach(function (k) {
+        var n = parse(field[k].value);
+        if (field[k].value.trim()) any = true;
+        var isShare = (k === 'rate' || k === 'close');
+        v[k] = n == null ? null : isShare ? (n <= 100 ? n : null) : (n > 0 ? n : null);   // a share may be zero; money may not
+      });
+      return { values: v, any: any };
+    }
+
+    var base = null;        // what the slider compares against
+    var committed = '';     // the last set of figures sent to the rest of the page
+    var announced = false;  // the "calculator complete" event goes out once
+    var timer = 0;
+
+    function render(commitNow) {
+      var r = read(), isUnknown = unknown.checked;
+      var example = !r.any;
+      var v = example ? { budget: EXAMPLE.budget, cpc: EXAMPLE.cpc, rate: EXAMPLE.rate, close: EXAMPLE.close, value: EXAMPLE.value } : r.values;
+      field.rate.disabled = isUnknown;
+      if (isUnknown) v.rate = null;
+      var f = compute(v);
+
+      tag.hidden = !example;
+      todayBox.hidden = isUnknown;
+      unknownBox.hidden = !isUnknown;
+
+      put(o.clicks, fmtCount(f.clicks) || '—');
+      put(o.leads, fmtCount(f.leads) || '—');
+      put(o.deals, fmtCount(f.deals) || '—');
+      put(o.revenue, fmtMoney(f.revenue) || '—');
+
+      // "I don't know": no "today" line to show. What the money buys at 1%, 3%
+      // and 5% instead, as plain arithmetic.
+      put(o.budget, fmtMoney(v.budget) || '—');
+      unknownLine.hidden = v.budget == null;
+      ifs.forEach(function (el) {
+        var parts = el.getAttribute('data-if').split(':'), share = parseFloat(parts[0]);
+        var g = compute({ budget: v.budget, cpc: v.cpc, rate: share, close: v.close, value: v.value });
+        put(el, (parts[1] === 'leads' ? fmtCount(g.leads) : fmtMoney(g.revenue)) || '—');
+      });
+
+      syncSlider(v, f);
+
+      var complete = !example && f.clicks != null && v.close != null && v.value != null && (isUnknown || v.rate != null);
+      clearTimeout(timer);
+      if (example) { commit(exampleModel(), 'example'); return; }
+      if (!complete) return;      // the page keeps the last complete set while a field is being retyped
+      var model = { example: false, known: !isUnknown, budget: v.budget, clicks: f.clicks,
+                    leads: isUnknown ? null : f.leads, deals: isUnknown ? null : f.deals, revenue: isUnknown ? null : f.revenue };
+      var key = [v.budget, v.cpc, v.rate, v.close, v.value].join('|');
+      if (commitNow) commit(model, key);
+      else timer = setTimeout(function () { commit(model, key); }, 700);   // not on every keystroke of "6000"
+    }
+
+    function commit(model, key) {
+      if (key === committed) return;
+      committed = key;
+      setPage(model);
+      if (model.example) { status.textContent = ''; return; }
+      status.textContent = model.known
+        ? 'היום: ' + fmtCount(model.clicks) + ' לחיצות, ' + fmtCount(model.leads) + ' פניות, ' + fmtCount(model.deals) + ' עסקאות, ' + nf0.format(model.revenue) + ' שקלים בחודש.'
+        : unknownLine.textContent;
+      if (!announced) {
+        announced = true;
+        doc.dispatchEvent(new CustomEvent('calc:complete', { detail: { known: model.known } }));
+      }
+    }
+
+    /* "What if more people got in touch?" The visitor moves it; nothing here
+       suggests a figure. It starts on their own rate, where the difference
+       is nothing, and the line with the sum only appears once it has moved. */
+    function syncSlider(v, f) {
+      var ok = f.revenue != null && v.rate != null && v.rate < 100;
+      slider.disabled = !ok;
+      whatif.classList.toggle('is-off', !ok);
+      if (!ok) { base = null; gain.hidden = true; what.textContent = '—'; return; }
+      var min = Math.round(v.rate * 10) / 10;
+      var next = { clicks: f.clicks, rate: v.rate, close: v.close, value: v.value, min: min };
+      var moved = !base || base.clicks !== next.clicks || base.rate !== next.rate || base.close !== next.close || base.value !== next.value;
+      base = next;
+      if (moved) {
+        slider.min = min;
+        slider.max = Math.min(100, Math.max(10, Math.ceil(v.rate) + 5));
+        slider.value = min;
+      }
+      slide();
+    }
+    function slide() {
+      if (!base) return;
+      var share = parseFloat(slider.value);
+      var extra = base.clicks * (share - base.rate) / 100 * base.close / 100 * base.value;
+      what.textContent = fmtPct(share);
+      slider.setAttribute('aria-valuetext', fmtPct(share));
+      gain.hidden = !(share > base.min + 1e-9 && extra > 0);
+      put(gainN, fmtMoney(extra));
+    }
+
+    form.addEventListener('input', function (e) {
+      var el = e.target;
+      if (el.type === 'text') {
+        var clean = el.value.replace(/[^\d.,]/g, '');
+        if ((el.name === 'rate' || el.name === 'close') && parse(clean) > 100) clean = '100';   // a share tops out at 100
+        if (clean !== el.value) el.value = clean;
+      }
+      render(false);
+    });
+    form.addEventListener('change', function () { render(true); });
+    // Leaving a money field tidies it: 6000 becomes 6,000.
+    form.addEventListener('focusout', function (e) {
+      var el = e.target;
+      if (el.name !== 'budget' && el.name !== 'value') return;
+      var n = parse(el.value);
+      if (n != null && n >= 1000) el.value = nf1.format(n);
+    });
+    // Enter moves on to the next field, as the phone keyboard's "next" key says it will.
+    form.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' || e.target.type !== 'text') return;
+      e.preventDefault();
+      var i = KEYS.indexOf(e.target.name), next = null;
+      for (var j = i + 1; j < KEYS.length && !next; j++) if (!field[KEYS[j]].disabled) next = field[KEYS[j]];
+      if (next) next.focus(); else e.target.blur();
+    });
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
+    slider.addEventListener('input', slide);
+    window.addEventListener('pageshow', function () { render(true); });   // the browser may have restored the fields
+    render(true);
+  })();
+
+  if (!page) setPage(exampleModel());
+})();
+</script>
 
 </body>
 </html>
