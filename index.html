@@ -1369,6 +1369,36 @@ main{display:block;padding-top:var(--bar)}
 
   if (!page) setPage(exampleModel());
 
+  /* ---------- which stage the bar shows ----------
+     The stage the middle of the screen is in: clicks down to the "leads"
+     line of the funnel, leads down to the "deals" line, deals from there on,
+     and clicks again at the close, where the page is back to the clicks that
+     were paid for. On a phone this is the only stage the bar shows. It does
+     not need the stream, so it also works in the still version. */
+  (function stages() {
+    var items = $$('[data-stage]'), leads = $('[data-frow="leads"]'), deals = $('[data-frow="deals"]'), close = $('#start');
+    if (!items.length || !leads || !deals) return;
+    var current = 'clicks', queued = false;
+    function update() {
+      queued = false;
+      var mid = window.innerHeight * 0.5;
+      var now = (close && close.getBoundingClientRect().top < mid + window.innerHeight * 0.15) ? 'clicks'
+              : deals.getBoundingClientRect().top < mid ? 'deals'
+              : leads.getBoundingClientRect().top < mid ? 'leads' : 'clicks';
+      if (now === current) return;
+      current = now;
+      items.forEach(function (el) { el.classList.toggle('is-on', el.getAttribute('data-stage') === now); });
+    }
+    function queue() {
+      if (queued) return;
+      queued = true;
+      if (window.requestAnimationFrame) window.requestAnimationFrame(update); else setTimeout(update, 16);
+    }
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    update();
+  })();
+
   /* ---------- the stream ----------
      Scrolling the page is going down the funnel, and the dots are the
      clicks. Each dot stands for the same number of clicks (the hero says how
@@ -1602,12 +1632,10 @@ main{display:block;padding-top:var(--bar)}
       }
     }
 
-    /* The figures that move with the stream. The bar says which stage the
-       middle of the screen is in. The two big numbers count down as their
-       line of the funnel comes up the screen: "leads" starts at the number of
-       clicks and lands on the number of leads, in step with the dots falling
-       away beside it. */
-    var stageEls = $$('[data-stage]'), stage = 'clicks';
+    /* The figures that move with the stream. The two big numbers count down
+       as their line of the funnel comes up the screen: "leads" starts at the
+       number of clicks and lands on the number of leads, in step with the
+       dots falling away beside it. */
     var leadsNum = $('.fnum', rowLeads), dealsNum = $('.fnum', rowDeals), meter = $('[data-count]');
     function roll(el, from, to, q) {
       if (!el || from == null || to == null) return;             // an unknown stage keeps its "?"
@@ -1619,12 +1647,6 @@ main{display:block;padding-top:var(--bar)}
     function readouts(sy) {
       var m = page;
       if (!m) return;
-      var mid = sy + H * 0.5;
-      var now = mid > G.close - H * 0.15 ? 'clicks' : mid > G.t2 ? 'deals' : mid > G.t1 ? 'leads' : 'clicks';
-      if (now !== stage) {
-        stage = now;
-        stageEls.forEach(function (el) { el.classList.toggle('is-on', el.getAttribute('data-stage') === now); });
-      }
       roll(leadsNum, m.clicks, m.leads, clamp01((H * 0.86 - (G.t1 - sy)) / (H * 0.42)));
       roll(dealsNum, m.leads, m.deals, clamp01((H * 0.86 - (G.t2 - sy)) / (H * 0.42)));
     }
