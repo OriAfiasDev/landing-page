@@ -297,6 +297,54 @@ main{display:block;padding-top:var(--bar)}
 .f-p{margin-top:10px;max-width:44ch;color:var(--p-text)}
 .f-p strong{display:block;margin-top:12px;color:var(--ink)}
 
+/* The exhibit: a made-up business's ad, the page it leads to and its
+   campaign report, drawn as plain HTML and marked up the way a reviewer
+   would mark a printout. Brass rings on the three things the findings are
+   about, each with its finding's number. On a wide screen the findings sit
+   beside it as margin notes and an arrow runs from each to its ring (the rings stand in the findings' order, top to bottom, so the arrows never cross) (drawn
+   by the script; without it the numbers still match). On a phone the
+   picture comes first and the findings are the numbered list under it. */
+.mock{order:-1;margin:0}
+.mock-board{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;align-items:start;padding-top:14px;padding-inline-start:16px}
+.m-col{display:grid;gap:12px}
+.m-card{background:var(--paper);border:1px solid rgba(28,30,36,.34);font-size:12px;line-height:1.4;color:var(--ink)}
+.m-bar{padding:6px 9px;border-bottom:1px solid var(--p-line);font-family:var(--mono);font-size:10px;line-height:1.3;color:rgba(28,30,36,.72)}
+.m-bar--ad{padding-block:9px;font-family:var(--sans);color:var(--ink)}
+.m-stats .pin{top:auto;bottom:-19px}
+.m-dim{font-size:10px;color:rgba(28,30,36,.72)}
+.m-ad-head{display:flex;align-items:center;gap:7px;padding:9px 9px 0}
+.m-ad-head b{display:block;font-size:11.5px;line-height:1.2}
+.m-av{flex:none;width:22px;height:22px;border-radius:50%;background:rgba(28,30,36,.18)}
+.m-ad-text{padding:10px 9px 12px;font-size:12.5px}
+.m-ad-text .mark{font-weight:700}
+.m-ph{aspect-ratio:5/4;background:rgba(28,30,36,.09)}
+.m-ad-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 9px 14px}
+.m-btn{display:inline-block;padding:6px 10px;background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;line-height:1.2;white-space:nowrap}
+.m-btn--line{background:none;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.m-nav{display:flex;gap:10px;padding:9px 10px;border-bottom:1px solid var(--p-line)}
+.m-line{display:block;height:6px;border-radius:3px;background:rgba(28,30,36,.14)}
+.m-hero{display:grid;justify-items:start;gap:9px;padding:22px 12px 20px}
+.m-h{font-size:clamp(14px,1.5vw,18px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
+.m-stats{grid-column:1 / -1}
+.m-stats dl{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px clamp(28px,6vw,72px);margin:0;padding:14px 14px 16px}
+.m-stats dt{font-size:10px;color:rgba(28,30,36,.72)}
+.m-stats dd{margin:2px 0 0;font-size:15px;font-weight:700}
+.mark{position:relative;display:inline-block}
+.mark::after{content:"";position:absolute;inset:-7px -12px;border:2px solid var(--brass);border-radius:50%;transform:rotate(-3deg);pointer-events:none}
+.pin{
+  position:absolute;z-index:1;top:-19px;inset-inline-start:-24px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;
+  background:var(--brass);color:var(--ink);font-family:var(--mono);font-size:10px;font-weight:700;line-height:1;letter-spacing:0;
+}
+.mock-cap{margin-top:12px;font-family:var(--mono);font-size:11px;color:rgba(28,30,36,.72)}
+.notes{display:none;position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.notes path{fill:none;stroke:var(--brass);stroke-width:1.5}
+.notes .tip{fill:var(--brass);stroke:none}
+@media (min-width:980px){
+  .exhibit{position:relative;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(56px,8vw,128px);align-items:center}
+  .mock{order:0}
+  .notes{display:block}
+}
+
 /* ---------- 4. the funnel ----------
    The least text on the page, so the figures are the layout. The stream
    falls down the lane left free on the far side. */
@@ -610,6 +658,42 @@ main{display:block;padding-top:var(--bar)}
             <p class="f-p">אתה יודע שאחוז ההמרה נמוך, אבל לא יודע למה. <strong>מדידה חושפת את הבעיה. היא לא פותרת אותה.</strong></p>
           </li>
         </ol>
+
+        <!-- A made-up business (the .example address cannot belong to anyone). One
+             picture for a screen reader, described once; the rings and numbers
+             inside it are for the eye. -->
+        <figure class="mock" role="img" aria-label="המחשה, עסק בדיוני: מודעה שמבטיחה שיעור ניסיון ב-49 שקלים ושולחת לוואטסאפ, דף נחיתה שפותח ב״ברוכים הבאים״ בלי להזכיר את ההצעה, ודוח קמפיין שמראה 2% המרה. שלושה סימונים ממוספרים, אחד לכל ממצא.">
+          <div class="mock-board" aria-hidden="true">
+            <div class="m-card">
+              <div class="m-bar m-bar--ad"><span class="mark" data-mark="1">יעד המודעה: <span class="num">wa.me</span><b class="pin">01</b></span></div>
+              <div class="m-ad-head"><i class="m-av"></i><div><b>סטודיו ליבנה</b><span class="m-dim">ממומן</span></div></div>
+              <p class="m-ad-text"><span class="mark" data-mark="2">שיעור ניסיון ב-<span class="num">₪49</span><b class="pin">02</b></span><br>פילאטיס מכשירים, בקבוצות קטנות.</p>
+              <div class="m-ph"></div>
+              <div class="m-ad-foot"><span class="m-btn">שליחת הודעה</span></div>
+            </div>
+            <div class="m-col">
+              <div class="m-card">
+                <div class="m-bar"><span class="num">livne-pilates.example</span></div>
+                <div class="m-nav"><i class="m-line" style="width:16%"></i><i class="m-line" style="width:12%"></i><i class="m-line" style="width:14%"></i><i class="m-line" style="width:10%"></i></div>
+                <div class="m-hero">
+                  <p class="m-h"><span class="mark" data-mark="2">ברוכים הבאים לסטודיו ליבנה<b class="pin">02</b></span></p>
+                  <i class="m-line" style="width:82%"></i><i class="m-line" style="width:64%"></i>
+                  <span class="m-btn m-btn--line">צור קשר</span>
+                </div>
+              </div>
+            </div>
+            <div class="m-card m-stats">
+              <div class="m-bar">דוח קמפיין · 30 יום</div>
+              <dl>
+                <div><dt>אחוז המרה</dt><dd><span class="mark num" data-mark="3">2%<b class="pin">03</b></span></dd></div>
+                <div><dt>פניות</dt><dd class="num">30</dd></div>
+                <div><dt>לחיצות</dt><dd class="num">1,500</dd></div>
+              </dl>
+            </div>
+          </div>
+          <figcaption class="mock-cap">המחשה · עסק בדיוני</figcaption>
+        </figure>
+        <svg class="notes" data-notes aria-hidden="true" focusable="false"></svg>
       </div>
     </div>
     <i class="neck" data-neck aria-hidden="true"></i>
@@ -1369,6 +1453,57 @@ main{display:block;padding-top:var(--bar)}
 
   if (!page) setPage(exampleModel());
 
+  /* ---------- margin notes ----------
+     On a wide screen each finding is a margin note beside the exhibit, and
+     an arrow runs from the end of its headline to the ring it is about.
+     Measured from the page rather than drawn in fixed coordinates, so it
+     holds at any width and after the fonts arrive. Finding 02 is about two
+     things that do not match, so its two rings are also tied to each other. */
+  (function notes() {
+    var box = $('[data-exhibit]'), svg = $('[data-notes]');
+    if (!box || !svg || !doc.createRange) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    function add(name, attrs) {
+      var el = doc.createElementNS(NS, name);
+      for (var k in attrs) el.setAttribute(k, attrs[k]);
+      svg.appendChild(el);
+    }
+    function draw() {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      if (getComputedStyle(svg).display === 'none') return;      // narrow screens: the numbered list does the job
+      var o = box.getBoundingClientRect();
+      $$('[data-finding]', box).forEach(function (li) {
+        var n = li.getAttribute('data-finding'), title = $('.f-t', li), marks = $$('[data-mark="' + n + '"]', box);
+        if (!title || !marks.length) return;
+        var range = doc.createRange();
+        range.selectNodeContents(title);
+        var t = range.getBoundingClientRect();                   // the headline's words, not its box
+        var sx = t.left - o.left - 12, sy = t.top + t.height / 2 - o.top;
+        var rects = marks.map(function (m) { return m.getBoundingClientRect(); });
+        rects.sort(function (a, b) { return b.right - a.right; });   // the ring nearest the notes
+        var r = rects[0], ex = r.right - o.left + 15, ey = r.top + r.height / 2 - o.top;
+        if (sx - ex < 24) return;
+        var c = Math.max(36, (sx - ex) * 0.45);
+        add('path', { d: 'M' + sx + ' ' + sy + 'C' + (sx - c) + ' ' + sy + ' ' + (ex + c) + ' ' + ey + ' ' + ex + ' ' + ey });
+        add('path', { 'class': 'tip', d: 'M' + ex + ' ' + ey + 'l9 -4.5v9z' });
+        if (rects[1]) {                                           // the pair that does not match
+          var a = rects[0], b = rects[1];
+          if (a.left < b.left) { var x = a; a = b; b = x; }       // a is the one on the right
+          add('path', { 'stroke-dasharray': '3 5',
+                        d: 'M' + (a.left - o.left - 14) + ' ' + (a.top + a.height / 2 - o.top) +
+                           'L' + (b.right - o.left + 14) + ' ' + (b.top + b.height / 2 - o.top) });
+        }
+      });
+    }
+    var queued = false;
+    function queue() { if (!queued) { queued = true; setTimeout(function () { queued = false; draw(); }, 60); } }
+    window.addEventListener('resize', queue);
+    window.addEventListener('load', queue);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(queue);
+    if (window.ResizeObserver) new ResizeObserver(queue).observe(box);
+    draw();
+  })();
+
   /* ---------- which stage the bar shows ----------
      The stage the middle of the screen is in: clicks down to the "leads"
      line of the funnel, leads down to the "deals" line, deals from there on,
@@ -1471,7 +1606,7 @@ main{display:block;padding-top:var(--bar)}
     var W = 0, H = 0, dpr = 1, small = false, quality = 1;
     var R, DX, DY, JET, HW1, HW2, ZUP, ZLEN, SPREAD, ALPHA;
     // The funnel's landmarks, in document px. Until measured, all out of reach.
-    var G = { hop: 1e9, neck: 1e9, nx: 0, nw: 30, t1: 1e9, t2: 1e9, close: 1e9 };
+    var G = { paper: 1e9, hop: 1e9, neck: 1e9, nx: 0, nw: 30, t1: 1e9, t2: 1e9, close: 1e9 };
     var N = 0, n1 = 0, n2 = 0, Nh = 0, unknown = false, unit = 6;
     var slots = [], heights = [0];
     var dirty = true, stale = true;
@@ -1512,6 +1647,7 @@ main{display:block;padding-top:var(--bar)}
       var r = neckEl.getBoundingClientRect(), sy = window.pageYOffset;
       G.nx = r.left + r.width / 2; G.nw = r.width;
       G.hop = r.top + sy; G.neck = r.bottom + sy;
+      G.paper = docTop(neckEl.parentNode);
       G.t1 = docTop(rowLeads); G.t2 = docTop(rowDeals);
       G.close = closeEl ? docTop(closeEl) : 1e9;
       heap();
@@ -1614,8 +1750,10 @@ main{display:block;padding-top:var(--bar)}
             cx += (W / 2 - cx) * back; hw += (W / 2 - R - hw) * back;
           }
         }
-        // Quieter behind running text, full strength from the hopper to the last figure.
-        a *= ALPHA + (1 - ALPHA) * smooth((d - G.hop + 200) / 200) * (1 - smooth((d - G.t2 - 500) / 240));
+        // Quieter behind running text (more so over the paper's, where brass sits
+        // closer to the ink), full strength from the hopper to the last figure.
+        var strong = smooth((d - G.hop + 200) / 200) * (1 - smooth((d - G.t2 - 500) / 240));
+        a *= ALPHA * (1 - 0.35 * smooth((d - G.paper) / 160)) * (1 - strong) + strong;
         dot(cx + p.u * hw + off, y, a);
       }
 
