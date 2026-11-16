@@ -113,7 +113,7 @@
    only its digits turn mono, which is the intent). No gradients, no blur,
    no shadows: hairlines and type carry the page. */
 :root{
-  --ink:#1C1E24; --ink-2:#24272E; --paper:#FAF8F3; --brass:#B8862B; --muted:#93897A;
+  --ink:#1C1E24; --paper:#FAF8F3; --brass:#B8862B; --muted:#93897A;
   --brass-ink:#8A6420;                 /* brass, dark enough for small text on paper (5.2:1) */
   --text:rgba(250,248,243,.78);        /* running text on ink */
   --line:rgba(250,248,243,.14);
@@ -226,7 +226,7 @@ main:focus{outline:none}
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   padding-inline:var(--gut);background:var(--ink);border-bottom:1px solid var(--line);
 }
-.logo{flex:none;display:block;color:var(--paper)}
+.logo{flex:none;display:flex;align-items:center;min-height:32px;color:var(--paper)}
 .logo svg{display:block;height:20px;width:auto;aspect-ratio:99.2/28}
 .bar-stage{display:flex;align-items:center;gap:12px;min-width:0}
 .stages{display:flex;align-items:baseline}
@@ -272,7 +272,7 @@ main{display:block;padding-top:var(--bar)}
 /* ---------- 2. calculator ---------- */
 .calc{display:grid;gap:32px;margin-top:clamp(32px,6vh,64px)}
 @media (min-width:980px){.calc{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,5vw,84px);align-items:start}}
-.no-js .fields{display:none}                     /* nothing to type into without the script; the example stands */
+.no-js .fields,.no-js .whatif{display:none}        /* nothing to type or drag without the script; the example stands */
 .fields{display:grid;gap:22px}
 .field label{display:block;margin-bottom:8px;font-size:16px;font-weight:500;line-height:1.4}
 .field .unit{font-family:var(--mono);font-size:14px;color:var(--muted)}
@@ -448,7 +448,7 @@ main{display:block;padding-top:var(--bar)}
 .form-note{font-size:14px;color:var(--muted)}
 .form-note a{text-decoration-color:var(--brass);text-underline-offset:3px}
 .done{padding:20px;border:1px solid var(--brass);font-size:clamp(19px,1.8vw,22px);font-weight:700;line-height:1.35}
-.hp{position:absolute;inset-inline-start:-9999px;width:1px;height:1px;overflow:hidden}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}   /* left, not inline-start: off the right edge an RTL page would grow a scrollbar */
 
 /* ---------- 6. process ---------- */
 .steps{display:grid}
@@ -487,7 +487,7 @@ main{display:block;padding-top:var(--bar)}
 .decs .fix{color:var(--paper)}
 .case-links{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px 28px}
 .case-links .more{font-size:16px}
-.shot{border:1px solid var(--line-2);background:var(--ink-2)}
+.shot{border:1px solid var(--line-2);background:var(--ink)}
 .shot-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:30px;padding:6px 12px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;line-height:1.3;color:var(--muted)}
 .shot-bar span:first-child{direction:ltr}
 .shot img{display:block;width:100%;height:auto}
@@ -724,7 +724,7 @@ main{display:block;padding-top:var(--bar)}
         <!-- A made-up business (the .example address cannot belong to anyone). One
              picture for a screen reader, described once; the rings and numbers
              inside it are for the eye. -->
-        <figure class="mock" role="img" aria-label="המחשה, עסק בדיוני: מודעה שמבטיחה שיעור ניסיון ב-49 שקלים ושולחת לוואטסאפ, דף נחיתה שפותח ב״ברוכים הבאים״ בלי להזכיר את ההצעה, ודוח קמפיין שמראה 2% המרה. שלושה סימונים ממוספרים, אחד לכל ממצא.">
+        <div class="mock" role="img" aria-label="המחשה, עסק בדיוני: מודעה שמבטיחה שיעור ניסיון ב-49 שקלים ושולחת לוואטסאפ, דף נחיתה שפותח ב״ברוכים הבאים״ בלי להזכיר את ההצעה, ודוח קמפיין שמראה 2% המרה. שלושה סימונים ממוספרים, אחד לכל ממצא.">
           <div class="mock-board" aria-hidden="true">
             <div class="m-card">
               <div class="m-bar m-bar--ad"><span class="mark" data-mark="1">יעד המודעה: <span class="num">wa.me</span><b class="pin">01</b></span></div>
@@ -753,8 +753,8 @@ main{display:block;padding-top:var(--bar)}
               </dl>
             </div>
           </div>
-          <figcaption class="mock-cap">המחשה · עסק בדיוני</figcaption>
-        </figure>
+          <p class="mock-cap">המחשה · עסק בדיוני</p>
+        </div>
         <svg class="notes" data-notes aria-hidden="true" focusable="false"></svg>
       </div>
     </div>
