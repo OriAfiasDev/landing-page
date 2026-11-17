@@ -49,7 +49,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .btn{display:inline-block;margin-top:28px;padding:18px 26px;background:var(--brass);color:var(--ink);font-weight:700;font-size:18px;border-radius:3px;text-decoration:none;pointer-events:auto}
 .btn:hover{background:var(--paper)}
 /* The banking app: fictional, no bank's name or look. */
-.bank{position:absolute;left:0;top:0;width:250px;padding:16px 18px 14px;border-radius:18px;background:#F4F1EA;color:#1C1E24;opacity:0;will-change:transform,opacity;transform-origin:50% 100%}
+.bank{position:absolute;left:0;top:0;width:250px;padding:16px 18px 14px;border-radius:18px;background:#F4F1EA;color:#1C1E24;opacity:0;will-change:transform,opacity;transform-origin:50% 0}
 .bank-k{margin:0;display:flex;justify-content:space-between;font-size:13px;font-weight:500;color:#5b6068}
 .bank-k span{font-size:11px;padding:2px 7px;border-radius:999px;background:#e5e0d4}
 .bank-v{margin:6px 0 0;direction:ltr;text-align:right;font-size:34px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
@@ -171,6 +171,43 @@ const FLOOR = -0.62;
 const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x232830, roughness: 0.92, metalness: 0 }));
 floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.receiveShadow = true; scene.add(floor);
 
+/* ---------- the backdrop: a campaign dashboard, barely there ----------
+   Far behind the funnel, at about a tenth of full strength: the charts
+   anyone running ads lives with. Impressions and clicks climbing, leads
+   lying flat along the bottom. It is the story in one glance for whoever
+   notices it, and wallpaper for whoever doesn't. */
+{
+  const c = document.createElement('canvas'); c.width = 2400; c.height = 1200;
+  const g = c.getContext('2d'), ink = 'rgba(250,248,243,1)';
+  g.strokeStyle = ink; g.fillStyle = ink; g.lineWidth = 2;
+  // the grid
+  g.globalAlpha = 0.35;
+  for (let x = 120; x <= 2280; x += 180) { g.beginPath(); g.moveTo(x, 120); g.lineTo(x, 1080); g.stroke(); }
+  for (let y = 120; y <= 1080; y += 120) { g.beginPath(); g.moveTo(120, y); g.lineTo(2280, y); g.stroke(); }
+  g.globalAlpha = 1;
+  // bars: daily clicks
+  let sd = 7;
+  const r = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
+  for (let k = 0; k < 24; k++) { const x = 150 + k * 89, h = 160 + k * 18 + r() * 120; g.globalAlpha = 0.45; g.fillRect(x, 1080 - h, 46, h); }
+  g.globalAlpha = 1; g.lineWidth = 6; g.lineJoin = 'round';
+  // impressions: a long climb
+  g.beginPath();
+  for (let k = 0; k <= 40; k++) { const x = 120 + k * 54, y = 980 - k * 18 - Math.sin(k * 0.9) * 30 - r() * 30; k ? g.lineTo(x, y) : g.moveTo(x, y); }
+  g.stroke();
+  // leads: flat along the bottom
+  g.setLineDash([18, 14]);
+  g.beginPath();
+  for (let k = 0; k <= 40; k++) { const x = 120 + k * 54, y = 1040 - Math.sin(k * 1.3) * 8 - r() * 10; k ? g.lineTo(x, y) : g.moveTo(x, y); }
+  g.stroke(); g.setLineDash([]);
+  // the labels a campaign report wears
+  g.font = '600 44px "JetBrains Mono", monospace'; g.globalAlpha = 0.8;
+  [['IMPRESSIONS', 140, 92], ['CTR 2.1%', 900, 92], ['CPC ₪4.10', 1400, 92], ['LEADS', 2040, 92]].forEach(([t, x, y]) => g.fillText(t, x, y));
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  const board = new THREE.Mesh(new THREE.PlaneGeometry(13, 6.5), new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.06, depthWrite: false, fog: false, toneMapped: false }));
+  board.position.set(0.6, 1.9, -5.5); scene.add(board);
+  window.afiasBoard = board;
+}
+
 /* ---------- the funnel ----------
    A brushed steel cone, a rolled rim and a spout. One patch of the wall,
    facing the camera's left, is cut into shards: real pieces with straight
@@ -183,7 +220,7 @@ const edgeMat = new THREE.MeshStandardMaterial({ color: 0xb8bcc2, metalness: 1, 
 const coneR = v => R0 + (R1 - R0) * v, coneY = v => Y0 + (Y1 - Y0) * v;
 const slope = Math.atan2(R0 - R1, Y0 - Y1);
 const nx = Math.cos(slope), ny = Math.sin(slope);          // outward normal of the wall, before turning it round the axis
-const CRACK = { a: Math.PI * 0.78 };
+const CRACK = { a: Math.PI * 0.96 };   // facing the camera's left, so what spills lands away from the account
 const VS = 1.55;                                             // patch coordinates: x = angle from the crack's centre, y = height along the wall x VS
 function wallPoint(a, v, inset, out) {
   const r = coneR(v) - inset * nx;
@@ -300,8 +337,9 @@ const body = new THREE.Mesh(coneGeometry(), bodyMat);
 body.castShadow = true; funnel.add(body);
 const rimMesh = new THREE.Mesh(new THREE.TorusGeometry(R0 + 0.012, 0.026, 16, 160), steel);
 rimMesh.rotation.x = Math.PI / 2; rimMesh.position.y = Y0; rimMesh.castShadow = true; funnel.add(rimMesh);
-const spout = new THREE.Mesh(new THREE.CylinderGeometry(R1 - 0.004, 0.115, Y1 - FLOOR - 0.02, 64, 1, true), steel);
-spout.position.y = (Y1 + FLOOR) / 2 + 0.01; spout.castShadow = true; funnel.add(spout);
+const MOUTH = FLOOR + 0.62;                                  // the spout ends here, in the air over the account
+const spout = new THREE.Mesh(new THREE.CylinderGeometry(R1 - 0.004, 0.11, Y1 - MOUTH, 64, 1, true), steel);
+spout.position.y = (Y1 + MOUTH) / 2; spout.castShadow = true; funnel.add(spout);
 
 const SEEDS = seeds;
 const shards = cellsPoly.map(poly => {
@@ -408,23 +446,21 @@ function ballAt(b, time, prevTime) {
   }
   const te = tr - runT;
   if (!b.hole) {
-    // down the spout and out at its foot as a coin, which slides along the
-    // floor into the account: a pour, not a throw
-    if (te < 0.3) { out.set(0, Y1 - (Y1 - FLOOR - 0.04) * te / 0.3, 0); S.tok = 1 - smooth(te / 0.2); return S; }
-    const u = clamp01((te - 0.3) / 1.5), e = 1 - Math.pow(1 - u, 2.2);
-    const sx = (b.k - 0.5) * 0.08, sz = 0.06 + (b.k2 - 0.5) * 0.06;            // where it comes out from under the rim
-    const wob = Math.sin(u * Math.PI) * (b.k - 0.5) * 0.35;                    // coins fan out a little on the way
-    out.set(sx + (bankAt.x - sx) * e + wob * 0.3, FLOOR + 0.008, sz + (bankAt.z - sz) * e + wob);
-    S.tok = 0; S.flat = 1;
-    S.coin = smooth((te - 0.28) / 0.12) * (1 - smooth((u - 0.86) / 0.14));
-    S.spin = b.k * 6 + u * 2;
-    const ta = 0.55 + runT + 0.3 + 1.5;
+    // down the spout, and out of its mouth as a coin, dropping straight
+    // into the account under it, where it is counted and gone
+    if (te < 0.3) { out.set(0, Y1 - (Y1 - MOUTH) * te / 0.3, 0); S.tok = 1 - smooth(te / 0.2); return S; }
+    const tt = te - 0.3, drop = MOUTH - bankAt.y, tf = Math.sqrt(2 * drop / (G * 0.45));
+    const u = clamp01(tt / tf);
+    out.set((b.k - 0.5) * 0.06, MOUTH - 0.5 * G * 0.45 * tt * tt, (b.k2 - 0.5) * 0.06);
+    if (out.y < bankAt.y) out.y = bankAt.y;
+    S.tok = 0; S.coin = smooth(tt / 0.08) * (u >= 1 ? 0 : 1); S.spin = b.k * 6 + tt * 5;
+    const ta = 0.55 + runT + 0.3 + tf;
     if (tp < ta && t >= ta) S.arrived = 1;
     return S;
   }
   // out through the crack: it turns to money as it leaves, falls, and is lost
   const r = coneR(vExit), x0 = Math.cos(aExit) * r, z0 = Math.sin(aExit) * r, y0 = coneY(vExit);
-  const spd = 0.3 + b.k * 0.45, vx = Math.cos(aExit) * spd, vz = Math.sin(aExit) * spd * 0.8 + (b.k2 - 0.5) * 0.25, vy = 0.05 + b.k2 * 0.2;   // it spills over the edge of the crack, it isn't thrown
+  const spd = 0.55 + b.k * 0.5, vx = Math.cos(aExit) * spd, vz = Math.sin(aExit) * spd * 0.3 + (b.k2 - 0.5) * 0.2, vy = 0.05 + b.k2 * 0.2;   // it spills over the edge of the crack, it isn't thrown
   const m = smooth(te / 0.2); S.tok = 1 - m; S.coin = m; S.spin = te * 7;
   const yF = FLOOR + 0.008, t1 = (vy + Math.sqrt(vy * vy + 2 * G * (y0 - yF))) / G;
   let x, y, z;
@@ -474,7 +510,7 @@ function updateAnchors() {
   let best = -1e9;                                                               // the rim's edge nearest the copy, whatever the angle
   for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2; sp.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0).project(camera); if (sp.x > best) { best = sp.x; anchors.rimR.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0); } }
   anchors.pour.set(0.18, Y0 + 0.75, 0);
-  anchors.bank.set(small ? 0.9 : 1.45, FLOOR + 0.02, 1.1);
+  anchors.bank.set(0, FLOOR + 0.1, 0);                                        // the card's top edge, right under the spout
   wallPoint(CRACK.a, 0.46, 0, anchors.crack);
   anchors.spill.set(Math.cos(CRACK.a) * 1.7, FLOOR + 0.02, Math.sin(CRACK.a) * 1.2);
 }
@@ -483,7 +519,6 @@ function screen(v) { sp.copy(v).project(camera); return { x: (sp.x * 0.5 + 0.5) 
 function placeCopy(u) {
   let svg = '';
   const tilt = Math.max(-9, Math.min(9, (camAzNow + 18) * 0.22));       // the words turn a little with the camera, as if they stood in the scene
-  const cardTop = small ? 1e9 : screen(anchors.bank).y - bank.offsetHeight;
   tx.forEach(el => {
     const from = +el.dataset.from, to = +el.dataset.to;
     const vis = smooth((u - from) / 0.18) * (1 - smooth((u - to + 0.12) / 0.15));
@@ -497,17 +532,16 @@ function placeCopy(u) {
     else {
       x = W - Math.max(48, (W - 1180) / 2) - el.offsetWidth;            // the copy column, moving with the part it talks about
       y = Math.max(84, Math.min(H * 0.7 - el.offsetHeight * 0.5, s.y + (+el.dataset.dy || 0) * (H / 900)));
-      if (y + el.offsetHeight > cardTop - 24) y = Math.max(76, cardTop - 24 - el.offsetHeight);   // never under the account card
     }
     const z = (1 - vis) * -220;                                           // it comes forward out of the dark as it arrives
     el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translateZ(${z.toFixed(1)}px) rotateY(${tag ? 0 : tilt.toFixed(2)}deg)`;
     if (tag && !small) svg += `<g opacity="${vis.toFixed(2)}"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="3"/><path d="M${s.x.toFixed(1)} ${s.y.toFixed(1)} L${(x - 4).toFixed(1)} ${s.y.toFixed(1)}"/></g>`;
   });
   leads.innerHTML = svg;
-  // the account, standing beside the spout
+  // the account, on the floor right under the spout
   const bs = screen(anchors.bank), bv = 1;
   bank.style.opacity = bv.toFixed(3);
-  const bx = small ? W - bank.offsetWidth - 16 : bs.x - bank.offsetWidth / 2, by = small ? H * 0.47 : bs.y - bank.offsetHeight;
+  const bx = bs.x - bank.offsetWidth / 2, by = bs.y;
   bank.style.transform = `translate(${bx.toFixed(1)}px, ${by.toFixed(1)}px) rotateY(${(-tilt * 0.6).toFixed(2)}deg)`;
   // coins slide to the card's foot, on the floor
   bankAt.copy(anchors.bank);
@@ -588,6 +622,7 @@ function frame(now) {
   const dist = c.d * (small ? 1.25 : 1);
   camera.position.set(Math.sin(az) * Math.cos(el) * dist, c.y + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist);
   camera.lookAt(0, c.y, 0);
+  const bd = window.afiasBoard; bd.position.set(-Math.sin(az) * 5.5, 1.9, -Math.cos(az) * 5.5); bd.lookAt(camera.position.x, 1.9, camera.position.z);
   if (small) camera.setViewOffset(W, H, 0, H * 0.16, W, H); else camera.setViewOffset(W, H, W * -c.off, 0, W, H);
 
   // the copy: the headline cracks with the wall; the "nots" are struck through as you read them
