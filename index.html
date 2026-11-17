@@ -871,7 +871,6 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
       <h2 class="h2" id="work-t">כל דף נבנה סביב שאלה אחת: למה שמישהו יפנה?</h2>
       <div class="cases">
 
-        <!-- TODO: לאישור אורי. The figures are read off the Shopify screenshot Ori sent (18 Oct to 17 Nov 2026 against the 30 days before). -->
         <article class="case" data-case aria-labelledby="case-alata-t">
           <div class="case-text">
             <p class="case-meta"><span class="k num">01</span><span class="tag">לקוח</span><span class="tag">חנות שופיפיי</span></p>
@@ -906,7 +905,6 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
           </div>
         </article>
 
-        <!-- TODO: לאישור אורי. Drafted from the demo site and its brief. -->
         <article class="case" data-case aria-labelledby="case-shalva-t">
           <div class="case-text">
             <p class="case-meta"><span class="k num">02</span><span class="tag">פרויקט הדגמה</span></p>
@@ -938,7 +936,6 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
           </div>
         </article>
 
-        <!-- TODO: לאישור אורי. Drafted from the demo site and its README. -->
         <article class="case" data-case aria-labelledby="case-palma-t">
           <div class="case-text">
             <p class="case-meta"><span class="k num">03</span><span class="tag">פרויקט הדגמה</span></p>
@@ -970,7 +967,6 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
           </div>
         </article>
 
-        <!-- TODO: לאישור אורי. Drafted from the case study at /work/maxstock/ (the audit and the fixes are quoted from it). -->
         <article class="case case--own" data-case aria-labelledby="case-max-t">
           <div class="case-text">
             <p class="case-meta"><span class="k num">04</span><span class="tag">פרויקט אישי</span><span class="tag">קונספט, לא בהזמנת הרשת</span></p>
@@ -1154,16 +1150,14 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
   /* ---------- what still waits for an answer ----------
      Fill these in here and nothing else on the page needs to change. */
   var CONFIG = {
-    // TODO: SUMIT_PAYMENT_URL. The payment page for the diagnosis (490). Until
-    // it is set, the diagnosis buttons stay what they are in the markup:
-    // WhatsApp links with a ready message. Never a dead button.
-    SUMIT_PAYMENT_URL: '',
-    // TODO: INTAKE_FORM_URL. The details form a buyer is sent to after paying
-    // (name, phone, where the ad leads, the ad itself, monthly budget, and
-    // optionally last month's clicks and leads). The redirect itself is set
-    // on SUMIT's side, as the payment page's "after payment" address; it is
-    // written down here only so the two addresses live in one place.
-    INTAKE_FORM_URL: '',
+    // The payment page for the diagnosis (490), on SUMIT. Without the script
+    // the buttons stay what they are in the markup: WhatsApp links with a
+    // ready message. Never a dead button.
+    SUMIT_PAYMENT_URL: 'https://pay.sumit.co.il/vitc2v/17alxem/17alxen/payment/',
+    // Where SUMIT sends the buyer after paying: the details form. The redirect
+    // itself is set on SUMIT's side (the payment page's "after payment"
+    // address); it is written down here so the two addresses live in one place.
+    INTAKE_FORM_URL: 'https://afias.dev/diagnosis/?paid=1',
     // The short form on the landing-page track goes to the repo's own Worker,
     // which files it in Linear (see worker/README.md).
     FORM_ENDPOINT: 'https://afias-demo.afias.workers.dev/api/landing-request',
