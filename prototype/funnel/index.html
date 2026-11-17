@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>אב-טיפוס: המשפך החי | afias.dev</title>
+<style>
+@font-face{font-family:'Rubik';font-weight:300 900;font-display:swap;src:url(/assets/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0590-05FF,U+20AA,U+FB1D-FB4F}
+@font-face{font-family:'Rubik';font-weight:300 900;font-display:swap;src:url(/assets/fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'JetBrains Mono';font-weight:400 800;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin.woff2) format('woff2');unicode-range:U+0000-002B,U+002D,U+002F-00FF}
+:root{--ink:#1C1E24;--paper:#FAF8F3;--brass:#B8862B;--muted:#93897A;--bar:56px}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ink);color:var(--paper);font-family:'Rubik',system-ui,sans-serif;-webkit-font-smoothing:antialiased;transition:background-color .5s,color .5s}
+body.paper{background:var(--paper);color:var(--ink)}
+.num{font-family:'JetBrains Mono','Rubik',monospace;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.bar{position:fixed;inset:0 0 auto;z-index:5;height:var(--bar);display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid rgba(127,127,127,.18);font-size:14px;color:var(--muted)}
+.bar b{color:inherit;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:.02em}
+.story{position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+canvas.gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.labels{position:absolute;inset:0;pointer-events:none}
+.lb{position:absolute;left:0;top:0;white-space:nowrap;transform:translate(-50%,-50%);display:flex;align-items:baseline;gap:8px;opacity:0;transition:opacity .35s}
+.lb span{font-size:14px;font-weight:500;color:var(--muted)}
+.lb .num{font-size:clamp(18px,1.8vw,26px);font-weight:700;letter-spacing:-.03em}
+.lb.big .num{font-size:clamp(26px,2.8vw,42px)}
+.lb.hot .num,.lb.hot span{color:var(--brass)}
+.lb.lost .num{color:var(--brass)}
+.copy{position:absolute;top:var(--bar);bottom:0;right:max(32px,calc((100% - 1180px)/2));width:min(44%,520px);display:grid;align-items:center;pointer-events:none}
+.panel{grid-area:1/1;opacity:0;transform:translateY(18px);transition:opacity .45s,transform .45s}
+.panel.on{opacity:1;transform:none;pointer-events:auto}
+h1,h2{margin:0;font-weight:800;letter-spacing:-.022em;line-height:1.03;text-wrap:balance}
+h1{font-size:clamp(38px,5vw,74px)}
+h2{font-size:clamp(28px,3.4vw,50px)}
+p{margin:18px 0 0;font-size:clamp(17px,1.5vw,21px);line-height:1.55;opacity:.8;max-width:36ch}
+.k{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);margin:0 0 10px}
+.btn{display:inline-block;margin-top:28px;padding:16px 26px;background:var(--brass);color:var(--ink);font-weight:700;border-radius:3px;text-decoration:none}
+.slider{margin-top:26px;max-width:420px}
+.slider label{display:flex;justify-content:space-between;font-size:16px;font-weight:500}
+.slider input{width:100%;margin-top:12px;accent-color:#B8862B}
+.result{margin-top:22px;font-size:clamp(17px,1.5vw,20px)}
+.result .num{font-size:1.5em;font-weight:700;color:var(--brass)}
+.rail{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:grid;gap:10px}
+.rail i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.25}
+.rail i.on{opacity:1;background:var(--brass)}
+.after{position:relative;z-index:1;background:var(--ink);padding:120px 32px;text-align:center;color:var(--muted)}
+.note{position:fixed;left:16px;bottom:14px;z-index:6;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+@media (max-width:899px){
+  .copy{top:52%;right:20px;left:20px;width:auto;align-items:start}
+  h1{font-size:34px} h2{font-size:26px}
+  p{font-size:16px}
+  .bar{padding:0 18px}
+  .rail{display:none}
+}
+</style>
+<script type="importmap">{"imports":{"three":"./three.module.min.js"}}</script>
+</head>
+<body>
+<div class="bar"><span>afias<span style="color:var(--brass)">.dev</span></span><span>אב-טיפוס · כיוון עיצובי</span></div>
+
+<div class="story" id="story">
+  <div class="stage">
+    <canvas class="gl" id="gl"></canvas>
+    <div class="labels" id="labels">
+      <div class="lb big" data-l="clicks"><span>לחיצות</span><b class="num">1,500</b></div>
+      <div class="lb hot" data-l="leads"><span>פניות</span><b class="num">30</b></div>
+      <div class="lb" data-l="deals"><span>עסקאות</span><b class="num">6</b></div>
+      <div class="lb lost big" data-l="lost"><span>נזרקו לפח</span><b class="num">1,470</b></div>
+    </div>
+    <div class="copy">
+      <section class="panel"><h1>כמה מהלחיצות שקנית החודש נזרקו לפח?</h1><p>אתה משלם על כל לחיצה על המודעה. אני דואג שיותר מהן יהפכו לפניות, בלי לגעת בקמפיין שלך.</p><a class="btn" href="#">אני רוצה אבחון מלא לקמפיין שלי</a></section>
+      <section class="panel"><h2>תכלס, מה המספרים אומרים?</h2><p>הגרף מקבל עומק: כל קומה היא שלב, הרוחב שלה הוא כמה אנשים נשארו.</p></section>
+      <section class="panel"><h2>ומה אם יותר אנשים היו פונים?</h2>
+        <div class="slider"><label for="rate"><span>כמה מהנכנסים פונים</span><b class="num" id="rateOut">2%</b></label><input id="rate" type="range" min="1" max="10" step="0.1" value="2"></div>
+        <p class="result"><b class="num" id="gain">₪0</b> בחודש נוספים. מאותו תקציב.</p></section>
+      <section class="panel"><p class="k">ממצא 01</p><h2>אין לך דף.</h2><p>המודעה שולחת לוואטסאפ. לקוח חם נוחת בלי מידע ובלי סיבה לבחור בך, ואין לך מושג כמה נטשו בדרך.</p></section>
+      <section class="panel"><p class="k">ממצא 02</p><h2>יש לך דף, והוא לא ממשיך את המודעה.</h2><p>המודעה הבטיחה דבר אחד, והדף מדבר על משהו אחר. הלקוח מתבלבל ויוצא.</p></section>
+      <section class="panel"><p class="k">ממצא 03</p><h2>יש לך מספרים, ואין לך הסבר.</h2><p>אתה יודע שאחוז ההמרה נמוך, אבל לא יודע למה. מדידה חושפת את הבעיה. היא לא פותרת אותה.</p></section>
+      <section class="panel"><h2>את הלחיצות אתה כבר קונה.<br><span style="color:var(--brass)">אני מטפל במה שקורה איתן.</span></h2></section>
+    </div>
+    <div class="rail" id="rail"></div>
+  </div>
+</div>
+<div class="after">כאן הדף משתחרר לגלילה רגילה: מסלולים, עבודות, עדויות, מי אני, שאלות.</div>
+<p class="note">אב-טיפוס · ?motion=off לגרסה סטטית</p>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from './RoomEnvironment.js';
+
+const story = document.getElementById('story'), canvas = document.getElementById('gl');
+const panels = [...document.querySelectorAll('.panel')];
+const labels = Object.fromEntries([...document.querySelectorAll('[data-l]')].map(e => [e.dataset.l, e]));
+const rail = document.getElementById('rail');
+const STEPS = panels.length;
+story.style.height = (STEPS * 100) + 'vh';
+panels.forEach(() => rail.appendChild(document.createElement('i')));
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches || /motion=off/.test(location.search);
+
+/* ---------- the numbers ---------- */
+const M = { budget: 6000, cpc: 4, rate: 2, close: 20, value: 1500 };
+const fig = () => { const c = M.budget / M.cpc, l = c * M.rate / 100, d = l * M.close / 100; return { c, l, d, lost: c - l, rev: d * M.value }; };
+const nf = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+
+/* ---------- renderer, scene, light ---------- */
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+const key = new THREE.DirectionalLight(0xfff3dc, 1.6); key.position.set(-3, 5, 4); scene.add(key);
+
+/* ---------- the funnel: three tiers, one per stage ----------
+   Widths are on a log scale of the stage's count, so 1,500 -> 30 -> 6 stays
+   readable while still showing how much is lost. Each tier is a metal shell
+   (outside polished brass, inside darker) with a crisp rim. */
+const brass = new THREE.MeshStandardMaterial({ color: 0xB8862B, metalness: 0.9, roughness: 0.28, side: THREE.FrontSide });
+const inside = new THREE.MeshStandardMaterial({ color: 0x3a2c12, metalness: 0.7, roughness: 0.55, side: THREE.BackSide });
+const graphite = new THREE.MeshStandardMaterial({ color: 0x5b5a57, metalness: 0.85, roughness: 0.35 });
+const rimMat = new THREE.MeshStandardMaterial({ color: 0xE9D3A2, metalness: 1, roughness: 0.18 });
+
+const funnel = new THREE.Group(); scene.add(funnel);
+const tiers = [];
+function makeTier(name) {
+  const g = new THREE.Group();
+  const outer = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 128, 1, true), brass);
+  const inner = new THREE.Mesh(outer.geometry, inside);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(1, 0.012, 12, 160), rimMat);
+  rim.rotation.x = Math.PI / 2;
+  g.add(outer, inner, rim);
+  funnel.add(g);
+  const t = { name, g, outer, inner, rim, rTop: 1, rBot: 1, h: 1, y: 0 };
+  tiers.push(t);
+  return t;
+}
+const T = [makeTier('clicks'), makeTier('leads'), makeTier('deals')];
+const spout = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.5, 48, 1, true), brass); funnel.add(spout);
+
+function shape(f) {
+  const lg = v => Math.log(Math.max(v, 1.5)) / Math.log(Math.max(f.c, 2));
+  const R = [1.55, 0.25 + 1.0 * lg(f.l), 0.16 + 0.75 * lg(f.d), 0.07];
+  const H = [1.25, 0.75, 0.6];
+  let y = 1.15;
+  T.forEach((t, i) => {
+    t.rTop = R[i]; t.rBot = R[i + 1]; t.h = H[i]; t.y = y - H[i] / 2; y -= H[i];
+    const geo = new THREE.CylinderGeometry(t.rTop, t.rBot, t.h, 128, 1, true);
+    t.outer.geometry.dispose(); t.outer.geometry = geo; t.inner.geometry = geo;
+    t.rim.scale.set(t.rTop, t.rTop, 1); t.rim.position.y = t.h / 2;
+  });
+  spout.position.y = y - 0.25;
+}
+
+/* ---------- the clicks ----------
+   Each particle is a click. It pours in over the top rim and spirals down
+   the inside of the first tier. Most of them never become a lead: at the
+   joint they are thrown out through the gap and fall away into the dark,
+   losing their colour. The few that pass go on down, and fewer still reach
+   the spout. The shares are the figures', not an effect. */
+const NP = innerWidth < 900 ? 160 : 520;
+const dotGeo = new THREE.IcosahedronGeometry(0.022, 1);
+const dotMat = new THREE.MeshStandardMaterial({ metalness: 0.6, roughness: 0.3, emissive: 0x3a2604 });
+const dots = new THREE.InstancedMesh(dotGeo, dotMat, NP);
+dots.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+funnel.add(dots);
+const P = Array.from({ length: NP }, (_, i) => ({ ph: i / NP + Math.random() / NP, a: Math.random() * Math.PI * 2, s: 0.85 + Math.random() * 0.3, r: Math.random(), k: Math.random() }));
+const cBright = new THREE.Color(0xD9A441), cSpent = new THREE.Color(0x4a4741), tmpC = new THREE.Color();
+const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), sc = new THREE.Vector3();
+let passFrac = 0.02, dealFrac = 0.2;
+
+function radiusAt(t, u) { return t.rTop + (t.rBot - t.rTop) * u; }
+function placeDot(p, time, explode, i) {
+  const f = (p.ph + time * 0.07 * p.s) % 1;
+  const pass = p.r < Math.max(passFrac, 0.03), deal = pass && p.k < dealFrac;
+  const t1 = T[0], t2 = T[1], t3 = T[2];
+  let x, y, z, bright = 1, size = 1;
+  const ang = p.a + f * 9;
+  if (f < 0.12) {                                   // falling in from above
+    const u = f / 0.12, r = t1.rTop * (0.25 + 0.6 * p.k);
+    x = Math.cos(p.a) * r; z = Math.sin(p.a) * r; y = t1.y + t1.h / 2 + 1.4 * (1 - u) * (1 - u);
+    size = 0.4 + 0.6 * u;
+  } else if (f < 0.55) {                            // spiralling down the first tier
+    const u = (f - 0.12) / 0.43, r = radiusAt(t1, u) * 0.92;
+    x = Math.cos(ang) * r; z = Math.sin(ang) * r; y = t1.y + t1.h / 2 - t1.h * u + explode * 0.0;
+  } else if (!pass) {                               // thrown out at the joint, falls away
+    const u = (f - 0.55) / 0.45, r0 = t1.rBot, out = r0 + u * (0.5 + p.k * 0.5);
+    const a = Math.PI * (0.85 + 0.3 * p.a / (Math.PI * 2));   // one way out: through the gap, to the side the bin is on
+    x = Math.cos(a) * out; z = Math.sin(a) * out * 0.4; y = t1.y - t1.h / 2 - u * u * 2.6 + explode * 0.2;
+    bright = 1 - Math.min(1, u * 1.6); size = 1 - u * 0.5;
+  } else if (f < 0.78 || !deal) {                   // a lead: on down the second tier
+    const u = Math.min(1, (f - 0.55) / 0.23), r = radiusAt(t2, u) * 0.85;
+    x = Math.cos(ang) * r; z = Math.sin(ang) * r; y = t2.y + t2.h / 2 - t2.h * u - explode * 0.35;
+    if (f >= 0.78) { size = 1 - (f - 0.78) / 0.22; y -= (f - 0.78) * 0.4; }
+  } else {                                          // a deal: through the last tier and out of the spout
+    const u = (f - 0.78) / 0.22, r = radiusAt(t3, Math.min(1, u * 1.2)) * 0.8;
+    x = Math.cos(ang) * r * (1 - u); z = Math.sin(ang) * r * (1 - u); y = t3.y + t3.h / 2 - (t3.h + 0.6) * u - explode * 0.7;
+    size = 1.3;
+  }
+  v3.set(x, y, z); sc.setScalar(Math.max(0.001, size));
+  m4.compose(v3, q, sc); dots.setMatrixAt(i, m4);
+  tmpC.copy(cSpent).lerp(cBright, bright); dots.setColorAt(i, tmpC);
+}
+
+/* ---------- the story as keyframes ----------
+   elev/az: the camera's angle. depth: 0 is the funnel pressed flat, a 2D
+   funnel chart, 1 is the full solid. explode: tiers pulled apart. paper: the
+   report pages. shift: the second tier knocked off its axis (finding 02,
+   "the page doesn't continue the ad"). focus: which tier stays brass. */
+const K = [
+  { elev: 2,  az: 0,   depth: 0.04, explode: 0,    paper: 0, shift: 0, x: -0.62, zoom: 1.0,  focus: -1, lab: 1 },
+  { elev: 24, az: -32, depth: 1,    explode: 0,    paper: 0, shift: 0, x: -0.62, zoom: 1.0,  focus: -1, lab: 1 },
+  { elev: 30, az: -48, depth: 1,    explode: 0.25, paper: 0, shift: 0, x: -0.62, zoom: 0.95, focus: 1,  lab: 1 },
+  { elev: 16, az: -18, depth: 1,    explode: 1,    paper: 1, shift: 0, x: -0.62, zoom: 1.05, focus: 0,  lab: 1 },
+  { elev: 10, az: 24,  depth: 1,    explode: 1,    paper: 1, shift: 1, x: -0.62, zoom: 1.05, focus: 1,  lab: 1 },
+  { elev: 40, az: -70, depth: 1,    explode: 1,    paper: 1, shift: 0, x: -0.62, zoom: 0.95, focus: 2,  lab: 1 },
+  { elev: 20, az: -10, depth: 1,    explode: 0,    paper: 0, shift: 0, x: -0.62, zoom: 1.0,  focus: 1,  lab: 1 },
+];
+const lerp = (a, b, t) => a + (b - a) * t, ss = t => t * t * (3 - 2 * t);
+function frameAt(p) {
+  const i = Math.max(0, Math.min(K.length - 1, Math.floor(p))), j = Math.min(K.length - 1, i + 1);
+  const t = ss(Math.max(0, Math.min(1, (p - i - 0.35) / 0.65)));    // hold, then move
+  const o = {}; for (const k in K[i]) o[k] = lerp(K[i][k], K[j][k], t);
+  o.step = Math.round(p - 0.15 < 0 ? 0 : Math.min(K.length - 1, p + 0.15) - 0.0001 | 0);
+  o.focusA = K[i].focus; o.focusB = K[j].focus; o.ft = t;
+  return o;
+}
+
+/* ---------- layout ---------- */
+let W = 0, H = 0, small = false;
+function resize() {
+  W = innerWidth; H = innerHeight; small = W < 900;
+  renderer.setSize(W, H, false);
+  camera.aspect = W / H; camera.fov = small ? 38 : 30; camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+
+/* ---------- labels follow the 3D points they belong to ---------- */
+const anchor = new THREE.Vector3();
+function label(name, x, y, z, show) {
+  const el = labels[name]; anchor.set(x, y, z); funnel.localToWorld(anchor); anchor.project(camera);
+  const px = Math.max(el.offsetWidth / 2 + 16, (anchor.x * 0.5 + 0.5) * W), py = Math.max(80, (-anchor.y * 0.5 + 0.5) * H);
+  el.style.transform = `translate(${px}px, ${py}px) translate(-50%,-50%)`;
+  el.style.opacity = show ? 1 : 0;
+}
+
+/* ---------- each frame ---------- */
+let current = -1, last = performance.now(), clock = 0;
+function render(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (!still) clock += dt;
+  const top = story.getBoundingClientRect().top, unit = innerHeight;
+  const p = Math.max(0, Math.min(K.length - 1, -top / unit));
+  const k = frameAt(p);
+
+  // panels and page tone
+  const step = Math.min(STEPS - 1, Math.max(0, Math.round(p)));
+  if (step !== current) {
+    current = step;
+    panels.forEach((el, i) => el.classList.toggle('on', i === step));
+    [...rail.children].forEach((el, i) => el.classList.toggle('on', i === step));
+  }
+  document.body.classList.toggle('paper', k.paper > 0.5);
+
+  // camera: an orbit around the funnel, breathing a little
+  const breathe = still ? 0 : Math.sin(clock * 0.6) * 1.5;
+  const el = THREE.MathUtils.degToRad(k.elev + breathe * 0.4), az = THREE.MathUtils.degToRad(k.az + breathe);
+  const dist = (small ? 9.4 : 9.0) / k.zoom;
+  camera.position.set(Math.sin(az) * Math.cos(el) * dist, Math.sin(el) * dist + 0.1, Math.cos(az) * Math.cos(el) * dist);
+  camera.lookAt(0, 0, 0);
+  // the funnel sits on the left half (top part on a phone)
+  camera.setViewOffset(W, H, small ? 0 : W * 0.22, small ? H * 0.2 : 0, W, H);
+
+  // depth: pressed flat (a funnel chart) or full solid
+  funnel.scale.set(1, 1, Math.max(0.02, k.depth));
+  funnel.rotation.y = still ? 0 : clock * 0.08;   // slow turn, so the metal catches the light
+
+  // explode and misalign
+  T.forEach((t, i) => {
+    t.g.position.set(i === 1 ? k.shift * 0.55 : 0, t.y - i * k.explode * 0.35, i === 1 ? k.shift * 0.2 : 0);
+    t.g.rotation.z = i === 1 ? k.shift * 0.18 : 0;
+    const on = (k.focusA === -1 || k.focusA === i) ? 1 - k.ft : 0;
+    const on2 = (k.focusB === -1 || k.focusB === i) ? k.ft : 0;
+    t.outer.material = on + on2 > 0.5 ? brass : graphite;
+  });
+  spout.position.y = T[2].y - T[2].h / 2 - 0.25 - 2 * k.explode * 0.35;
+
+  // the clicks
+  for (let i = 0; i < NP; i++) placeDot(P[i], still ? 4.2 : clock, k.explode, i);
+  dots.instanceMatrix.needsUpdate = true; if (dots.instanceColor) dots.instanceColor.needsUpdate = true;
+
+  // labels
+  const f = fig(), t1 = T[0], t2 = T[1], t3 = T[2], rx = small ? 0.25 : 0.35;
+  labels.clicks.querySelector('.num').textContent = nf.format(f.c);
+  labels.leads.querySelector('.num').textContent = nf.format(f.l);
+  labels.deals.querySelector('.num').textContent = nf.format(f.d);
+  labels.lost.querySelector('.num').textContent = nf.format(f.lost);
+  label('clicks', -t1.rTop - rx - 0.35, t1.y + t1.h / 2 + 0.15, 0, true);
+  label('leads', -t2.rTop - rx - 0.15, t2.y - k.explode * 0.35, 0, true);
+  label('deals', -t3.rTop - rx, t3.y - 2 * k.explode * 0.35, 0, true);
+  label('lost', -t1.rTop - 0.2, t1.y - t1.h / 2 - 2.3, 0, true);
+
+  renderer.setClearColor(k.paper > 0.5 ? 0xFAF8F3 : 0x1C1E24, 0);
+  renderer.render(scene, camera);
+  if (!still) requestAnimationFrame(render);
+}
+
+/* ---------- the slider talks to the funnel ---------- */
+const rate = document.getElementById('rate'), rateOut = document.getElementById('rateOut'), gain = document.getElementById('gain');
+function setRate() {
+  const base = fig().rev; M.rate = parseFloat(rate.value);
+  const f = fig(); passFrac = f.l / f.c; dealFrac = M.close / 100;
+  rateOut.textContent = M.rate.toFixed(1).replace('.0', '') + '%';
+  gain.textContent = '₪' + nf.format(f.rev - 9000);
+  shape(f);
+  if (still) requestAnimationFrame(render);
+}
+rate.addEventListener('input', setRate);
+
+resize(); shape(fig()); setRate();
+if (still) { addEventListener('scroll', () => requestAnimationFrame(render), { passive: true }); }
+requestAnimationFrame(render);
+</script>
+</body>
+</html>
