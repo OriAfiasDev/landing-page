@@ -478,7 +478,7 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 /* A laptop and a phone, drawn in CSS. --p (0 to 1) is how far the case has
    scrolled; the script sets it and picks the screen each device shows. */
 .dev{--p:.5;position:relative;padding:0 0 9% 0;max-width:720px;margin-inline:auto}
-.mac{position:relative;width:88%;margin-inline-start:auto;transform:translateY(calc((.5 - var(--p)) * 30px));transition:transform .2s linear}
+.mac{position:relative;width:86%;margin-inline:auto 6.5%;transform:translateY(calc((.5 - var(--p)) * 30px));transition:transform .2s linear}
 .mac-lid{position:relative;padding:2.4% 2.4% 3%;border-radius:16px 16px 6px 6px;background:linear-gradient(#2E3036,#1E1F23);box-shadow:inset 0 0 0 1px #4A4D55,0 30px 60px -20px rgba(0,0,0,.6)}
 .mac-lid::before{content:"";position:absolute;top:1.1%;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#0E0F11;box-shadow:inset 0 0 0 1px #3A3D44}
 .mac-scr{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:3px;background:#0E0F11}
@@ -491,19 +491,13 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 [data-frames] img.on{opacity:1;transform:none}
 .dev-flag{position:absolute;z-index:2;top:-14px;right:6%;padding:6px 12px;border-radius:3px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:700;transform:rotate(-2deg);box-shadow:0 8px 20px rgba(0,0,0,.35)}
 @media (prefers-reduced-motion:reduce){.mac,.iph{transform:none;transition:none}[data-frames] img{transition:none;transform:none}}
-/* The figures from the store, and the screenshot they come from. */
+/* The figures from the store: relative changes only, never the raw numbers. */
 .res{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
 .res-n{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px clamp(20px,3vw,40px);margin-top:14px}
 .res-n li{display:flex;flex-direction:column;gap:4px}
 .res-n b{font-size:clamp(34px,3.6vw,50px);font-weight:700;line-height:1;letter-spacing:-.04em;color:var(--paper);direction:ltr;text-align:right}
 .res-n span{font-size:15px;color:var(--text)}
 .res-p{margin-top:16px;font-size:clamp(18px,1.6vw,21px);font-weight:700;line-height:1.35}
-.res-shot{margin-top:20px}
-.res-shot a{display:block;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:#fff}
-.res-shot img{display:block;width:100%;height:auto;transition:transform .5s ease}
-.res-shot a:hover img{transform:scale(1.02)}
-.res-shot a:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
-.res-shot figcaption{margin-top:8px;font-size:14px;color:var(--muted)}
 .work-more{margin-top:clamp(28px,5vh,56px);padding-top:28px;border-top:1px solid var(--line)}
 .work-more .more{font-size:clamp(19px,1.9vw,24px);font-weight:700}
 
@@ -892,10 +886,6 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
                 <li><b class="num">+42%</b><span>מכירות ברוטו</span></li>
               </ul>
               <p class="res-p">וכל זה עם חצי מהכניסות. פחות אנשים נכנסו, ויותר מהם קנו.</p>
-              <figure class="res-shot">
-                <a href="/assets/work/alata-analytics.webp" target="_blank" rel="noopener"><img src="/assets/work/alata-analytics-1000w.webp" srcset="/assets/work/alata-analytics-1000w.webp 1000w, /assets/work/alata-analytics.webp 2000w" sizes="(max-width:999px) calc(100vw - 42px), 460px" alt="לוח הבקרה של החנות בשופיפיי: אחוז המרה 0.64%, עלייה של 53%; הזמנה ממוצעת 287 ש״ח, עלייה של 89%; מכירות ברוטו 861 ש״ח, עלייה של 42%; 465 כניסות, ירידה של 51%" width="2000" height="977" loading="lazy" decoding="async"></a>
-                <figcaption>צילום מסך מלוח הבקרה של החנות. לחיצה מגדילה.</figcaption>
-              </figure>
             </div>
             <p class="case-links">
               <a class="more" href="https://ubealata.com/" target="_blank" rel="noopener">לחנות<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
