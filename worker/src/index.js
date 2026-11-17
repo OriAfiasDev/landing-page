@@ -19,6 +19,14 @@
  *                                  with the name, phone, link and monthly budget,
  *                                  labelled "דף נחיתה לקמפיין", due the next day.
  *
+ * Another takes the details a buyer sends after paying for the diagnosis:
+ *
+ *   POST /api/diagnosis-intake  ->  one Linear issue ("אבחון משפך - <business>"),
+ *                                   labelled "אבחון משפך", high priority, due in
+ *                                   3 working days. Accepts JSON from the page's
+ *                                   script, or a plain form post (no script),
+ *                                   which is answered with a redirect.
+ *
  * A second, independent route handles Meta Conversions API:
  *
  *   POST /track  ->  mirrors a browser Pixel event server-side, sharing the
@@ -54,6 +62,13 @@ const LANDING_PATH = '/api/landing-request';
 const LANDING_LABEL = 'דף נחיתה לקמפיין';
 const LANDING_DUE_DAYS = 1;
 
+// The details a buyer sends after paying for the diagnosis (/diagnosis/).
+// The page promises the report within 3 working days of having the data.
+const DIAGNOSIS_PATH = '/api/diagnosis-intake';
+const DIAGNOSIS_LABEL = 'אבחון משפך';
+const DIAGNOSIS_WORKDAYS = 3;
+const DIAGNOSIS_DONE_URL = 'https://afias.dev/diagnosis/#sent';
+
 const TRACK_PATH = '/track';
 const HOOX_PATH = '/api/hoox-webhook';
 
@@ -76,6 +91,7 @@ const ALLOWED_EVENTS = new Set([
   'DownloadSkill',   // /brief
   'InitiateCheckout',    // homepage: the diagnosis button
   'CalculatorComplete',  // homepage: the calculator has every number it needs
+  'Purchase',            // /diagnosis/: SUMIT sent the buyer back after paying
 ]);
 
 /* ------------------------------------------------------------------ */
@@ -121,6 +137,21 @@ function clean(value, max = 2000) {
 /** YYYY-MM-DD, `days` from now. Calendar days, not business days — see README. */
 function dueDate(days) {
   const d = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  return d.toISOString().slice(0, 10);
+}
+
+/**
+ * YYYY-MM-DD, `n` Israeli working days (Sunday to Thursday) from today in
+ * Israel. Holidays are not known here; the date is a reminder, not a contract.
+ */
+function dueWorkdays(n) {
+  const d = new Date(Date.now() + 3 * 60 * 60 * 1000);   // close enough to Israel time for a date
+  let left = n;
+  while (left > 0) {
+    d.setUTCDate(d.getUTCDate() + 1);
+    const day = d.getUTCDay();                           // 5 = Friday, 6 = Saturday
+    if (day !== 5 && day !== 6) left--;
+  }
   return d.toISOString().slice(0, 10);
 }
 
@@ -355,6 +386,88 @@ async function handleLandingRequest(env, data) {
   );
 
   return { status: 200, body: { ok: true } };
+}
+
+/* ------------------------------------------------------------------ */
+/* the diagnosis details (after payment)                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * One issue per buyer. Name, phone and where the ad leads are what it takes
+ * to start; the rest is filed as given. The page checks the same fields, so
+ * a 400 here only ever meets a hand-made request.
+ */
+async function handleDiagnosisIntake(env, data) {
+  const name = clean(data.name, 200);
+  const phone = clean(data.phone, 60);
+  const page = clean(data.page, 600);
+  if (!name || !phone || !page) {
+    return { status: 400, body: { ok: false, error: 'name, phone and page are required' } };
+  }
+
+  const business = clean(data.business, 200);
+  const platforms = (Array.isArray(data.platforms) ? data.platforms : [data.platforms])
+    .map((p) => clean(p, 40)).filter(Boolean).slice(0, 6);
+  const given = (v) => v || '_לא צוין_';
+
+  const description = [
+    '**אבחון משפך: פרטים אחרי תשלום**',
+    '',
+    `**שם:** ${name}`,
+    `**עסק:** ${given(business)}`,
+    `**טלפון:** ${phone}`,
+    `**אימייל:** ${given(clean(data.email, 200))}`,
+    '',
+    `**המודעה מובילה ל:** ${page}`,
+    `**קישור למודעה:** ${given(clean(data.ad, 600))}`,
+    `**פלטפורמות:** ${given(platforms.join(', '))}`,
+    '',
+    `**תקציב חודשי:** ${given(clean(data.budget, 60))}`,
+    `**לחיצות בחודש האחרון:** ${given(clean(data.clicks, 60))}`,
+    `**פניות בחודש האחרון:** ${given(clean(data.leads, 60))}`,
+    '',
+    `**נתונים:** ${given(clean(data.access, 60))}`,
+    '',
+    '**עוד משהו:**',
+    given(clean(data.notes, 3000)),
+    '',
+    '---',
+    '',
+    '_לבדוק ב-SUMIT שהתשלום (490) התקבל. לשלוח בוואטסאפ את הצעד הבא (גישת צפייה או רשימת צילומי מסך). הובטח דוח תוך 3 ימי עבודה מהרגע שיש נתונים; תאריך היעד מחושב מהיום._',
+  ].join('\n');
+
+  const labelId = await ensureLabel(env, DIAGNOSIS_LABEL);
+
+  await linear(
+    env,
+    `mutation($input: IssueCreateInput!) {
+       issueCreate(input: $input) { success issue { id } }
+     }`,
+    {
+      input: {
+        teamId: env.LINEAR_TEAM_ID,
+        projectId: env.LINEAR_PROJECT_ID,
+        title: `${DIAGNOSIS_LABEL} - ${business || name}`,
+        description,
+        dueDate: dueWorkdays(DIAGNOSIS_WORKDAYS),
+        priority: 2,   // high: this one is paid for
+        ...(labelId ? { labelIds: [labelId] } : {}),
+      },
+    }
+  );
+
+  return { status: 200, body: { ok: true } };
+}
+
+/** A plain HTML form post (the page with no script), read into an object. */
+async function readForm(request) {
+  const form = await request.formData();
+  const out = {};
+  for (const key of new Set(form.keys())) {
+    const all = form.getAll(key).filter((v) => typeof v === 'string');
+    out[key] = key === 'platforms' ? all : all[0];
+  }
+  return out;
 }
 
 /* ------------------------------------------------------------------ */
@@ -713,6 +826,30 @@ export default {
       return json({ ok: false, error: 'origin not allowed' }, 403, origin);
     }
 
+    // The diagnosis details page without its script posts a plain HTML form.
+    // A browser follows the answer as a page, so it gets a redirect back to
+    // the page's "sent" state, or a short page that says what to do instead.
+    const path = new URL(request.url).pathname;
+    const type = request.headers.get('Content-Type') || '';
+    if (path === DIAGNOSIS_PATH && /application\/x-www-form-urlencoded|multipart\/form-data/.test(type)) {
+      try {
+        const form = await readForm(request);
+        if (!clean(form.company_url, 200)) {
+          const { status } = await handleDiagnosisIntake(env, form);
+          if (status !== 200) throw new Error(`intake refused: ${status}`);
+        }
+        return Response.redirect(DIAGNOSIS_DONE_URL, 303);
+      } catch (err) {
+        console.error('diagnosis form (plain post) failed:', err.message);
+        return new Response(
+          '<!doctype html><html lang="he" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+          '<title>משהו השתבש</title><body style="font:18px/1.6 system-ui,sans-serif;max-width:560px;margin:60px auto;padding:0 20px">' +
+          '<h1>משהו השתבש בשליחה</h1><p>אפשר לחזור ולנסות שוב, או <a href="https://wa.me/972542533533">לשלוח לי את הפרטים בוואטסאפ</a>.</p></body></html>',
+          { status: 500, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+        );
+      }
+    }
+
     let data;
     try {
       data = await request.json();
@@ -737,9 +874,19 @@ export default {
       return json({ ok: true, issueId: null }, 200, origin);
     }
 
+    if (path === DIAGNOSIS_PATH) {
+      try {
+        const { status, body } = await handleDiagnosisIntake(env, data);
+        return json(body, status, origin);
+      } catch (err) {
+        console.error('diagnosis form failed:', err.message);
+        return json({ ok: false, error: 'internal error' }, 500, origin);
+      }
+    }
+
     // The homepage's short form. Everything else falls through to the demo
     // form exactly as before.
-    if (new URL(request.url).pathname === LANDING_PATH) {
+    if (path === LANDING_PATH) {
       try {
         const { status, body } = await handleLandingRequest(env, data);
         return json(body, status, origin);

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1C1E24">
+<!-- The page a buyer lands on after paying for the diagnosis. SUMIT sends them
+     here (its "after payment" address is https://afias.dev/diagnosis/?paid=1).
+     It is not for search: nothing here means anything without the payment. -->
+<meta name="robots" content="noindex, nofollow">
+<script>document.documentElement.className = 'js';</script>
+<link rel="preload" href="/assets/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<title>הפרטים לאבחון | afias.dev</title>
+<meta name="description" content="הפרטים שאני צריך כדי להתחיל את אבחון המשפך: המודעה, הדף והמספרים.">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/assets/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/assets/fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin.woff2) format('woff2');unicode-range:U+0000-002B,U+002D,U+002F-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* The homepage's system, cut down to one form: ink page, paper text, brass
+   only where an action or a figure needs it. */
+:root{
+  --ink:#1C1E24; --paper:#FAF8F3; --brass:#B8862B; --muted:#93897A;
+  --text:rgba(250,248,243,.78);
+  --line:rgba(250,248,243,.14);
+  --line-2:rgba(250,248,243,.3);
+  --field:rgba(250,248,243,.5);        /* form field edges need 3:1 */
+  --sans:'Rubik',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --mono:'JetBrains Mono','Rubik',ui-monospace,Menlo,Consolas,monospace;
+  --gut:20px;
+}
+@media (min-width:760px){:root{--gut:32px}}
+*,*::before,*::after{box-sizing:border-box}
+html{color-scheme:dark;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2,p,ul,fieldset{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit}
+button,input,textarea{font:inherit;color:inherit}
+[hidden]{display:none !important}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+main:focus{outline:none}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.skip-link{position:fixed;top:8px;inset-inline-start:8px;z-index:10;padding:12px 18px;border-radius:3px;background:var(--paper);color:var(--ink);font-weight:700;font-size:15px;text-decoration:none;transform:translateY(-200%)}
+.skip-link:focus{transform:none}
+
+.wrap{max-width:760px;margin-inline:auto;padding-inline:var(--gut)}
+.top{padding-block:22px}
+.top a{display:inline-block;color:var(--paper)}
+.top svg{display:block;height:22px;width:auto;aspect-ratio:99.2/28}
+
+main{padding-block:clamp(36px,8vh,88px) clamp(64px,10vh,112px)}
+h1{font-size:clamp(36px,6.4vw,64px);font-weight:800;line-height:1.04;letter-spacing:-.022em;text-wrap:balance}
+.lead{margin-top:20px;max-width:52ch;font-size:clamp(17px,1.5vw,20px);color:var(--text)}
+.when{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:15px;color:var(--muted)}
+.when li{display:flex;align-items:center;gap:8px}
+.when li::before{content:"";width:12px;height:2px;background:var(--brass)}
+
+form{margin-top:clamp(36px,6vh,56px);display:grid;gap:clamp(36px,6vh,52px)}
+fieldset{min-width:0;padding:0;border:0;display:grid;gap:22px}
+.lift{margin-top:-12px}
+legend{padding:0;margin-bottom:22px;font-size:clamp(22px,2.3vw,28px);font-weight:700;line-height:1.2;letter-spacing:-.012em}
+legend .k{display:block;margin-bottom:6px;font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--muted)}
+.row{display:grid;gap:22px}
+@media (min-width:640px){.row{grid-template-columns:1fr 1fr}.row--3{grid-template-columns:1fr 1fr 1fr}}
+.field label,.field .lbl{display:block;margin-bottom:8px;font-size:16px;font-weight:500;line-height:1.4}
+.opt{font-size:14px;font-weight:400;color:var(--muted)}
+.hint{margin-top:7px;font-size:14px;line-height:1.45;color:var(--muted)}
+input[type=text],input[type=tel],input[type=email],textarea{
+  display:block;width:100%;height:54px;padding:0 16px;border:1px solid var(--field);border-radius:3px;
+  background:var(--ink);color:var(--paper);font-size:18px;
+}
+textarea{height:auto;min-height:120px;padding:14px 16px;line-height:1.5;resize:vertical}
+.ltr{direction:ltr;text-align:left}
+.ltr::placeholder{text-align:left}
+.fig{font-family:var(--mono);font-size:20px;font-weight:500;direction:ltr;text-align:right}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
+input:focus-visible,textarea:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+[aria-invalid="true"]{border:2px solid var(--paper) !important}
+
+/* Checkboxes and radios: the native control, sized up and in brass. */
+.picks{display:flex;flex-wrap:wrap;gap:10px}
+.pick{position:relative;display:flex;align-items:center;gap:10px;min-height:48px;padding:10px 16px;border:1px solid var(--field);border-radius:3px;cursor:pointer;font-size:16px}
+.pick input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--brass)}
+.pick:has(input:checked){border-color:var(--brass);background:rgba(184,134,43,.1)}
+.pick:has(input:focus-visible){outline:2px solid var(--brass);outline-offset:2px}
+.pick input:focus-visible{outline:none}
+.ways{display:grid;gap:12px}
+@media (min-width:640px){.ways{grid-template-columns:1fr 1fr}}
+.way{align-items:flex-start;padding:18px}
+.way input{margin-top:3px}
+.way b{display:block;font-size:17px;line-height:1.35}
+.way span{display:block;margin-top:6px;font-size:15px;line-height:1.5;color:var(--text)}
+.ways[aria-invalid="true"]{border:0 !important}
+.ways[aria-invalid="true"] .way{border:2px solid var(--paper)}
+
+.send{display:grid;gap:16px;justify-items:start}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:14px 30px;border:1px solid var(--brass);border-radius:3px;background:var(--brass);color:var(--ink);font-weight:700;font-size:17px;line-height:1.25;text-decoration:none;cursor:pointer;transition:background-color .15s,border-color .15s}
+.btn:hover{background:var(--paper);border-color:var(--paper)}
+.btn:focus-visible{outline-color:var(--paper)}
+.btn[aria-disabled="true"]{opacity:.6;cursor:progress}
+@media (max-width:639px){.send,.btn{width:100%}}
+.note{font-size:14px;color:var(--muted)}
+.note a,.msg a,.done a{text-decoration-color:var(--brass);text-underline-offset:3px}
+.msg{padding:14px 16px;border:1px solid var(--field);font-size:16px;line-height:1.5}
+.msg:focus{outline:2px solid var(--brass);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* Sent. With the script the form hides and this takes focus; without it the
+   Worker redirects back to #sent and :target does the same. */
+.done{display:none;margin-top:clamp(36px,6vh,56px);padding:clamp(22px,3vw,36px);border:1px solid var(--brass)}
+.done:target,.done.is-on{display:block}
+.done:target ~ form{display:none}
+.done h2{font-size:clamp(24px,2.6vw,32px);font-weight:700;line-height:1.2}
+.done p{margin-top:12px;color:var(--text)}
+.done:focus{outline:none}
+
+.foot{border-top:1px solid var(--line);padding:24px var(--gut) 40px}
+.foot-in{max-width:760px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px;color:var(--muted)}
+.foot-in a{color:var(--text);text-decoration-color:rgba(184,134,43,.6);text-underline-offset:3px}
+.foot-in a:hover{color:var(--paper)}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+<!-- Analytics only after consent: see /consent.js -->
+<script>window.afiasTrack=window.afiasTrack||function(){(window.afiasTrackQ=window.afiasTrackQ||[]).push([].slice.call(arguments))}</script>
+<script src="/consent.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לטופס</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 99.2 28"><path fill="currentColor" d="M10.6 21.3Q9.7 21.3 9.2 21Q8.7 20.8 8.4 20.4Q8.1 20 8.1 19.5V11.8Q8.1 10.7 7.7 10.1Q7.3 9.6 6.2 9.6Q5.8 9.6 5.4 9.6Q5.1 9.7 4.9 9.9Q4.7 10 4.7 10.2Q4.7 10.5 4.8 10.6Q5 10.8 5.2 11.1Q5.3 11.3 5.3 11.7Q5.3 12.4 4.9 12.9Q4.4 13.4 3.5 13.4Q2.7 13.4 2.2 12.9Q1.7 12.4 1.7 11.7Q1.7 11 2.3 10.3Q2.9 9.5 4.2 9Q5.5 8.5 7.5 8.5Q9.8 8.5 10.8 9.5Q11.8 10.5 11.8 12.7V18.4Q11.8 19.4 12 19.7Q12.2 20 12.5 20Q12.8 20 13 19.9Q13.2 19.8 13.4 19.7L13.7 20.5Q13.1 20.9 12.3 21.1Q11.5 21.3 10.6 21.3ZM4.5 21.3Q2.8 21.3 1.9 20.6Q1 19.9 1 18.5Q1 17.2 2 16.2Q3 15.3 4.9 14.6Q6.8 13.9 9.3 13.5V14.5Q6.8 15 5.7 15.8Q4.6 16.6 4.6 17.9Q4.6 18.9 5 19.3Q5.4 19.7 6.3 19.7Q6.9 19.7 7.4 19.4Q7.9 19.2 8.3 18.8Q8.7 18.5 9 18.2L9.3 19.1Q8.8 19.6 8.1 20.1Q7.5 20.6 6.6 20.9Q5.7 21.3 4.5 21.3Z M14.4 21V20.1Q15.1 20.1 15.5 20Q15.8 19.9 16 19.7Q16.1 19.4 16.1 18.8V9.7H14.4V8.8H16.1V7.4Q16.1 6 16.7 4.9Q17.3 3.9 18.4 3.3Q19.5 2.7 21.1 2.7Q22.7 2.7 23.7 3.4Q24.7 4.1 24.7 5.3Q24.7 6.1 24.3 6.5Q23.9 7 23.1 7Q22.3 7 21.9 6.6Q21.5 6.2 21.5 5.5Q21.5 5.1 21.6 4.8Q21.8 4.6 21.9 4.5Q22 4.3 22 4Q22 3.8 21.8 3.6Q21.6 3.4 21.2 3.4Q20.7 3.4 20.3 3.8Q20 4.2 19.9 4.8Q19.8 5.4 19.8 6.1V8.8H22.3V9.7H19.8V18.8Q19.8 19.4 19.9 19.7Q20.1 20 20.5 20.1Q21 20.1 21.9 20.1V21Z M23.1 21V20.1Q23.8 20.1 24.2 20Q24.5 19.9 24.7 19.7Q24.8 19.4 24.8 18.8V11.2Q24.8 10.6 24.6 10.4Q24.5 10.2 24 10.2H23.2V9.3L27.3 8.7H28.5V18.8Q28.5 19.4 28.6 19.7Q28.7 19.9 29 20Q29.3 20.1 30 20.1V21ZM26.5 7.2Q25.6 7.2 25 6.6Q24.4 6 24.4 5.1Q24.4 4.3 25 3.7Q25.6 3.1 26.5 3.1Q27.1 3.1 27.6 3.3Q28 3.6 28.3 4.1Q28.6 4.6 28.6 5.1Q28.6 6 28 6.6Q27.4 7.2 26.5 7.2Z M41.2 21.3Q40.3 21.3 39.8 21Q39.3 20.8 39 20.4Q38.7 20 38.7 19.5V11.8Q38.7 10.7 38.3 10.1Q37.9 9.6 36.8 9.6Q36.4 9.6 36 9.6Q35.7 9.7 35.5 9.9Q35.3 10 35.3 10.2Q35.3 10.5 35.5 10.6Q35.6 10.8 35.8 11.1Q35.9 11.3 35.9 11.7Q35.9 12.4 35.5 12.9Q35 13.4 34.1 13.4Q33.3 13.4 32.8 12.9Q32.3 12.4 32.3 11.7Q32.3 11 32.9 10.3Q33.5 9.5 34.8 9Q36.1 8.5 38.1 8.5Q40.4 8.5 41.4 9.5Q42.4 10.5 42.4 12.7V18.4Q42.4 19.4 42.6 19.7Q42.8 20 43.1 20Q43.4 20 43.6 19.9Q43.8 19.8 44 19.7L44.3 20.5Q43.7 20.9 42.9 21.1Q42.1 21.3 41.2 21.3ZM35.2 21.3Q33.4 21.3 32.5 20.6Q31.6 19.9 31.6 18.5Q31.6 17.2 32.6 16.2Q33.6 15.3 35.5 14.6Q37.4 13.9 39.9 13.5V14.5Q37.5 15 36.3 15.8Q35.2 16.6 35.2 17.9Q35.2 18.9 35.6 19.3Q36.1 19.7 36.9 19.7Q37.5 19.7 38 19.4Q38.5 19.2 38.9 18.8Q39.3 18.5 39.6 18.2L39.9 19.1Q39.4 19.6 38.7 20.1Q38.1 20.6 37.2 20.9Q36.3 21.3 35.2 21.3Z M50.1 21.3Q49.2 21.3 48.6 21.1Q48 21 47.7 20.8Q47.3 20.7 46.9 20.7Q46.6 20.7 46.4 20.8Q46.3 20.9 46.2 21H45.6L45.3 16.8H46.1Q46.5 18.5 47.5 19.4Q48.5 20.4 50 20.4Q50.9 20.4 51.6 19.9Q52.3 19.5 52.3 18.5Q52.3 18 52.1 17.6Q51.9 17.3 51.4 17Q51 16.8 50.2 16.5L48.8 16.1Q47 15.4 46.2 14.6Q45.4 13.7 45.4 12.4Q45.4 10.6 46.7 9.5Q47.9 8.5 50.1 8.5Q50.9 8.5 51.5 8.6Q52 8.7 52.3 8.9Q52.7 9 53 9Q53.3 9 53.4 8.9Q53.5 8.7 53.6 8.5H54.2L54.4 12.4H53.6Q53.4 11.4 52.9 10.8Q52.4 10.1 51.8 9.8Q51.2 9.4 50.3 9.4Q49.4 9.4 48.8 9.9Q48.2 10.3 48.2 11Q48.2 11.5 48.5 11.9Q48.9 12.2 49.4 12.4Q49.8 12.7 50.3 12.8L51.5 13.2Q52.8 13.6 53.5 14.1Q54.3 14.7 54.7 15.4Q55.1 16.1 55.1 17.1Q55.1 18.3 54.5 19.3Q54 20.2 52.8 20.8Q51.7 21.3 50.1 21.3Z"/><path fill="#B8862B" d="M63 21.2Q62.3 21.2 61.9 20.7Q61.4 20.3 61.4 19.6Q61.4 18.9 61.9 18.4Q62.3 18 63 18Q63.8 18 64.2 18.4Q64.6 18.9 64.6 19.6Q64.6 20.3 64.2 20.7Q63.8 21.2 63 21.2Z M72.4 21.2Q71 21.2 70.2 20.2Q69.3 19.2 69.3 17.6V15.1Q69.3 13.4 70.2 12.4Q71 11.5 72.4 11.5Q73.6 11.5 74.3 12.1Q74.9 12.8 74.9 13.9L74.5 13.4H75L74.9 11.2V8.6H77V21H74.9V19.2H74.5L74.9 18.7Q74.9 19.9 74.3 20.5Q73.6 21.2 72.4 21.2ZM73.2 19.3Q74 19.3 74.4 18.8Q74.9 18.4 74.9 17.5V15.1Q74.9 14.3 74.4 13.8Q74 13.3 73.2 13.3Q72.4 13.3 71.9 13.8Q71.4 14.3 71.4 15.1V17.5Q71.4 18.4 71.9 18.9Q72.4 19.3 73.2 19.3Z M83.4 21.2Q82.3 21.2 81.4 20.7Q80.5 20.3 80 19.4Q79.5 18.6 79.5 17.5V15.1Q79.5 14 80 13.2Q80.5 12.4 81.4 11.9Q82.3 11.5 83.4 11.5Q84.6 11.5 85.5 11.9Q86.4 12.4 86.8 13.2Q87.3 14 87.3 15.1V16.8H81.6V17.5Q81.6 18.5 82 19Q82.5 19.5 83.5 19.5Q84.2 19.5 84.6 19.2Q85 19 85.2 18.5H87.3Q87 19.7 86 20.4Q84.9 21.2 83.4 21.2ZM85.3 15.6V15.1Q85.3 14.2 84.8 13.6Q84.4 13.1 83.4 13.1Q82.5 13.1 82 13.7Q81.6 14.2 81.6 15.1V15.5L85.4 15.5Z M92.3 21 89.2 11.6H91.4L93.1 17.3Q93.3 17.8 93.4 18.4Q93.6 18.9 93.7 19.3Q93.7 18.9 93.9 18.4Q94 17.8 94.2 17.3L95.9 11.6H98.1L95 21Z"/></symbol>
+</svg>
+
+<header class="top"><div class="wrap"><a href="/" aria-label="afias.dev, לדף הבית"><svg viewBox="0 0 99.2 28" aria-hidden="true"><use href="#logo"/></svg></a></div></header>
+
+<main id="main" tabindex="-1" class="wrap">
+  <h1>תודה. עכשיו כמה פרטים, ואני מתחיל.</h1>
+  <p class="lead">כדי לאבחן את המשפך אני צריך לראות מה שהלקוח שלך רואה: את המודעה, את הדף שהיא מובילה אליו, ואת המספרים שמאחוריהם. זה לוקח בערך 3 דקות.</p>
+  <ul class="when">
+    <li>הדוח מגיע תוך <span class="num">3</span> ימי עבודה מהרגע שיש לי את הנתונים</li>
+    <li>שדה שלא מסומן כרשות הוא חובה</li>
+  </ul>
+
+  <div class="done" id="sent" tabindex="-1" role="status">
+    <h2>קיבלתי, תודה.</h2>
+    <p>אשלח לך הודעה בוואטסאפ עם הצעד הבא: איך לתת גישת צפייה, או אילו צילומי מסך לשלוח. מהרגע שיש לי את הנתונים, הדוח מגיע תוך 3 ימי עבודה.</p>
+    <p>משהו נשכח? אפשר פשוט <a href="https://wa.me/972542533533" target="_blank" rel="noopener">לכתוב לי בוואטסאפ</a>.</p>
+  </div>
+
+  <!-- Without the script the browser checks the required fields and posts the
+       form to the Worker, which files it and sends the browser back to #sent.
+       With it, the same fields go as JSON and the page answers in place. -->
+  <form id="details" action="https://afias-demo.afias.workers.dev/api/diagnosis-intake" method="post" data-details>
+    <div class="msg" id="err" tabindex="-1" hidden></div>
+
+    <fieldset>
+      <legend><span class="k">01</span>מי אתה</legend>
+      <div class="row">
+        <div class="field">
+          <label for="d-name">שם</label>
+          <input id="d-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="d-business">שם העסק <span class="opt">(רשות)</span></label>
+          <input id="d-business" name="business" type="text" autocomplete="organization">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="d-phone">טלפון</label>
+          <input id="d-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" class="ltr" required>
+          <p class="hint">בוואטסאפ, שם נדבר על הגישה ועל הדוח.</p>
+        </div>
+        <div class="field">
+          <label for="d-email">אימייל <span class="opt">(רשות)</span></label>
+          <input id="d-email" name="email" type="email" autocomplete="email" class="ltr">
+          <p class="hint">אם נוח לך לקבל את הדוח גם במייל.</p>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="k">02</span>המודעה והדף</legend>
+      <div class="field">
+        <label for="d-page">לאן המודעה מובילה</label>
+        <input id="d-page" name="page" type="text" inputmode="url" autocomplete="url" class="ltr" placeholder="https://" required aria-describedby="d-page-h">
+        <p class="hint" id="d-page-h">קישור לדף. אם המודעה מובילה ישר לוואטסאפ או לטופס של פייסבוק, כתוב את זה כאן.</p>
+      </div>
+      <div class="field">
+        <label for="d-ad">קישור למודעה <span class="opt">(רשות)</span></label>
+        <input id="d-ad" name="ad" type="text" inputmode="url" class="ltr" placeholder="https://" aria-describedby="d-ad-h">
+        <p class="hint" id="d-ad-h">מספריית המודעות של מטא, או קישור לפוסט. אם יש כמה מודעות, אחת מספיקה. את השאר אראה בחשבון.</p>
+      </div>
+      <div class="field" role="group" aria-labelledby="d-plat-l">
+        <p class="lbl" id="d-plat-l">איפה הקמפיין רץ <span class="opt">(רשות)</span></p>
+        <div class="picks">
+          <label class="pick"><input type="checkbox" name="platforms" value="מטא">מטא (פייסבוק ואינסטגרם)</label>
+          <label class="pick"><input type="checkbox" name="platforms" value="גוגל">גוגל</label>
+          <label class="pick"><input type="checkbox" name="platforms" value="טיקטוק">טיקטוק</label>
+          <label class="pick"><input type="checkbox" name="platforms" value="אחר">אחר</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="k">03</span>המספרים <span class="opt">(רשות)</span></legend>
+      <p class="hint lift">אם אין לך את זה בראש, אפשר לדלג. אני אראה את זה בחשבון.</p>
+      <div class="row row--3">
+        <div class="field">
+          <label for="d-budget">תקציב חודשי <span class="opt">(₪)</span></label>
+          <input id="d-budget" name="budget" type="text" inputmode="decimal" class="fig">
+        </div>
+        <div class="field">
+          <label for="d-clicks">לחיצות בחודש האחרון</label>
+          <input id="d-clicks" name="clicks" type="text" inputmode="numeric" class="fig">
+        </div>
+        <div class="field">
+          <label for="d-leads">פניות בחודש האחרון</label>
+          <input id="d-leads" name="leads" type="text" inputmode="numeric" class="fig">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="k">04</span>איך אראה את הנתונים</legend>
+      <p class="hint lift">ספריית המודעות מראה את המודעה, אבל לא כמה לחצו ומה קרה אחרי הלחיצה. בשביל זה אני צריך אחד משני אלה.</p>
+      <div class="ways" role="radiogroup" aria-label="איך אראה את הנתונים" id="d-ways">
+        <label class="pick way"><input type="radio" name="access" value="גישת צפייה" required><span><b>אתן לך גישת צפייה לחשבון המודעות</b><span>אשלח לך הסבר קצר איך עושים את זה. צפייה בלבד: אי אפשר לשנות דרכה שום דבר בקמפיין.</span></span></label>
+        <label class="pick way"><input type="radio" name="access" value="צילומי מסך"><span><b>אשלח צילומי מסך</b><span>אשלח לך רשימה קצרה של המסכים שאני צריך, ואתה שולח לי אותם בוואטסאפ.</span></span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="k">05</span>עוד משהו שכדאי שאדע? <span class="opt">(רשות)</span></legend>
+      <div class="field">
+        <label for="d-notes" class="sr">עוד משהו שכדאי שאדע</label>
+        <textarea id="d-notes" name="notes" rows="4" placeholder="מה מטריד אותך, מה כבר ניסית, מה הקמפיינר אומר."></textarea>
+      </div>
+    </fieldset>
+
+    <div class="hp" aria-hidden="true">
+      <label for="d-company-url">אל תמלאו שדה זה</label>
+      <input id="d-company-url" name="company_url" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="send">
+      <button type="submit" class="btn" data-submit>שליחת הפרטים</button>
+      <p class="note">הפרטים משמשים רק לאבחון ולקשר איתך. פרטים נוספים ב<a href="/privacy/">מדיניות הפרטיות</a>.</p>
+    </div>
+  </form>
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <span>© 2026 אורי אפיאס</span>
+    <a href="/">לדף הבית</a>
+    <a href="/accessibility/">הצהרת נגישות</a>
+    <a href="/privacy/">מדיניות פרטיות</a>
+    <a href="/cookies/">מדיניות עוגיות</a>
+  </div>
+</footer>
+
+<script>
+/* The details form. Name, phone, where the ad leads and how I will see the
+   numbers are what it takes to start; everything else helps and is filed as
+   given. On failure nothing typed is lost: the same details are offered as a
+   WhatsApp message. */
+(function () {
+  'use strict';
+  var ENDPOINT = 'https://afias-demo.afias.workers.dev/api/diagnosis-intake';
+  var WHATSAPP = 'https://wa.me/972542533533?text=';
+  var form = document.querySelector('[data-details]');
+  if (!form || !window.fetch) return;            // the plain form post still works
+  var el = form.elements, err = document.getElementById('err'), done = document.getElementById('sent');
+  var submit = form.querySelector('[data-submit]'), ways = document.getElementById('d-ways');
+  var sending = false;
+  form.noValidate = true;                        // the script says what is missing, in words
+
+  function track(name, opts) { try { window.afiasTrack(name, opts); } catch (e) {} }
+
+  /* The purchase, once. SUMIT sends the buyer here with ?paid=1; the flag is
+     dropped from the address straight away, so a refresh or a shared link
+     never counts it again. */
+  (function purchase() {
+    var paid = /[?&]paid=1\b/.test(location.search) || /(^|\.)sumit\.co\.il$/.test((document.referrer.match(/^https?:\/\/([^/]+)/) || [])[1] || '');
+    if (!paid) return;
+    try { if (sessionStorage.getItem('afias-paid')) return; sessionStorage.setItem('afias-paid', '1'); } catch (e) {}
+    track('Purchase', { custom_data: { content_name: 'funnel-diagnosis', value: 490, currency: 'ILS' } });
+    try { if (window.gtag) window.gtag('event', 'purchase', { value: 490, currency: 'ILS' }); } catch (e) {}
+    try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+  })();
+
+  function val(name) { return (el[name] && el[name].value || '').trim(); }
+  function mark(f) { f.setAttribute('aria-invalid', 'true'); f.setAttribute('aria-describedby', ((f.getAttribute('aria-describedby') || '') + ' err').trim()); }
+  function unmark(f) {
+    f.removeAttribute('aria-invalid');
+    var d = (f.getAttribute('aria-describedby') || '').replace(/\berr\b/, '').trim();
+    if (d) f.setAttribute('aria-describedby', d); else f.removeAttribute('aria-describedby');
+  }
+  function clear() { err.hidden = true; err.textContent = ''; Array.prototype.forEach.call(form.querySelectorAll('[aria-invalid]'), unmark); }
+  form.addEventListener('input', function (e) {
+    if (e.target.hasAttribute('aria-invalid')) unmark(e.target);
+    if (e.target.name === 'access') unmark(ways);
+  });
+  function fail(html, fields) {
+    err.innerHTML = html;
+    err.hidden = false;
+    if (!fields) { err.focus(); return; }
+    fields.forEach(mark);
+    (fields[0] === ways ? ways.querySelector('input') : fields[0]).focus();
+  }
+  function busy(on) {
+    sending = on;
+    if (on) submit.setAttribute('aria-disabled', 'true'); else submit.removeAttribute('aria-disabled');
+    submit.textContent = on ? 'שולח...' : 'שליחת הפרטים';
+  }
+  function finish() {
+    form.hidden = true;
+    done.classList.add('is-on');
+    done.focus();
+    window.scrollTo(0, Math.max(0, done.getBoundingClientRect().top + window.pageYOffset - 24));
+    try { if (window.gtag) window.gtag('event', 'diagnosis_details_sent'); } catch (e) {}
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (sending) return;
+    clear();
+    var access = form.querySelector('input[name=access]:checked');
+    var bad = [], words = [];
+    if (!val('name')) { bad.push(el.name); words.push('שם'); }
+    if (val('phone').replace(/\D/g, '').length < 9) { bad.push(el.phone); words.push('טלפון מלא'); }
+    if (!val('page')) { bad.push(el.page); words.push('לאן המודעה מובילה'); }
+    if (!access) { bad.push(ways); words.push('איך אראה את הנתונים'); }
+    if (bad.length) {
+      fail('חסר עוד: ' + words.join(', ') + '.', bad);
+      return;
+    }
+    if (val('company_url')) { finish(); return; }   // the honeypot
+
+    var platforms = Array.prototype.filter.call(form.querySelectorAll('input[name=platforms]'), function (c) { return c.checked; })
+      .map(function (c) { return c.value; });
+    var data = {
+      name: val('name'), business: val('business'), phone: val('phone'), email: val('email'),
+      page: val('page'), ad: val('ad'), platforms: platforms,
+      budget: val('budget'), clicks: val('clicks'), leads: val('leads'),
+      access: access.value, notes: val('notes'), company_url: ''
+    };
+
+    busy(true);
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timeout = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: ctrl ? ctrl.signal : undefined,
+      body: JSON.stringify(data)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (body) {
+        if (!res.ok || !body.ok) throw new Error('request failed');
+      });
+    }).then(finish).catch(function () {
+      busy(false);
+      var text = 'היי אורי, שילמתי על האבחון. הנה הפרטים:\nשם: ' + data.name +
+        (data.business ? '\nעסק: ' + data.business : '') +
+        '\nהמודעה מובילה ל: ' + data.page +
+        (data.ad ? '\nהמודעה: ' + data.ad : '') +
+        (platforms.length ? '\nפלטפורמות: ' + platforms.join(', ') : '') +
+        (data.budget ? '\nתקציב חודשי: ' + data.budget : '') +
+        (data.clicks ? '\nלחיצות בחודש האחרון: ' + data.clicks : '') +
+        (data.leads ? '\nפניות בחודש האחרון: ' + data.leads : '') +
+        '\nנתונים: ' + data.access +
+        (data.notes ? '\n' + data.notes : '');
+      fail('משהו השתבש בשליחה. אפשר לנסות שוב, או <a href="' + WHATSAPP + encodeURIComponent(text) +
+           '" target="_blank" rel="noopener">לשלוח לי את הכל בוואטסאפ</a>, כבר מוכן בהודעה.');
+    }).then(function () { clearTimeout(timeout); });
+  });
+})();
+</script>
+</body>
+</html>

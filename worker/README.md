@@ -1,17 +1,18 @@
 # afias-demo
 
-Four routes on one Worker.
+Five routes on one Worker.
 
 | route | what it does |
 | --- | --- |
 | `POST /api/demo-request` | the free-demo form (AFI-24) -> a Linear issue |
 | `POST /api/landing-request` | the homepage's short form (campaign landing page) -> a Linear issue |
+| `POST /api/diagnosis-intake` | the details form after paying for the diagnosis (`/diagnosis/`) -> a Linear issue |
 | `POST /track` | mirrors a browser Pixel event to Meta's Conversions API |
 | `POST /api/hoox-webhook` | receives published articles from Hoox -> `blog/<slug>/` in the repo |
 
-The first three are browser-facing and share the CORS allowlist. The webhook is
+The first four are browser-facing and share the CORS allowlist. The webhook is
 server-to-server, authenticates with an HMAC instead, and is dispatched before
-the allowlist ever runs. None of the four knows about the others.
+the allowlist ever runs. None of them knows about the others.
 
 ## The homepage form
 
@@ -36,6 +37,31 @@ and the budget written into `about`). A Worker that predates this route has no
 filed as a demo request instead of being refused. Mislabelled, but not lost.
 Once this version is deployed (`npx wrangler deploy`) the new route takes over
 and the extra fields are ignored.
+
+## The diagnosis details form
+
+SUMIT sends a buyer who paid for the diagnosis (490) to
+`https://afias.dev/diagnosis/?paid=1` (set as the payment page's "after
+payment" address in SUMIT). The page fires a `Purchase` event once and drops
+`?paid=1` from the address, then asks for: name, phone, where the ad leads and
+how the data will be shared (view access or screenshots), required; business,
+email, the ad, platforms, budget, last month's clicks and leads and notes,
+optional. It becomes **one** Linear issue:
+
+| | |
+| --- | --- |
+| title | `אבחון משפך - <business, or name>` |
+| label | `אבחון משפך` (created on first use) |
+| priority | high |
+| due date | today + 3 Israeli working days (Sunday to Thursday, no holidays) |
+
+With the page's script it posts JSON and answers in place. Without it, the
+browser posts a plain form; the Worker files it the same way and answers with
+a 303 to `/diagnosis/#sent`, which the page shows with `:target`.
+
+**Deploy this before the page goes live.** An older Worker has no such route,
+so the request would fall through to the demo handler and be refused (no
+`business`), and the buyer would get the WhatsApp fallback instead.
 
 ## The demo form
 
