@@ -18,6 +18,7 @@
   if (/^(process|portfolio|voices|pricing|demo|faq|price-(tadmit|admin|full)|process-step-\d|work-[a-z]+)$/.test(h)) { location.replace('/websites/#' + h); return; }
   d.className = d.className.replace('no-js', 'js');
   if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /[?&]todo\b/.test(location.search)) d.className += ' show-todo';
+  if (/[?&]poster\b/.test(location.search)) d.className += ' poster';   // for rendering the still that stands in until the scene is up
 })();
 </script>
 <!-- Self-hosted variable fonts (see assets/fonts/): one file per script covers
@@ -228,6 +229,15 @@ main{display:block}
    stage; after that the funnel stays beside the copy, smaller, and comes
    apart to explain it. Everything in the document sits above it. */
 canvas.gl{position:fixed;inset:0;z-index:0;width:100%;height:100vh;height:100lvh;display:block;pointer-events:none}
+/* Until the scene is built: a still of it, and the first headline in place. */
+html:not(.gl-on) canvas.gl{opacity:0}
+.gl-on canvas.gl{animation:glIn .6s ease-out}
+@keyframes glIn{from{opacity:0}}
+html:not(.gl-on) .stage{background:#1C1E24 url(/assets/img/funnel-poster-d.webp) 50% 50%/cover no-repeat}
+@media (max-width:899px){html:not(.gl-on) .stage{background-image:url(/assets/img/funnel-poster-m.webp);background-position:50% 0}}
+html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100vw - 1180px) / 2));top:24vh}
+@media (max-width:899px){html:not(.gl-on) .tx[data-tx="b1"]{right:20px;top:auto;bottom:88px}}
+.poster .layer,.poster .bar,.poster .wa-float,.poster .afc,.poster .ptags{display:none !important}
 .sec,.foot,.story{position:relative;z-index:1}
 .ptags{position:fixed;inset:0;z-index:1;pointer-events:none}
 .ptags span{position:absolute;left:0;top:0;white-space:nowrap;font-size:15px;font-weight:500;color:var(--paper);background:rgba(28,30,36,.72);padding:5px 9px;border-radius:3px;opacity:0;transition:color .3s}
@@ -1470,12 +1480,30 @@ canvas.gl{position:fixed;inset:0;z-index:0;width:100%;height:100vh;height:100lvh
 </script>
 
 <script type="module">
-import * as THREE from 'three';
-import { RoomEnvironment } from '/assets/js/three/RoomEnvironment.js';
-import { EffectComposer } from '/assets/js/three/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from '/assets/js/three/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from '/assets/js/three/jsm/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from '/assets/js/three/jsm/postprocessing/OutputPass.js';
+/* The scene is the heaviest thing on the page, so it waits: the words and
+   the poster still are on screen first, and three.js is fetched, parsed and
+   built only once the page has loaded and the browser is idle (or the
+   moment the visitor starts to scroll or touch). Building happens in small
+   steps, a frame apart, so the page never locks up while it does. */
+const startScene = new Promise(go => {
+  let done = false; const once = () => { if (!done) { done = true; go(); } };
+  const idle = window.requestIdleCallback || (f => setTimeout(f, 1200));
+  // a few seconds after load if nobody touches anything: the words and the still are enough to start with
+  const later = () => setTimeout(() => idle(once, { timeout: 2000 }), 2500);
+  if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+  ['scroll', 'pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(t => addEventListener(t, once, { once: true, passive: true }));
+});
+startScene.then(boot).catch(() => document.documentElement.classList.add('no-gl'));
+async function boot() {
+const THREE = await import('three');
+const [{ RoomEnvironment }, { EffectComposer }, { RenderPass }, { UnrealBloomPass }, { OutputPass }] = await Promise.all([
+  import('/assets/js/three/RoomEnvironment.js'),
+  import('/assets/js/three/jsm/postprocessing/EffectComposer.js'),
+  import('/assets/js/three/jsm/postprocessing/RenderPass.js'),
+  import('/assets/js/three/jsm/postprocessing/UnrealBloomPass.js'),
+  import('/assets/js/three/jsm/postprocessing/OutputPass.js'),
+]);
+const step = () => new Promise(r => requestAnimationFrame(() => setTimeout(r, 0)));   // let the page breathe between heavy pieces
 
 const story = document.getElementById('story'), canvas = document.getElementById('gl');
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches || /motion=off/.test(location.search);
@@ -1519,6 +1547,7 @@ const FLOOR = -0.62;
 const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.45 }));   // only the shadows show
 floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.receiveShadow = true; scene.add(floor);
 
+await step();
 /* ---------- the backdrop: a campaign dashboard, barely there ----------
    A whole ads dashboard on the far wall, in a muted grey at a few percent:
    KPI tiles, impressions climbing while leads lie flat, daily clicks, where
@@ -1581,6 +1610,7 @@ function fitBoard() {
   board.userData.viewW = w;
 }
 
+await step();
 /* ---------- the funnel ----------
    A brushed steel cone, a rolled rim and a spout. One patch of the wall,
    facing the camera's left, is cut into shards: real pieces with straight
@@ -1715,6 +1745,7 @@ const spout = new THREE.Mesh(new THREE.CylinderGeometry(R1 - 0.004, 0.11, Y1 - M
 spout.position.y = (Y1 + MOUTH) / 2; spout.castShadow = true; funnel.add(spout);
 
 const SEEDS = seeds;
+await step();
 const shards = cellsPoly.map(poly => {
   const { g, center } = shardGeometry(poly);
   const m = new THREE.Mesh(g, steel); m.castShadow = true; m.position.copy(center); funnel.add(m);
@@ -1743,6 +1774,7 @@ const crackGeo = new THREE.BufferGeometry(); crackGeo.setAttribute('position', n
 const crackMat = new THREE.LineBasicMaterial({ color: new THREE.Color(1.7, 1.05, 0.28), transparent: true, opacity: 0, toneMapped: false });
 const crackLines = new THREE.LineSegments(crackGeo, crackMat); funnel.add(crackLines);
 
+await step();
 /* ---------- behind the scenes: the same funnel, in three parts ----------
    After the opening the funnel stays with the reader, smaller and to one
    side, and explains the rest of the page with its own body: it comes apart
@@ -1803,6 +1835,7 @@ function postTarget() {
 const ptags = [...document.querySelectorAll('[data-ptag]')];
 
 
+await step();
 /* ---------- the clicks ----------
    What goes in is people: little round tokens, most of them faces, some of
    them a view, a tap, a like. On the way out each one turns into what it
@@ -1910,6 +1943,7 @@ function ballAt(b, time, prevTime) {
   return S;
 }
 /* ---------- post: a soft bloom, only on what is actually bright ---------- */
+await step();
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.5, 0.4, 1.15);
@@ -2113,8 +2147,12 @@ function frame(now) {
   if (!still) requestAnimationFrame(frame);
 }
 resize();
+// compile every shader before the first frame, off the main thread where the GPU driver allows it
+if (renderer.compileAsync) { try { await renderer.compileAsync(scene, camera); } catch (e) {} }
+await step();
 if (still) { addEventListener('scroll', () => requestAnimationFrame(frame), { passive: true }); }
-requestAnimationFrame(frame);
+requestAnimationFrame(t => { frame(t); document.documentElement.classList.add('gl-on'); });
+}
 </script>
 </body>
 </html>
