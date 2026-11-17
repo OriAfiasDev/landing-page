@@ -18,7 +18,10 @@
   if (/^(process|portfolio|voices|pricing|demo|faq|price-(tadmit|admin|full)|process-step-\d|work-[a-z]+)$/.test(h)) { location.replace('/websites/#' + h); return; }
   d.className = d.className.replace('no-js', 'js');
   if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /[?&]todo\b/.test(location.search)) d.className += ' show-todo';
-  if (/[?&]poster\b/.test(location.search)) d.className += ' poster';   // for rendering the still that stands in until the scene is up
+  d.className += ' in-story';   // the bar stays out of the opening
+  if (!/[?&]noload\b/.test(location.search)) d.className += ' loading';
+  // The loading screen never outstays its welcome, whatever happens to the scene.
+  setTimeout(function () { d.classList.add('ld-done'); }, 6500);
 })();
 </script>
 <!-- Self-hosted variable fonts (see assets/fonts/): one file per script covers
@@ -28,7 +31,7 @@
 <link rel="preload" href="/assets/fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <title>כמה מהלחיצות שקנית נזרקו לפח? | afias.dev</title>
-<meta name="description" content="אבחון משפך ודפי נחיתה לקמפיינים ממומנים. אתה כבר משלם על הלחיצות — אני דואג שיהפכו לפניות.">
+<meta name="description" content="אבחון משפך ודפי נחיתה לקמפיינים ממומנים. אתה כבר משלם על הלחיצות, ואני דואג שיהפכו לפניות.">
 <link rel="canonical" href="https://afias.dev/">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -38,14 +41,14 @@
 <meta property="og:locale" content="he_IL">
 <meta property="og:url" content="https://afias.dev/">
 <meta property="og:title" content="כמה מהלחיצות שקנית נזרקו לפח?">
-<meta property="og:description" content="אבחון משפך ודפי נחיתה לקמפיינים ממומנים. אתה כבר משלם על הלחיצות — אני דואג שיהפכו לפניות.">
+<meta property="og:description" content="אבחון משפך ודפי נחיתה לקמפיינים ממומנים. אתה כבר משלם על הלחיצות, ואני דואג שיהפכו לפניות.">
 <meta property="og:image" content="https://afias.dev/og-funnel.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="כמה מהלחיצות שקנית נזרקו לפח? 1,500 לחיצות, 30 פניות, 6 עסקאות. afias.dev">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="כמה מהלחיצות שקנית נזרקו לפח?">
-<meta name="twitter:description" content="אבחון משפך ודפי נחיתה לקמפיינים ממומנים. אתה כבר משלם על הלחיצות — אני דואג שיהפכו לפניות.">
+<meta name="twitter:description" content="אבחון משפך ודפי נחיתה לקמפיינים ממומנים. אתה כבר משלם על הלחיצות, ואני דואג שיהפכו לפניות.">
 <meta name="twitter:image" content="https://afias.dev/og-funnel.png">
 <!-- The business, the two things this page sells, and its questions. The
      answers are the page's own, word for word. -->
@@ -84,8 +87,8 @@
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "יש לי קמפיינר. מה איתו?", "acceptedAnswer": { "@type": "Answer", "text": "הוא ממשיך לנהל את הקמפיין, ואני מטפל במה שקורה אחרי הלחיצה. אנחנו משלימים זה את זה." } },
-        { "@type": "Question", "name": "מה אם הבעיה לא בדף?", "acceptedAnswer": { "@type": "Answer", "text": "האבחון יגיד את זה, ואני אגיד לך בכנות — גם אם זה אומר שלא תזמין ממני דף." } },
-        { "@type": "Question", "name": "צריך לתת לך גישה לחשבון המודעות?", "acceptedAnswer": { "@type": "Answer", "text": "לא. את המודעה אני רואה בספריית המודעות של מטא, ואת הדף — בדפדפן. אם תרצה, תוכל לשתף מספרים בטופס." } },
+        { "@type": "Question", "name": "מה אם הבעיה לא בדף?", "acceptedAnswer": { "@type": "Answer", "text": "האבחון יגיד את זה, ואני אגיד לך בכנות, גם אם זה אומר שלא תזמין ממני דף." } },
+        { "@type": "Question", "name": "צריך לתת לך גישה לחשבון המודעות?", "acceptedAnswer": { "@type": "Answer", "text": "כן, או לפחות צילומי מסך. ספריית המודעות של מטא מראה את המודעה, אבל לא כמה לחצו ומה קרה אחרי הלחיצה. בשביל זה אני צריך גישת צפייה לחשבון, או צילומי מסך של הנתונים מהחודש האחרון. מה שנוח לך." } },
         { "@type": "Question", "name": "יש לי אתר. צריך להחליף אותו?", "acceptedAnswer": { "@type": "Answer", "text": "לא. דף לקמפיין עומד בנפרד מהאתר." } },
         { "@type": "Question", "name": "תוך כמה זמן רואים תוצאה?", "acceptedAnswer": { "@type": "Answer", "text": "הדף באוויר תוך 7 ימי עבודה. דוח 30 יום מראה לך במספרים מה השתנה." } },
         { "@type": "Question", "name": "הפרסום שלי מוביל לוואטסאפ. זה רע?", "acceptedAnswer": { "@type": "Answer", "text": "לא בהכרח. אבל אתה לא יודע כמה אנשים נטשו בדרך. זה בדיוק מה שבודקים באבחון." } },
@@ -229,15 +232,37 @@ main{display:block}
    stage; after that the funnel stays beside the copy, smaller, and comes
    apart to explain it. Everything in the document sits above it. */
 canvas.gl{position:fixed;inset:0;z-index:0;width:100%;height:100vh;height:100lvh;display:block;pointer-events:none}
-/* Until the scene is built: a still of it, and the first headline in place. */
+/* Until the scene is built: the loading funnel, and the first headline in place. */
 html:not(.gl-on) canvas.gl{opacity:0}
 .gl-on canvas.gl{animation:glIn .6s ease-out}
 @keyframes glIn{from{opacity:0}}
-html:not(.gl-on) .stage{background:#1C1E24 url(/assets/img/funnel-poster-d.webp) 50% 50%/cover no-repeat}
-@media (max-width:899px){html:not(.gl-on) .stage{background-image:url(/assets/img/funnel-poster-m.webp);background-position:50% 0}}
 html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100vw - 1180px) / 2));top:24vh}
 @media (max-width:899px){html:not(.gl-on) .tx[data-tx="b1"]{right:20px;top:auto;bottom:88px}}
-.poster .layer,.poster .bar,.poster .wa-float,.poster .afc,.poster .ptags{display:none !important}
+/* The loading screen: a funnel that fills, until the scene is up (or for
+   6.5 seconds at most). The first headline is already laid out under it. */
+.ld{display:none}
+.loading .ld{position:absolute;inset:0;z-index:0;display:block;background:var(--ink);transition:opacity .6s ease,visibility .6s}
+.ld-in{position:absolute;left:30%;top:50%;display:flex;flex-direction:column;align-items:center;gap:26px;transform:translate(-50%,-50%)}
+@media (max-width:899px){.ld-in{left:50%;top:34%}}
+.loading .layer{z-index:1}
+
+.ld-done .ld{opacity:0;visibility:hidden;pointer-events:none}
+.ld-f{width:112px;height:auto;overflow:visible}
+.ld-o{fill:none;stroke:#8A8F99;stroke-width:2;stroke-linejoin:round}
+.ld-fill{fill:var(--brass);transform-box:view-box;transform-origin:50% 100%;animation:ldFill 2.2s cubic-bezier(.45,0,.3,1) infinite}
+.ld-drop{fill:var(--brass);animation:ldDrop 2.2s linear infinite}
+.ld-drop:nth-of-type(2){animation-delay:-.73s}
+.ld-drop:nth-of-type(3){animation-delay:-1.46s}
+.ld-logo{display:block;width:120px;height:auto;aspect-ratio:99.2/28;color:var(--paper);opacity:.9}
+@media (min-width:900px){.ld-f{width:150px}.ld-logo{width:136px}}
+@keyframes ldFill{0%{transform:translateY(100%)}70%{transform:translateY(8%)}88%,100%{transform:translateY(8%);opacity:0}}
+@keyframes ldDrop{0%{transform:translateY(-34px);opacity:0}15%{opacity:1}60%{transform:translateY(30px);opacity:1}70%,100%{transform:translateY(36px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ld-fill{animation:none;transform:translateY(40%)}.ld-drop{display:none}}
+
+/* The bar keeps out of the opening, and comes in with the rest of the page. */
+.bar{transition:transform .45s ease,opacity .45s ease}
+.in-story .bar{transform:translateY(-100%);opacity:0;pointer-events:none}
+.in-story .bar:focus-within{transform:none;opacity:1;pointer-events:auto}
 .sec,.foot,.story{position:relative;z-index:1}
 .ptags{position:fixed;inset:0;z-index:1;pointer-events:none}
 .ptags span{position:absolute;left:0;top:0;white-space:nowrap;font-size:15px;font-weight:500;color:var(--paper);background:rgba(28,30,36,.72);padding:5px 9px;border-radius:3px;opacity:0;transition:color .3s}
@@ -319,7 +344,8 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 .f-k{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.02em;color:var(--brass)}
 .f-t{margin-top:10px;font-size:clamp(34px,4vw,60px);font-weight:900;line-height:1.02;letter-spacing:-.025em}
 .f-p{margin-top:16px;max-width:36ch;font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--text)}
-.f-p strong{display:block;margin-top:14px;color:var(--paper)}
+.f-p + .f-p{margin-top:12px}
+.f-p strong{color:var(--paper)}
 
 /* ---------- 4. the funnel, said in one line ---------- */
 .fcap{font-size:clamp(40px,5.4vw,84px);font-weight:900;line-height:1.02;letter-spacing:-.028em;text-wrap:balance}
@@ -343,12 +369,6 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 .inp input[aria-invalid="true"]{border:2px solid var(--paper)}
 .inp--text input{font-family:var(--sans);font-size:18px;direction:rtl;text-align:start}
 .inp--ltr input{font-family:var(--sans);font-size:17px;direction:ltr;text-align:left}
-.chk{display:inline-flex;align-items:center;gap:10px;margin-top:12px;min-height:28px;font-size:16px;cursor:pointer}
-.chk input{
-  appearance:none;-webkit-appearance:none;flex:none;margin:0;width:22px;height:22px;
-  border:1px solid var(--field);border-radius:2px;background:var(--ink);cursor:pointer;
-}
-.chk input:checked{background:var(--brass) center/14px 14px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2.5 7.4l3 3 6-6.6' fill='none' stroke='%231C1E24' stroke-width='2'/%3E%3C/svg%3E");border-color:var(--brass)}
 
 .out{background:var(--ink);border:1px solid var(--line-2);padding:clamp(22px,3vw,40px)}
 .out-k{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700}
@@ -381,13 +401,12 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 .gain{margin-top:16px;font-size:clamp(18px,1.7vw,22px);font-weight:500;line-height:1.35}
 .gain .num{display:block;font-size:clamp(40px,5.4vw,68px);font-weight:700;line-height:1;letter-spacing:-.045em;color:var(--brass);margin-bottom:6px;text-align:right}
 
-.unknown-t{font-size:clamp(21px,2.3vw,30px);font-weight:700;line-height:1.3;text-wrap:balance}
-.ifs{width:100%;margin-top:24px;border-collapse:collapse;font-size:16px}
-.ifs th,.ifs td{padding:12px 0;border-top:1px solid var(--line);text-align:start;font-weight:500}
-.ifs thead th{border-top:0;padding-top:0;font-family:var(--mono);font-size:13px;color:var(--muted)}
-.ifs .num{font-size:19px;font-weight:700}
-.ifs td:last-child,.ifs th:last-child{text-align:end}
 .calc-note{margin-top:20px;font-size:15px;color:var(--muted)}
+.hint{margin-top:7px;font-size:14px;line-height:1.45;color:var(--muted)}
+.hint a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.hint-reset{padding:4px 0;border:0;background:none;color:var(--paper);font:inherit;font-weight:500;text-decoration:underline;text-decoration-color:var(--brass);text-underline-offset:4px;cursor:pointer}
+.hint-reset:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+
 .calc-cta{margin-top:clamp(28px,5vh,48px)}
 
 /* ---------- 5. two tracks ---------- */
@@ -432,11 +451,14 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 
 /* ---------- 7. work ---------- */
 .cases{margin-top:clamp(32px,6vh,64px)}
-.case{display:grid;gap:24px;padding-block:clamp(32px,6vh,68px);border-top:1px solid var(--line)}
-.case-shot{order:-1}
-@media (min-width:900px){
-  .case{grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(36px,5vw,80px);align-items:start}
-  .case-shot{order:0}
+.case{display:grid;gap:36px;padding-block:clamp(40px,7vh,80px);border-top:1px solid var(--line)}
+.case-dev{order:-1}
+@media (min-width:1000px){
+  /* The devices hold still beside the copy while the case scrolls past, and
+     the screens inside them move on: the page goes by as you read. */
+  .case{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,5vw,88px);align-items:start;min-height:130vh}
+  .case-dev{order:0;position:sticky;top:calc(var(--bar) + max(40px,(100vh - var(--bar) - 560px) / 2))}
+  .case-text{padding-top:6vh}
 }
 .case-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
 .case-name{margin-top:14px;font-size:clamp(30px,3.6vw,46px);font-weight:800;line-height:1.04}
@@ -453,22 +475,58 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 .decs .fix{color:var(--paper)}
 .case-links{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px 28px}
 .case-links .more{font-size:16px}
-.shot{border:1px solid var(--line-2);background:var(--ink)}
-.shot-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:30px;padding:6px 12px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;line-height:1.3;color:var(--muted)}
-.shot-bar span:first-child{direction:ltr}
-.shot img{display:block;width:100%;height:auto}
-.shot--phone{max-width:340px;margin-inline:auto}
-.shots{display:grid;gap:12px}
+/* A laptop and a phone, drawn in CSS. --p (0 to 1) is how far the case has
+   scrolled; the script sets it and picks the screen each device shows. */
+.dev{--p:.5;position:relative;padding:0 0 9% 0;max-width:720px;margin-inline:auto}
+.mac{position:relative;width:88%;margin-inline-start:auto;transform:translateY(calc((.5 - var(--p)) * 30px));transition:transform .2s linear}
+.mac-lid{position:relative;padding:2.4% 2.4% 3%;border-radius:16px 16px 6px 6px;background:linear-gradient(#2E3036,#1E1F23);box-shadow:inset 0 0 0 1px #4A4D55,0 30px 60px -20px rgba(0,0,0,.6)}
+.mac-lid::before{content:"";position:absolute;top:1.1%;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#0E0F11;box-shadow:inset 0 0 0 1px #3A3D44}
+.mac-scr{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:3px;background:#0E0F11}
+.mac-base{position:relative;width:114%;margin-inline-start:-7%;height:clamp(10px,1.6vw,16px);border-radius:0 0 14px 14px;background:linear-gradient(#5A5E66,#2A2C31 55%,#18191C);box-shadow:0 18px 30px -12px rgba(0,0,0,.7)}
+.mac-base::before{content:"";position:absolute;top:0;left:50%;width:16%;height:38%;transform:translateX(-50%);border-radius:0 0 8px 8px;background:#202226}
+.iph{position:absolute;left:0;bottom:0;width:27%;padding:2.3%;border-radius:18%/8.5%;background:#101113;box-shadow:inset 0 0 0 1px #4A4D55,inset 0 0 0 3px #1B1C1F,0 30px 50px -16px rgba(0,0,0,.75);transform:translateY(calc((.5 - var(--p)) * 110px)) rotate(calc((.5 - var(--p)) * -4deg));transition:transform .2s linear}
+.iph-scr{position:relative;aspect-ratio:600/1299;overflow:hidden;border-radius:14%/6.6%;background:#0E0F11}
+.iph-scr::after{content:"";position:absolute;top:2.2%;left:50%;width:32%;height:3.4%;transform:translateX(-50%);border-radius:99px;background:#000}
+[data-frames] img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;opacity:0;transform:scale(1.03);transition:opacity .7s ease,transform 1.1s ease}
+[data-frames] img.on{opacity:1;transform:none}
+.dev-flag{position:absolute;z-index:2;top:-14px;right:6%;padding:6px 12px;border-radius:3px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:700;transform:rotate(-2deg);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion:reduce){.mac,.iph{transform:none;transition:none}[data-frames] img{transition:none;transform:none}}
+/* The figures from the store, and the screenshot they come from. */
+.res{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.res-n{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px clamp(20px,3vw,40px);margin-top:14px}
+.res-n li{display:flex;flex-direction:column;gap:4px}
+.res-n b{font-size:clamp(34px,3.6vw,50px);font-weight:700;line-height:1;letter-spacing:-.04em;color:var(--paper);direction:ltr;text-align:right}
+.res-n span{font-size:15px;color:var(--text)}
+.res-p{margin-top:16px;font-size:clamp(18px,1.6vw,21px);font-weight:700;line-height:1.35}
+.res-shot{margin-top:20px}
+.res-shot a{display:block;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:#fff}
+.res-shot img{display:block;width:100%;height:auto;transition:transform .5s ease}
+.res-shot a:hover img{transform:scale(1.02)}
+.res-shot a:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.res-shot figcaption{margin-top:8px;font-size:14px;color:var(--muted)}
 .work-more{margin-top:clamp(28px,5vh,56px);padding-top:28px;border-top:1px solid var(--line)}
 .work-more .more{font-size:clamp(19px,1.9vw,24px);font-weight:700}
 
 /* ---------- 8. messages ----------
    Real messages, set the way they arrived: incoming, on the left. Paper
    bubbles on ink; the time is a figure, so it is mono. */
-.chats{margin-top:clamp(32px,6vh,64px);columns:3 280px;column-gap:20px}
-.chat{display:inline-block;width:100%;margin:0 0 28px;break-inside:avoid}
-.chat-when{margin-bottom:10px;font-size:14px;font-weight:500;color:var(--muted)}
-.chat-log{display:flex;flex-direction:column;align-items:flex-end;gap:5px}   /* flex-end is the left in RTL */
+/* Chats scattered over the screen, overlapping a little, each drifting at
+   its own pace as the section scrolls by (--d, set by the script). */
+.was{position:relative;margin-top:clamp(32px,6vh,64px);display:flex;flex-direction:column;align-items:center}
+.wa{--d:0px;position:relative;width:min(86%,330px);margin:0;padding:0 0 18px;border-radius:14px;overflow:hidden;background:#0B141A;box-shadow:0 0 0 1px rgba(250,248,243,.08),0 24px 48px -18px rgba(0,0,0,.75);transform:translateY(var(--d)) rotate(var(--r))}
+.wa + .wa{margin-top:-10px}
+.wa:nth-child(odd){align-self:flex-start}
+.wa:nth-child(even){align-self:flex-end}
+.wa-top{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#202C33;font-size:14px;font-weight:500;color:#D1D7DB}
+.wa-av{flex:none;width:30px;height:30px;border-radius:50%;background:#6A7175 center/62% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='7' r='4' fill='%23CFD4D6'/%3E%3Cpath d='M2 19c0-4.4 3.6-7 8-7s8 2.6 8 7' fill='%23CFD4D6'/%3E%3C/svg%3E")}
+.wa-log{display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding:14px 14px 0}   /* flex-end is the left in RTL: incoming */
+@media (min-width:1000px){
+  .was{display:block;height:clamp(700px,80vh,860px)}
+  .wa{position:absolute;left:var(--x);top:var(--y);width:min(30%,340px)}
+  .wa + .wa{margin-top:0}
+  .wa:hover{z-index:5}
+}
+@media (prefers-reduced-motion:reduce){.wa{--d:0px !important}}
 .bub{
   position:relative;max-width:92%;padding:8px 12px 7px;border-radius:12px;
   display:flex;align-items:flex-end;flex-wrap:wrap;gap:2px 14px;
@@ -478,7 +536,7 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 .bub time{margin-inline-start:auto;font-family:var(--mono);font-size:11px;line-height:1.4;color:rgba(28,30,36,.68)}
 .bub--emoji{padding:0 2px;background:none;font-size:38px;line-height:1.15;align-items:center}
 .bub--emoji time{padding:3px 6px;border-radius:8px;background:var(--paper)}
-.bub-react{position:relative;margin:-9px 0 0;margin-inline-end:10px;padding:2px 6px;border-radius:999px;background:var(--paper);box-shadow:0 0 0 2px var(--ink);font-size:13px;line-height:1.3}
+.bub-react{position:relative;margin:-9px 0 0;margin-inline-end:10px;padding:2px 6px;border-radius:999px;background:var(--paper);box-shadow:0 0 0 2px #0B141A;font-size:13px;line-height:1.3}
 
 /* ---------- 9. about ---------- */
 .about{display:grid;gap:clamp(24px,4vh,40px)}
@@ -490,7 +548,7 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 }
 
 /* ---------- 10. questions ---------- */
-.faq{margin-top:clamp(28px,5vh,56px);border-bottom:1px solid var(--line-2);max-width:900px}
+.faq{margin-top:clamp(28px,5vh,56px);border-bottom:1px solid var(--line-2)}
 .faq details{border-top:1px solid var(--line-2)}
 .faq summary{
   display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;cursor:pointer;list-style:none;
@@ -499,7 +557,7 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";flex:none;width:1ch;font-family:var(--mono);font-size:22px;font-weight:500;line-height:1;color:var(--brass);text-align:center}
 .faq details[open] summary::after{content:"\2212"}
-.faq-a{padding:0 0 24px;max-width:60ch;color:var(--text)}
+.faq-a{padding:0 0 24px;max-width:72ch;color:var(--text)}
 
 /* ---------- 11. close ---------- */
 .close .h1{max-width:13ch}
@@ -570,6 +628,17 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
   <!-- 1. The opening: a pinned stage the scroll plays through (see the scene script). -->
   <div class="story" id="story">
     <div class="stage">
+      <!-- The loading screen: a funnel that fills where the real one will
+           stand, with the first headline already beside it. -->
+      <div class="ld" aria-hidden="true"><div class="ld-in">
+        <svg class="ld-f" viewBox="0 0 120 124">
+          <defs><clipPath id="ldc"><path d="M8 18H112L68 74V118H52V74Z"/></clipPath></defs>
+          <circle class="ld-drop" cx="46" cy="4" r="3.2"/><circle class="ld-drop" cx="66" cy="0" r="3.2"/><circle class="ld-drop" cx="58" cy="8" r="3.2"/>
+          <g clip-path="url(#ldc)"><rect class="ld-fill" x="0" y="18" width="120" height="100"/></g>
+          <path class="ld-o" d="M8 18H112L68 74V118H52V74Z"/>
+        </svg>
+        <svg class="ld-logo" viewBox="0 0 99.2 28"><use href="#logo"/></svg>
+      </div></div>
       <p class="sr">המחשה: משפך מתכת שאנשים נופלים לתוכו ויוצאים ממנו ככסף לחשבון הבנק. המשפך נסדק, ורוב הכסף נשפך החוצה דרך הסדק. בסוף הסדק מתוקן, והכסף שוב זורם לחשבון.</p>
       <div class="layer">
         <svg class="leads" id="leads" aria-hidden="true"></svg>
@@ -617,58 +686,44 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
         <form class="fields" novalidate autocomplete="off" data-calc-form>
           <div class="field">
             <label for="c-budget">תקציב פרסום חודשי <span class="unit">(₪)</span></label>
-            <div class="inp"><input id="c-budget" name="budget" type="text" inputmode="decimal" enterkeyhint="next" placeholder="6,000"></div>
+            <div class="inp"><input id="c-budget" name="budget" type="text" inputmode="decimal" enterkeyhint="next" value="6,000" data-default="6,000" aria-describedby="h-budget"></div>
+            <p class="hint" id="h-budget" data-hint="budget"><span data-h-def>דוגמה. שים את התקציב שלך.</span><button type="button" class="hint-reset" data-reset hidden>חזרה לדוגמה</button></p>
           </div>
           <div class="field">
             <label for="c-cpc">עלות ממוצעת ללחיצה <span class="unit">(₪)</span></label>
-            <div class="inp"><input id="c-cpc" name="cpc" type="text" inputmode="decimal" enterkeyhint="next" placeholder="4"></div>
+            <div class="inp"><input id="c-cpc" name="cpc" type="text" inputmode="decimal" enterkeyhint="next" value="2" data-default="2" aria-describedby="h-cpc"></div>
+            <!-- Source: Superads, Meta ads in Israel, all industries: about $0.58 per click (Nov 2025 to Jun 2026), about ₪2. https://www.superads.ai/facebook-ads-costs/cpc-cost-per-click/israel -->
+            <p class="hint" id="h-cpc" data-hint="cpc"><span data-h-def>הממוצע במטא בישראל (<a href="https://www.superads.ai/facebook-ads-costs/cpc-cost-per-click/israel" target="_blank" rel="noopener">Superads</a>). אם אתה יודע את שלך, שנה.</span><button type="button" class="hint-reset" data-reset hidden>חזרה לממוצע</button></p>
           </div>
           <div class="field">
             <label for="c-rate">כמה מהנכנסים פונים אליך <span class="unit">(%)</span></label>
-            <div class="inp"><input id="c-rate" name="rate" type="text" inputmode="decimal" enterkeyhint="next" placeholder="2"></div>
-            <!-- TODO: benchmark + מקור. If a range of typical values is ever shown here, it needs a source. Nothing is shown until then. -->
-            <label class="chk"><input type="checkbox" id="c-unknown" name="unknown"> לא יודע</label>
+            <div class="inp"><input id="c-rate" name="rate" type="text" inputmode="decimal" enterkeyhint="next" value="6.6" data-default="6.6" aria-describedby="h-rate"></div>
+            <!-- Source: Unbounce Conversion Benchmark Report 2024, median landing page conversion rate across all industries: 6.6%. -->
+            <p class="hint" id="h-rate" data-hint="rate"><span data-h-def>החציון בדפי נחיתה, כל התחומים (<a href="https://unbounce.com/conversion-benchmark-report/" target="_blank" rel="noopener">Unbounce 2024</a>). לא יודע את שלך? תשאיר.</span><button type="button" class="hint-reset" data-reset hidden>חזרה לממוצע</button></p>
           </div>
           <div class="field">
             <label for="c-close">כמה מהפונים סוגרים איתך <span class="unit">(%)</span></label>
-            <div class="inp"><input id="c-close" name="close" type="text" inputmode="decimal" enterkeyhint="next" placeholder="20"></div>
-          </div>
-          <div class="field">
-            <label for="c-value">שווי עסקה ממוצעת <span class="unit">(₪)</span></label>
-            <div class="inp"><input id="c-value" name="value" type="text" inputmode="decimal" enterkeyhint="done" placeholder="1,500"></div>
+            <div class="inp"><input id="c-close" name="close" type="text" inputmode="decimal" enterkeyhint="done" value="20" data-default="20" aria-describedby="h-close"></div>
+            <p class="hint" id="h-close" data-hint="close"><span data-h-def>הערכה. משתנה מאוד בין עסקים.</span><button type="button" class="hint-reset" data-reset hidden>חזרה להערכה</button></p>
           </div>
         </form>
 
         <div class="out" data-calc-out>
-          <div data-out-today>
-            <p class="out-k">היום: <span class="tag" data-example-calc>דוגמה</span></p>
-            <ol class="flow">
-              <li><b class="num" data-o="clicks">1,500</b> <span>לחיצות</span></li>
-              <li><b class="num" data-o="leads">30</b> <span>פניות</span></li>
-              <li><b class="num" data-o="deals">6</b> <span>עסקאות</span></li>
-              <li><b class="num" data-o="revenue"><span class="cur">₪</span>9,000</b> <span>בחודש</span></li>
-            </ol>
-            <div class="whatif" data-whatif>
-              <label for="c-what">ומה אם יותר אנשים היו פונים?</label>
-              <div class="range">
-                <input type="range" id="c-what" min="2" max="10" step="0.1" value="2" aria-describedby="c-gain">
-                <output class="num" for="c-what" data-what>2%</output>
-              </div>
-              <p class="gain" id="c-gain" data-gain hidden><b class="num" data-gain-n><span class="cur">₪</span>0</b> בחודש נוספים. מאותו תקציב.</p>
+          <p class="out-k">היום, בחודש:</p>
+          <ol class="flow">
+            <li><b class="num" data-o="clicks">3,000</b> <span>לחיצות</span></li>
+            <li><b class="num" data-o="leads">198</b> <span>פניות</span></li>
+            <li><b class="num" data-o="deals">40</b> <span>עסקאות</span></li>
+          </ol>
+          <div class="whatif" data-whatif>
+            <label for="c-what">ומה אם יותר מהנכנסים היו פונים?</label>
+            <div class="range">
+              <input type="range" id="c-what" min="6.6" max="19.8" step="0.1" value="6.6" aria-describedby="c-gain">
+              <output class="num" for="c-what" data-what>6.6%</output>
             </div>
+            <p class="gain" id="c-gain" data-gain><b class="num" data-gain-n>0</b> <span data-gain-w>עסקאות נוספות בחודש.</span> מאותו תקציב, בלי עוד לחיצה אחת.</p>
           </div>
-          <div data-out-unknown hidden>
-            <p class="unknown-t">אתה מוציא <span class="num" data-o="budget"><span class="cur">₪</span>6,000</span> בחודש ולא יודע כמה זה מחזיר לך. זה צוואר הבקבוק הראשון.</p>
-            <table class="ifs">
-              <thead><tr><th scope="col">אם פונים</th><th scope="col">פניות</th><th scope="col">הכנסה בחודש</th></tr></thead>
-              <tbody>
-                <tr><th scope="row"><span class="num">1%</span></th><td><span class="num" data-if="1:leads">15</span></td><td><span class="num" data-if="1:revenue"><span class="cur">₪</span>4,500</span></td></tr>
-                <tr><th scope="row"><span class="num">3%</span></th><td><span class="num" data-if="3:leads">45</span></td><td><span class="num" data-if="3:revenue"><span class="cur">₪</span>13,500</span></td></tr>
-                <tr><th scope="row"><span class="num">5%</span></th><td><span class="num" data-if="5:leads">75</span></td><td><span class="num" data-if="5:revenue"><span class="cur">₪</span>22,500</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="calc-note">החישוב מבוסס על המספרים שהזנת. הוא לא הבטחה לתוצאה.</p>
+          <p class="calc-note">חישוב פשוט על המספרים שבשדות. הוא לא הבטחה לתוצאה.</p>
           <p class="sr" role="status" data-calc-status></p>
         </div>
       </div>
@@ -682,19 +737,25 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
       <h2 class="h2" id="findings-t">הקמפיין שלך כנראה בסדר. הבעיה מתחילה אחרי הלחיצה.</h2>
       <ol class="fnd">
         <li data-f="find1">
-          <p class="f-k">ממצא 01 · הדף</p>
+          <p class="f-k">אפשרות ראשונה · הדף</p>
           <h3 class="f-t">אין לך דף.</h3>
-          <p class="f-p">המודעה שולחת לוואטסאפ או לאינסטגרם. לקוח חם נוחת בלי מידע ובלי סיבה לבחור בך, ואין לך מושג כמה אנשים נטשו בדרך.</p>
+          <p class="f-p">המודעה שולחת ישר לוואטסאפ או לאינסטגרם. על הנייר זה נשמע חכם: פחות שלבים, פחות חיכוך.</p>
+          <p class="f-p">בפועל, מי שלחץ נוחת בצ׳אט ריק. בלי מחיר, בלי תמונות, בלי סיבה לבחור דווקא בך. חלק כותבים "כמה עולה?" ונעלמים אחרי התשובה. רובם לא כותבים בכלל.</p>
+          <p class="f-p"><strong>ואתה אפילו לא יודע כמה כאלה היו. מי שלא כתב לא משאיר סימן.</strong></p>
         </li>
         <li data-f="find2">
-          <p class="f-k">ממצא 02 · המודעה והדף</p>
-          <h3 class="f-t">יש לך דף, והוא לא ממשיך את המודעה.</h3>
-          <p class="f-p">המודעה הבטיחה דבר אחד, והדף מדבר על משהו אחר. הלקוח מתבלבל ויוצא.</p>
+          <p class="f-k">אפשרות שנייה · המודעה והדף</p>
+          <h3 class="f-t">יש לך דף. הוא פשוט לא ממשיך את המודעה.</h3>
+          <p class="f-p">אתר יפה לא בהכרח מביא פניות. תוכן טוב לא אומר שהמודעה והדף מדברים באותה שפה. ודף שעבד לפני שנה לא בהכרח עובד עם המודעה של היום.</p>
+          <p class="f-p">המודעה הבטיחה מבצע, והדף נפתח ב"ברוכים הבאים, אנחנו בתחום מאז 1998". המודעה דיברה לבעלי עסקים, והדף מדבר לכולם. מי שלחץ מחפש את מה שהבטיחו לו, ואם הוא לא מוצא את זה בשתי שניות הוא לא יחפש.</p>
+          <p class="f-p"><strong>הוא חוזר לפיד. אתה כבר שילמת על הלחיצה.</strong></p>
         </li>
         <li data-f="find3">
-          <p class="f-k">ממצא 03 · הפנייה</p>
-          <h3 class="f-t">יש לך מספרים, ואין לך הסבר.</h3>
-          <p class="f-p">אתה יודע שאחוז ההמרה נמוך, אבל לא יודע למה. <strong>מדידה חושפת את הבעיה. היא לא פותרת אותה.</strong></p>
+          <p class="f-k">אפשרות שלישית · הפנייה</p>
+          <h3 class="f-t">יש לך מספרים. אין לך הסבר.</h3>
+          <p class="f-p">אתה רואה בדוח אלפיים לחיצות ועשרים פניות, ויודע שמשהו לא עובד. אבל מה? הכותרת? המחיר? טופס שמבקש יותר מדי? דף שנטען שש שניות בנייד?</p>
+          <p class="f-p">אז מחליפים קריאייטיב, מעלים תקציב, מחליפים קמפיינר, ומקווים שהחודש הבא יהיה שונה.</p>
+          <p class="f-p"><strong>מדידה מראה שיש בעיה. היא לא אומרת לך מה לתקן.</strong></p>
         </li>
       </ol>
     </div>
@@ -721,9 +782,8 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
           </div>
           <p class="plan-desc">דוח מלא על המודעה, הדף ומה שקורה ביניהם. כל צווארי הבקבוק לפי סדר חשיבות, מה לתקן ולמה. אפשר לתקן בעצמך, עם הקמפיינר שלך, או איתי.</p>
           <ul class="spec">
-            <li>לא צריך גישה לחשבון המודעות</li>
-            <!-- TODO: X. How many working days until the report arrives. The line stays out of the live page until the number is filled in. -->
-            <li data-todo-hide><span data-todo="X ימי עבודה">הדוח מגיע תוך <span class="num">X</span> ימי עבודה</span></li>
+            <li>הדוח מגיע תוך <span class="num">3</span> ימי עבודה</li>
+            <li>צריך גישת צפייה לחשבון המודעות, או צילומי מסך של הנתונים</li>
             <li>לא כולל: ניהול קמפיין, טרגוט או קריאייטיב</li>
             <li class="is-key">אם ממשיכים לדף נחיתה, ה-490 מתקזזים מהמחיר.</li>
           </ul>
@@ -817,57 +877,50 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
       <h2 class="h2" id="work-t">כל דף נבנה סביב שאלה אחת: למה שמישהו יפנה?</h2>
       <div class="cases">
 
-        <!-- TODO: לאישור אורי. Drafted from the case study at /work/maxstock/ (the audit and the fixes are quoted from it). -->
-        <article class="case" aria-labelledby="case-max-t">
+        <!-- TODO: לאישור אורי. The figures are read off the Shopify screenshot Ori sent (18 Oct to 17 Nov 2026 against the 30 days before). -->
+        <article class="case" data-case aria-labelledby="case-alata-t">
           <div class="case-text">
-            <p class="case-meta"><span class="k num">01</span><span class="tag">אבחון לדוגמה</span><span class="tag">קונספט לא רשמי</span></p>
-            <h3 class="case-name" id="case-max-t" data-todo="לאישור אורי">מקס סטוק</h3>
-            <p class="case-what">קונספט אישי לאתר של רשת מוכרת. בלי הזמנה ובלי קשר אליה.</p>
-            <div class="case-goal"><span class="k">מטרת הדף</span><p>שמי שנכנס לאתר ייסע לסניף.</p></div>
-            <p class="k decs-k">איפה הדף נתקע, ואיך הייתי מתקן</p>
-            <ol class="decs">
-              <li><div><p><i>נתקע</i>הסלוגן "כאן קונים בכיף" יושב בלוגו בגובה של כמה פיקסלים. אי אפשר לקרוא אותו.</p><p class="fix"><i>תיקון</i>הלוגו נפתח גדול, והסלוגן הוא הדבר הראשון שקוראים.</p></div></li>
-              <li><div><p><i>נתקע</i>רשת שכל ההבטחה שלה היא מחיר, ובדף הבית לא היה מחיר של אף מוצר.</p><p class="fix"><i>תיקון</i>שמונה מחירים במסך הראשון, לפני שגוללים.</p></div></li>
-              <li><div><p><i>נתקע</i>"הסניף הקרוב" החזיר "לא נמצאו סניפים" במרכז תל אביב.</p><p class="fix"><i>תיקון</i>מפה שמחשבת מרחק אמיתי: שישה סניפים בתוך 3 ק"מ, ומה פתוח עכשיו.</p></div></li>
-            </ol>
+            <p class="case-meta"><span class="k num">01</span><span class="tag">לקוח</span><span class="tag">חנות שופיפיי</span></p>
+            <h3 class="case-name" id="case-alata-t">ALATA</h3>
+            <p class="case-what">חנות אונליין לאבקת אובה. בניתי את דף הבית ואת עמוד העסקים.</p>
+            <div class="case-goal"><span class="k">מטרת הדף</span><p>שמי שנכנס יקנה, ושבעל עסק ישאיר פרטים.</p></div>
+            <div class="res">
+              <p class="k">מתוך שופיפיי: 30 הימים האחרונים, מול 30 הימים שלפניהם</p>
+              <ul class="res-n">
+                <li><b class="num">+53%</b><span>אחוז המרה</span></li>
+                <li><b class="num">+89%</b><span>הזמנה ממוצעת</span></li>
+                <li><b class="num">+42%</b><span>מכירות ברוטו</span></li>
+              </ul>
+              <p class="res-p">וכל זה עם חצי מהכניסות. פחות אנשים נכנסו, ויותר מהם קנו.</p>
+              <figure class="res-shot">
+                <a href="/assets/work/alata-analytics.webp" target="_blank" rel="noopener"><img src="/assets/work/alata-analytics-1000w.webp" srcset="/assets/work/alata-analytics-1000w.webp 1000w, /assets/work/alata-analytics.webp 2000w" sizes="(max-width:999px) calc(100vw - 42px), 460px" alt="לוח הבקרה של החנות בשופיפיי: אחוז המרה 0.64%, עלייה של 53%; הזמנה ממוצעת 287 ש״ח, עלייה של 89%; מכירות ברוטו 861 ש״ח, עלייה של 42%; 465 כניסות, ירידה של 51%" width="2000" height="977" loading="lazy" decoding="async"></a>
+                <figcaption>צילום מסך מלוח הבקרה של החנות. לחיצה מגדילה.</figcaption>
+              </figure>
+            </div>
             <p class="case-links">
-              <a class="more" href="/work/maxstock/">כל ההחלטות<svg width="20" height="14" aria-hidden="true"><use href="#i-arr"/></svg></a>
-              <a class="more" href="https://max-rebrand.vercel.app/" target="_blank" rel="noopener">לאתר הקונספט<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
+              <a class="more" href="https://ubealata.com/" target="_blank" rel="noopener">לחנות<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
             </p>
           </div>
-          <div class="case-shot shots">
-            <figure class="shot"><figcaption class="shot-bar"><span>maxstock.co.il</span><span>לפני</span></figcaption><img src="/assets/work/max/before-home-d.webp" alt="דף הבית הקיים של מקס סטוק: באנר מתחלף, בלי מחיר של אף מוצר" width="1200" height="750" loading="lazy" decoding="async"></figure>
-            <figure class="shot"><figcaption class="shot-bar"><span>max-rebrand.vercel.app</span><span>אחרי, קונספט</span></figcaption><img src="/assets/work/max/after-home-d.webp" alt="דף הבית של אתר הקונספט: לוגו גדול עם סימון קונספט, הסלוגן קריא, ומחירים במסך הראשון" width="1200" height="750" loading="lazy" decoding="async"></figure>
-          </div>
-        </article>
-
-        <!-- TODO: לאישור אורי. Drafted from the ALATA brief and design notes (the business page). -->
-        <article class="case" aria-labelledby="case-alata-t">
-          <div class="case-text">
-            <p class="case-meta"><span class="k num">02</span><span class="tag">לקוח</span><span class="tag">עמוד B2B</span></p>
-            <h3 class="case-name" id="case-alata-t" data-todo="לאישור אורי">ALATA</h3>
-            <p class="case-what">עמוד העסקים בחנות שופיפיי לאבקת אובה.</p>
-            <div class="case-goal"><span class="k">מטרת הדף</span><p>שבעל בית קפה, מאפייה או חנות ישאיר פרטים או ישלח הודעה.</p></div>
-            <p class="k decs-k">שלוש החלטות כדי שיפנו</p>
-            <ol class="decs">
-              <li><p>הלוגואים של העסקים שכבר עובדים עם ALATA יושבים בתוך הכרטיס, ליד הפנייה, ולא באמצע העמוד.</p></li>
-              <li><p>טופס קצר: שם, טלפון, שם העסק, וסוג העסק בלחיצה אחת.</p></li>
-              <li><p>בנייד, כפתור הוואטסאפ נשאר צמוד לתחתית המסך, עם הודעה מוכנה.</p></li>
-            </ol>
-            <p class="case-links">
-              <a class="more" href="https://ubealata.com/" target="_blank" rel="noopener">לחנות החיה<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
-            </p>
-          </div>
-          <div class="case-shot">
-            <figure class="shot shot--phone"><figcaption class="shot-bar"><span>ubealata.com</span><span>עמוד העסקים, נייד</span></figcaption><img src="/assets/work/alata-business.webp" srcset="/assets/work/alata-business-400w.webp 400w, /assets/work/alata-business.webp 600w" sizes="340px" alt="ALATA: עמוד העסקים בנייד, עם הלוגואים של עסקים שכבר עובדים איתם וכפתור וואטסאפ צמוד לתחתית" width="600" height="1299" loading="lazy" decoding="async"></figure>
+          <div class="case-dev">
+            <div class="dev" data-dev>
+              <div class="mac"><div class="mac-lid"><div class="mac-scr" data-frames>
+                <img class="on" src="/assets/work/alata-d1.webp" srcset="/assets/work/alata-d1-720w.webp 720w, /assets/work/alata-d1.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="ALATA: דף הבית במחשב" width="1440" height="900" loading="lazy" decoding="async">
+                <img src="/assets/work/alata-d2.webp" srcset="/assets/work/alata-d2-720w.webp 720w, /assets/work/alata-d2.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="ALATA: עמוד העסקים במחשב, עם טופס קצר והלוגואים של עסקים שכבר עובדים איתם" width="1440" height="900" loading="lazy" decoding="async">
+              </div></div><div class="mac-base"></div></div>
+              <div class="iph"><div class="iph-scr" data-frames>
+                <img class="on" src="/assets/work/alata-m1.webp" srcset="/assets/work/alata-m1-400w.webp 400w, /assets/work/alata-m1.webp 600w" sizes="200px" alt="ALATA: דף הבית בנייד" width="600" height="1299" loading="lazy" decoding="async">
+                <img src="/assets/work/alata-m2.webp" srcset="/assets/work/alata-m2-400w.webp 400w, /assets/work/alata-m2.webp 600w" sizes="200px" alt="ALATA: המוצרים בדף הבית בנייד" width="600" height="1299" loading="lazy" decoding="async">
+                <img src="/assets/work/alata-business.webp" srcset="/assets/work/alata-business-400w.webp 400w, /assets/work/alata-business.webp 600w" sizes="200px" alt="ALATA: עמוד העסקים בנייד" width="600" height="1299" loading="lazy" decoding="async">
+              </div></div>
+            </div>
           </div>
         </article>
 
         <!-- TODO: לאישור אורי. Drafted from the demo site and its brief. -->
-        <article class="case" aria-labelledby="case-shalva-t">
+        <article class="case" data-case aria-labelledby="case-shalva-t">
           <div class="case-text">
-            <p class="case-meta"><span class="k num">03</span><span class="tag">פרויקט הדגמה</span></p>
-            <h3 class="case-name" id="case-shalva-t" data-todo="לאישור אורי">שלווה קפה</h3>
+            <p class="case-meta"><span class="k num">02</span><span class="tag">פרויקט הדגמה</span></p>
+            <h3 class="case-name" id="case-shalva-t">שלווה קפה</h3>
             <p class="case-what">דף נחיתה לעגלת קפה בדיונית.</p>
             <div class="case-goal"><span class="k">מטרת הדף</span><p>שמי שרואה את הדף יקום וייסע לעגלה.</p></div>
             <p class="k decs-k">שלוש החלטות כדי שיפנו</p>
@@ -880,38 +933,26 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
               <a class="more" href="https://oriafiasdev.github.io/alva-cafe/" target="_blank" rel="noopener">לאתר ההדגמה<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
             </p>
           </div>
-          <div class="case-shot">
-            <figure class="shot"><figcaption class="shot-bar"><span>alva-cafe</span><span>הדגמה</span></figcaption><img src="/assets/work/shalva-d4.webp" srcset="/assets/work/shalva-d4-720w.webp 720w, /assets/work/shalva-d4.webp 1440w" sizes="(max-width:900px) calc(100vw - 42px), 560px" alt="שלווה קפה: המסך הראשון, מילים שנוחתות עם הקינוחים על המגש" width="1440" height="900" loading="lazy" decoding="async"></figure>
-          </div>
-        </article>
-
-        <!-- TODO: לאישור אורי. Drafted from the demo site. -->
-        <article class="case" aria-labelledby="case-tavor-t">
-          <div class="case-text">
-            <p class="case-meta"><span class="k num">04</span><span class="tag">פרויקט הדגמה</span></p>
-            <h3 class="case-name" id="case-tavor-t" data-todo="לאישור אורי">סטודיו תבור</h3>
-            <p class="case-what">דף נחיתה לסטודיו צילום חתונות בדיוני.</p>
-            <div class="case-goal"><span class="k">מטרת הדף</span><p>שזוג ישלח את תאריך החתונה בוואטסאפ.</p></div>
-            <p class="k decs-k">שלוש החלטות כדי שיפנו</p>
-            <ol class="decs">
-              <li><p>השאלה הראשונה של כל זוג, "התאריך שלכם פנוי?", מקבלת לוח שנה בדף עצמו.</p></li>
-              <li><p>מהלוח יוצאת הודעת וואטסאפ עם התאריך כבר בפנים.</p></li>
-              <li><p>התמונות באות לפני הטקסט. צלם בוחרים בעיניים.</p></li>
-            </ol>
-            <p class="case-links">
-              <a class="more" href="https://oriafiasdev.github.io/tavor-studio/" target="_blank" rel="noopener">לאתר ההדגמה<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
-            </p>
-          </div>
-          <div class="case-shot">
-            <figure class="shot"><figcaption class="shot-bar"><span>tavor-studio</span><span>הדגמה</span></figcaption><img src="/assets/work/tavor-d4.webp" srcset="/assets/work/tavor-d4-720w.webp 720w, /assets/work/tavor-d4.webp 1440w" sizes="(max-width:900px) calc(100vw - 42px), 560px" alt="סטודיו תבור: המסך הראשון, תמונת חתונה ומשפט שננעל בעינית" width="1440" height="900" loading="lazy" decoding="async"></figure>
+          <div class="case-dev">
+            <div class="dev" data-dev>
+              <div class="mac"><div class="mac-lid"><div class="mac-scr" data-frames>
+                <img class="on" src="/assets/work/shalva-d1.webp" srcset="/assets/work/shalva-d1-720w.webp 720w, /assets/work/shalva-d1.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="שלווה קפה: המסך הראשון, שם המקום מעל הנחל" width="1440" height="900" loading="lazy" decoding="async">
+                <img src="/assets/work/shalva-d2.webp" srcset="/assets/work/shalva-d2-720w.webp 720w, /assets/work/shalva-d2.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="שלווה קפה: הגלילה מניחה את המגש עם הקינוחים" width="1440" height="900" loading="lazy" decoding="async">
+                <img src="/assets/work/shalva-d3.webp" srcset="/assets/work/shalva-d3-720w.webp 720w, /assets/work/shalva-d3.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="שלווה קפה: המילים נוחתות עם הקינוחים" width="1440" height="900" loading="lazy" decoding="async">
+              </div></div><div class="mac-base"></div></div>
+              <div class="iph"><div class="iph-scr" data-frames>
+                <img class="on" src="/assets/work/shalva-m1.webp" srcset="/assets/work/shalva-m1-400w.webp 400w, /assets/work/shalva-m1.webp 600w" sizes="200px" alt="שלווה קפה בנייד: המסך הראשון" width="600" height="1298" loading="lazy" decoding="async">
+                <img src="/assets/work/shalva-m3.webp" srcset="/assets/work/shalva-m3-400w.webp 400w, /assets/work/shalva-m3.webp 600w" sizes="200px" alt="שלווה קפה בנייד: המילים והקינוחים" width="600" height="1298" loading="lazy" decoding="async">
+              </div></div>
+            </div>
           </div>
         </article>
 
         <!-- TODO: לאישור אורי. Drafted from the demo site and its README. -->
-        <article class="case" aria-labelledby="case-palma-t">
+        <article class="case" data-case aria-labelledby="case-palma-t">
           <div class="case-text">
-            <p class="case-meta"><span class="k num">05</span><span class="tag">פרויקט הדגמה</span></p>
-            <h3 class="case-name" id="case-palma-t" data-todo="לאישור אורי">סטודיו פאלמה</h3>
+            <p class="case-meta"><span class="k num">03</span><span class="tag">פרויקט הדגמה</span></p>
+            <h3 class="case-name" id="case-palma-t">סטודיו פאלמה</h3>
             <p class="case-what">דף נחיתה לסטודיו יופי בדיוני.</p>
             <div class="case-goal"><span class="k">מטרת הדף</span><p>שלקוחה תקבע תור בוואטסאפ.</p></div>
             <p class="k decs-k">שלוש החלטות כדי שיפנו</p>
@@ -924,8 +965,52 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
               <a class="more" href="https://oriafiasdev.github.io/palma-studio/" target="_blank" rel="noopener">לאתר ההדגמה<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
             </p>
           </div>
-          <div class="case-shot">
-            <figure class="shot"><figcaption class="shot-bar"><span>palma-studio</span><span>הדגמה</span></figcaption><img src="/assets/work/palma-d4.webp" srcset="/assets/work/palma-d4-720w.webp 720w, /assets/work/palma-d4.webp 1440w" sizes="(max-width:900px) calc(100vw - 42px), 560px" alt="סטודיו פאלמה: משפט של לקוחה על רקע בצבע הסטודיו" width="1440" height="900" loading="lazy" decoding="async"></figure>
+          <div class="case-dev">
+            <div class="dev" data-dev>
+              <div class="mac"><div class="mac-lid"><div class="mac-scr" data-frames>
+                <img class="on" src="/assets/work/palma-d1.webp" srcset="/assets/work/palma-d1-720w.webp 720w, /assets/work/palma-d1.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="סטודיו פאלמה: המסך הראשון, שם הסטודיו וכפתור לקביעת תור" width="1440" height="900" loading="lazy" decoding="async">
+                <img src="/assets/work/palma-d3.webp" srcset="/assets/work/palma-d3-720w.webp 720w, /assets/work/palma-d3.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="סטודיו פאלמה: הגלילה מתקרבת לעין" width="1440" height="900" loading="lazy" decoding="async">
+                <img src="/assets/work/palma-d4.webp" srcset="/assets/work/palma-d4-720w.webp 720w, /assets/work/palma-d4.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="סטודיו פאלמה: משפט של לקוחה" width="1440" height="900" loading="lazy" decoding="async">
+              </div></div><div class="mac-base"></div></div>
+              <div class="iph"><div class="iph-scr" data-frames>
+                <img class="on" src="/assets/work/palma-m1.webp" srcset="/assets/work/palma-m1-400w.webp 400w, /assets/work/palma-m1.webp 600w" sizes="200px" alt="סטודיו פאלמה בנייד: המסך הראשון" width="600" height="1298" loading="lazy" decoding="async">
+                <img src="/assets/work/palma-m3.webp" srcset="/assets/work/palma-m3-400w.webp 400w, /assets/work/palma-m3.webp 600w" sizes="200px" alt="סטודיו פאלמה בנייד: משפט של לקוחה ליד הכפתור" width="600" height="1298" loading="lazy" decoding="async">
+              </div></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- TODO: לאישור אורי. Drafted from the case study at /work/maxstock/ (the audit and the fixes are quoted from it). -->
+        <article class="case case--own" data-case aria-labelledby="case-max-t">
+          <div class="case-text">
+            <p class="case-meta"><span class="k num">04</span><span class="tag">פרויקט אישי</span><span class="tag">קונספט, לא בהזמנת הרשת</span></p>
+            <h3 class="case-name" id="case-max-t">פרויקט אישי: אבחון לאתר של רשת מוכרת</h3>
+            <p class="case-what">תרגיל שעשיתי לעצמי. לקחתי אתר של רשת קמעונאית מוכרת, מצאתי איפה הוא נתקע ובניתי קונספט מתוקן. בלי הזמנה, בלי תשלום ובלי שום קשר לרשת.</p>
+            <div class="case-goal"><span class="k">מטרת הדף</span><p>שמי שנכנס לאתר ייסע לסניף.</p></div>
+            <p class="k decs-k">איפה הדף נתקע, ואיך הייתי מתקן</p>
+            <ol class="decs">
+              <li><div><p><i>נתקע</i>הסלוגן "כאן קונים בכיף" יושב בלוגו בגובה של כמה פיקסלים. אי אפשר לקרוא אותו.</p><p class="fix"><i>תיקון</i>הלוגו נפתח גדול, והסלוגן הוא הדבר הראשון שקוראים.</p></div></li>
+              <li><div><p><i>נתקע</i>רשת שכל ההבטחה שלה היא מחיר, ובדף הבית לא היה מחיר של אף מוצר.</p><p class="fix"><i>תיקון</i>שמונה מחירים במסך הראשון, לפני שגוללים.</p></div></li>
+              <li><div><p><i>נתקע</i>"הסניף הקרוב" החזיר "לא נמצאו סניפים" במרכז תל אביב.</p><p class="fix"><i>תיקון</i>מפה שמחשבת מרחק אמיתי: שישה סניפים בתוך 3 ק"מ, ומה פתוח עכשיו.</p></div></li>
+            </ol>
+            <p class="case-links">
+              <a class="more" href="/work/maxstock/">כל ההחלטות<svg width="20" height="14" aria-hidden="true"><use href="#i-arr"/></svg></a>
+              <a class="more" href="https://max-rebrand.vercel.app/" target="_blank" rel="noopener">לאתר הקונספט<svg width="14" height="14" aria-hidden="true"><use href="#i-out"/></svg></a>
+            </p>
+          </div>
+          <div class="case-dev">
+            <div class="dev" data-dev>
+              <p class="dev-flag">קונספט אישי · לא האתר הרשמי</p>
+              <div class="mac"><div class="mac-lid"><div class="mac-scr" data-frames>
+                <img class="on" src="/assets/work/maxstock-d1.webp" srcset="/assets/work/maxstock-d1-720w.webp 720w, /assets/work/maxstock-d1.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="אתר הקונספט: לוגו גדול עם סימון קונספט, הסלוגן קריא, ומחירים במסך הראשון" width="1440" height="900" loading="lazy" decoding="async">
+                <img src="/assets/work/maxstock-d3.webp" srcset="/assets/work/maxstock-d3-720w.webp 720w, /assets/work/maxstock-d3.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="אתר הקונספט: המוצרים האהובים עם מחירים" width="1440" height="900" loading="lazy" decoding="async">
+                <img src="/assets/work/maxstock-d4.webp" srcset="/assets/work/maxstock-d4-720w.webp 720w, /assets/work/maxstock-d4.webp 1440w" sizes="(max-width:999px) 90vw, 640px" alt="אתר הקונספט: מבצע שלושה מוצרים במאה שקלים" width="1440" height="900" loading="lazy" decoding="async">
+              </div></div><div class="mac-base"></div></div>
+              <div class="iph"><div class="iph-scr" data-frames>
+                <img class="on" src="/assets/work/maxstock-m1.webp" srcset="/assets/work/maxstock-m1-400w.webp 400w, /assets/work/maxstock-m1.webp 600w" sizes="200px" alt="אתר הקונספט בנייד: המסך הראשון" width="600" height="1299" loading="lazy" decoding="async">
+                <img src="/assets/work/maxstock-m3.webp" srcset="/assets/work/maxstock-m3-400w.webp 400w, /assets/work/maxstock-m3.webp 600w" sizes="200px" alt="אתר הקונספט בנייד: מוצרים ומחירים" width="600" height="1299" loading="lazy" decoding="async">
+              </div></div>
+            </div>
           </div>
         </article>
 
@@ -936,50 +1021,49 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
     </div>
   </section>
 
-  <!-- 8. Messages. Real messages from one client (he runs projects for his
-       own end clients, hence "הלקוח מרוצה"), published with his consent and
-       without his name. Trimmed, never reworded: the same excerpts, and the
+  <!-- 8. Messages. Real WhatsApp messages from clients, published with consent
+       and without names. Trimmed, never reworded: the same excerpts, and the
        same anonymisation, as on /websites/. -->
   <section class="sec" id="chat" aria-labelledby="chat-t">
     <div class="wrap">
-      <h2 class="h2" id="chat-t">ככה נראה ואטסאפ עם לקוח באמצע פרויקט</h2>
-      <p class="lead">הודעות אמיתיות מהוואטסאפ עם לקוח שעובד איתי על פרויקטים עבור הלקוחות שלו. מתפרסמות בהסכמתו, קיצרתי ולא ניסחתי מחדש.</p>
-      <div class="chats">
-        <figure class="chat">
-          <figcaption class="chat-when">כשראה את הגרסה הראשונה</figcaption>
-          <div class="chat-log"><p class="bub">יואווו<time>10:34</time></p><p class="bub">מה זההההה<time>10:34</time></p><p class="bub">תותח!!!<time>10:34</time></p></div>
+      <h2 class="h2" id="chat-t">זה מה שלקוחות אומרים עליי</h2>
+      <p class="lead">הודעות אמיתיות מוואטסאפ, בלי שמות ובהסכמה. קיצרתי, לא ניסחתי מחדש.</p>
+      <div class="was" data-was>
+        <figure class="wa" style="--x:3%;--y:0%;--r:-3deg;--s:0.5">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>כשראה את הגרסה הראשונה</span></figcaption>
+          <div class="wa-log"><p class="bub">יואווו<time>10:34</time></p><p class="bub">מה זההההה<time>10:34</time></p><p class="bub">תותח!!!<time>10:34</time></p></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">כשהתיקון הגיע</figcaption>
-          <div class="chat-log"><p class="bub">תותח<time>20:58</time></p><p class="bub">איזו מהירות<time>20:58</time></p></div>
+        <figure class="wa" style="--x:37%;--y:3%;--r:2deg;--s:0.9">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>כשהתיקון הגיע</span></figcaption>
+          <div class="wa-log"><p class="bub">תותח<time>20:58</time></p><p class="bub">איזו מהירות<time>20:58</time></p></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">על הקצב</figcaption>
-          <div class="chat-log"><p class="bub">הזוי<time>13:58</time></p><p class="bub">אתה מנצח על זה ברמה גבוהה<time>13:58</time></p></div>
+        <figure class="wa" style="--x:69%;--y:0%;--r:-1.5deg;--s:0.6">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>על הקצב</span></figcaption>
+          <div class="wa-log"><p class="bub">הזוי<time>13:58</time></p><p class="bub">אתה מנצח על זה ברמה גבוהה<time>13:58</time></p></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">באמצע הבנייה</figcaption>
-          <div class="chat-log"><p class="bub">אבל זה נראה אשששש<time>10:39</time></p><p class="bub">כל הכבוד<time>10:39</time></p></div>
+        <figure class="wa" style="--x:13%;--y:24%;--r:2.5deg;--s:1.1">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>באמצע הבנייה</span></figcaption>
+          <div class="wa-log"><p class="bub">אבל זה נראה אשששש<time>10:39</time></p><p class="bub">כל הכבוד<time>10:39</time></p></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">על פיצ׳ר שלא ביקשו</figcaption>
-          <div class="chat-log"><p class="bub">נראה ממש טוב! אעביר להם את זה<time>09:46</time></p><p class="bub">כל הכבוד על העבודה ועל הגדלת הראש<time>09:47</time></p><span class="bub-react" role="img" aria-label="הגבתי בלב">❤️</span></div>
+        <figure class="wa" style="--x:49%;--y:21%;--r:-2deg;--s:0.7">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>על פיצ׳ר שלא ביקשו</span></figcaption>
+          <div class="wa-log"><p class="bub">נראה ממש טוב! אעביר להם את זה<time>09:46</time></p><p class="bub">כל הכבוד על העבודה ועל הגדלת הראש<time>09:47</time></p><span class="bub-react" role="img" aria-label="הגבתי בלב">❤️</span></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">על העבודה עצמה</figcaption>
-          <div class="chat-log"><p class="bub">אני חייב לציין שהעבודה איתך ממש כייפית וזורמת<time>21:51</time></p><p class="bub">ומעריך את זה מאוד<time>21:51</time></p></div>
+        <figure class="wa" style="--x:76%;--y:30%;--r:3deg;--s:1">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>על העבודה עצמה</span></figcaption>
+          <div class="wa-log"><p class="bub">אני חייב לציין שהעבודה איתך ממש כייפית וזורמת<time>21:51</time></p><p class="bub">ומעריך את זה מאוד<time>21:51</time></p></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">לפני הפרזנטציה ללקוח</figcaption>
-          <div class="chat-log"><p class="bub">פצצה<time>22:23</time></p><p class="bub">תודה רבה<time>22:23</time></p><p class="bub bub--emoji">🙏<time>22:23</time></p><p class="bub">בטוח שיעופו על זה<time>22:23</time></p></div>
+        <figure class="wa" style="--x:1%;--y:50%;--r:-2deg;--s:0.8">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>לפני הפרזנטציה ללקוח</span></figcaption>
+          <div class="wa-log"><p class="bub">פצצה<time>22:23</time></p><p class="bub">תודה רבה<time>22:23</time></p><p class="bub bub--emoji">🙏<time>22:23</time></p><p class="bub">בטוח שיעופו על זה<time>22:23</time></p></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">בבוקר שאחרי הפרזנטציה</figcaption>
-          <div class="chat-log"><p class="bub">בוקר טוב ☀️ מה המצב? אני אחרי הפרזנטציה, היה ממש טוב, הלקוח מרוצה, יש כמה תיקונים קטנים ושאלות אבל דברים ממש מינורים, בכללי עבודה מעולה!!<time>10:10</time></p></div>
+        <figure class="wa" style="--x:31%;--y:47%;--r:1.5deg;--s:0.55">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>בבוקר שאחרי הפרזנטציה</span></figcaption>
+          <div class="wa-log"><p class="bub">בוקר טוב ☀️ מה המצב? אני אחרי הפרזנטציה, היה ממש טוב, הלקוח מרוצה, יש כמה תיקונים קטנים ושאלות אבל דברים ממש מינורים, בכללי עבודה מעולה!!<time>10:10</time></p></div>
         </figure>
-        <figure class="chat">
-          <figcaption class="chat-when">אחרי שעברנו על אבטחת התשלומים</figcaption>
-          <div class="chat-log"><p class="bub">שמע אתה תותח, אין לי מה להגיד<time>23:42</time></p><span class="bub-react" role="img" aria-label="הגבתי בלב">❤️</span></div>
+        <figure class="wa" style="--x:63%;--y:60%;--r:-3deg;--s:1.2">
+          <figcaption class="wa-top"><span class="wa-av" aria-hidden="true"></span><span>אחרי שעברנו על אבטחת התשלומים</span></figcaption>
+          <div class="wa-log"><p class="bub">שמע אתה תותח, אין לי מה להגיד<time>23:42</time></p><span class="bub-react" role="img" aria-label="הגבתי בלב">❤️</span></div>
         </figure>
       </div>
     </div>
@@ -990,10 +1074,10 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
     <div class="wrap about">
       <h2 class="h2" id="about-t">אני כותב קוד מ-2017. שנים לפני שה-AI התחיל לבנות אתרים.</h2>
       <div class="about-text">
-        <p>כשפתחתי את העסק שלי, עשיתי בדיוק מה שכולם עושים. בניתי דף, הרצתי מודעות, וחיכיתי. היו לחיצות, היו כניסות, ולא היו פניות. ואני מבין בדיוק את התחושה הזאת — לראות כסף יוצא כל בוקר ולא להבין לאן הוא הולך.</p>
-        <p>אז עשיתי את מה שאני יודע לעשות הכי טוב: פירקתי את המשפך שלי שלב אחרי שלב. מה המודעה מבטיחה. מה רואים בשנייה הראשונה אחרי הלחיצה. איפה אנשים עוצרים. מה גורם להם לצאת. כל החלטה בדף — כותרת, סדר, כפתור — הפכה לשאלה שיש לה תשובה במספרים.</p>
+        <p>כשפתחתי את העסק שלי, עשיתי בדיוק מה שכולם עושים. בניתי דף, הרצתי מודעות, וחיכיתי. היו לחיצות, היו כניסות, ולא היו פניות. ואני מבין בדיוק את התחושה הזאת: לראות כסף יוצא כל בוקר ולא להבין לאן הוא הולך.</p>
+        <p>אז עשיתי את מה שאני יודע לעשות הכי טוב: פירקתי את המשפך שלי שלב אחרי שלב. מה המודעה מבטיחה. מה רואים בשנייה הראשונה אחרי הלחיצה. איפה אנשים עוצרים. מה גורם להם לצאת. כל החלטה בדף (כותרת, סדר, כפתור) הפכה לשאלה שיש לה תשובה במספרים.</p>
         <p>זה מה שאני עושה היום לעסקים אחרים. אני לא מנהל קמפיינים ולא מחליף את הקמפיינר שלך. אני עובד על החלק שאף אחד לא אחראי עליו: מה שקורה אחרי הלחיצה.</p>
-        <p>אני עובד לבד, ישירות מולך. בלי סוכנות, בלי איש מכירות באמצע, ובלי למכור לך משהו שאתה לא צריך. ואם האבחון יראה שהבעיה לא בדף — אגיד לך את זה, גם אם זה אומר שלא תקנה ממני כלום.</p>
+        <p>אני עובד לבד, ישירות מולך. בלי סוכנות, בלי איש מכירות באמצע, ובלי למכור לך משהו שאתה לא צריך. ואם האבחון יראה שהבעיה לא בדף, אגיד לך את זה, גם אם זה אומר שלא תקנה ממני כלום.</p>
       </div>
     </div>
   </section>
@@ -1009,11 +1093,11 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
         </details>
         <details>
           <summary>מה אם הבעיה לא בדף?</summary>
-          <p class="faq-a">האבחון יגיד את זה, ואני אגיד לך בכנות — גם אם זה אומר שלא תזמין ממני דף.</p>
+          <p class="faq-a">האבחון יגיד את זה, ואני אגיד לך בכנות, גם אם זה אומר שלא תזמין ממני דף.</p>
         </details>
         <details>
           <summary>צריך לתת לך גישה לחשבון המודעות?</summary>
-          <p class="faq-a">לא. את המודעה אני רואה בספריית המודעות של מטא, ואת הדף — בדפדפן. אם תרצה, תוכל לשתף מספרים בטופס.</p>
+          <p class="faq-a">כן, או לפחות צילומי מסך. ספריית המודעות של מטא מראה את המודעה, אבל לא כמה לחצו ומה קרה אחרי הלחיצה. בשביל זה אני צריך גישת צפייה לחשבון, או צילומי מסך של הנתונים מהחודש האחרון. מה שנוח לך.</p>
         </details>
         <details>
           <summary>יש לי אתר. צריך להחליף אותו?</summary>
@@ -1130,61 +1214,39 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
      clicks = budget / cost per click
      leads  = clicks x share who get in touch
      deals  = leads x share who close
-     income = deals x what a deal is worth
-     A step whose input is missing is null, and so is everything after it. */
-  var EXAMPLE = { budget: 6000, cpc: 4, rate: 2, close: 20, value: 1500 };   // 1,500 clicks, 30 leads, 6 deals
+     Every field starts filled (an example budget, the market averages for
+     the cost of a click and the share who get in touch, an estimate for the
+     close rate), and an emptied field falls back to that starting figure,
+     so the sum is never broken by one missing number. */
   function compute(v) {
-    var clicks = (v.budget != null && v.cpc) ? v.budget / v.cpc : null;
-    var leads = (clicks != null && v.rate != null) ? clicks * v.rate / 100 : null;
-    var deals = (leads != null && v.close != null) ? leads * v.close / 100 : null;
-    var revenue = (deals != null && v.value != null) ? deals * v.value : null;
-    return { budget: v.budget, clicks: clicks, leads: leads, deals: deals, revenue: revenue };
+    var clicks = v.budget / v.cpc;
+    var leads = clicks * v.rate / 100;
+    return { budget: v.budget, clicks: clicks, leads: leads, deals: leads * v.close / 100 };
   }
 
   /* ---------- the page's figures ----------
-     Everything outside the calculator that shows a funnel figure (the bar,
-     the funnel scene) reads one
-     model. It is the worked example until the calculator is filled in, and
-     the visitor's own numbers after that. Kept in memory only. */
+     The calculator's current figures, for anything else that wants them
+     (the short form reads the budget from here). Kept in memory only. */
   var page = null;
   function setPage(model) {
     page = model;
-    $$('[data-bind]').forEach(function (el) {
-      var key = el.getAttribute('data-bind');
-      // A stage the visitor could not give a number for is a question mark,
-      // which is the honest figure for it.
-      put(el, key === 'budget' ? fmtMoney(model.budget) : (model[key] == null ? '?' : fmtCount(model[key])));
-    });
-    $$('[data-example]').forEach(function (el) { el.hidden = !model.example; });
     doc.dispatchEvent(new CustomEvent('funnel:change', { detail: model }));
-  }
-  function exampleModel() {
-    var m = compute(EXAMPLE);
-    m.example = true; m.known = true;
-    return m;
   }
   window.afiasFunnel = { get: function () { return page; } };
 
   /* ---------- the calculator ----------
-     Works as you type, one step at a time: each field you fill brings the
-     next figure in. Nothing typed at all means the worked example, marked
-     as one. Once every step has a number, the rest of the page switches to
-     the visitor's figures. */
+     Works as you type. A field still on its starting figure says where the
+     figure comes from; a changed one offers the way back. */
   (function calculator() {
     var form = $('[data-calc-form]'), out = $('[data-calc-out]');
     if (!form || !out) return;
-    var KEYS = ['budget', 'cpc', 'rate', 'close', 'value'];
-    var field = {};
-    KEYS.forEach(function (k) { field[k] = form.elements[k]; });
-    var unknown = form.elements.unknown;
-    var todayBox = $('[data-out-today]', out), unknownBox = $('[data-out-unknown]', out);
-    var unknownLine = $('.unknown-t', out);
+    var KEYS = ['budget', 'cpc', 'rate', 'close'];
+    var field = {}, def = {};
     var o = {};
     $$('[data-o]', out).forEach(function (el) { o[el.getAttribute('data-o')] = el; });
-    var ifs = $$('[data-if]', out);
-    var tag = $('[data-example-calc]', out), status = $('[data-calc-status]', out);
-    var whatif = $('[data-whatif]', out), slider = $('#c-what'), what = $('[data-what]', out);
-    var gain = $('[data-gain]', out), gainN = $('[data-gain-n]', out);
+    var status = $('[data-calc-status]', out);
+    var slider = $('#c-what'), what = $('[data-what]', out);
+    var gainN = $('[data-gain-n]', out), gainW = $('[data-gain-w]', out);
 
     // "1,500", "1500", "4.5" and "4,5" all mean what the person typing them means.
     function parse(str) {
@@ -1195,91 +1257,67 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
       var n = parseFloat(s);
       return isFinite(n) ? n : null;
     }
+    KEYS.forEach(function (k) {
+      field[k] = form.elements[k];
+      def[k] = parse(field[k].getAttribute('data-default'));
+    });
     function read() {
-      var v = {}, any = false;
+      var v = {};
       KEYS.forEach(function (k) {
         var n = parse(field[k].value);
-        if (field[k].value.trim()) any = true;
         var isShare = (k === 'rate' || k === 'close');
-        v[k] = n == null ? null : isShare ? (n <= 100 ? n : null) : (n > 0 ? n : null);   // a share may be zero; money may not
+        var ok = n != null && (isShare ? n > 0 && n <= 100 : n > 0);
+        v[k] = ok ? n : def[k];
+        // the note under the field: where the starting figure comes from, or the way back to it
+        var hint = $('[data-hint="' + k + '"]', form);
+        var same = !ok || n === def[k];
+        $('[data-h-def]', hint).hidden = !same;
+        $('[data-reset]', hint).hidden = same;
       });
-      return { values: v, any: any };
+      return v;
     }
 
-    var base = null;        // what the slider compares against
-    var committed = '';     // the last set of figures sent to the rest of the page
-    var announced = false;  // the "calculator complete" event goes out once
-    var timer = 0;
+    var base = null, committed = '', announced = false, timer = 0;
 
     function render(commitNow) {
-      var r = read(), isUnknown = unknown.checked;
-      var example = !r.any;
-      var v = example ? { budget: EXAMPLE.budget, cpc: EXAMPLE.cpc, rate: EXAMPLE.rate, close: EXAMPLE.close, value: EXAMPLE.value } : r.values;
-      field.rate.disabled = isUnknown;
-      if (isUnknown) v.rate = null;
-      var f = compute(v);
-
-      tag.hidden = !example;
-      todayBox.hidden = isUnknown;
-      unknownBox.hidden = !isUnknown;
-
-      put(o.clicks, fmtCount(f.clicks) || '—');
-      put(o.leads, fmtCount(f.leads) || '—');
-      put(o.deals, fmtCount(f.deals) || '—');
-      put(o.revenue, fmtMoney(f.revenue) || '—');
-
-      // "I don't know": no "today" line to show. What the money buys at 1%, 3%
-      // and 5% instead, as plain arithmetic.
-      put(o.budget, fmtMoney(v.budget) || '—');
-      unknownLine.hidden = v.budget == null;
-      ifs.forEach(function (el) {
-        var parts = el.getAttribute('data-if').split(':'), share = parseFloat(parts[0]);
-        var g = compute({ budget: v.budget, cpc: v.cpc, rate: share, close: v.close, value: v.value });
-        put(el, (parts[1] === 'leads' ? fmtCount(g.leads) : fmtMoney(g.revenue)) || '—');
-      });
-
+      var v = read(), f = compute(v);
+      put(o.clicks, fmtCount(f.clicks));
+      put(o.leads, fmtCount(f.leads));
+      put(o.deals, fmtCount(f.deals));
       syncSlider(v, f);
 
-      var complete = !example && f.clicks != null && v.close != null && v.value != null && (isUnknown || v.rate != null);
+      var key = KEYS.map(function (k) { return v[k]; }).join('|');
+      var model = { budget: v.budget, clicks: f.clicks, leads: f.leads, deals: f.deals,
+                    example: KEYS.every(function (k) { return v[k] === def[k]; }) };
       clearTimeout(timer);
-      if (example) { commit(exampleModel(), 'example'); return; }
-      if (!complete) return;      // the page keeps the last complete set while a field is being retyped
-      var model = { example: false, known: !isUnknown, budget: v.budget, clicks: f.clicks,
-                    leads: isUnknown ? null : f.leads, deals: isUnknown ? null : f.deals, revenue: isUnknown ? null : f.revenue };
-      var key = [v.budget, v.cpc, v.rate, v.close, v.value].join('|');
       if (commitNow) commit(model, key);
       else timer = setTimeout(function () { commit(model, key); }, 700);   // not on every keystroke of "6000"
     }
 
     function commit(model, key) {
       if (key === committed) return;
+      var first = !committed;
       committed = key;
       setPage(model);
-      if (model.example) { status.textContent = ''; return; }
-      status.textContent = model.known
-        ? 'היום: ' + fmtCount(model.clicks) + ' לחיצות, ' + fmtCount(model.leads) + ' פניות, ' + fmtCount(model.deals) + ' עסקאות, ' + nf0.format(model.revenue) + ' שקלים בחודש.'
-        : unknownLine.textContent;
+      if (first) return;
+      status.textContent = 'בחודש: ' + fmtCount(model.clicks) + ' לחיצות, ' + fmtCount(model.leads) + ' פניות, ' + fmtCount(model.deals) + ' עסקאות.';
       if (!announced) {
         announced = true;
-        doc.dispatchEvent(new CustomEvent('calc:complete', { detail: { known: model.known } }));
+        doc.dispatchEvent(new CustomEvent('calc:complete', { detail: { known: true } }));
       }
     }
 
-    /* "What if more people got in touch?" The visitor moves it; nothing here
-       suggests a figure. It starts on their own rate, where the difference
-       is nothing, and the line with the sum only appears once it has moved. */
+    /* "What if more people got in touch?" It starts on the visitor's own rate
+       and reaches three times it, so the gap is something they can feel. */
     function syncSlider(v, f) {
-      var ok = f.revenue != null && v.rate != null && v.rate < 100;
-      slider.disabled = !ok;
-      whatif.classList.toggle('is-off', !ok);
-      if (!ok) { base = null; gain.hidden = true; what.textContent = '—'; return; }
       var min = Math.round(v.rate * 10) / 10;
-      var next = { clicks: f.clicks, rate: v.rate, close: v.close, value: v.value, min: min };
-      var moved = !base || base.clicks !== next.clicks || base.rate !== next.rate || base.close !== next.close || base.value !== next.value;
-      base = next;
+      var next = { clicks: f.clicks, rate: v.rate, close: v.close };
+      var moved = !base || base.clicks !== next.clicks || base.rate !== next.rate || base.close !== next.close;
+      base = next; base.min = min;
       if (moved) {
         slider.min = min;
-        slider.max = Math.min(100, Math.max(10, Math.ceil(v.rate) + 5));
+        slider.max = Math.min(100, Math.round(Math.max(min * 3, min + 5) * 10) / 10);
+        slider.step = 0.1;
         slider.value = min;
       }
       slide();
@@ -1287,11 +1325,13 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
     function slide() {
       if (!base) return;
       var share = parseFloat(slider.value);
-      var extra = base.clicks * (share - base.rate) / 100 * base.close / 100 * base.value;
+      var extra = Math.max(0, base.clicks * (share - base.rate) / 100 * base.close / 100);
       what.textContent = fmtPct(share);
       slider.setAttribute('aria-valuetext', fmtPct(share));
-      gain.hidden = !(share > base.min + 1e-9 && extra > 0);
-      put(gainN, fmtMoney(extra));
+      var shown = extra >= 10 ? Math.round(extra) : Math.round(extra * 10) / 10;
+      put(gainN, '+' + fmtCount(shown));
+      gainW.textContent = shown === 1 ? 'עסקה נוספת בחודש.' : 'עסקאות נוספות בחודש.';
+      out.classList.toggle('is-gain', extra > 0);
     }
 
     form.addEventListener('input', function (e) {
@@ -1304,20 +1344,28 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
       render(false);
     });
     form.addEventListener('change', function () { render(true); });
-    // Leaving a money field tidies it: 6000 becomes 6,000.
+    form.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-reset]');
+      if (!b) return;
+      var k = b.closest('[data-hint]').getAttribute('data-hint');
+      field[k].value = field[k].getAttribute('data-default');
+      render(true);
+      field[k].focus();
+    });
+    // Leaving a field tidies it: 6000 becomes 6,000, and an emptied field gets its starting figure back.
     form.addEventListener('focusout', function (e) {
       var el = e.target;
-      if (el.name !== 'budget' && el.name !== 'value') return;
+      if (el.type !== 'text') return;
       var n = parse(el.value);
-      if (n != null && n >= 1000) el.value = nf1.format(n);
+      if (n == null || n <= 0) { el.value = el.getAttribute('data-default'); render(true); return; }
+      if (el.name === 'budget' && n >= 1000) el.value = nf1.format(n);
     });
     // Enter moves on to the next field, as the phone keyboard's "next" key says it will.
     form.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter' || e.target.type !== 'text') return;
       e.preventDefault();
-      var i = KEYS.indexOf(e.target.name), next = null;
-      for (var j = i + 1; j < KEYS.length && !next; j++) if (!field[KEYS[j]].disabled) next = field[KEYS[j]];
-      if (next) next.focus(); else e.target.blur();
+      var i = KEYS.indexOf(e.target.name);
+      if (i < KEYS.length - 1) field[KEYS[i + 1]].focus(); else e.target.blur();
     });
     form.addEventListener('submit', function (e) { e.preventDefault(); });
     slider.addEventListener('input', slide);
@@ -1433,7 +1481,63 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
     });
   })();
 
-  if (!page) setPage(exampleModel());
+
+  /* ---------- the work and the messages, on scroll ----------
+     Each case sets --p (how far it has scrolled) on its devices and shows
+     the screen that belongs to that point; the chats drift at their own
+     pace. One listener, one frame at a time, and nothing at all for people
+     who asked for less motion. */
+  (function onScroll() {
+    var cases = $$('[data-case]'), was = $('[data-was]');
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var cards = was ? $$('.wa', was) : [];
+    var queued = false;
+    function frames(box, p) {
+      var imgs = $$('img', box), n = imgs.length;
+      var at = Math.min(n - 1, Math.max(0, Math.floor(p * n * 0.999)));
+      imgs.forEach(function (img, i) { img.classList.toggle('on', i === at); });
+    }
+    function tick() {
+      queued = false;
+      var vh = window.innerHeight;
+      cases.forEach(function (c) {
+        var r = c.getBoundingClientRect();
+        if (r.bottom < -vh || r.top > 2 * vh) return;
+        var p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / Math.max(1, r.height - vh * 0.3)));
+        var dev = $('[data-dev]', c);
+        if (!still) dev.style.setProperty('--p', p.toFixed(3));
+        $$('[data-frames]', c).forEach(function (box) { frames(box, p); });
+      });
+      if (was && !still && window.innerWidth >= 1000) {
+        var r = was.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < vh) {
+          var q = (vh / 2 - (r.top + r.height / 2)) / vh;     // about -1 to 1 across the screen
+          cards.forEach(function (el) {
+            el.style.setProperty('--d', (-q * 120 * parseFloat(el.style.getPropertyValue('--s') || 1)).toFixed(1) + 'px');
+          });
+        }
+      }
+    }
+    function ask() { if (!queued) { queued = true; requestAnimationFrame(tick); } }
+    window.addEventListener('scroll', ask, { passive: true });
+    window.addEventListener('resize', ask);
+    tick();
+  })();
+
+  /* ---------- the bar ----------
+     Out of the way during the opening; in once the page proper starts. */
+  (function bar() {
+    var story = $('#story'), root = doc.documentElement;
+    if (!story) { root.classList.remove('in-story'); return; }
+    var on = null;
+    function check() {
+      var inside = window.scrollY < story.offsetTop + story.offsetHeight - window.innerHeight * 0.75;
+      if (inside !== on) { on = inside; root.classList.toggle('in-story', inside); }
+    }
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    check();
+  })();
 
   /* ---------- measurement ----------
      This page sells measurement, so it measures itself. Everything goes
@@ -1481,19 +1585,19 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 
 <script type="module">
 /* The scene is the heaviest thing on the page, so it waits: the words and
-   the poster still are on screen first, and three.js is fetched, parsed and
+   the loading funnel are on screen first, and three.js is fetched, parsed and
    built only once the page has loaded and the browser is idle (or the
    moment the visitor starts to scroll or touch). Building happens in small
    steps, a frame apart, so the page never locks up while it does. */
 const startScene = new Promise(go => {
   let done = false; const once = () => { if (!done) { done = true; go(); } };
   const idle = window.requestIdleCallback || (f => setTimeout(f, 1200));
-  // a few seconds after load if nobody touches anything: the words and the still are enough to start with
-  const later = () => setTimeout(() => idle(once, { timeout: 2000 }), 2500);
+  // just after load (once the first paint is done): the loading screen is up until the scene is ready
+  const later = () => (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(() => idle(once, { timeout: 400 }), 1300));
   if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
   ['scroll', 'pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(t => addEventListener(t, once, { once: true, passive: true }));
 });
-startScene.then(boot).catch(() => document.documentElement.classList.add('no-gl'));
+startScene.then(boot).catch(() => document.documentElement.classList.add('no-gl', 'ld-done'));
 async function boot() {
 const THREE = await import('three');
 const [{ RoomEnvironment }, { EffectComposer }, { RenderPass }, { UnrealBloomPass }, { OutputPass }] = await Promise.all([
@@ -1518,7 +1622,7 @@ const rnd = () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed 
 /* ---------- renderer ---------- */
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' }); }
-catch (e) { document.documentElement.classList.add('no-gl'); throw e; }   // no WebGL: the CSS shows the opening as plain words
+catch (e) { document.documentElement.classList.add('no-gl', 'ld-done'); throw e; }   // no WebGL: the CSS shows the opening as plain words
 renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.5 : 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.9;
@@ -2151,7 +2255,7 @@ resize();
 if (renderer.compileAsync) { try { await renderer.compileAsync(scene, camera); } catch (e) {} }
 await step();
 if (still) { addEventListener('scroll', () => requestAnimationFrame(frame), { passive: true }); }
-requestAnimationFrame(t => { frame(t); document.documentElement.classList.add('gl-on'); });
+requestAnimationFrame(t => { frame(t); document.documentElement.classList.add('gl-on'); setTimeout(() => document.documentElement.classList.add('ld-done'), 120); });
 }
 </script>
 </body>
