@@ -168,7 +168,7 @@ const glow = new THREE.PointLight(0xffb84a, 0, 2.6, 2); scene.add(glow);
 
 /* ---------- the floor: it only shows the shadows ---------- */
 const FLOOR = -0.62;
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x232830, roughness: 0.92, metalness: 0 }));
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.45 }));   // only the shadows show
 floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.receiveShadow = true; scene.add(floor);
 
 /* ---------- the backdrop: a campaign dashboard, barely there ----------
@@ -230,6 +230,7 @@ function fitBoard() {
   const d = 16, h = 2 * d * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)), w = h * camera.aspect;
   const s = Math.min(w * 0.9, h * 0.8 * 2400 / 1350);   // the whole board in view, its top a little under the bar
   board.scale.set(s, s, 1); board.position.set(0, h * 0.5 - s * 1350 / 2400 / 2 - h * 0.09, -d);
+  board.userData.viewW = w;
 }
 
 /* ---------- the funnel ----------
@@ -648,7 +649,10 @@ function frame(now) {
   const dist = c.d * (small ? 1.5 : 1);
   camera.position.set(Math.sin(az) * Math.cos(el) * dist, c.y + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist);
   camera.lookAt(0, c.y, 0);
-  if (small) camera.setViewOffset(W, H, 0, H * 0.02, W, H); else camera.setViewOffset(W, H, W * -c.off, 0, W, H);
+  // on a phone, the last scene lifts the funnel and the account up, out of the copy's way
+  const lift = small ? smooth((u - 3.0) / 0.4) : 0;
+  if (small) camera.setViewOffset(W, H, 0, H * (0.02 + 0.15 * lift), W, H); else camera.setViewOffset(W, H, W * -c.off, 0, W, H);
+  board.position.x = small ? 0 : -c.off * board.userData.viewW;   // the dashboard stays centred on the screen, not on the funnel
 
   // the copy: the headline cracks with the wall; the "nots" are struck through as you read them
   if (lo) lo.style.transform = small ? '' : `translate(${(-open * 7).toFixed(1)}px, ${(open * 9).toFixed(1)}px) rotate(${(-open * 1.6).toFixed(2)}deg)`;
