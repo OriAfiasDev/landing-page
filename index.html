@@ -106,12 +106,12 @@
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin.woff2) format('woff2');unicode-range:U+0000-002B,U+002D,U+002F-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 
 /* ---------- the system ----------
-   A funnel report, not a brochure: ink page, paper for the one section that
-   diagnoses, brass only where a number or an action needs it. Rubik says
-   everything; JetBrains Mono is for figures, prices, tags and labels (it has
-   no Hebrew, so a Hebrew label in the mono stack falls through to Rubik and
-   only its digits turn mono, which is the intent). No gradients, no blur,
-   no shadows: hairlines and type carry the page. */
+   An ink page with one real object on it: the funnel, rendered live behind
+   everything (see the scene script). Brass only where a number or an action
+   needs it. Rubik says everything; JetBrains Mono is for figures, prices,
+   tags and labels (it has no Hebrew, so a Hebrew label in the mono stack
+   falls through to Rubik and only its digits turn mono, which is the
+   intent). The interface itself stays flat: hairlines and type. */
 :root{
   --ink:#1C1E24; --paper:#FAF8F3; --brass:#B8862B; --muted:#93897A;
   --brass-ink:#8A6420;                 /* brass, dark enough for small text on paper (5.2:1) */
@@ -124,12 +124,9 @@
   --sans:'Rubik',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
   --mono:'JetBrains Mono','Rubik',ui-monospace,Menlo,Consolas,monospace;
   --gut:20px; --wrap:1180px; --bar:46px;
-  /* The funnel's neck: where the paper section narrows to a spout, and the
-     line the stream follows from there down. Measured from the left edge. */
-  --neck-x:22%; --neck-w:26px; --hop:clamp(230px,42vh,360px);
 }
 @media (min-width:760px){
-  :root{--gut:32px; --bar:56px; --neck-x:27%; --neck-w:34px; --hop:clamp(300px,52vh,520px)}
+  :root{--gut:32px; --bar:56px}
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -187,13 +184,6 @@ main:focus{outline:none}
 .wrap{position:relative;z-index:1;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
 .lead{margin-top:clamp(16px,2.4vh,24px);max-width:52ch;font-size:clamp(17px,1.5vw,20px);color:var(--text)}
 
-/* ---------- the stream ----------
-   One canvas for the whole page, fixed behind the content. Every dot is a
-   share of the clicks; the script below moves them. 100lvh, not 100%: on a
-   phone the visible height changes as the address bar comes and goes, and a
-   canvas that followed it would be resized (and cleared) mid-scroll. */
-.stream{position:fixed;top:0;left:0;z-index:0;width:100%;height:100vh;height:100lvh;pointer-events:none}
-
 /* ---------- buttons and links ----------
    Hover and focus change colour only. Nothing on this page moves unless it
    is showing a number. */
@@ -217,57 +207,113 @@ main:focus{outline:none}
 .more:hover{text-decoration-thickness:2px}
 .more svg{flex:none}
 
-/* ---------- the bar ----------
-   Thin and always there. On a phone it carries the one thing the narrow
-   screen cannot show with width: which stage of the funnel you are in, and
-   how many are left. From 900px it shows all three stages. */
+/* ---------- the bar ---------- */
 .bar{
   position:fixed;inset:0 0 auto 0;z-index:40;height:var(--bar);
   display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding-inline:var(--gut);background:var(--ink);border-bottom:1px solid var(--line);
+  padding-inline:var(--gut);background:rgba(28,30,36,.92);border-bottom:1px solid var(--line);
 }
 .logo{flex:none;display:flex;align-items:center;min-height:32px;color:var(--paper)}
 .logo svg{display:block;height:20px;width:auto;aspect-ratio:99.2/28}
-.bar-stage{display:flex;align-items:center;gap:12px;min-width:0}
-.stages{display:flex;align-items:baseline}
-.stages li{display:none;align-items:baseline;gap:8px;font-size:14px;line-height:1;color:var(--muted);white-space:nowrap}
-.stages li.is-on{display:flex;color:var(--paper)}
-.stages .num{font-size:15px;font-weight:700}
-.stages li.is-on .num{color:var(--brass)}
 .bar-cta{display:none}
-@media (min-width:900px){
-  .logo svg{height:24px}
-  .stages{gap:14px}
-  .stages li{display:flex}
-  .stages li + li::before{   /* an arrow in the reading direction, drawn so no font has to have one */
-    content:"";align-self:center;width:14px;height:8px;margin-inline-end:6px;background:currentColor;opacity:.6;
-    clip-path:polygon(0 50%,38% 0,38% 38%,100% 38%,100% 62%,38% 62%,38% 100%);
-  }
-}
-@media (min-width:1160px){
-  .bar-cta{display:inline-flex;min-height:38px;padding:8px 16px;font-size:14px}
-}
-main{display:block;padding-top:var(--bar)}
-
-/* ---------- 1. hero ---------- */
-.hero{padding-block:0}
-.hero .wrap{
-  min-height:calc(100vh - var(--bar));min-height:calc(100svh - var(--bar));
-  display:flex;flex-direction:column;justify-content:space-between;gap:48px;
-  padding-block:clamp(36px,8vh,104px) clamp(20px,4vh,44px);
-}
-.hero-sub{margin-top:clamp(20px,3.2vh,36px);max-width:40ch;font-size:clamp(18px,1.75vw,23px);line-height:1.55;color:var(--text)}
-.cta-row{margin-top:clamp(28px,4.6vh,48px);display:flex;flex-direction:column;align-items:stretch;gap:20px}
-.cta-row .more{align-self:flex-start}
-@media (min-width:680px){.cta-row{flex-direction:row;align-items:center;gap:32px}.cta-row .more{align-self:auto}}
-/* The meter: the stage this screen is in, as a figure. */
-.meter{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 20px;padding-top:16px;border-top:1px solid var(--line)}
-.meter-label{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;font-size:clamp(17px,1.7vw,22px);font-weight:500}
-.meter-legend{margin-top:8px;display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:var(--muted)}
-.has-stream .meter-legend{display:flex}        /* a legend for the dots only when there are dots */
+@media (min-width:900px){.logo svg{height:24px}}
+@media (min-width:1160px){.bar-cta{display:inline-flex;min-height:38px;padding:8px 16px;font-size:14px}}
+main{display:block}
 .dot{flex:none;display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--brass)}
-.meter-num{font-size:clamp(64px,17vw,208px);font-weight:700;line-height:.8;letter-spacing:-.055em;margin-bottom:-.02em}
-@media (max-width:759px){.hero .wrap{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}}   /* the WhatsApp button's corner */
+.cta-row{margin-top:clamp(28px,4.6vh,48px);display:flex;flex-direction:column;align-items:stretch;gap:20px}
+@media (min-width:680px){.cta-row{flex-direction:row;align-items:center;gap:32px}}
+
+/* ---------- the scene ----------
+   One WebGL canvas, fixed behind the whole page. For the opening it is the
+   stage; after that the funnel stays beside the copy, smaller, and comes
+   apart to explain it. Everything in the document sits above it. */
+canvas.gl{position:fixed;inset:0;z-index:0;width:100%;height:100vh;height:100lvh;display:block;pointer-events:none}
+.sec,.foot,.story{position:relative;z-index:1}
+.ptags{position:fixed;inset:0;z-index:1;pointer-events:none}
+.ptags span{position:absolute;left:0;top:0;white-space:nowrap;font-size:15px;font-weight:500;color:var(--paper);background:rgba(28,30,36,.72);padding:5px 9px;border-radius:3px;opacity:0;transition:color .3s}
+.ptags span.on{color:var(--brass)}
+
+/* ---------- 1. the opening ----------
+   A pinned stage the scroll plays through. The copy lives in the scene:
+   each block is pinned by the script to a part of the funnel (its rim, the
+   crack, the money on the floor) and turns a little with the camera. */
+.story{height:560vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.layer{position:absolute;inset:0;pointer-events:none;perspective:1100px}
+.leads{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.leads path{fill:none;stroke:rgba(250,248,243,.45);stroke-width:1}
+.leads circle{fill:var(--paper)}
+.tx{position:absolute;left:0;top:0;width:max-content;max-width:min(40vw,580px);opacity:0;will-change:transform,opacity;transform-style:preserve-3d}
+.tx h1,.tx h2{margin:0;font-weight:900;line-height:.98;letter-spacing:-.03em;text-wrap:balance}
+.tx h1{font-size:clamp(56px,6.4vw,104px)}
+.tx h2{font-size:clamp(44px,4.9vw,80px)}
+.tx p{margin:16px 0 0;font-size:clamp(19px,1.6vw,24px);line-height:1.45;color:rgba(250,248,243,.84);max-width:28ch;text-wrap:pretty}
+.tx .btn{margin-top:28px;pointer-events:auto}
+/* Letters with a body: a crisp extrusion away from the key light, so the
+   words read as solid things standing in the same light as the funnel. */
+.deep{text-shadow:1px 1px 0 #3a3f47,2px 2px 0 #333840,3px 3px 0 #2d3138,4px 4px 0 #272b31,5px 5px 0 #22252b}
+.tx.tag{max-width:none}
+.tx.tag p{margin:0;max-width:none;white-space:nowrap;font-size:clamp(16px,1.25vw,19px);font-weight:500;color:var(--paper);background:rgba(28,30,36,.72);padding:6px 10px;border-radius:3px}
+/* The headline that breaks with the funnel: two copies of the same words,
+   cut along one jagged line; the lower piece falls away as the wall does. */
+.split{position:relative;display:block}
+.split > span{display:block}
+.split .lo{position:absolute;inset:0}
+.split .up{clip-path:polygon(0 0,100% 0,100% 46%,78% 58%,61% 44%,44% 63%,27% 49%,12% 60%,0 52%)}
+.split .lo{clip-path:polygon(0 52%,12% 60%,27% 49%,44% 63%,61% 44%,78% 58%,100% 46%,100% 100%,0 100%);transform-origin:20% 60%}
+.not{list-style:none;margin:20px 0 0;padding:0;font-size:clamp(20px,1.7vw,26px);color:rgba(250,248,243,.8)}
+.not li{position:relative;width:max-content;padding:5px 0}
+.not li::after{content:"";position:absolute;inset-inline:-4px;top:55%;height:3px;background:var(--brass);transform-origin:right;transform:scaleX(var(--s,0))}
+.tx .fix{margin-top:22px;font-size:clamp(34px,3.6vw,58px);font-weight:900;line-height:1.02;color:var(--paper);max-width:none}
+.fix em{font-style:normal;color:var(--brass)}
+/* The banking app: fictional, no bank's name or look. */
+.bank{position:absolute;left:0;top:0;width:250px;padding:16px 18px 14px;border-radius:18px;background:#F4F1EA;color:#1C1E24;opacity:0;will-change:transform,opacity;transform-origin:50% 0}
+.bank p{margin:0}
+.bank-k{display:flex;justify-content:space-between;font-size:13px;font-weight:500;color:#5b6068}
+.bank-k span{font-size:11px;padding:2px 7px;border-radius:999px;background:#e5e0d4}
+.bank-v{margin-top:6px !important;direction:ltr;text-align:right;font-size:34px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.bank-v .cur{font-size:.55em;vertical-align:.5em;margin-right:2px;font-weight:600}
+.bank-in{margin-top:6px !important;font-size:12.5px;color:#2f7a4a;opacity:0;transition:opacity .25s;direction:rtl}
+.bank-in.on{opacity:1}
+.bank.jump .bank-v b{color:#2f7a4a}
+@media (max-width:899px){
+  .tx{max-width:calc(100vw - 40px)}
+  .tx h1{font-size:42px} .tx h2{font-size:34px}
+  .tx p{font-size:17px}
+  .tx.tag{display:none}
+  .bank{width:190px;padding:12px 14px}
+  .bank-v{font-size:26px}
+  .leads{display:none}
+}
+/* No script, or no WebGL: the opening is simply its words, one after another. */
+.no-js .story,.no-gl .story{height:auto}
+.no-js .stage,.no-gl .stage{position:static;height:auto;overflow:visible}
+.no-js .layer,.no-gl .layer{position:static;perspective:none;padding:calc(var(--bar) + 64px) var(--gut) 24px;max-width:var(--wrap);margin-inline:auto}
+.no-js .tx,.no-gl .tx{position:static;opacity:1;transform:none;max-width:640px;margin:0 0 72px}
+.no-js .tx.tag,.no-gl .tx.tag,.no-js .bank,.no-gl .bank,.no-js .leads,.no-gl .leads{display:none}
+.no-js .split .lo,.no-gl .split .lo{display:none}
+.no-js .split .up,.no-gl .split .up{clip-path:none}
+.no-js .not li::after,.no-gl .not li::after{transform:scaleX(1)}
+
+/* ---------- beside the funnel ----------
+   Sections the funnel explains keep to the right of the screen on a wide
+   one, so the funnel has the left. */
+@media (min-width:1000px){
+  .side .wrap{max-width:none;padding-inline-start:max(var(--gut),calc((100vw - var(--wrap)) / 2 + var(--gut)));padding-inline-end:44vw}
+}
+
+/* ---------- 3. three situations ---------- */
+.fnd{margin-top:clamp(24px,4vh,48px)}
+.fnd li{min-height:72vh;min-height:72svh;display:flex;flex-direction:column;justify-content:center;padding-block:32px}
+@media (max-width:999px){.fnd li{min-height:0;padding-block:28px}}   /* no funnel beside them on a phone, so no room to hold */
+.f-k{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.02em;color:var(--brass)}
+.f-t{margin-top:10px;font-size:clamp(34px,4vw,60px);font-weight:900;line-height:1.02;letter-spacing:-.025em}
+.f-p{margin-top:16px;max-width:36ch;font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--text)}
+.f-p strong{display:block;margin-top:14px;color:var(--paper)}
+
+/* ---------- 4. the funnel, said in one line ---------- */
+.fcap{font-size:clamp(40px,5.4vw,84px);font-weight:900;line-height:1.02;letter-spacing:-.028em;text-wrap:balance}
+.fcap--b{margin-top:.3em;color:var(--brass)}
 
 /* ---------- 2. calculator ---------- */
 .calc{display:grid;gap:32px;margin-top:clamp(32px,6vh,64px)}
@@ -333,96 +379,6 @@ main{display:block;padding-top:var(--bar)}
 .ifs td:last-child,.ifs th:last-child{text-align:end}
 .calc-note{margin-top:20px;font-size:15px;color:var(--muted)}
 .calc-cta{margin-top:clamp(28px,5vh,48px)}
-
-/* ---------- 3. three situations (the paper section) ----------
-   The page turns into a sheet of the report: paper, ink type, findings. Its
-   lower edge is the funnel's hopper, narrowing to the neck. */
-.paper{color:var(--ink);padding-bottom:calc(var(--hop) + clamp(28px,6vh,72px))}
-.paper::before{
-  content:"";position:absolute;inset:0;z-index:-1;background:var(--paper);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--hop)),calc(var(--neck-x) + var(--neck-w) / 2) 100%,calc(var(--neck-x) - var(--neck-w) / 2) 100%,0 calc(100% - var(--hop)));
-}
-.paper :focus-visible{outline-color:var(--ink)}
-/* An invisible box the size of the hopper's spout and as tall as the hopper:
-   the stream reads the funnel's geometry from it instead of redoing the CSS
-   arithmetic. */
-.neck{position:absolute;left:var(--neck-x);bottom:0;width:var(--neck-w);height:var(--hop);transform:translateX(-50%);pointer-events:none}
-.exhibit{margin-top:clamp(36px,7vh,80px);display:grid;gap:clamp(32px,5vh,56px)}
-.findings{display:grid;gap:clamp(28px,4.5vh,48px)}
-.finding{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;align-items:start}
-.f-no{
-  grid-row:1 / span 3;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;
-  background:var(--brass);color:var(--ink);font-family:var(--mono);font-size:13px;font-weight:700;line-height:1;
-}
-.f-k{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.02em;color:rgba(28,30,36,.72);line-height:1.2}
-.f-t{margin-top:6px;font-size:clamp(21px,2.1vw,28px);font-weight:700;line-height:1.22;letter-spacing:-.012em}
-.f-p{margin-top:10px;max-width:44ch;color:var(--p-text)}
-.f-p strong{display:block;margin-top:12px;color:var(--ink)}
-
-/* The exhibit: a made-up business's ad, the page it leads to and its
-   campaign report, drawn as plain HTML and marked up the way a reviewer
-   would mark a printout. Brass rings on the three things the findings are
-   about, each with its finding's number. On a wide screen the findings sit
-   beside it as margin notes and an arrow runs from each to its ring (the rings stand in the findings' order, top to bottom, so the arrows never cross) (drawn
-   by the script; without it the numbers still match). On a phone the
-   picture comes first and the findings are the numbered list under it. */
-.mock{order:-1;margin:0}
-.mock-board{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;align-items:start;padding-top:14px;padding-inline-start:16px}
-.m-col{display:grid;gap:12px}
-.m-card{background:var(--paper);border:1px solid rgba(28,30,36,.34);font-size:12px;line-height:1.4;color:var(--ink)}
-.m-bar{padding:6px 9px;border-bottom:1px solid var(--p-line);font-family:var(--mono);font-size:10px;line-height:1.3;color:rgba(28,30,36,.72)}
-.m-bar--ad{padding-block:9px;font-family:var(--sans);color:var(--ink)}
-.m-stats .pin{top:auto;bottom:-19px}
-.m-dim{font-size:10px;color:rgba(28,30,36,.72)}
-.m-ad-head{display:flex;align-items:center;gap:7px;padding:9px 9px 0}
-.m-ad-head b{display:block;font-size:11.5px;line-height:1.2}
-.m-av{flex:none;width:22px;height:22px;border-radius:50%;background:rgba(28,30,36,.18)}
-.m-ad-text{padding:10px 9px 12px;font-size:12.5px}
-.m-ad-text .mark{font-weight:700}
-.m-ph{aspect-ratio:5/4;background:rgba(28,30,36,.09)}
-.m-ad-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 9px 14px}
-.m-btn{display:inline-block;padding:6px 10px;background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;line-height:1.2;white-space:nowrap}
-.m-btn--line{background:none;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.m-nav{display:flex;gap:10px;padding:9px 10px;border-bottom:1px solid var(--p-line)}
-.m-line{display:block;height:6px;border-radius:3px;background:rgba(28,30,36,.14)}
-.m-hero{display:grid;justify-items:start;gap:9px;padding:22px 12px 20px}
-.m-h{font-size:clamp(14px,1.5vw,18px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
-.m-stats{grid-column:1 / -1}
-.m-stats dl{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px clamp(28px,6vw,72px);margin:0;padding:14px 14px 16px}
-.m-stats dt{font-size:10px;color:rgba(28,30,36,.72)}
-.m-stats dd{margin:2px 0 0;font-size:15px;font-weight:700}
-.mark{position:relative;display:inline-block}
-.mark::after{content:"";position:absolute;inset:-7px -12px;border:2px solid var(--brass);border-radius:50%;transform:rotate(-3deg);pointer-events:none}
-.pin{
-  position:absolute;z-index:1;top:-19px;inset-inline-start:-24px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;
-  background:var(--brass);color:var(--ink);font-family:var(--mono);font-size:10px;font-weight:700;line-height:1;letter-spacing:0;
-}
-.mock-cap{margin-top:12px;font-family:var(--mono);font-size:11px;color:rgba(28,30,36,.72)}
-.notes{display:none;position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.notes path{fill:none;stroke:var(--brass);stroke-width:1.5}
-.notes .tip{fill:var(--brass);stroke:none}
-@media (min-width:980px){
-  .exhibit{position:relative;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(56px,8vw,128px);align-items:center}
-  .mock{order:0}
-  .notes{display:block}
-}
-
-/* ---------- 4. the funnel ----------
-   The least text on the page, so the figures are the layout. The stream
-   falls down the lane left free on the far side. */
-.funnel{padding-block:clamp(56px,9vh,110px) clamp(84px,15vh,176px)}
-.frows{padding-inline-end:34%;container-type:inline-size}
-.frow{padding-block:clamp(40px,10vh,128px)}
-.frow + .frow{border-top:1px solid var(--line)}
-.frow-k{display:flex;align-items:center;gap:10px;font-size:clamp(18px,2vw,26px);font-weight:500;color:var(--muted)}
-.fnum{
-  display:block;margin-top:.06em;text-align:right;font-weight:700;line-height:.86;letter-spacing:-.055em;
-  /* as big as the lane allows for the number of characters it has to hold */
-  --fit:calc(100cqi / (var(--chars,5) * .6));
-  font-size:clamp(44px,17vw,208px);font-size:min(clamp(44px,17vw,208px),var(--fit));
-}
-.frow--on .frow-k,.frow--on .fnum{color:var(--brass)}
-.fcap{margin-top:clamp(16px,2.6vh,28px);max-width:17ch;font-size:clamp(22px,2.8vw,38px);font-weight:700;line-height:1.16;letter-spacing:-.018em;text-wrap:balance}
 
 /* ---------- 5. two tracks ---------- */
 .plans{display:grid;gap:20px;margin-top:clamp(32px,6vh,64px)}
@@ -575,6 +531,7 @@ main{display:block;padding-top:var(--bar)}
   .flow li + li::before{margin-inline:8px;width:14px}
 }
 </style>
+<script type="importmap">{"imports":{"three":"/assets/js/three/three.module.min.js"}}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
@@ -592,44 +549,58 @@ main{display:block;padding-top:var(--bar)}
 
 <header class="bar">
   <a class="logo" href="/" aria-label="afias.dev, לראש הדף"><svg viewBox="0 0 99.2 28" aria-hidden="true"><use href="#logo"/></svg></a>
-  <!-- The same figures stand in the page itself (hero, funnel), so this
-       running readout is kept out of the accessibility tree. -->
-  <div class="bar-stage" aria-hidden="true">
-    <ol class="stages" data-stages>
-      <li class="is-on" data-stage="clicks">לחיצות <b class="num" data-bind="clicks">1,500</b></li>
-      <li data-stage="leads">פניות <b class="num" data-bind="leads">30</b></li>
-      <li data-stage="deals">עסקאות <b class="num" data-bind="deals">6</b></li>
-    </ol>
-    <span class="tag" data-example>דוגמה</span>
-  </div>
-  <a class="btn bar-cta" href="#plan-diagnosis">אני רוצה אבחון מלא לקמפיין שלי</a>
+  <a class="btn bar-cta" href="#plan-diagnosis">אני רוצה לדעת איפה הסדק שלי</a>
 </header>
+
+<canvas class="gl" id="gl" aria-hidden="true"></canvas>
+<div class="ptags" aria-hidden="true"><span data-ptag="0">המודעה</span><span data-ptag="1">הדף</span><span data-ptag="2">הפנייה</span></div>
 
 <main id="main" tabindex="-1">
 
-  <!-- 1. Hero -->
-  <section class="sec hero" id="top" aria-labelledby="hero-t">
-    <div class="wrap">
-      <div>
-        <h1 class="h1" id="hero-t">כמה מהלחיצות שקנית החודש נזרקו לפח?</h1>
-        <p class="hero-sub">אתה משלם על כל לחיצה על המודעה. אני דואג שיותר מהן יהפכו לפניות, בלי לגעת בקמפיין שלך.</p>
-        <div class="cta-row">
-          <a class="btn" href="#plan-diagnosis">אני רוצה אבחון מלא לקמפיין שלי</a>
-          <a class="more" href="#calc">כמה כסף נשאר על הרצפה כל חודש?<svg width="12" height="16" aria-hidden="true"><use href="#i-down"/></svg></a>
+  <!-- 1. The opening: a pinned stage the scroll plays through (see the scene script). -->
+  <div class="story" id="story">
+    <div class="stage">
+      <p class="sr">המחשה: משפך מתכת שאנשים נופלים לתוכו ויוצאים ממנו ככסף לחשבון הבנק. המשפך נסדק, ורוב הכסף נשפך החוצה דרך הסדק. בסוף הסדק מתוקן, והכסף שוב זורם לחשבון.</p>
+      <div class="layer">
+        <svg class="leads" id="leads" aria-hidden="true"></svg>
+
+        <section class="tx" data-tx="b1" data-at="rimR" data-dy="-30" data-from="-1" data-to="0.9" aria-labelledby="hero-t">
+          <h1 class="deep" id="hero-t">זה המשפך שלך.</h1>
+          <p>כל לחיצה על המודעה היא בן אדם שהתעניין בך. ועל כל אחד מהם כבר שילמת.</p>
+        </section>
+        <div class="tx tag" data-tx="in" data-at="pour" data-from="-1" data-to="0.9" aria-hidden="true"><p>אנשים שלחצו על המודעה</p></div>
+
+        <section class="tx" data-tx="b2" data-at="crack" data-dy="-120" data-from="1.0" data-to="1.95" aria-label="רוב מי שלחץ, לא פנה.">
+          <h2 class="split deep"><span class="up">רוב מי שלחץ, לא פנה.</span><span class="lo" aria-hidden="true" data-lo>רוב מי שלחץ, לא פנה.</span></h2>
+          <p>הוא נכנס, הסתכל שלוש שניות ויצא. ואתה? רואה בדוח עוד לחיצה, ומשלם עליה.</p>
+        </section>
+        <div class="tx tag" data-tx="hole" data-at="crack" data-from="1.35" data-to="2.95" aria-hidden="true"><p>כאן הם עוזבים</p></div>
+
+        <section class="tx" data-tx="b3" data-at="rimR" data-dy="-10" data-from="2.05" data-to="2.95" aria-labelledby="b3-t">
+          <h2 class="deep" id="b3-t">ואתה כנראה מתקן את הדבר הלא נכון.</h2>
+          <p>מחליף קריאייטיב. מעלה תקציב. מחליף קמפיינר. והכסף ממשיך להישפך מאותו סדק.</p>
+        </section>
+        <div class="tx tag" data-tx="lost" data-at="spill" data-from="2.1" data-to="2.95" aria-hidden="true"><p>כסף שכבר שילמת עליו</p></div>
+
+        <section class="tx" data-tx="b4" data-at="rimR" data-dy="-40" data-from="3.05" data-to="9" aria-labelledby="b4-t">
+          <h2 class="deep" id="b4-t">לא צריך עוד לחיצות.</h2>
+          <ul class="not"><li data-strike="0">לא קריאייטיב חדש.</li><li data-strike="1">לא תקציב גדול יותר.</li><li data-strike="2">לא קמפיינר אחר.</li></ul>
+          <p class="fix deep">רק <em>לסתום את הסדק.</em></p>
+          <a class="btn" href="#plan-diagnosis">אני רוצה לדעת איפה הסדק שלי</a>
+        </section>
+
+        <!-- Where the money ends up: a made-up banking app, under the spout. -->
+        <div class="bank" id="bank" aria-hidden="true">
+          <p class="bank-k">החשבון שלך <span>עסקי</span></p>
+          <p class="bank-v"><span class="cur">₪</span><b id="bal">12,480</b></p>
+          <p class="bank-in" id="bankIn">+<span class="cur">₪</span>120 · תשלום מלקוח</p>
         </div>
-      </div>
-      <div class="meter">
-        <div>
-          <p class="meter-label">לחיצות <span class="tag" data-example>דוגמה</span></p>
-          <p class="meter-legend"><i class="dot" aria-hidden="true"></i><span>= <span class="num" data-bind="unit">6</span> לחיצות</span></p>
-        </div>
-        <p class="meter-num num" data-bind="clicks" data-count>1,500</p>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- 2. Calculator -->
-  <section class="sec" id="calc" aria-labelledby="calc-t">
+  <section class="sec side" id="calc" data-f="calc" aria-labelledby="calc-t">
     <div class="wrap">
       <h2 class="h2" id="calc-t">תכלס, מה המספרים אומרים?</h2>
       <div class="calc" data-calc>
@@ -695,100 +666,40 @@ main{display:block;padding-top:var(--bar)}
     </div>
   </section>
 
-  <!-- 3. Three situations: the paper section -->
-  <section class="sec paper" id="findings" aria-labelledby="findings-t">
+  <!-- 3. Three situations. The funnel beside it comes apart: the ad, the page, the lead. -->
+  <section class="sec side" id="findings" aria-labelledby="findings-t">
     <div class="wrap">
       <h2 class="h2" id="findings-t">הקמפיין שלך כנראה בסדר. הבעיה מתחילה אחרי הלחיצה.</h2>
-      <div class="exhibit" data-exhibit>
-        <ol class="findings">
-          <li class="finding" data-finding="1">
-            <span class="f-no" aria-hidden="true">01</span>
-            <p class="f-k">ממצא 01</p>
-            <h3 class="f-t">אין לך דף.</h3>
-            <p class="f-p">המודעה שולחת לוואטסאפ או לאינסטגרם. לקוח חם נוחת בלי מידע ובלי סיבה לבחור בך, ואין לך מושג כמה אנשים נטשו בדרך.</p>
-          </li>
-          <li class="finding" data-finding="2">
-            <span class="f-no" aria-hidden="true">02</span>
-            <p class="f-k">ממצא 02</p>
-            <h3 class="f-t">יש לך דף, והוא לא ממשיך את המודעה.</h3>
-            <p class="f-p">המודעה הבטיחה דבר אחד, והדף מדבר על משהו אחר. הלקוח מתבלבל ויוצא.</p>
-          </li>
-          <li class="finding" data-finding="3">
-            <span class="f-no" aria-hidden="true">03</span>
-            <p class="f-k">ממצא 03</p>
-            <h3 class="f-t">יש לך מספרים, ואין לך הסבר.</h3>
-            <p class="f-p">אתה יודע שאחוז ההמרה נמוך, אבל לא יודע למה. <strong>מדידה חושפת את הבעיה. היא לא פותרת אותה.</strong></p>
-          </li>
-        </ol>
-
-        <!-- A made-up business (the .example address cannot belong to anyone). One
-             picture for a screen reader, described once; the rings and numbers
-             inside it are for the eye. -->
-        <div class="mock" role="img" aria-label="המחשה, עסק בדיוני: מודעה שמבטיחה שיעור ניסיון ב-49 שקלים ושולחת לוואטסאפ, דף נחיתה שפותח ב״ברוכים הבאים״ בלי להזכיר את ההצעה, ודוח קמפיין שמראה 2% המרה. שלושה סימונים ממוספרים, אחד לכל ממצא.">
-          <div class="mock-board" aria-hidden="true">
-            <div class="m-card">
-              <div class="m-bar m-bar--ad"><span class="mark" data-mark="1">יעד המודעה: <span class="num">wa.me</span><b class="pin">01</b></span></div>
-              <div class="m-ad-head"><i class="m-av"></i><div><b>סטודיו ליבנה</b><span class="m-dim">ממומן</span></div></div>
-              <p class="m-ad-text"><span class="mark" data-mark="2">שיעור ניסיון ב-<span class="num">₪49</span><b class="pin">02</b></span><br>פילאטיס מכשירים, בקבוצות קטנות.</p>
-              <div class="m-ph"></div>
-              <div class="m-ad-foot"><span class="m-btn">שליחת הודעה</span></div>
-            </div>
-            <div class="m-col">
-              <div class="m-card">
-                <div class="m-bar"><span class="num">livne-pilates.example</span></div>
-                <div class="m-nav"><i class="m-line" style="width:16%"></i><i class="m-line" style="width:12%"></i><i class="m-line" style="width:14%"></i><i class="m-line" style="width:10%"></i></div>
-                <div class="m-hero">
-                  <p class="m-h"><span class="mark" data-mark="2">ברוכים הבאים לסטודיו ליבנה<b class="pin">02</b></span></p>
-                  <i class="m-line" style="width:82%"></i><i class="m-line" style="width:64%"></i>
-                  <span class="m-btn m-btn--line">צור קשר</span>
-                </div>
-              </div>
-            </div>
-            <div class="m-card m-stats">
-              <div class="m-bar">דוח קמפיין · 30 יום</div>
-              <dl>
-                <div><dt>אחוז המרה</dt><dd><span class="mark num" data-mark="3">2%<b class="pin">03</b></span></dd></div>
-                <div><dt>פניות</dt><dd class="num">30</dd></div>
-                <div><dt>לחיצות</dt><dd class="num">1,500</dd></div>
-              </dl>
-            </div>
-          </div>
-          <p class="mock-cap">המחשה · עסק בדיוני</p>
-        </div>
-        <svg class="notes" data-notes aria-hidden="true" focusable="false"></svg>
-      </div>
-    </div>
-    <i class="neck" data-neck aria-hidden="true"></i>
-  </section>
-
-  <!-- 4. The funnel -->
-  <section class="sec funnel" id="funnel" aria-labelledby="funnel-t">
-    <div class="wrap">
-      <ol class="frows" data-frows>
-        <li class="frow" data-frow="budget">
-          <p class="frow-k">תקציב <span class="tag" data-example>דוגמה</span></p>
-          <p class="fnum num" data-bind="budget" style="--chars:5.1"><span class="cur">₪</span>6,000</p>
+      <ol class="fnd">
+        <li data-f="find1">
+          <p class="f-k">ממצא 01 · הדף</p>
+          <h3 class="f-t">אין לך דף.</h3>
+          <p class="f-p">המודעה שולחת לוואטסאפ או לאינסטגרם. לקוח חם נוחת בלי מידע ובלי סיבה לבחור בך, ואין לך מושג כמה אנשים נטשו בדרך.</p>
         </li>
-        <li class="frow" data-frow="clicks">
-          <p class="frow-k">לחיצות</p>
-          <p class="fnum num" data-bind="clicks" style="--chars:4.5">1,500</p>
-          <h2 class="fcap" id="funnel-t">את הלחיצות אתה כבר קונה.</h2>
+        <li data-f="find2">
+          <p class="f-k">ממצא 02 · המודעה והדף</p>
+          <h3 class="f-t">יש לך דף, והוא לא ממשיך את המודעה.</h3>
+          <p class="f-p">המודעה הבטיחה דבר אחד, והדף מדבר על משהו אחר. הלקוח מתבלבל ויוצא.</p>
         </li>
-        <li class="frow frow--on" data-frow="leads">
-          <p class="frow-k">פניות</p>
-          <p class="fnum num" data-bind="leads" style="--chars:2">30</p>
-          <p class="fcap">אני מטפל במה שקורה איתן.</p>
-        </li>
-        <li class="frow" data-frow="deals">
-          <p class="frow-k">עסקאות</p>
-          <p class="fnum num" data-bind="deals" style="--chars:1">6</p>
+        <li data-f="find3">
+          <p class="f-k">ממצא 03 · הפנייה</p>
+          <h3 class="f-t">יש לך מספרים, ואין לך הסבר.</h3>
+          <p class="f-p">אתה יודע שאחוז ההמרה נמוך, אבל לא יודע למה. <strong>מדידה חושפת את הבעיה. היא לא פותרת אותה.</strong></p>
         </li>
       </ol>
     </div>
   </section>
 
+  <!-- 4. The funnel, in one line -->
+  <section class="sec side" id="funnel" data-f="statement" aria-labelledby="funnel-t">
+    <div class="wrap">
+      <h2 class="fcap" id="funnel-t">את הלחיצות אתה כבר קונה.</h2>
+      <p class="fcap fcap--b">אני מטפל במה שקורה איתן.</p>
+    </div>
+  </section>
+
   <!-- 5. Two tracks -->
-  <section class="sec" id="plans" aria-labelledby="plans-t">
+  <section class="sec" id="plans" data-f="plans" aria-labelledby="plans-t">
     <div class="wrap">
       <h2 class="h2" id="plans-t">שני מסלולים</h2>
       <div class="plans">
@@ -807,7 +718,7 @@ main{display:block;padding-top:var(--bar)}
             <li class="is-key">אם ממשיכים לדף נחיתה, ה-490 מתקזזים מהמחיר.</li>
           </ul>
           <div class="plan-foot">
-            <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%91%D7%97%D7%95%D7%9F%20%D7%9E%D7%A9%D7%A4%D7%9A%20%D7%9E%D7%9C%D7%90%20%D7%9C%D7%A7%D7%9E%D7%A4%D7%99%D7%99%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener" data-checkout>אני רוצה אבחון מלא לקמפיין שלי</a>
+            <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%91%D7%97%D7%95%D7%9F%20%D7%9E%D7%A9%D7%A4%D7%9A%20%D7%9E%D7%9C%D7%90%20%D7%9C%D7%A7%D7%9E%D7%A4%D7%99%D7%99%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener" data-checkout>אני רוצה לדעת איפה הסדק שלי</a>
           </div>
         </article>
 
@@ -862,7 +773,7 @@ main{display:block;padding-top:var(--bar)}
   </section>
 
   <!-- 6. Process -->
-  <section class="sec" id="how" aria-labelledby="how-t">
+  <section class="sec" id="how" data-f="how" aria-labelledby="how-t">
     <div class="wrap">
       <h2 class="sr" id="how-t">התהליך</h2>
       <ol class="steps">
@@ -891,7 +802,7 @@ main{display:block;padding-top:var(--bar)}
   </section>
 
   <!-- 7. Work -->
-  <section class="sec" id="work" aria-labelledby="work-t">
+  <section class="sec" id="work" data-f="off" aria-labelledby="work-t">
     <div class="wrap">
       <h2 class="h2" id="work-t">כל דף נבנה סביב שאלה אחת: למה שמישהו יפנה?</h2>
       <div class="cases">
@@ -1119,7 +1030,7 @@ main{display:block;padding-top:var(--bar)}
     <div class="wrap">
       <h2 class="h1" id="start-t">את הלחיצות כבר שילמת. בוא נדאג שיחזרו אליך.</h2>
       <div class="cta-row">
-        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%91%D7%97%D7%95%D7%9F%20%D7%9E%D7%A9%D7%A4%D7%9A%20%D7%9E%D7%9C%D7%90%20%D7%9C%D7%A7%D7%9E%D7%A4%D7%99%D7%99%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener" data-checkout>אני רוצה אבחון מלא לקמפיין שלי</a>
+        <a class="btn" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%91%D7%97%D7%95%D7%9F%20%D7%9E%D7%A9%D7%A4%D7%9A%20%D7%9E%D7%9C%D7%90%20%D7%9C%D7%A7%D7%9E%D7%A4%D7%99%D7%99%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener" data-checkout>אני רוצה לדעת איפה הסדק שלי</a>
         <a class="btn btn--ghost" href="https://wa.me/972542533533?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%93%D7%A3%20%D7%95%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%A7%D7%9E%D7%A4%D7%99%D7%99%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener"><svg width="20" height="20" aria-hidden="true"><use href="#i-wa"/></svg>וואטסאפ</a>
         <p class="close-price"><span>אבחון משפך</span><span class="num"><span class="cur">₪</span>490</span></p>
       </div>
@@ -1222,7 +1133,7 @@ main{display:block;padding-top:var(--bar)}
 
   /* ---------- the page's figures ----------
      Everything outside the calculator that shows a funnel figure (the bar,
-     the hero meter, the funnel section, and later the stream) reads one
+     the funnel scene) reads one
      model. It is the worked example until the calculator is filled in, and
      the visitor's own numbers after that. Kept in memory only. */
   var page = null;
@@ -1230,7 +1141,6 @@ main{display:block;padding-top:var(--bar)}
     page = model;
     $$('[data-bind]').forEach(function (el) {
       var key = el.getAttribute('data-bind');
-      if (key === 'unit') return;                                   // set by the stream
       // A stage the visitor could not give a number for is a question mark,
       // which is the honest figure for it.
       put(el, key === 'budget' ? fmtMoney(model.budget) : (model[key] == null ? '?' : fmtCount(model[key])));
@@ -1556,401 +1466,655 @@ main{display:block;padding-top:var(--bar)}
     });
   })();
 
-  /* ---------- margin notes ----------
-     On a wide screen each finding is a margin note beside the exhibit, and
-     an arrow runs from the end of its headline to the ring it is about.
-     Measured from the page rather than drawn in fixed coordinates, so it
-     holds at any width and after the fonts arrive. Finding 02 is about two
-     things that do not match, so its two rings are also tied to each other. */
-  (function notes() {
-    var box = $('[data-exhibit]'), svg = $('[data-notes]');
-    if (!box || !svg || !doc.createRange) return;
-    var NS = 'http://www.w3.org/2000/svg';
-    function add(name, attrs) {
-      var el = doc.createElementNS(NS, name);
-      for (var k in attrs) el.setAttribute(k, attrs[k]);
-      svg.appendChild(el);
-    }
-    function draw() {
-      while (svg.firstChild) svg.removeChild(svg.firstChild);
-      if (getComputedStyle(svg).display === 'none') return;      // narrow screens: the numbered list does the job
-      var o = box.getBoundingClientRect();
-      $$('[data-finding]', box).forEach(function (li) {
-        var n = li.getAttribute('data-finding'), title = $('.f-t', li), marks = $$('[data-mark="' + n + '"]', box);
-        if (!title || !marks.length) return;
-        var range = doc.createRange();
-        range.selectNodeContents(title);
-        var t = range.getBoundingClientRect();                   // the headline's words, not its box
-        var sx = t.left - o.left - 12, sy = t.top + t.height / 2 - o.top;
-        var rects = marks.map(function (m) { return m.getBoundingClientRect(); });
-        rects.sort(function (a, b) { return b.right - a.right; });   // the ring nearest the notes
-        var r = rects[0], ex = r.right - o.left + 15, ey = r.top + r.height / 2 - o.top;
-        if (sx - ex < 24) return;
-        var c = Math.max(36, (sx - ex) * 0.45);
-        add('path', { d: 'M' + sx + ' ' + sy + 'C' + (sx - c) + ' ' + sy + ' ' + (ex + c) + ' ' + ey + ' ' + ex + ' ' + ey });
-        add('path', { 'class': 'tip', d: 'M' + ex + ' ' + ey + 'l9 -4.5v9z' });
-        if (rects[1]) {                                           // the pair that does not match
-          var a = rects[0], b = rects[1];
-          if (a.left < b.left) { var x = a; a = b; b = x; }       // a is the one on the right
-          add('path', { 'stroke-dasharray': '3 5',
-                        d: 'M' + (a.left - o.left - 14) + ' ' + (a.top + a.height / 2 - o.top) +
-                           'L' + (b.right - o.left + 14) + ' ' + (b.top + b.height / 2 - o.top) });
-        }
-      });
-    }
-    var queued = false;
-    function queue() { if (!queued) { queued = true; setTimeout(function () { queued = false; draw(); }, 60); } }
-    window.addEventListener('resize', queue);
-    window.addEventListener('load', queue);
-    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(queue);
-    if (window.ResizeObserver) new ResizeObserver(queue).observe(box);
-    draw();
-  })();
-
-  /* ---------- which stage the bar shows ----------
-     The stage the middle of the screen is in: clicks down to the "leads"
-     line of the funnel, leads down to the "deals" line, deals from there on,
-     and clicks again at the close, where the page is back to the clicks that
-     were paid for. On a phone this is the only stage the bar shows. It does
-     not need the stream, so it also works in the still version. */
-  (function stages() {
-    var items = $$('[data-stage]'), leads = $('[data-frow="leads"]'), deals = $('[data-frow="deals"]'), close = $('#start');
-    if (!items.length || !leads || !deals) return;
-    var current = 'clicks', queued = false;
-    function update() {
-      queued = false;
-      var mid = window.innerHeight * 0.5;
-      var now = (close && close.getBoundingClientRect().top < mid + window.innerHeight * 0.15) ? 'clicks'
-              : deals.getBoundingClientRect().top < mid ? 'deals'
-              : leads.getBoundingClientRect().top < mid ? 'leads' : 'clicks';
-      if (now === current) return;
-      current = now;
-      items.forEach(function (el) { el.classList.toggle('is-on', el.getAttribute('data-stage') === now); });
-    }
-    function queue() {
-      if (queued) return;
-      queued = true;
-      if (window.requestAnimationFrame) window.requestAnimationFrame(update); else setTimeout(update, 16);
-    }
-    window.addEventListener('scroll', queue, { passive: true });
-    window.addEventListener('resize', queue);
-    update();
-  })();
-
-  /* ---------- the stream ----------
-     Scrolling the page is going down the funnel, and the dots are the
-     clicks. Each dot stands for the same number of clicks (the hero says how
-     many), so how many dots there are at any depth is the figure for that
-     depth, not an effect.
-
-     Where a dot is, is a function of three things only: the clock, how far
-     the page is scrolled, and the dot's own constants. There is no physics
-     and no state to drift, so a jump to any point of the page draws the same
-     picture a slow scroll would have reached, and scrolling back rewinds it.
-
-     Down the page:
-       hero, calculator   the clicks fall across the whole screen
-       the paper section  the paper narrows into a hopper, and the dots that
-                          will not become leads pile up above its neck: the
-                          bottleneck. Only the future leads drip through.
-       the funnel         the pile empties through the neck and falls past
-                          the four figures. At "leads" all but the leads
-                          drift sideways and fade; at "deals", all but the
-                          deals.
-       the rest           what is left runs on down the page
-       the close          the clicks are all there again: they are paid for
-
-     No stream at all under prefers-reduced-motion (or ?motion=off, to see
-     that version): the page is then still, with every figure at rest. */
-  (function stream() {
-    var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
-    if ((mq && mq.matches) || /[?&]motion=off\b/.test(location.search)) return;
-    var neckEl = $('[data-neck]'), rowLeads = $('[data-frow="leads"]'), rowDeals = $('[data-frow="deals"]');
-    var closeEl = $('#start');
-    if (!neckEl || !rowLeads || !rowDeals || !window.requestAnimationFrame) return;
-    var canvas = doc.createElement('canvas'), ctx = canvas.getContext && canvas.getContext('2d');
-    if (!ctx) return;
-    canvas.className = 'stream';
-    canvas.setAttribute('aria-hidden', 'true');
-    doc.body.appendChild(canvas);
-    doc.documentElement.classList.add('has-stream');
-
-    var TAU = Math.PI * 2, MAXP = 250, M = 28, STEPS = 10;
-    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-    function smooth(v) { v = clamp01(v); return v * v * (3 - 2 * v); }
-    function easeOut(v) { v = clamp01(v); return 1 - (1 - v) * (1 - v) * (1 - v); }
-
-    // A fixed seed: the same field of dots on every visit.
-    var seed = 20261115;
-    function rnd() {
-      seed = seed + 0x6D2B79F5 | 0;
-      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
-      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    }
-    function shuffled(n) {
-      var a = [], i, j, x;
-      for (i = 0; i < n; i++) a.push(i);
-      for (i = n - 1; i > 0; i--) { j = Math.floor(rnd() * (i + 1)); x = a[i]; a[i] = a[j]; a[j] = x; }
-      return a;
-    }
-    var P = [];
-    (function () {
-      var lanes = shuffled(MAXP), starts = shuffled(MAXP), ranks = shuffled(MAXP);
-      for (var i = 0; i < MAXP; i++) P.push({
-        u: -1 + 2 * (lanes[i] + rnd()) / MAXP,    // its lane across the stream, -1..1 (spread evenly, then jittered)
-        ph: (starts[i] + rnd()) / MAXP,           // where in the fall it starts
-        sp: 0.75 + rnd() * 0.55,                  // its own pace
-        k: rnd(),                                 // a private constant, for whatever should differ from dot to dot
-        rank: ranks[i]                            // how far down the funnel it gets: the lower, the further
-      });
-    })();
-
-    var W = 0, H = 0, dpr = 1, small = false, quality = 1;
-    var R, DX, DY, JET, HW1, HW2, ZUP, ZLEN, SPREAD, ALPHA;
-    // The funnel's landmarks, in document px. Until measured, all out of reach.
-    var G = { paper: 1e9, hop: 1e9, neck: 1e9, nx: 0, nw: 30, t1: 1e9, t2: 1e9, close: 1e9 };
-    var N = 0, n1 = 0, n2 = 0, Nh = 0, unknown = false, unit = 6;
-    var slots = [], heights = [0];
-    var dirty = true, stale = true;
-
-    function size() {
-      W = doc.documentElement.clientWidth;
-      H = canvas.clientHeight || window.innerHeight;
-      small = W < 760;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
-      if (small) { R = 2.4; DX = 10; DY = 8.7; JET = 26; HW1 = 7; HW2 = 3; ZUP = 160; ZLEN = 220; SPREAD = 96; ALPHA = 0.62; }
-      else { R = 3; DX = 13; DY = 11.3; JET = 64; HW1 = 14; HW2 = 5; ZUP = 200; ZLEN = 280; SPREAD = 210; ALPHA = 0.85; }
-    }
-
-    /* How many dots, and how many of them get how far. The example (1,500
-       clicks) uses every dot the screen is allowed: 250, or 60 on a phone.
-       Other figures keep that scale until they would need more dots than
-       allowed, and then each dot simply stands for more clicks. */
-    function recount() {
-      var m = page || {}, clicks = m.clicks > 0 ? m.clicks : 0;
-      var most = small ? 60 : 250, allowed = Math.round(most * quality);
-      N = Math.round(clicks / (1500 / most));
-      N = Math.max(Math.min(24, Math.round(clicks)), Math.min(allowed, N));
-      unit = N ? clicks / N : 0;
-      unknown = m.leads == null;
-      n1 = (unknown || !(m.leads > 0)) ? 0 : Math.max(1, Math.min(N, Math.round(m.leads / unit)));
-      n2 = (unknown || !(m.deals > 0)) ? 0 : Math.max(1, Math.min(n1, Math.round(m.deals / unit)));
-      Nh = N - n1;
-      var label = (unit >= 10 || unit === Math.round(unit)) ? nf0.format(unit) : nf1.format(unit);
-      $$('[data-bind="unit"]').forEach(function (el) { el.textContent = label; });
-      heap();
-      dirty = true;
-    }
-
-    function docTop(el) { return el.getBoundingClientRect().top + window.pageYOffset; }
-    function measure() {
-      var r = neckEl.getBoundingClientRect(), sy = window.pageYOffset;
-      G.nx = r.left + r.width / 2; G.nw = r.width;
-      G.hop = r.top + sy; G.neck = r.bottom + sy;
-      G.paper = docTop(neckEl.parentNode);
-      G.t1 = docTop(rowLeads); G.t2 = docTop(rowDeals);
-      G.close = closeEl ? docTop(closeEl) : 1e9;
-      heap();
-      stale = false; dirty = true;
-    }
-
-    /* The heap: rows of dots between the hopper's walls, from the neck up.
-       Each row runs the other way from the one below it, so the k-th and
-       (k+1)-th places are always neighbours: when the heap drains, every dot
-       moves one place towards the neck, like a queue. heights[k] is how tall
-       the heap stands with k dots in it. */
-    function heap() {
-      slots = []; heights = [0];
-      var hop = Math.max(1, G.neck - G.hop), pad = R + 2, row = 0;
-      while (slots.length < Nh && row < 400) {
-        var h = R + 3 + row * DY, k = h / hop;
-        var left = (G.nx - G.nw / 2) * (1 - k) + pad;
-        var right = G.nx + G.nw / 2 + (W - G.nx - G.nw / 2) * k - pad;
-        var n = Math.max(1, Math.floor((right - left) / DX) + 1), x0 = (left + right - (n - 1) * DX) / 2;
-        for (var i = 0; i < n && slots.length < Nh; i++) {
-          slots.push({ x: x0 + (row % 2 ? n - 1 - i : i) * DX, y: -h });
-          heights.push(h + R);
-        }
-        row++;
-      }
-    }
-
-    // Dots are drawn in ten batches by opacity: one path and one fill each.
-    var bx = [], by = [], bn = [];
-    for (var b = 0; b <= STEPS; b++) { bx.push(new Float32Array(MAXP)); by.push(new Float32Array(MAXP)); bn.push(0); }
-    function dot(x, y, a) {
-      if (y < -M || y > H + M || x < -M || x > W + M) return;
-      var s = Math.round(a * STEPS);
-      if (s < 1) return;
-      if (s > STEPS) s = STEPS;
-      var i = bn[s]++;
-      bx[s][i] = x; by[s][i] = y;
-    }
-
-    var clock = 0, opening = window.pageYOffset < 80;   // the clicks arrive: only when the visit starts at the top
-
-    function draw(sy) {
-      var neckY = G.neck - sy;                                   // the neck, on screen
-      // The heap builds while the neck climbs from the foot of the screen to
-      // just past the middle, stands for a moment, and empties through the
-      // neck as the neck leaves the screen.
-      var filled = clamp01((H * 0.98 - neckY) / (H * 0.42)) * Nh;
-      var drained = clamp01((H * 0.46 - neckY) / (H * 0.52)) * Nh;
-      var surface = neckY - heights[Math.min(Nh, Math.round(filled))];
-      var endAbove = Math.min(H + M, surface);                   // falling dots stop at the heap's surface
-      var startBelow = Math.max(-M, neckY);                      // and released ones start at the neck
-      var flow = clock * 0.1 + sy * 0.55 / H;                    // how far the stream has run, in screens: time, plus the scroll
-      var drop = opening ? (1 - easeOut(clock / 1.6)) * (H + M) : 0;
-      var i, s;
-      for (s = 0; s <= STEPS; s++) bn[s] = 0;
-
-      for (i = 0; i < MAXP; i++) {
-        var p = P[i];
-        if (p.rank >= N) continue;
-        var f = p.ph + flow * p.sp; f -= Math.floor(f);
-        var y, a = 1;
-        if (p.rank >= n1) {                                      // it will not become a lead: it meets the heap
-          var h = p.rank - n1;
-          if (h >= filled) {                                     // still falling towards it
-            y = -M + f * (endAbove + M);
-            a = clamp01((h - filled) / 2);
-          } else if (h >= drained) {                             // in the heap, one place nearer the neck for every dot that leaves
-            var q = h - drained, j = Math.floor(q), A = slots[j], B = slots[j + 1] || A;
-            if (A) dot(A.x + (B.x - A.x) * (q - j), neckY + A.y + (B.y - A.y) * (q - j), clamp01(filled - h));
-            continue;
-          } else {                                               // through the neck
-            y = startBelow + f * (H + M - startBelow);
-            a = clamp01((drained - h) / 2);
-          }
-        } else y = -M + f * (H + 2 * M);                         // a future lead: nothing stops it
-        y -= drop * (0.3 + 0.7 * p.k);
-
-        var d = sy + y, cx, hw, off = 0;                         // d: how deep in the page this dot is
-        if (d < G.hop) { cx = W / 2; hw = W / 2 - R; }           // open page: the whole width
-        else if (d < G.neck) {                                   // between the hopper's walls
-          var t = (d - G.hop) / (G.neck - G.hop), l = t * (G.nx - G.nw / 2), r = W + t * (G.nx + G.nw / 2 - W);
-          cx = (l + r) / 2; hw = Math.max(1, (r - l) / 2 - R);
-        } else {                                                 // below the neck
-          cx = G.nx;
-          hw = G.nw / 2 + (JET - G.nw / 2) * smooth((d - G.neck) / 160);
-          var q1 = clamp01((d - G.t1 + ZUP) / ZLEN), dir = p.u < 0 ? -1 : 1, reach = 0.55 + 0.45 * p.k;
-          if (p.rank >= n1) {                                    // clicks to leads: this one falls away
-            a *= unknown ? 1 - q1 : Math.pow(1 - q1, 1.4);       // (with no figure for the stage, it just fades where it is)
-            if (!unknown) off = dir * easeOut(q1) * SPREAD * reach;
-          } else {
-            hw += (HW1 - hw) * smooth(q1);
-            var q2 = clamp01((d - G.t2 + ZUP) / ZLEN);
-            if (p.rank >= n2) { a *= Math.pow(1 - q2, 1.4); off = dir * easeOut(q2) * SPREAD * 0.6 * reach; }   // leads to deals
-            else hw += (HW2 - hw) * smooth(q2);
-          }
-          var back = smooth((d - G.close + H * 0.45) / (H * 0.6));
-          if (back > 0) {                                        // the close: the clicks are all there again
-            var here = clamp01(n2 + (N - n2) * back - p.rank);
-            if (here > a) { a = here; off = 0; }
-            cx += (W / 2 - cx) * back; hw += (W / 2 - R - hw) * back;
-          }
-        }
-        // Quieter behind running text (more so over the paper's, where brass sits
-        // closer to the ink), full strength from the hopper to the last figure.
-        var strong = smooth((d - G.hop + 200) / 200) * (1 - smooth((d - G.t2 - 500) / 240));
-        a *= ALPHA * (1 - 0.35 * smooth((d - G.paper) / 160)) * (1 - strong) + strong;
-        dot(cx + p.u * hw + off, y, a);
-      }
-
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#B8862B';
-      for (s = 1; s <= STEPS; s++) {
-        var n = bn[s];
-        if (!n) continue;
-        ctx.globalAlpha = s / STEPS;
-        ctx.beginPath();
-        for (i = 0; i < n; i++) { ctx.moveTo(bx[s][i] + R, by[s][i]); ctx.arc(bx[s][i], by[s][i], R, 0, TAU); }
-        ctx.fill();
-      }
-    }
-
-    /* The figures that move with the stream. The two big numbers count down
-       as their line of the funnel comes up the screen: "leads" starts at the
-       number of clicks and lands on the number of leads, in step with the
-       dots falling away beside it. */
-    var leadsNum = $('.fnum', rowLeads), dealsNum = $('.fnum', rowDeals), meter = $('[data-count]');
-    function roll(el, from, to, q) {
-      if (!el || from == null || to == null) return;             // an unknown stage keeps its "?"
-      var a = fmtCount(from), z = fmtCount(to);
-      var text = q >= 1 ? z : fmtCount(Math.round(from + (to - from) * easeOut(q)));
-      el.style.setProperty('--chars', Math.max(parseFloat(widthInDigits(a)), parseFloat(widthInDigits(z))));   // one size for the whole count
-      if (el.textContent !== text) { el.textContent = text; el.__html = text; }
-    }
-    function readouts(sy) {
-      var m = page;
-      if (!m) return;
-      roll(leadsNum, m.clicks, m.leads, clamp01((H * 0.86 - (G.t1 - sy)) / (H * 0.42)));
-      roll(dealsNum, m.leads, m.deals, clamp01((H * 0.86 - (G.t2 - sy)) / (H * 0.42)));
-    }
-
-    var raf = 0, last = 0, lastSy = -1, frames = 0, slow = 0;
-    function tick(now) {
-      raf = requestAnimationFrame(tick);
-      var dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
-      last = now;
-      clock += dt;
-      if (stale) measure();
-      var sy = window.pageYOffset;
-      draw(sy);
-      if (dirty || sy !== lastSy) { dirty = false; lastSy = sy; readouts(sy); }
-      if (opening && meter && page) {                            // the meter counts the clicks in as they arrive
-        if (clock >= 1.6) { opening = false; put(meter, fmtCount(page.clicks)); }
-        else { var c = fmtCount(Math.round(page.clicks * easeOut(clock / 1.6))); meter.textContent = c; meter.__html = c; }
-      }
-      // A device that cannot keep up gets fewer dots, once: each then stands for more clicks.
-      if (frames < 150 && dt) {
-        frames++;
-        if (dt > 0.024) slow++;
-        if (frames === 150 && slow > 75) { quality = 0.6; recount(); }
-      }
-    }
-    function start() { if (!raf && !doc.hidden) { last = 0; raf = requestAnimationFrame(tick); } }
-    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
-
-    var seenW = -1, seenH = -1;
-    function resized() {
-      var w = doc.documentElement.clientWidth, h = canvas.clientHeight;
-      if (w !== seenW || h !== seenH) { seenW = w; seenH = h; size(); recount(); }
-      stale = true;
-    }
-    function gone() {                                            // reduced motion switched on while the page is open
-      if (!mq.matches) return;
-      stop();
-      if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
-      doc.documentElement.classList.remove('has-stream');
-      if (page) setPage(page);                                   // every figure back at rest
-    }
-
-    window.addEventListener('resize', resized);
-    window.addEventListener('load', function () { stale = true; });
-    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { stale = true; });
-    // Anything that changes the page's height (the calculator's result, the form, a question opening) moves the landmarks.
-    if (window.ResizeObserver) new ResizeObserver(function () { stale = true; }).observe(doc.body);
-    doc.addEventListener('funnel:change', recount);
-    doc.addEventListener('visibilitychange', function () { if (doc.hidden) stop(); else start(); });
-    if (mq) { if (mq.addEventListener) mq.addEventListener('change', gone); else if (mq.addListener) mq.addListener(gone); }
-
-    // For checking a frame by hand: afiasFunnel.stream.draw(seconds, scrollY).
-    window.afiasFunnel.stream = {
-      draw: function (seconds, sy) { if (seconds != null) clock = seconds; if (stale) measure(); sy = sy == null ? window.pageYOffset : sy; draw(sy); readouts(sy); },
-      state: function () { return { dots: N, leads: n1, deals: n2, heap: Nh, unit: unit, width: W, height: H, marks: G }; }
-    };
-
-    resized();
-    measure();
-    start();
-  })();
 })();
 </script>
 
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from '/assets/js/three/RoomEnvironment.js';
+import { EffectComposer } from '/assets/js/three/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from '/assets/js/three/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from '/assets/js/three/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from '/assets/js/three/jsm/postprocessing/OutputPass.js';
+
+const story = document.getElementById('story'), canvas = document.getElementById('gl');
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches || /motion=off/.test(location.search);
+let small = innerWidth < 900;          // re-read on resize: a window can become a phone-sized one
+const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v, smooth = v => (v = clamp01(v), v * v * (3 - 2 * v));
+const easeOut = v => 1 - Math.pow(1 - clamp01(v), 3);
+
+/* ---------- a fixed seed: the same crack and the same pour every visit ---------- */
+let seed = 1117;
+const rnd = () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+
+/* ---------- renderer ---------- */
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' }); }
+catch (e) { document.documentElement.classList.add('no-gl'); throw e; }   // no WebGL: the CSS shows the opening as plain words
+renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.5 : 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.9;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1C1E24);
+scene.fog = new THREE.Fog(0x1C1E24, 9, 16);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+scene.environmentIntensity = 0.38;
+
+const camera = new THREE.PerspectiveCamera(small ? 34 : 26, 1, 0.1, 60);
+const key = new THREE.DirectionalLight(0xfff1dc, 1.7);
+key.position.set(-3.5, 6, 3.5); key.castShadow = true;
+key.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
+Object.assign(key.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: 1, far: 16 });
+key.shadow.radius = 6; key.shadow.bias = -0.0004;
+scene.add(key);
+const rimLight = new THREE.DirectionalLight(0x9fb3c8, 0.7); rimLight.position.set(4, 2.5, -3); scene.add(rimLight);
+// Light from inside: the gold in the funnel shows through the crack.
+const glow = new THREE.PointLight(0xffb84a, 0, 2.6, 2); scene.add(glow);
+
+/* ---------- the floor: it only shows the shadows ---------- */
+const FLOOR = -0.62;
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.45 }));   // only the shadows show
+floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.receiveShadow = true; scene.add(floor);
+
+/* ---------- the backdrop: a campaign dashboard, barely there ----------
+   A whole ads dashboard on the far wall, in a muted grey at a few percent:
+   KPI tiles, impressions climbing while leads lie flat, daily clicks, where
+   the traffic comes from, a table of ads. It hangs square to the camera
+   (it rides with it), so it never turns or slides off the screen; the floor
+   hides its lower part the way a horizon would. */
+const board = (() => {
+  const c = document.createElement('canvas'); c.width = 2400; c.height = 1350;
+  const g = c.getContext('2d'), col = '#AEB6BF';
+  g.strokeStyle = col; g.fillStyle = col; g.lineJoin = 'round'; g.lineCap = 'round';
+  let sd = 11; const r = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
+  const panel = (x, y, w, h, title) => {
+    g.globalAlpha = 0.55; g.lineWidth = 3; g.beginPath(); g.roundRect(x, y, w, h, 18); g.stroke();
+    g.globalAlpha = 0.9; g.font = '600 30px "JetBrains Mono", monospace'; g.fillText(title, x + 28, y + 52);
+  };
+  const line = (pts) => { g.beginPath(); pts.forEach(([x, y], k) => k ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); };
+  // KPI tiles
+  [['IMPRESSIONS', '84.2K'], ['CLICKS', '1,512'], ['CTR', '1.8%'], ['CPC', '₪3.96'], ['LEADS', '29']].forEach(([k, v], n) => {
+    const x = 60 + n * 460, y = 60; panel(x, y, 420, 230, k);
+    g.globalAlpha = 1; g.font = '700 84px "JetBrains Mono", monospace'; g.fillText(v, x + 28, y + 160);
+    g.lineWidth = 4; g.globalAlpha = 0.7;
+    const up = n < 2; line(Array.from({ length: 12 }, (_, q) => [x + 250 + q * 13, y + 190 - (up ? q * 6 : 0) - r() * 22]));
+  });
+  // impressions climbing, leads flat
+  panel(60, 330, 1380, 560, 'IMPRESSIONS / LEADS · 30D');
+  g.globalAlpha = 0.3; g.lineWidth = 2;
+  for (let q = 0; q < 5; q++) line([[100, 440 + q * 100], [1400, 440 + q * 100]]);
+  g.globalAlpha = 1; g.lineWidth = 6;
+  line(Array.from({ length: 31 }, (_, q) => [100 + q * 43, 830 - q * 11 - Math.sin(q * 0.8) * 26 - r() * 24]));
+  g.setLineDash([16, 14]); line(Array.from({ length: 31 }, (_, q) => [100 + q * 43, 850 - r() * 14])); g.setLineDash([]);
+  // traffic sources
+  panel(1480, 330, 860, 560, 'TRAFFIC SOURCE');
+  const cx = 1720, cy = 640, rr = 170; let a0 = -Math.PI / 2;
+  [0.46, 0.31, 0.15, 0.08].forEach((f, q) => {
+    g.globalAlpha = 0.9 - q * 0.18; g.lineWidth = 56; g.beginPath(); g.arc(cx, cy, rr, a0 + 0.03, a0 + f * Math.PI * 2 - 0.03); g.stroke(); a0 += f * Math.PI * 2;
+  });
+  g.globalAlpha = 0.9; g.font = '500 32px "JetBrains Mono", monospace';
+  ['META ADS', 'GOOGLE', 'ORGANIC', 'OTHER'].forEach((t, q) => g.fillText(t, 1980, 520 + q * 70));
+  // daily clicks
+  panel(60, 930, 1140, 360, 'CLICKS / DAY');
+  g.globalAlpha = 0.6;
+  for (let q = 0; q < 26; q++) { const h = 70 + q * 5 + r() * 90; g.fillRect(100 + q * 41, 1260 - h, 24, h); }
+  // ads table
+  panel(1240, 930, 1100, 360, 'ADS');
+  g.globalAlpha = 0.85; g.font = '500 30px "JetBrains Mono", monospace';
+  [['AD 01', '₪1,940', '0.9%'], ['AD 02', '₪1,610', '1.4%'], ['AD 03', '₪1,220', '2.6%'], ['AD 04', '₪870', '1.1%']].forEach((row, q) => {
+    row.forEach((t, k) => g.fillText(t, 1280 + k * 330, 1050 + q * 60));
+    g.globalAlpha = 0.3; g.lineWidth = 2; line([[1280, 1068 + q * 60], [2300, 1068 + q * 60]]); g.globalAlpha = 0.85;
+  });
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1350 / 2400), new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.035, depthWrite: false, fog: false, toneMapped: false }));
+  m.renderOrder = -1;
+  camera.add(m); scene.add(camera);
+  return m;
+})();
+function fitBoard() {
+  const d = 16, h = 2 * d * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)), w = h * camera.aspect;
+  const s = Math.min(w * 0.9, h * 0.8 * 2400 / 1350);   // the whole board in view, its top a little under the bar
+  board.scale.set(s, s, 1); board.position.set(0, h * 0.5 - s * 1350 / 2400 / 2 - h * 0.09, -d);
+  board.userData.viewW = w;
+}
+
+/* ---------- the funnel ----------
+   A brushed steel cone, a rolled rim and a spout. One patch of the wall,
+   facing the camera's left, is cut into shards: real pieces with straight
+   broken edges and the wall's thickness, made from Voronoi cells. The body
+   has the same patch cut out of it (an alpha mask drawn from the same
+   polygons), so with every shard home the wall is whole. */
+const R0 = 1.0, Y0 = 1.62, R1 = 0.16, Y1 = 0.36, TH = 0.024;
+const steel = new THREE.MeshPhysicalMaterial({ color: 0x8e949b, metalness: 1, roughness: 0.34, clearcoat: 0.2, clearcoatRoughness: 0.5, side: THREE.DoubleSide });
+const edgeMat = new THREE.MeshStandardMaterial({ color: 0xb8bcc2, metalness: 1, roughness: 0.18 });
+const coneR = v => R0 + (R1 - R0) * v, coneY = v => Y0 + (Y1 - Y0) * v;
+const slope = Math.atan2(R0 - R1, Y0 - Y1);
+const nx = Math.cos(slope), ny = Math.sin(slope);          // outward normal of the wall, before turning it round the axis
+const CRACK = { a: Math.PI * 0.96 };   // facing the camera's left, so what spills lands away from the account
+const VS = 1.55;                                             // patch coordinates: x = angle from the crack's centre, y = height along the wall x VS
+function wallPoint(a, v, inset, out) {
+  const r = coneR(v) - inset * nx;
+  return out.set(Math.cos(a) * r, coneY(v) - inset * ny * 0, Math.sin(a) * r);
+}
+const toWall = (x, y, inset, out) => wallPoint(CRACK.a + x, y / VS, inset, out);
+
+// the patch outline: a convex, irregular shape round the middle of the wall
+const outline = (() => {
+  const pts = [], cx = 0, cy = 0.46 * VS;
+  for (let k = 0; k < 11; k++) { const t = k / 11 * Math.PI * 2 + rnd() * 0.3; const rr = 0.82 + rnd() * 0.18; pts.push([cx + Math.cos(t) * 0.62 * rr, cy + Math.sin(t) * 0.5 * rr]); }
+  pts.sort((p, q) => Math.atan2(p[1] - cy, p[0] - cx) - Math.atan2(q[1] - cy, q[0] - cx));
+  // convex hull (gift wrap is plenty for 11 points)
+  const hull = []; let start = pts.reduce((m, p) => p[0] < m[0] ? p : m), p = start;
+  do { hull.push(p); let q = pts[0] === p ? pts[1] : pts[0];
+       for (const r of pts) { const c = (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]); if (c < 0) q = r; }
+       p = q; } while (p !== start && hull.length < 20);
+  return hull;
+})();
+// seeds inside it, then each seed's cell: the outline clipped by the bisectors to every other seed
+const inside = (pt, poly) => { let s = 0; for (let i = 0; i < poly.length; i++) { const a = poly[i], b = poly[(i + 1) % poly.length]; const c = (b[0] - a[0]) * (pt[1] - a[1]) - (b[1] - a[1]) * (pt[0] - a[0]); if (c !== 0) { if (s === 0) s = Math.sign(c); else if (Math.sign(c) !== s) return false; } } return true; };
+const seeds = [];
+while (seeds.length < 13) { const pt = [(rnd() * 2 - 1) * 0.6, 0.46 * VS + (rnd() * 2 - 1) * 0.48]; if (inside(pt, outline)) seeds.push(pt); }
+function clip(poly, nx, ny, d) {               // keep the part where nx*x + ny*y <= d
+  const out = [];
+  for (let i = 0; i < poly.length; i++) {
+    const a = poly[i], b = poly[(i + 1) % poly.length], da = nx * a[0] + ny * a[1] - d, db = nx * b[0] + ny * b[1] - d;
+    if (da <= 0) out.push(a);
+    if ((da < 0) !== (db < 0)) { const t = da / (da - db); out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]); }
+  }
+  return out;
+}
+const cellsPoly = seeds.map((s, i) => {
+  let poly = outline.slice();
+  seeds.forEach((o, j) => { if (i === j) return; const nx2 = o[0] - s[0], ny2 = o[1] - s[1]; poly = clip(poly, nx2, ny2, (nx2 * (s[0] + o[0]) + ny2 * (s[1] + o[1])) / 2); });
+  return poly;
+});
+
+/* One shard: the cell's outer face and inner face, finely triangulated so
+   they follow the cone's curve, and its broken edges as narrow strips. */
+function shardGeometry(poly) {
+  const P = [], N = [], v = new THREE.Vector3(), w = new THREE.Vector3();
+  const c = poly.reduce((m, p) => [m[0] + p[0] / poly.length, m[1] + p[1] / poly.length], [0, 0]);
+  const center = toWall(c[0], c[1], TH / 2, new THREE.Vector3());
+  const normalAt = (x) => { const a = CRACK.a + x; return [Math.cos(a) * nx, ny, Math.sin(a) * nx]; };
+  const push = (pt, n) => { P.push(pt.x - center.x, pt.y - center.y, pt.z - center.z); N.push(n[0], n[1], n[2]); };
+  const L = 3;                                   // each fan triangle split into 4^3 pieces
+  function tri(a, b, d, inset, flip) {
+    const n = 1 << L;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n - i; j++) {
+      const corners = [[i, j], [i + 1, j], [i, j + 1]], tris = [corners];
+      if (i + j < n - 1) tris.push([[i + 1, j], [i + 1, j + 1], [i, j + 1]]);
+      tris.forEach(t => {
+        const pts = t.map(([ii, jj]) => { const s = ii / n, r = jj / n; return [a[0] + (b[0] - a[0]) * s + (d[0] - a[0]) * r, a[1] + (b[1] - a[1]) * s + (d[1] - a[1]) * r]; });
+        const order = flip ? [0, 2, 1] : [0, 1, 2];
+        order.forEach(k => { const [x, y] = pts[k]; const nn = normalAt(x); push(toWall(x, y, inset, v), flip ? nn.map(q => -q) : nn); });
+      });
+    }
+  }
+  for (let k = 0; k < poly.length; k++) {
+    const a = c, b = poly[k], d = poly[(k + 1) % poly.length];
+    tri(a, b, d, 0, true); tri(a, b, d, TH, false);
+  }
+  // the broken edges
+  for (let k = 0; k < poly.length; k++) {
+    const a = poly[k], b = poly[(k + 1) % poly.length];
+    const A0 = toWall(a[0], a[1], 0, new THREE.Vector3()), B0 = toWall(b[0], b[1], 0, new THREE.Vector3());
+    const A1 = toWall(a[0], a[1], TH, new THREE.Vector3()), B1 = toWall(b[0], b[1], TH, new THREE.Vector3());
+    const e = new THREE.Vector3().subVectors(B0, A0), out = new THREE.Vector3().subVectors(A1, A0);
+    const n = new THREE.Vector3().crossVectors(e, out).normalize();
+    const mid = new THREE.Vector3().addVectors(A0, B0).multiplyScalar(0.5).sub(center);
+    if (n.dot(mid) < 0) n.negate();
+    [[A0, B0, B1], [A0, B1, A1]].forEach(t => t.forEach(pt => push(pt, [n.x, n.y, n.z])));
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  return { g, center };
+}
+
+// the body: a lathe with uv, and the patch masked out of it
+function coneGeometry() {
+  const NU = 160, NV = 24, P = [], N = [], U = [], I = [];
+  for (let side = 0; side < 2; side++) {
+    const base = P.length / 3, inset = side ? TH : 0, f = side ? -1 : 1;
+    for (let j = 0; j <= NV; j++) for (let i = 0; i <= NU; i++) {
+      const a = i / NU * Math.PI * 2, v = j / NV, p = wallPoint(a, v, inset, new THREE.Vector3());
+      P.push(p.x, p.y, p.z); N.push(f * Math.cos(a) * nx, f * ny, f * Math.sin(a) * nx); U.push(i / NU, v);
+    }
+    for (let j = 0; j < NV; j++) for (let i = 0; i < NU; i++) {
+      const q = base + j * (NU + 1) + i;
+      if (side) I.push(q, q + NU + 1, q + 1, q + 1, q + NU + 1, q + NU + 2); else I.push(q, q + 1, q + NU + 1, q + 1, q + NU + 2, q + NU + 1);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(U, 2));
+  g.setIndex(I);
+  return g;
+}
+const mask = document.createElement('canvas'); mask.width = 4096; mask.height = 512;
+{
+  const m = mask.getContext('2d');
+  m.fillStyle = '#fff'; m.fillRect(0, 0, mask.width, mask.height);
+  m.fillStyle = '#000'; m.beginPath();
+  outline.forEach(([x, y], k) => { const u = ((CRACK.a + x) / (Math.PI * 2)) * mask.width, v = (1 - y / VS) * mask.height; k ? m.lineTo(u, v) : m.moveTo(u, v); });
+  m.closePath(); m.fill();
+}
+const maskTex = new THREE.CanvasTexture(mask); maskTex.flipY = true;
+const bodyMat = steel.clone(); bodyMat.alphaMap = maskTex; bodyMat.alphaTest = 0.5;
+const funnel = new THREE.Group(); scene.add(funnel);
+const body = new THREE.Mesh(coneGeometry(), bodyMat);
+body.castShadow = true; funnel.add(body);
+const rimMesh = new THREE.Mesh(new THREE.TorusGeometry(R0 + 0.012, 0.026, 16, 160), steel);
+rimMesh.rotation.x = Math.PI / 2; rimMesh.position.y = Y0; rimMesh.castShadow = true; funnel.add(rimMesh);
+const MOUTH = FLOOR + 0.62;                                  // the spout ends here, in the air over the account
+const spout = new THREE.Mesh(new THREE.CylinderGeometry(R1 - 0.004, 0.11, Y1 - MOUTH, 64, 1, true), steel);
+spout.position.y = (Y1 + MOUTH) / 2; spout.castShadow = true; funnel.add(spout);
+
+const SEEDS = seeds;
+const shards = cellsPoly.map(poly => {
+  const { g, center } = shardGeometry(poly);
+  const m = new THREE.Mesh(g, steel); m.castShadow = true; m.position.copy(center); funnel.add(m);
+  const a = CRACK.a + center.x * 0;   // direction: out from the wall, a little up, a little scattered
+  const dir = new THREE.Vector3(center.x, 0, center.z).normalize();
+  const n = dir.clone().multiplyScalar(1).add(new THREE.Vector3((rnd() - 0.5) * 0.5, 0.25 + rnd() * 0.35, (rnd() - 0.5) * 0.5)).normalize();
+  return { m, home: center.clone(), n, sp: 0.45 + rnd() * 0.45, spin: new THREE.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).multiplyScalar(4), delay: rnd() * 0.3 };
+});
+
+/* The crack lines: the cells' edges, drawn just outside the wall. They glow
+   before it breaks, and stay as a gold seam once it is mended. */
+const crackPts = [];
+{
+  const p = new THREE.Vector3(), q = new THREE.Vector3(), seg = 6;
+  cellsPoly.forEach(poly => poly.forEach((a, k) => {
+    const b = poly[(k + 1) % poly.length];
+    for (let s = 0; s < seg; s++) {
+      const t0 = s / seg, t1 = (s + 1) / seg;
+      toWall(a[0] + (b[0] - a[0]) * t0, a[1] + (b[1] - a[1]) * t0, -0.004, p);
+      toWall(a[0] + (b[0] - a[0]) * t1, a[1] + (b[1] - a[1]) * t1, -0.004, q);
+      crackPts.push(p.x, p.y, p.z, q.x, q.y, q.z);
+    }
+  }));
+}
+const crackGeo = new THREE.BufferGeometry(); crackGeo.setAttribute('position', new THREE.Float32BufferAttribute(crackPts, 3));
+const crackMat = new THREE.LineBasicMaterial({ color: new THREE.Color(1.7, 1.05, 0.28), transparent: true, opacity: 0, toneMapped: false });
+const crackLines = new THREE.LineSegments(crackGeo, crackMat); funnel.add(crackLines);
+
+/* ---------- behind the scenes: the same funnel, in three parts ----------
+   After the opening the funnel stays with the reader, smaller and to one
+   side, and explains the rest of the page with its own body: it comes apart
+   into the ad (where people come in), the page (where they decide), and the
+   lead (what comes out). Whatever the copy is talking about is the part that
+   stays solid and gets a gold edge. */
+const PARTS = [[0, 0.3], [0.3, 0.68], [0.68, 1]];
+function bandGeometry(v0, v1) {
+  const NU = 128, NV = 8, P = [], N = [], I = [];
+  for (let side = 0; side < 2; side++) {
+    const base = P.length / 3, inset = side ? TH : 0, f = side ? -1 : 1;
+    for (let j = 0; j <= NV; j++) for (let i = 0; i <= NU; i++) {
+      const a = i / NU * Math.PI * 2, v = v0 + (v1 - v0) * j / NV, p = wallPoint(a, v, inset, new THREE.Vector3());
+      P.push(p.x, p.y, p.z); N.push(f * Math.cos(a) * nx, f * ny, f * Math.sin(a) * nx);
+    }
+    for (let j = 0; j < NV; j++) for (let i = 0; i < NU; i++) {
+      const q = base + j * (NU + 1) + i;
+      if (side) I.push(q, q + NU + 1, q + 1, q + 1, q + NU + 1, q + NU + 2); else I.push(q, q + 1, q + NU + 1, q + 1, q + NU + 2, q + NU + 1);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  g.setIndex(I);
+  return g;
+}
+const parts = PARTS.map(([v0, v1]) => {
+  const g = new THREE.Group(), mat = steel.clone(); mat.transparent = true;
+  const m = new THREE.Mesh(bandGeometry(v0, v1), mat); m.castShadow = true; g.add(m);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(coneR(v0) + 0.012, 0.011, 8, 160), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.7, 1.08, 0.3), toneMapped: false, transparent: true, opacity: 0 }));
+  ring.rotation.x = Math.PI / 2; ring.position.y = coneY(v0) + 0.004; g.add(ring);
+  g.visible = false; funnel.add(g);
+  return { g, mat, ring, v0, v1 };
+});
+{ const r = rimMesh.clone(); r.material = parts[0].mat; parts[0].g.add(r); const s = spout.clone(); s.material = parts[2].mat; parts[2].g.add(s); }
+
+// what the funnel does beside each part of the page (sections carry data-f)
+const BASE = { explode: 0, focus: -1, ghost: -1, shift: 0, vis: 1, off: -0.25, d: 11.5, az: -24, el: 12, y: 0.5 };
+const STATES = {
+  calc:      {},
+  find1:     { explode: 1, focus: 1, ghost: 1, az: -30, el: 14, d: 12.5 },
+  find2:     { explode: 1, focus: 1, shift: 1, az: 12, el: 10, d: 12.5 },
+  find3:     { explode: 1, focus: 2, az: -44, el: 18, d: 12.5 },
+  statement: { explode: 0.35, focus: 1, az: -10, d: 12 },
+  plans:     { focus: 1, vis: 0.2, d: 12.5 },
+  how:       { vis: 0.16, az: 30, d: 12.5 },
+  off:       { vis: 0 },
+};
+const fEls = [...document.querySelectorAll('[data-f]')];
+const PS = Object.assign({}, BASE);                 // the state as it is now, eased toward the target
+function postTarget() {
+  let key = 'calc';
+  for (const el of fEls) if (el.getBoundingClientRect().top < H * 0.55) key = el.dataset.f;
+  const t = Object.assign({}, BASE, STATES[key] || {});
+  if (small) t.vis = 0;                            // on a phone the funnel bows out after the opening: the copy needs the width
+  return t;
+}
+const ptags = [...document.querySelectorAll('[data-ptag]')];
+
+
+/* ---------- the clicks ----------
+   What goes in is people: little round tokens, most of them faces, some of
+   them a view, a tap, a like. On the way out each one turns into what it
+   really is, money. Out of the spout it flies into the business's account.
+   Through the crack it drops to the floor, loses its colour and quietly
+   melts away. Every route is decided when a token starts its run, from the
+   state of the wall at that moment, and where it is on that route is plain
+   arithmetic: no physics engine, nothing to drift. */
+const NB = small ? 56 : 120, TOK = 0.17;
+function tokenTexture(draw) {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d');
+  g.save(); g.beginPath(); g.arc(64, 64, 60, 0, Math.PI * 2); g.clip(); draw(g); g.restore();
+  g.lineWidth = 7; g.strokeStyle = '#D9AC4E'; g.beginPath(); g.arc(64, 64, 59, 0, Math.PI * 2); g.stroke();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
+}
+// Faces drawn, not photographed: nobody's likeness, nothing to license.
+const FACES = [['#E8D9C4', '#C99A73', '#3B2A20'], ['#D7E2E8', '#8D5B3E', '#1E1712'], ['#E6DCE8', '#F0C9A6', '#B5793B'], ['#DDE7D8', '#E4B48C', '#2B2B2B'], ['#EFE1D2', '#6E4630', '#16100C'], ['#E2E4EE', '#F3D2B5', '#7A4A2A']];
+const textures = FACES.map(([bg, skin, hair]) => tokenTexture(g => {
+  g.fillStyle = bg; g.fillRect(0, 0, 128, 128);
+  g.fillStyle = skin; g.beginPath(); g.ellipse(64, 132, 46, 36, 0, 0, Math.PI * 2); g.fill();     // shoulders
+  g.beginPath(); g.ellipse(64, 60, 24, 28, 0, 0, Math.PI * 2); g.fill();                          // head
+  g.fillStyle = hair; g.beginPath(); g.ellipse(64, 44, 26, 16, 0, Math.PI, 0); g.fill();
+}));
+const GLYPHS = [
+  g => { g.beginPath(); g.moveTo(52, 40); g.lineTo(52, 88); g.lineTo(92, 64); g.closePath(); g.fill(); },                                  // a view
+  g => { g.beginPath(); g.moveTo(48, 34); g.lineTo(48, 92); g.lineTo(62, 79); g.lineTo(72, 98); g.lineTo(82, 93); g.lineTo(72, 74); g.lineTo(90, 74); g.closePath(); g.fill(); },   // a tap
+  g => { g.beginPath(); g.moveTo(64, 92); g.bezierCurveTo(20, 64, 36, 30, 64, 50); g.bezierCurveTo(92, 30, 108, 64, 64, 92); g.fill(); },     // a like
+];
+GLYPHS.forEach(draw => textures.push(tokenTexture(g => { g.fillStyle = '#2A2F37'; g.fillRect(0, 0, 128, 128); g.fillStyle = '#E7BE62'; draw(g); })));
+const tokenGeo = new THREE.PlaneGeometry(TOK, TOK);
+const B = Array.from({ length: NB }, (_, i) => ({ ph: i / NB, a0: rnd() * Math.PI * 2, r0: 0.15 + rnd() * 0.55, sp: 0.9 + rnd() * 0.2, k: rnd(), k2: rnd(), k3: rnd(), cyc: -1, hole: false, type: rnd() < 0.62 ? Math.floor(rnd() * FACES.length) : FACES.length + Math.floor(rnd() * GLYPHS.length) }));
+const counts = textures.map((_, t) => B.filter(b => b.type === t).length);
+const tokens = textures.map((map, t) => {
+  const m = new THREE.InstancedMesh(tokenGeo, new THREE.MeshBasicMaterial({ map, transparent: true, alphaTest: 0.4 }), Math.max(1, counts[t]));
+  m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); scene.add(m); return m;
+});
+// the coins: gold, a shekel struck on both faces
+const coinFace = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+  g.fillStyle = '#D8AE52'; g.fillRect(0, 0, 128, 128);
+  g.strokeStyle = '#B8902F'; g.lineWidth = 5; g.beginPath(); g.arc(64, 64, 52, 0, Math.PI * 2); g.stroke();
+  g.fillStyle = '#9C7621'; g.font = '700 64px Rubik, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('₪', 64, 68);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+})();
+const coinGeo = new THREE.CylinderGeometry(0.058, 0.058, 0.012, 36);
+const coinRim = new THREE.MeshStandardMaterial({ color: 0xD2A646, metalness: 1, roughness: 0.25 });
+const coinCap = new THREE.MeshStandardMaterial({ color: 0xffffff, map: coinFace, metalness: 0.85, roughness: 0.3 });
+const coins = new THREE.InstancedMesh(coinGeo, [coinRim, coinCap, coinCap], NB);
+coins.instanceMatrix.setUsage(THREE.DynamicDrawUsage); coins.castShadow = true; scene.add(coins);
+const D = 4.6, G = 6.5, PACE = 0.55;   // PACE slows every run alike: falling in, the wall, the way out
+const m4 = new THREE.Matrix4(), quat = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3(), eul = new THREE.Euler();
+const bankAt = new THREE.Vector3();       // where the account is, in the scene (set each frame from the card's place on screen)
+const S = { pos: new THREE.Vector3(), coin: 0, tok: 1, grey: 0, arrived: 0, spin: 0 };
+
+let openNow = 0;
+function ballAt(b, time, prevTime) {
+  const T = b.ph * D + time * b.sp * PACE, cyc = Math.floor(T / D), t = T - cyc * D;
+  const tp = b.ph * D + prevTime * b.sp * PACE - cyc * D;              // the same run's clock a frame ago
+  if (cyc !== b.cyc) { b.cyc = cyc; b.set = false; }
+  if (!b.set && t >= 0.5) { b.set = true; b.hole = openNow > 0.35 && b.k2 > 0.05; }   // decided as it lands in the funnel
+  S.coin = 0; S.tok = 1; S.grey = 0; S.arrived = 0; S.spin = 0; S.flat = 0;
+  const out = S.pos;
+  if (t < 0.55) {                                    // falling in
+    const u = t / 0.55; out.set(Math.cos(b.a0) * b.r0, Y0 + 2.4 * (1 - u * u), Math.sin(b.a0) * b.r0); return S;
+  }
+  const vExit = b.hole ? 0.5 + (b.k - 0.5) * 0.3 : 1, runT = b.hole ? 1.0 : 1.35, aExit = b.hole ? CRACK.a + (b.k2 - 0.5) * 0.6 : b.a0 + 7;
+  const tr = t - 0.55;
+  if (tr < runT) {                                   // running down the wall
+    const u = easeOut(tr / runT * 0.9 + 0.1 * (tr / runT) * (tr / runT)), v = u * vExit;
+    const da = Math.atan2(Math.sin(aExit - b.a0), Math.cos(aExit - b.a0)) + Math.PI * 2 * (b.hole ? 1 : 2);
+    const a = b.a0 + da * u, r = coneR(v) - TOK * 0.45 - TH;
+    out.set(Math.cos(a) * r, coneY(v) + TOK * 0.5, Math.sin(a) * r); return S;
+  }
+  const te = tr - runT;
+  if (!b.hole) {
+    // down the spout, and out of its mouth as a coin, dropping straight
+    // into the account under it, where it is counted and gone
+    if (te < 0.3) { out.set(0, Y1 - (Y1 - MOUTH) * te / 0.3, 0); S.tok = 1 - smooth(te / 0.2); return S; }
+    const tt = te - 0.3, drop = MOUTH - bankAt.y, tf = Math.sqrt(2 * drop / (G * 0.45));
+    const u = clamp01(tt / tf);
+    out.set((b.k - 0.5) * 0.06, MOUTH - 0.5 * G * 0.45 * tt * tt, (b.k2 - 0.5) * 0.06);
+    if (out.y < bankAt.y) out.y = bankAt.y;
+    S.tok = 0; S.coin = smooth(tt / 0.08) * (u >= 1 ? 0 : 1); S.spin = b.k * 6 + tt * 5;
+    const ta = 0.55 + runT + 0.3 + tf;
+    if (tp < ta && t >= ta) S.arrived = 1;
+    return S;
+  }
+  // out through the crack: it turns to money as it leaves, falls, and is lost
+  const r = coneR(vExit), x0 = Math.cos(aExit) * r, z0 = Math.sin(aExit) * r, y0 = coneY(vExit);
+  const spd = 0.55 + b.k * 0.5, vx = Math.cos(aExit) * spd, vz = Math.sin(aExit) * spd * 0.3 + (b.k2 - 0.5) * 0.2, vy = 0.05 + b.k2 * 0.2;   // it spills over the edge of the crack, it isn't thrown
+  const m = smooth(te / 0.2); S.tok = 1 - m; S.coin = m; S.spin = te * 7;
+  const yF = FLOOR + 0.008, t1 = (vy + Math.sqrt(vy * vy + 2 * G * (y0 - yF))) / G;
+  let x, y, z;
+  if (te < t1) { x = x0 + vx * te; z = z0 + vz * te; y = y0 + vy * te - G * te * te / 2; }
+  else {
+    const tt = te - t1, roll = (1 - Math.exp(-2.2 * tt)) / 2.2;
+    x = x0 + vx * (t1 + roll * 0.5); z = z0 + vz * (t1 + roll * 0.5); y = yF;
+    S.spin = te * 7 * Math.exp(-3 * tt);
+    S.grey = smooth((tt - 0.25) / 0.7);                         // it goes grey...
+    S.coin *= 1 - smooth((tt - 0.7) / 0.9);                     // ...and melts away
+    y -= 0.02 * smooth((tt - 0.7) / 0.9);
+  }
+  out.set(x, y, z);
+  return S;
+}
+/* ---------- post: a soft bloom, only on what is actually bright ---------- */
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.5, 0.4, 1.15);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+/* ---------- the story ----------
+   u: how far the story has been scrolled, in screens.
+     0..1   the funnel, whole; the pour starts
+     1..2   cracks light up, then it opens (gently: shards slip out and drop)
+     2..3   the leak, and the camera comes round to look at it
+     3..4   the crack closes as the copy says it can, and leaves a gold seam */
+const shot = [   // camera per beat: azimuth, elevation (deg), distance, look-at height, funnel offset on screen
+  { az: 8,   el: 9,  d: 9.2, y: 0.55, off: -0.2 },
+  { az: -28, el: 13, d: 8.2, y: 0.6,  off: -0.18 },
+  { az: -52, el: 21, d: 9.4, y: 0.2,  off: -0.12 },
+  { az: -18, el: 11, d: 8.8, y: 0.55, off: -0.2 },
+  { az: -18, el: 11, d: 8.8, y: 0.55, off: -0.2 },
+];
+const lerp = (a, b, t) => a + (b - a) * t;
+function camAt(u) {
+  const i = Math.min(shot.length - 2, Math.floor(u)), t = smooth((u - i - 0.25) / 0.75), A = shot[i], Bn = shot[i + 1];
+  const o = {}; for (const k in A) o[k] = lerp(A[k], Bn[k], t); return o;
+}
+
+/* ---------- copy pinned to the scene ---------- */
+const tx = [...document.querySelectorAll('[data-tx]')], leads = document.getElementById('leads');
+const lo = document.querySelector('[data-lo]'), strikes = [...document.querySelectorAll('[data-strike]')];
+const anchors = { rimR: new THREE.Vector3(), pour: new THREE.Vector3(), crack: new THREE.Vector3(), spill: new THREE.Vector3(), bank: new THREE.Vector3() };
+function updateAnchors() {
+  let best = -1e9;                                                               // the rim's edge nearest the copy, whatever the angle
+  for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2; sp.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0).project(camera); if (sp.x > best) { best = sp.x; anchors.rimR.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0); } }
+  anchors.pour.set(0.18, Y0 + 0.5, 0);
+  anchors.bank.set(0, FLOOR + 0.1, 0);                                        // the card's top edge, right under the spout
+  wallPoint(CRACK.a, 0.46, 0, anchors.crack);
+  anchors.spill.set(Math.cos(CRACK.a) * 1.7, FLOOR + 0.02, Math.sin(CRACK.a) * 1.2);
+}
+const sp = new THREE.Vector3();
+function screen(v) { sp.copy(v).project(camera); return { x: (sp.x * 0.5 + 0.5) * W, y: (-sp.y * 0.5 + 0.5) * H }; }
+function placeCopy(u) {
+  let svg = '';
+  const tilt = Math.max(-9, Math.min(9, (camAzNow + 18) * 0.22));       // the words turn a little with the camera, as if they stood in the scene
+  tx.forEach(el => {
+    const from = +el.dataset.from, to = +el.dataset.to;
+    const vis = smooth((u - from) / 0.18) * (1 - smooth((u - to + 0.12) / 0.15));
+    el.style.opacity = vis.toFixed(3);
+    el.style.pointerEvents = vis > 0.6 ? 'auto' : 'none';
+    if (vis <= 0.001) return;
+    const s = screen(anchors[el.dataset.at]), tag = el.classList.contains('tag');
+    let x, y;
+    if (small) { x = 20; y = H - el.offsetHeight - 88; }   // above the WhatsApp button
+    else if (tag) { x = s.x + 26; y = s.y - el.offsetHeight / 2; }        // a tag sits right beside the thing it names
+    else {
+      x = W - Math.max(48, (W - 1180) / 2) - el.offsetWidth;            // the copy column, moving with the part it talks about
+      y = Math.max(84, Math.min(H * 0.7 - el.offsetHeight * 0.5, s.y + (+el.dataset.dy || 0) * (H / 900)));
+    }
+    const z = (1 - vis) * -220;                                           // it comes forward out of the dark as it arrives
+    el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translateZ(${z.toFixed(1)}px) rotateY(${tag || small ? 0 : tilt.toFixed(2)}deg)`;
+    if (tag && !small) svg += `<g opacity="${vis.toFixed(2)}"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="3"/><path d="M${s.x.toFixed(1)} ${s.y.toFixed(1)} L${(x - 4).toFixed(1)} ${s.y.toFixed(1)}"/></g>`;
+  });
+  leads.innerHTML = svg;
+  // the account, on the floor right under the spout
+  const bs = screen(anchors.bank), bv = 1;
+  bank.style.opacity = bv.toFixed(3);
+  const bx = bs.x - bank.offsetWidth / 2, by = bs.y;
+  bank.style.transform = `translate(${bx.toFixed(1)}px, ${by.toFixed(1)}px) rotateY(${(-tilt * 0.6).toFixed(2)}deg)`;
+  // coins slide to the card's foot, on the floor
+  bankAt.copy(anchors.bank);
+}
+
+/* ---------- the balance ---------- */
+const bank = document.getElementById('bank'), balEl = document.getElementById('bal'), bankIn = document.getElementById('bankIn');
+let arrivals = 0, balance = 12480, shown = 12480, inTimer = 0;
+const nf = new Intl.NumberFormat('en-US');
+function tickBalance(dt, u) {
+  if (arrivals) {
+    balance += arrivals * 120; arrivals = 0;
+    bankIn.classList.add('on'); clearTimeout(inTimer); inTimer = setTimeout(() => bankIn.classList.remove('on'), 900);
+  }
+  shown += (balance - shown) * Math.min(1, dt * 6);
+  balEl.textContent = nf.format(Math.round(shown));
+  bank.classList.toggle('jump', u > 3.4);
+}
+
+/* ---------- size ---------- */
+let W = 0, H = 0;
+function resize() {
+  W = innerWidth; H = innerHeight;
+  renderer.setSize(W, H, false); composer.setSize(W, H);
+  bloom.resolution.set(W / 2, H / 2);
+  small = W < 900; camera.fov = small ? 34 : 26;
+  camera.aspect = W / H; camera.updateProjectionMatrix();
+  fitBoard();
+}
+addEventListener('resize', resize);
+
+/* ---------- each frame ---------- */
+let clock = 0, last = performance.now(), camAzNow = 0;
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (!still) clock += dt;
+  const sr = story.getBoundingClientRect();
+  const u = Math.max(0, Math.min(4, -sr.top / innerHeight));
+  // past the opening: the funnel steps aside and follows the page
+  const post = clamp01((H - sr.bottom) / (H * 0.7));
+  const tgt = postTarget(), ease = still ? 1 : Math.min(1, dt * 2.6);
+  for (const key in BASE) PS[key] += (tgt[key] - PS[key]) * ease;
+  const cv = 1 + (PS.vis - 1) * post;               // how much of the scene shows
+  canvas.style.opacity = cv.toFixed(3);
+  if (cv < 0.01) { ptags.forEach(t => { t.style.opacity = 0; }); if (!still) requestAnimationFrame(frame); return; }   // nothing to show: draw nothing
+  const whole = post < 0.5;
+  board.material.opacity = 0.035 * (1 - 0.65 * post);   // the dashboard steps back once there is copy to read
+  body.visible = rimMesh.visible = spout.visible = crackLines.visible = whole;
+  shards.forEach(sh => { sh.m.visible = whole; });
+  parts.forEach(pt => { pt.g.visible = !whole; });
+
+  // the wall
+  const crack = smooth((u - 0.85) / 0.3);                         // the lines light up
+  const open = smooth((u - 1.15) / 0.75) * (1 - smooth((u - 3.15) / 0.6));   // the shards slip out, and later come home
+  openNow = open;
+  crackMat.opacity = Math.max(crack * (1 - open * 0.6), smooth((u - 3.5) / 0.3) * 0.9);   // and stay on as a seam once mended
+  shards.forEach(sh => {
+    const s = clamp01((open - sh.delay) / (1 - sh.delay)), t = s * 1.1;   // "time" since it let go
+    const p = sh.home.clone().addScaledVector(sh.n, sh.sp * t);
+    p.y -= 0.5 * G * 0.55 * t * t;
+    const lowest = FLOOR + 0.03;
+    if (p.y < lowest) p.y = lowest;                               // it lands and lies there
+    sh.m.position.copy(p);
+    sh.m.rotation.set(sh.spin.x * s, sh.spin.y * s, sh.spin.z * s);
+  });
+  glow.position.copy(anchors.crack).multiplyScalar(0.7);
+  glow.intensity = (crack * 0.5 + open * 1.0) * 1.2;
+
+  // the clicks: tokens going in, coins coming out
+  const vis = smooth(u / 0.05 + 0.6) * (1 - post * PS.explode);   // no pour while the funnel is in pieces
+  const fill = textures.map(() => 0), gold = new THREE.Color(1, 1, 1), ash = new THREE.Color(0.32, 0.33, 0.35), tint = new THREE.Color();
+  camera.updateMatrixWorld();
+  const camQ = camera.quaternion;
+  for (let i = 0; i < NB; i++) {
+    const b = B[i], st = ballAt(b, still ? 2.5 + i * 0.013 : clock, still ? 2.5 + i * 0.013 : clock - dt);
+    if (st.arrived) { arrivals++; }
+    // the token, facing the camera
+    scl.setScalar(Math.max(0.0001, st.tok * vis)); m4.compose(st.pos, camQ, scl);
+    tokens[b.type].setMatrixAt(fill[b.type]++, m4);
+    // the coin, tumbling
+    if (st.flat) eul.set(0, st.spin, 0); else eul.set(1.2 + st.spin, st.spin * 0.6, 0.3);   // sliding coins lie flat
+    quat.setFromEuler(eul);
+    scl.setScalar(Math.max(0.0001, st.coin * vis)); m4.compose(st.pos, quat, scl);
+    coins.setMatrixAt(i, m4);
+    coins.setColorAt(i, tint.copy(gold).lerp(ash, st.grey));
+  }
+  tokens.forEach(m => { m.instanceMatrix.needsUpdate = true; });
+  coins.instanceMatrix.needsUpdate = true; if (coins.instanceColor) coins.instanceColor.needsUpdate = true;
+  // the camera, breathing a little
+  const c0 = camAt(u), c = {}, br = still ? 0 : Math.sin(clock * 0.5);
+  for (const key of ['az', 'el', 'd', 'y', 'off']) c[key] = c0[key] + (PS[key] - c0[key]) * post;
+  camAzNow = c.az + br * 1.2;
+  const az = THREE.MathUtils.degToRad(camAzNow), el = THREE.MathUtils.degToRad(c.el + br * 0.5);
+  const dist = c.d * (small ? 1.5 : 1);
+  camera.position.set(Math.sin(az) * Math.cos(el) * dist, c.y + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist);
+  camera.lookAt(0, c.y, 0);
+  // on a phone, the last scene lifts the funnel and the account up, out of the copy's way
+  const lift = small ? smooth((u - 3.0) / 0.4) : 0;
+  if (small) camera.setViewOffset(W, H, 0, H * (0.02 + 0.15 * lift), W, H); else camera.setViewOffset(W, H, W * -c.off, 0, W, H);
+  board.position.x = small ? 0 : -c.off * board.userData.viewW;   // the dashboard stays centred on the screen, not on the funnel
+
+  // the copy: the headline cracks with the wall; the "nots" are struck through as you read them
+  if (lo) lo.style.transform = small ? '' : `translate(${(-open * 7).toFixed(1)}px, ${(open * 9).toFixed(1)}px) rotate(${(-open * 1.6).toFixed(2)}deg)`;
+  strikes.forEach((li, k) => li.style.setProperty('--s', smooth((u - 3.15 - k * 0.12) / 0.15).toFixed(3)));
+  updateAnchors();
+  camera.updateMatrixWorld();
+  placeCopy(u);
+  tickBalance(dt, u);
+
+  // the parts: apart, knocked off line, solid or faint, with a gold edge on the one being talked about
+  parts.forEach((pt, i) => {
+    pt.g.position.set(i === 1 ? PS.shift * 0.5 : 0, (1 - i) * 0.42 * PS.explode, i === 1 ? PS.shift * 0.15 : 0);
+    pt.g.rotation.z = i === 1 ? PS.shift * 0.16 : 0;
+    const op = tgt.ghost === i ? 0.07 : (tgt.focus === -1 || tgt.focus === i) ? 1 : 0.3;
+    pt.mat.opacity += (op - pt.mat.opacity) * ease; pt.mat.depthWrite = pt.mat.opacity > 0.9;
+    const ro = tgt.focus === i && PS.explode > 0.2 ? 1 : 0;
+    pt.ring.material.opacity += (ro - pt.ring.material.opacity) * ease;
+  });
+  // their names, beside each part
+  ptags.forEach((tag, i) => {
+    const show = !whole && !small ? smooth((PS.explode - 0.4) / 0.4) : 0;
+    tag.style.opacity = show.toFixed(3);
+    tag.classList.toggle('on', tgt.focus === i);
+    if (show < 0.01) return;
+    const pt = parts[i], v = (pt.v0 + pt.v1) / 2;
+    let best = -1e9, bx = 0, by = 0;
+    for (let k = 0; k < 24; k++) {
+      const a = k / 24 * Math.PI * 2;
+      sp.set(Math.cos(a) * coneR(v) + pt.g.position.x, coneY(v) + pt.g.position.y, Math.sin(a) * coneR(v) + pt.g.position.z).project(camera);
+      if (sp.x > best) { best = sp.x; bx = (sp.x * 0.5 + 0.5) * W; by = (-sp.y * 0.5 + 0.5) * H; }
+    }
+    tag.style.transform = `translate(${(bx + 18).toFixed(1)}px, ${(by - 14).toFixed(1)}px)`;
+  });
+
+  composer.render();
+  if (!still) requestAnimationFrame(frame);
+}
+resize();
+if (still) { addEventListener('scroll', () => requestAnimationFrame(frame), { passive: true }); }
+requestAnimationFrame(frame);
+</script>
 </body>
 </html>
