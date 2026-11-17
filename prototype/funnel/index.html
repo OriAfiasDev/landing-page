@@ -108,7 +108,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         <h2 class="deep">לא צריך עוד לחיצות.</h2>
         <ul class="not"><li data-strike="0">לא קריאייטיב חדש.</li><li data-strike="1">לא תקציב גדול יותר.</li><li data-strike="2">לא קמפיינר אחר.</li></ul>
         <p class="fix deep">רק <em>לסתום את הסדק.</em></p>
-        <a class="btn" href="#">אני רוצה אבחון מלא לקמפיין שלי</a>
+        <a class="btn" href="#">אני רוצה לדעת איפה הסדק שלי</a>
       </div>
 
       <!-- Where the money ends up: a made-up banking app, pinned beside the spout. -->
@@ -340,7 +340,7 @@ funnel.add(new THREE.LineSegments(crackGeo, crackMat));
    melts away. Every route is decided when a token starts its run, from the
    state of the wall at that moment, and where it is on that route is plain
    arithmetic: no physics engine, nothing to drift. */
-const NB = small ? 130 : 300, TOK = 0.17;
+const NB = small ? 56 : 120, TOK = 0.17;
 function tokenTexture(draw) {
   const c = document.createElement('canvas'); c.width = c.height = 128;
   const g = c.getContext('2d');
@@ -382,18 +382,18 @@ const coinRim = new THREE.MeshStandardMaterial({ color: 0xD2A646, metalness: 1, 
 const coinCap = new THREE.MeshStandardMaterial({ color: 0xffffff, map: coinFace, metalness: 0.85, roughness: 0.3 });
 const coins = new THREE.InstancedMesh(coinGeo, [coinRim, coinCap, coinCap], NB);
 coins.instanceMatrix.setUsage(THREE.DynamicDrawUsage); coins.castShadow = true; scene.add(coins);
-const D = 4.6, G = 6.5;
+const D = 4.6, G = 6.5, PACE = 0.55;   // PACE slows every run alike: falling in, the wall, the way out
 const m4 = new THREE.Matrix4(), quat = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3(), eul = new THREE.Euler();
 const bankAt = new THREE.Vector3();       // where the account is, in the scene (set each frame from the card's place on screen)
 const S = { pos: new THREE.Vector3(), coin: 0, tok: 1, grey: 0, arrived: 0, spin: 0 };
 
 let openNow = 0;
 function ballAt(b, time, prevTime) {
-  const T = b.ph * D + time * b.sp, cyc = Math.floor(T / D), t = T - cyc * D;
-  const tp = b.ph * D + prevTime * b.sp - cyc * D;              // the same run's clock a frame ago
+  const T = b.ph * D + time * b.sp * PACE, cyc = Math.floor(T / D), t = T - cyc * D;
+  const tp = b.ph * D + prevTime * b.sp * PACE - cyc * D;              // the same run's clock a frame ago
   if (cyc !== b.cyc) { b.cyc = cyc; b.set = false; }
   if (!b.set && t >= 0.5) { b.set = true; b.hole = openNow > 0.35 && b.k2 > 0.05; }   // decided as it lands in the funnel
-  S.coin = 0; S.tok = 1; S.grey = 0; S.arrived = 0; S.spin = 0;
+  S.coin = 0; S.tok = 1; S.grey = 0; S.arrived = 0; S.spin = 0; S.flat = 0;
   const out = S.pos;
   if (t < 0.55) {                                    // falling in
     const u = t / 0.55; out.set(Math.cos(b.a0) * b.r0, Y0 + 2.4 * (1 - u * u), Math.sin(b.a0) * b.r0); return S;
@@ -408,22 +408,23 @@ function ballAt(b, time, prevTime) {
   }
   const te = tr - runT;
   if (!b.hole) {
-    // down the spout, out of the bottom as a coin, and into the account
-    if (te < 0.25) { out.set(0, Y1 - (Y1 - FLOOR - 0.1) * te / 0.25, 0); S.tok = 1 - te / 0.25; return S; }
-    const u = clamp01((te - 0.25) / 1.0), e = u * u * (3 - 2 * u);
-    const p0x = 0, p0y = FLOOR + 0.1, p0z = 0.05;
-    const cx = (p0x + bankAt.x) / 2 + (b.k - 0.5) * 0.4, cy = Math.max(p0y, bankAt.y) + 0.7 + b.k2 * 0.4, cz = (p0z + bankAt.z) / 2;
-    const q = 1 - e;
-    out.set(q * q * p0x + 2 * q * e * cx + e * e * bankAt.x, q * q * p0y + 2 * q * e * cy + e * e * bankAt.y, q * q * p0z + 2 * q * e * cz + e * e * bankAt.z);
-    S.tok = 0; S.coin = u >= 1 ? 0 : 1 - smooth((u - 0.85) / 0.15) * 0.6; S.spin = u * 9;
-    const ta = 0.55 + runT + 1.25;
+    // down the spout and out at its foot as a coin, which slides along the
+    // floor into the account: a pour, not a throw
+    if (te < 0.3) { out.set(0, Y1 - (Y1 - FLOOR - 0.04) * te / 0.3, 0); S.tok = 1 - smooth(te / 0.2); return S; }
+    const u = clamp01((te - 0.3) / 1.5), e = 1 - Math.pow(1 - u, 2.2);
+    const sx = (b.k - 0.5) * 0.08, sz = 0.06 + (b.k2 - 0.5) * 0.06;            // where it comes out from under the rim
+    const wob = Math.sin(u * Math.PI) * (b.k - 0.5) * 0.35;                    // coins fan out a little on the way
+    out.set(sx + (bankAt.x - sx) * e + wob * 0.3, FLOOR + 0.008, sz + (bankAt.z - sz) * e + wob);
+    S.tok = 0; S.flat = 1;
+    S.coin = smooth((te - 0.28) / 0.12) * (1 - smooth((u - 0.86) / 0.14));
+    S.spin = b.k * 6 + u * 2;
+    const ta = 0.55 + runT + 0.3 + 1.5;
     if (tp < ta && t >= ta) S.arrived = 1;
-    if (u >= 1) S.coin = 0;
     return S;
   }
   // out through the crack: it turns to money as it leaves, falls, and is lost
   const r = coneR(vExit), x0 = Math.cos(aExit) * r, z0 = Math.sin(aExit) * r, y0 = coneY(vExit);
-  const spd = 0.7 + b.k * 0.9, vx = Math.cos(aExit) * spd, vz = Math.sin(aExit) * spd * 0.8 + (b.k2 - 0.5) * 0.6, vy = 0.35 + b.k2 * 0.5;
+  const spd = 0.3 + b.k * 0.45, vx = Math.cos(aExit) * spd, vz = Math.sin(aExit) * spd * 0.8 + (b.k2 - 0.5) * 0.25, vy = 0.05 + b.k2 * 0.2;   // it spills over the edge of the crack, it isn't thrown
   const m = smooth(te / 0.2); S.tok = 1 - m; S.coin = m; S.spin = te * 7;
   const yF = FLOOR + 0.008, t1 = (vy + Math.sqrt(vy * vy + 2 * G * (y0 - yF))) / G;
   let x, y, z;
@@ -508,9 +509,8 @@ function placeCopy(u) {
   bank.style.opacity = bv.toFixed(3);
   const bx = small ? W - bank.offsetWidth - 16 : bs.x - bank.offsetWidth / 2, by = small ? H * 0.47 : bs.y - bank.offsetHeight;
   bank.style.transform = `translate(${bx.toFixed(1)}px, ${by.toFixed(1)}px) rotateY(${(-tilt * 0.6).toFixed(2)}deg)`;
-  // coins aim for the middle of the card
-  const ndc = new THREE.Vector3(((bx + bank.offsetWidth / 2) / W) * 2 - 1, -((by + bank.offsetHeight * 0.55) / H) * 2 + 1, 0);
-  sp.copy(anchors.bank).project(camera); ndc.z = sp.z; ndc.unproject(camera); bankAt.copy(ndc);
+  // coins slide to the card's foot, on the floor
+  bankAt.copy(anchors.bank);
 }
 
 /* ---------- the balance ---------- */
@@ -573,7 +573,8 @@ function frame(now) {
     scl.setScalar(Math.max(0.0001, st.tok * vis)); m4.compose(st.pos, camQ, scl);
     tokens[b.type].setMatrixAt(fill[b.type]++, m4);
     // the coin, tumbling
-    eul.set(1.2 + st.spin, st.spin * 0.6, 0.3); quat.setFromEuler(eul);
+    if (st.flat) eul.set(0, st.spin, 0); else eul.set(1.2 + st.spin, st.spin * 0.6, 0.3);   // sliding coins lie flat
+    quat.setFromEuler(eul);
     scl.setScalar(Math.max(0.0001, st.coin * vis)); m4.compose(st.pos, quat, scl);
     coins.setMatrixAt(i, m4);
     coins.setColorAt(i, tint.copy(gold).lerp(ash, st.grey));
