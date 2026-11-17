@@ -4,324 +4,509 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>אב-טיפוס: המשפך החי | afias.dev</title>
+<title>אב-טיפוס: המשפך | afias.dev</title>
 <style>
 @font-face{font-family:'Rubik';font-weight:300 900;font-display:swap;src:url(/assets/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0590-05FF,U+20AA,U+FB1D-FB4F}
 @font-face{font-family:'Rubik';font-weight:300 900;font-display:swap;src:url(/assets/fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
-@font-face{font-family:'JetBrains Mono';font-weight:400 800;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin.woff2) format('woff2');unicode-range:U+0000-002B,U+002D,U+002F-00FF}
-:root{--ink:#1C1E24;--paper:#FAF8F3;--brass:#B8862B;--muted:#93897A;--bar:56px}
+:root{--bg:#1B1F25;--paper:#FAF8F3;--brass:#C99A3A;--ink:#1C1E24;--muted:#9AA3AD}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--ink);color:var(--paper);font-family:'Rubik',system-ui,sans-serif;-webkit-font-smoothing:antialiased;transition:background-color .5s,color .5s}
-body.paper{background:var(--paper);color:var(--ink)}
-.num{font-family:'JetBrains Mono','Rubik',monospace;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
-.bar{position:fixed;inset:0 0 auto;z-index:5;height:var(--bar);display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid rgba(127,127,127,.18);font-size:14px;color:var(--muted)}
-.bar b{color:inherit;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:.02em}
-.story{position:relative}
+body{background:var(--bg);color:var(--paper);font-family:'Rubik',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.bar{position:fixed;inset:0 0 auto;z-index:5;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;font-size:14px;color:var(--muted)}
+.bar b{font-weight:700;color:var(--paper)}
+.story{position:relative;height:560vh}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-canvas.gl{position:absolute;inset:0;width:100%;height:100%;display:block}
-.labels{position:absolute;inset:0;pointer-events:none}
-.lb{position:absolute;left:0;top:0;white-space:nowrap;transform:translate(-50%,-50%);display:flex;align-items:baseline;gap:8px;opacity:0;transition:opacity .35s}
-.lb span{font-size:14px;font-weight:500;color:var(--muted)}
-.lb .num{font-size:clamp(18px,1.8vw,26px);font-weight:700;letter-spacing:-.03em}
-.lb.big .num{font-size:clamp(26px,2.8vw,42px)}
-.lb.hot .num,.lb.hot span{color:var(--brass)}
-.lb.lost .num{color:var(--brass)}
-.copy{position:absolute;top:var(--bar);bottom:0;right:max(32px,calc((100% - 1180px)/2));width:min(44%,520px);display:grid;align-items:center;pointer-events:none}
-.panel{grid-area:1/1;opacity:0;transform:translateY(18px);transition:opacity .45s,transform .45s}
-.panel.on{opacity:1;transform:none;pointer-events:auto}
-h1,h2{margin:0;font-weight:800;letter-spacing:-.022em;line-height:1.03;text-wrap:balance}
-h1{font-size:clamp(38px,5vw,74px)}
-h2{font-size:clamp(28px,3.4vw,50px)}
-p{margin:18px 0 0;font-size:clamp(17px,1.5vw,21px);line-height:1.55;opacity:.8;max-width:36ch}
-.k{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);margin:0 0 10px}
-.btn{display:inline-block;margin-top:28px;padding:16px 26px;background:var(--brass);color:var(--ink);font-weight:700;border-radius:3px;text-decoration:none}
-.slider{margin-top:26px;max-width:420px}
-.slider label{display:flex;justify-content:space-between;font-size:16px;font-weight:500}
-.slider input{width:100%;margin-top:12px;accent-color:#B8862B}
-.result{margin-top:22px;font-size:clamp(17px,1.5vw,20px)}
-.result .num{font-size:1.5em;font-weight:700;color:var(--brass)}
-.rail{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:grid;gap:10px}
-.rail i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.25}
-.rail i.on{opacity:1;background:var(--brass)}
-.after{position:relative;z-index:1;background:var(--ink);padding:120px 32px;text-align:center;color:var(--muted)}
-.note{position:fixed;left:16px;bottom:14px;z-index:6;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* Copy lives in the scene: each block is pinned by the script to a point on
+   the funnel (the rim, the crack, the spill on the floor, the spout) and a
+   hairline runs from that point to the words. */
+.layer{position:absolute;inset:0;pointer-events:none}
+.leads{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.leads path{fill:none;stroke:rgba(250,248,243,.45);stroke-width:1}
+.leads circle{fill:var(--paper)}
+.tx{position:absolute;left:0;top:0;width:max-content;max-width:min(34vw,440px);opacity:0;will-change:transform,opacity}
+.tx h1,.tx h2{margin:0;font-weight:800;line-height:1.02;letter-spacing:-.025em;text-wrap:balance}
+.tx h1{font-size:clamp(40px,4.6vw,72px)}
+.tx h2{font-size:clamp(32px,3.6vw,56px)}
+.tx p{margin:10px 0 0;font-size:clamp(16px,1.35vw,20px);line-height:1.5;color:rgba(250,248,243,.82)}
+.tx.small{max-width:240px}
+.tx.small p{margin:0;font-size:clamp(15px,1.15vw,17px);color:rgba(250,248,243,.78)}
+/* The headline that breaks with the funnel: two copies of the same words,
+   cut along one jagged line; the lower piece falls away as the wall does. */
+.split{position:relative;display:block}
+.split > span{display:block}
+.split .lo{position:absolute;inset:0}
+.split .up{clip-path:polygon(0 0,100% 0,100% 46%,78% 58%,61% 44%,44% 63%,27% 49%,12% 60%,0 52%)}
+.split .lo{clip-path:polygon(0 52%,12% 60%,27% 49%,44% 63%,61% 44%,78% 58%,100% 46%,100% 100%,0 100%);transform-origin:20% 60%}
+.not{list-style:none;margin:16px 0 0;padding:0;font-size:clamp(17px,1.45vw,21px);color:rgba(250,248,243,.78)}
+.not li{position:relative;width:max-content;padding:4px 0}
+.not li::after{content:"";position:absolute;inset-inline:0;top:56%;height:2px;background:var(--brass);transform-origin:right;transform:scaleX(var(--s,0))}
+.fix{margin-top:18px !important;font-size:clamp(28px,3vw,46px) !important;font-weight:800;line-height:1.08 !important;color:var(--paper) !important}
+.fix em{font-style:normal;color:var(--brass)}
+.btn{display:inline-block;margin-top:24px;padding:16px 24px;background:var(--brass);color:var(--ink);font-weight:700;font-size:17px;border-radius:3px;text-decoration:none;pointer-events:auto}
+.btn:hover{background:var(--paper)}
+.after{position:relative;z-index:1;padding:140px 32px;text-align:center;color:var(--muted);font-size:17px}
+.note{position:fixed;left:16px;bottom:14px;z-index:6;font:11px ui-monospace,monospace;color:rgba(250,248,243,.5)}
 @media (max-width:899px){
-  .copy{top:52%;right:20px;left:20px;width:auto;align-items:start}
-  h1{font-size:34px} h2{font-size:26px}
-  p{font-size:16px}
   .bar{padding:0 18px}
-  .rail{display:none}
+  .tx{max-width:calc(100vw - 40px)}
+  .tx h1{font-size:38px} .tx h2{font-size:30px}
+  .tx.small{display:none}
+  .leads{display:none}
+  .note{display:none}
 }
 </style>
 <script type="importmap">{"imports":{"three":"./three.module.min.js"}}</script>
 </head>
 <body>
-<div class="bar"><span>afias<span style="color:var(--brass)">.dev</span></span><span>אב-טיפוס · כיוון עיצובי</span></div>
+<div class="bar"><span><b>afias</b><span style="color:var(--brass)">.dev</span></span><span>אב-טיפוס · פתיחה</span></div>
 
 <div class="story" id="story">
   <div class="stage">
-    <canvas class="gl" id="gl"></canvas>
-    <div class="labels" id="labels">
-      <div class="lb big" data-l="clicks"><span>לחיצות</span><b class="num">1,500</b></div>
-      <div class="lb hot" data-l="leads"><span>פניות</span><b class="num">30</b></div>
-      <div class="lb" data-l="deals"><span>עסקאות</span><b class="num">6</b></div>
-      <div class="lb lost big" data-l="lost"><span>נזרקו לפח</span><b class="num">1,470</b></div>
+    <canvas id="gl" role="img" aria-label="משפך מתכת שכדורי זהב נופלים לתוכו. הוא נסדק, ורוב הכדורים נשפכים החוצה דרך הסדק. בסוף הסדק מתוקן, והכדורים יוצאים מלמטה."></canvas>
+    <div class="layer" aria-live="off">
+      <svg class="leads" id="leads" aria-hidden="true"></svg>
+
+      <!-- beat 1: the funnel, whole -->
+      <div class="tx" data-tx="b1" data-at="rimR" data-dx="40" data-dy="-10" data-from="-1" data-to="0.85">
+        <h1>זה המשפך שלך.</h1>
+        <p>כל מי שלוחץ על המודעה שלך, נכנס לכאן.</p>
+      </div>
+      <div class="tx small" data-tx="in" data-at="pour" data-dx="0" data-dy="140" data-line="1" data-from="0.08" data-to="0.85"><p>הלחיצות נכנסות מלמעלה</p></div>
+      <div class="tx small" data-tx="out" data-at="spout" data-dx="0" data-dy="-30" data-line="1" data-from="0.2" data-to="0.85"><p>ולמטה אמורים לצאת לקוחות</p></div>
+
+      <!-- beat 2: it breaks, and the words break with it -->
+      <div class="tx" data-tx="b2" data-at="crack" data-dx="0" data-dy="-90" data-line="1" data-from="1.0" data-to="1.95">
+        <h2 class="split" aria-label="ככה הוא נראה באמת."><span class="up" aria-hidden="true">ככה הוא נראה באמת.</span><span class="lo" aria-hidden="true" data-lo>ככה הוא נראה באמת.</span></h2>
+        <p>סדוק. ובמשפך סדוק, רוב מה שנכנס נשפך החוצה.</p>
+      </div>
+
+      <!-- beat 3: it keeps leaking -->
+      <div class="tx" data-tx="b3" data-at="spill" data-dx="0" data-dy="-160" data-line="1" data-from="2.05" data-to="2.95">
+        <h2>והוא ממשיך לנזול.</h2>
+        <p>כל יום, על כל שקל שאתה מוציא על פרסום. גם כשאתה לא רואה את זה.</p>
+      </div>
+
+      <!-- beat 4: you don't need a new funnel. The crack closes as you read. -->
+      <div class="tx" data-tx="b4" data-at="rimR" data-dx="40" data-dy="10" data-from="3.05" data-to="9">
+        <h2>אתה לא צריך משפך חדש.</h2>
+        <ul class="not"><li data-strike="0">לא קריאייטיב חדש.</li><li data-strike="1">לא תקציב גדול יותר.</li></ul>
+        <p class="fix">רק <em>לתקן את הנזילה.</em></p>
+        <a class="btn" href="#">אני רוצה אבחון מלא לקמפיין שלי</a>
+      </div>
     </div>
-    <div class="copy">
-      <section class="panel"><h1>כמה מהלחיצות שקנית החודש נזרקו לפח?</h1><p>אתה משלם על כל לחיצה על המודעה. אני דואג שיותר מהן יהפכו לפניות, בלי לגעת בקמפיין שלך.</p><a class="btn" href="#">אני רוצה אבחון מלא לקמפיין שלי</a></section>
-      <section class="panel"><h2>תכלס, מה המספרים אומרים?</h2><p>הגרף מקבל עומק: כל קומה היא שלב, הרוחב שלה הוא כמה אנשים נשארו.</p></section>
-      <section class="panel"><h2>ומה אם יותר אנשים היו פונים?</h2>
-        <div class="slider"><label for="rate"><span>כמה מהנכנסים פונים</span><b class="num" id="rateOut">2%</b></label><input id="rate" type="range" min="1" max="10" step="0.1" value="2"></div>
-        <p class="result"><b class="num" id="gain">₪0</b> בחודש נוספים. מאותו תקציב.</p></section>
-      <section class="panel"><p class="k">ממצא 01</p><h2>אין לך דף.</h2><p>המודעה שולחת לוואטסאפ. לקוח חם נוחת בלי מידע ובלי סיבה לבחור בך, ואין לך מושג כמה נטשו בדרך.</p></section>
-      <section class="panel"><p class="k">ממצא 02</p><h2>יש לך דף, והוא לא ממשיך את המודעה.</h2><p>המודעה הבטיחה דבר אחד, והדף מדבר על משהו אחר. הלקוח מתבלבל ויוצא.</p></section>
-      <section class="panel"><p class="k">ממצא 03</p><h2>יש לך מספרים, ואין לך הסבר.</h2><p>אתה יודע שאחוז ההמרה נמוך, אבל לא יודע למה. מדידה חושפת את הבעיה. היא לא פותרת אותה.</p></section>
-      <section class="panel"><h2>את הלחיצות אתה כבר קונה.<br><span style="color:var(--brass)">אני מטפל במה שקורה איתן.</span></h2></section>
-    </div>
-    <div class="rail" id="rail"></div>
   </div>
 </div>
-<div class="after">כאן הדף משתחרר לגלילה רגילה: מסלולים, עבודות, עדויות, מי אני, שאלות.</div>
-<p class="note">אב-טיפוס · ?motion=off לגרסה סטטית</p>
+<div class="after">מכאן הדף ממשיך בגלילה רגילה, והמשפך עובר אל מאחורי הקלעים: מתפרק לשלושה חלקים ומדגיש כל פעם את החלק הרלוונטי.</div>
+<p class="note">אב-טיפוס · הכל מרונדר בזמן אמת · ?motion=off</p>
 
 <script type="module">
 import * as THREE from 'three';
 import { RoomEnvironment } from './RoomEnvironment.js';
+import { EffectComposer } from './jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from './jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from './jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from './jsm/postprocessing/OutputPass.js';
 
 const story = document.getElementById('story'), canvas = document.getElementById('gl');
-const panels = [...document.querySelectorAll('.panel')];
-const labels = Object.fromEntries([...document.querySelectorAll('[data-l]')].map(e => [e.dataset.l, e]));
-const rail = document.getElementById('rail');
-const STEPS = panels.length;
-story.style.height = (STEPS * 100) + 'vh';
-panels.forEach(() => rail.appendChild(document.createElement('i')));
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches || /motion=off/.test(location.search);
+const small = innerWidth < 900;
+const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v, smooth = v => (v = clamp01(v), v * v * (3 - 2 * v));
+const easeOut = v => 1 - Math.pow(1 - clamp01(v), 3);
 
-/* ---------- the numbers ---------- */
-const M = { budget: 6000, cpc: 4, rate: 2, close: 20, value: 1500 };
-const fig = () => { const c = M.budget / M.cpc, l = c * M.rate / 100, d = l * M.close / 100; return { c, l, d, lost: c - l, rev: d * M.value }; };
-const nf = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+/* ---------- a fixed seed: the same crack and the same pour every visit ---------- */
+let seed = 1117;
+const rnd = () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 
-/* ---------- renderer, scene, light ---------- */
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+/* ---------- renderer ---------- */
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.5 : 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.05;
+renderer.toneMappingExposure = 0.9;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1B1F25);
+scene.fog = new THREE.Fog(0x1B1F25, 9, 16);
 const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-const key = new THREE.DirectionalLight(0xfff3dc, 1.6); key.position.set(-3, 5, 4); scene.add(key);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+scene.environmentIntensity = 0.38;
 
-/* ---------- the funnel: three tiers, one per stage ----------
-   Widths are on a log scale of the stage's count, so 1,500 -> 30 -> 6 stays
-   readable while still showing how much is lost. Each tier is a metal shell
-   (outside polished brass, inside darker) with a crisp rim. */
-const brass = new THREE.MeshStandardMaterial({ color: 0xB8862B, metalness: 0.9, roughness: 0.28, side: THREE.FrontSide });
-const inside = new THREE.MeshStandardMaterial({ color: 0x3a2c12, metalness: 0.7, roughness: 0.55, side: THREE.BackSide });
-const graphite = new THREE.MeshStandardMaterial({ color: 0x5b5a57, metalness: 0.85, roughness: 0.35 });
-const rimMat = new THREE.MeshStandardMaterial({ color: 0xE9D3A2, metalness: 1, roughness: 0.18 });
+const camera = new THREE.PerspectiveCamera(small ? 34 : 26, 1, 0.1, 60);
+const key = new THREE.DirectionalLight(0xfff1dc, 1.7);
+key.position.set(-3.5, 6, 3.5); key.castShadow = true;
+key.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
+Object.assign(key.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: 1, far: 16 });
+key.shadow.radius = 6; key.shadow.bias = -0.0004;
+scene.add(key);
+const rimLight = new THREE.DirectionalLight(0x9fb3c8, 0.7); rimLight.position.set(4, 2.5, -3); scene.add(rimLight);
+// Light from inside: the gold in the funnel shows through the crack.
+const glow = new THREE.PointLight(0xffb84a, 0, 2.6, 2); scene.add(glow);
 
-const funnel = new THREE.Group(); scene.add(funnel);
-const tiers = [];
-function makeTier(name) {
-  const g = new THREE.Group();
-  const outer = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 128, 1, true), brass);
-  const inner = new THREE.Mesh(outer.geometry, inside);
-  const rim = new THREE.Mesh(new THREE.TorusGeometry(1, 0.012, 12, 160), rimMat);
-  rim.rotation.x = Math.PI / 2;
-  g.add(outer, inner, rim);
-  funnel.add(g);
-  const t = { name, g, outer, inner, rim, rTop: 1, rBot: 1, h: 1, y: 0 };
-  tiers.push(t);
-  return t;
+/* ---------- the floor: it only shows the shadows ---------- */
+const FLOOR = -0.62;
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x232830, roughness: 0.92, metalness: 0 }));
+floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.receiveShadow = true; scene.add(floor);
+
+/* ---------- the funnel ----------
+   A brushed steel cone, a rolled rim and a spout. One patch of the wall,
+   facing the camera's left, is cut into shards: real pieces with straight
+   broken edges and the wall's thickness, made from Voronoi cells. The body
+   has the same patch cut out of it (an alpha mask drawn from the same
+   polygons), so with every shard home the wall is whole. */
+const R0 = 1.0, Y0 = 1.62, R1 = 0.16, Y1 = 0.36, TH = 0.024;
+const steel = new THREE.MeshPhysicalMaterial({ color: 0x8e949b, metalness: 1, roughness: 0.34, clearcoat: 0.2, clearcoatRoughness: 0.5, side: THREE.DoubleSide });
+const edgeMat = new THREE.MeshStandardMaterial({ color: 0xb8bcc2, metalness: 1, roughness: 0.18 });
+const coneR = v => R0 + (R1 - R0) * v, coneY = v => Y0 + (Y1 - Y0) * v;
+const slope = Math.atan2(R0 - R1, Y0 - Y1);
+const nx = Math.cos(slope), ny = Math.sin(slope);          // outward normal of the wall, before turning it round the axis
+const CRACK = { a: Math.PI * 0.78 };
+const VS = 1.55;                                             // patch coordinates: x = angle from the crack's centre, y = height along the wall x VS
+function wallPoint(a, v, inset, out) {
+  const r = coneR(v) - inset * nx;
+  return out.set(Math.cos(a) * r, coneY(v) - inset * ny * 0, Math.sin(a) * r);
 }
-const T = [makeTier('clicks'), makeTier('leads'), makeTier('deals')];
-const spout = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.5, 48, 1, true), brass); funnel.add(spout);
+const toWall = (x, y, inset, out) => wallPoint(CRACK.a + x, y / VS, inset, out);
 
-function shape(f) {
-  const lg = v => Math.log(Math.max(v, 1.5)) / Math.log(Math.max(f.c, 2));
-  const R = [1.55, 0.25 + 1.0 * lg(f.l), 0.16 + 0.75 * lg(f.d), 0.07];
-  const H = [1.25, 0.75, 0.6];
-  let y = 1.15;
-  T.forEach((t, i) => {
-    t.rTop = R[i]; t.rBot = R[i + 1]; t.h = H[i]; t.y = y - H[i] / 2; y -= H[i];
-    const geo = new THREE.CylinderGeometry(t.rTop, t.rBot, t.h, 128, 1, true);
-    t.outer.geometry.dispose(); t.outer.geometry = geo; t.inner.geometry = geo;
-    t.rim.scale.set(t.rTop, t.rTop, 1); t.rim.position.y = t.h / 2;
-  });
-  spout.position.y = y - 0.25;
-}
-
-/* ---------- the clicks ----------
-   Each particle is a click. It pours in over the top rim and spirals down
-   the inside of the first tier. Most of them never become a lead: at the
-   joint they are thrown out through the gap and fall away into the dark,
-   losing their colour. The few that pass go on down, and fewer still reach
-   the spout. The shares are the figures', not an effect. */
-const NP = innerWidth < 900 ? 160 : 520;
-const dotGeo = new THREE.IcosahedronGeometry(0.022, 1);
-const dotMat = new THREE.MeshStandardMaterial({ metalness: 0.6, roughness: 0.3, emissive: 0x3a2604 });
-const dots = new THREE.InstancedMesh(dotGeo, dotMat, NP);
-dots.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-funnel.add(dots);
-const P = Array.from({ length: NP }, (_, i) => ({ ph: i / NP + Math.random() / NP, a: Math.random() * Math.PI * 2, s: 0.85 + Math.random() * 0.3, r: Math.random(), k: Math.random() }));
-const cBright = new THREE.Color(0xD9A441), cSpent = new THREE.Color(0x4a4741), tmpC = new THREE.Color();
-const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), sc = new THREE.Vector3();
-let passFrac = 0.02, dealFrac = 0.2;
-
-function radiusAt(t, u) { return t.rTop + (t.rBot - t.rTop) * u; }
-function placeDot(p, time, explode, i) {
-  const f = (p.ph + time * 0.07 * p.s) % 1;
-  const pass = p.r < Math.max(passFrac, 0.03), deal = pass && p.k < dealFrac;
-  const t1 = T[0], t2 = T[1], t3 = T[2];
-  let x, y, z, bright = 1, size = 1;
-  const ang = p.a + f * 9;
-  if (f < 0.12) {                                   // falling in from above
-    const u = f / 0.12, r = t1.rTop * (0.25 + 0.6 * p.k);
-    x = Math.cos(p.a) * r; z = Math.sin(p.a) * r; y = t1.y + t1.h / 2 + 1.4 * (1 - u) * (1 - u);
-    size = 0.4 + 0.6 * u;
-  } else if (f < 0.55) {                            // spiralling down the first tier
-    const u = (f - 0.12) / 0.43, r = radiusAt(t1, u) * 0.92;
-    x = Math.cos(ang) * r; z = Math.sin(ang) * r; y = t1.y + t1.h / 2 - t1.h * u + explode * 0.0;
-  } else if (!pass) {                               // thrown out at the joint, falls away
-    const u = (f - 0.55) / 0.45, r0 = t1.rBot, out = r0 + u * (0.5 + p.k * 0.5);
-    const a = Math.PI * (0.85 + 0.3 * p.a / (Math.PI * 2));   // one way out: through the gap, to the side the bin is on
-    x = Math.cos(a) * out; z = Math.sin(a) * out * 0.4; y = t1.y - t1.h / 2 - u * u * 2.6 + explode * 0.2;
-    bright = 1 - Math.min(1, u * 1.6); size = 1 - u * 0.5;
-  } else if (f < 0.78 || !deal) {                   // a lead: on down the second tier
-    const u = Math.min(1, (f - 0.55) / 0.23), r = radiusAt(t2, u) * 0.85;
-    x = Math.cos(ang) * r; z = Math.sin(ang) * r; y = t2.y + t2.h / 2 - t2.h * u - explode * 0.35;
-    if (f >= 0.78) { size = 1 - (f - 0.78) / 0.22; y -= (f - 0.78) * 0.4; }
-  } else {                                          // a deal: through the last tier and out of the spout
-    const u = (f - 0.78) / 0.22, r = radiusAt(t3, Math.min(1, u * 1.2)) * 0.8;
-    x = Math.cos(ang) * r * (1 - u); z = Math.sin(ang) * r * (1 - u); y = t3.y + t3.h / 2 - (t3.h + 0.6) * u - explode * 0.7;
-    size = 1.3;
+// the patch outline: a convex, irregular shape round the middle of the wall
+const outline = (() => {
+  const pts = [], cx = 0, cy = 0.46 * VS;
+  for (let k = 0; k < 11; k++) { const t = k / 11 * Math.PI * 2 + rnd() * 0.3; const rr = 0.82 + rnd() * 0.18; pts.push([cx + Math.cos(t) * 0.62 * rr, cy + Math.sin(t) * 0.5 * rr]); }
+  pts.sort((p, q) => Math.atan2(p[1] - cy, p[0] - cx) - Math.atan2(q[1] - cy, q[0] - cx));
+  // convex hull (gift wrap is plenty for 11 points)
+  const hull = []; let start = pts.reduce((m, p) => p[0] < m[0] ? p : m), p = start;
+  do { hull.push(p); let q = pts[0] === p ? pts[1] : pts[0];
+       for (const r of pts) { const c = (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]); if (c < 0) q = r; }
+       p = q; } while (p !== start && hull.length < 20);
+  return hull;
+})();
+// seeds inside it, then each seed's cell: the outline clipped by the bisectors to every other seed
+const inside = (pt, poly) => { let s = 0; for (let i = 0; i < poly.length; i++) { const a = poly[i], b = poly[(i + 1) % poly.length]; const c = (b[0] - a[0]) * (pt[1] - a[1]) - (b[1] - a[1]) * (pt[0] - a[0]); if (c !== 0) { if (s === 0) s = Math.sign(c); else if (Math.sign(c) !== s) return false; } } return true; };
+const seeds = [];
+while (seeds.length < 13) { const pt = [(rnd() * 2 - 1) * 0.6, 0.46 * VS + (rnd() * 2 - 1) * 0.48]; if (inside(pt, outline)) seeds.push(pt); }
+function clip(poly, nx, ny, d) {               // keep the part where nx*x + ny*y <= d
+  const out = [];
+  for (let i = 0; i < poly.length; i++) {
+    const a = poly[i], b = poly[(i + 1) % poly.length], da = nx * a[0] + ny * a[1] - d, db = nx * b[0] + ny * b[1] - d;
+    if (da <= 0) out.push(a);
+    if ((da < 0) !== (db < 0)) { const t = da / (da - db); out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]); }
   }
-  v3.set(x, y, z); sc.setScalar(Math.max(0.001, size));
-  m4.compose(v3, q, sc); dots.setMatrixAt(i, m4);
-  tmpC.copy(cSpent).lerp(cBright, bright); dots.setColorAt(i, tmpC);
+  return out;
+}
+const cellsPoly = seeds.map((s, i) => {
+  let poly = outline.slice();
+  seeds.forEach((o, j) => { if (i === j) return; const nx2 = o[0] - s[0], ny2 = o[1] - s[1]; poly = clip(poly, nx2, ny2, (nx2 * (s[0] + o[0]) + ny2 * (s[1] + o[1])) / 2); });
+  return poly;
+});
+
+/* One shard: the cell's outer face and inner face, finely triangulated so
+   they follow the cone's curve, and its broken edges as narrow strips. */
+function shardGeometry(poly) {
+  const P = [], N = [], v = new THREE.Vector3(), w = new THREE.Vector3();
+  const c = poly.reduce((m, p) => [m[0] + p[0] / poly.length, m[1] + p[1] / poly.length], [0, 0]);
+  const center = toWall(c[0], c[1], TH / 2, new THREE.Vector3());
+  const normalAt = (x) => { const a = CRACK.a + x; return [Math.cos(a) * nx, ny, Math.sin(a) * nx]; };
+  const push = (pt, n) => { P.push(pt.x - center.x, pt.y - center.y, pt.z - center.z); N.push(n[0], n[1], n[2]); };
+  const L = 3;                                   // each fan triangle split into 4^3 pieces
+  function tri(a, b, d, inset, flip) {
+    const n = 1 << L;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n - i; j++) {
+      const corners = [[i, j], [i + 1, j], [i, j + 1]], tris = [corners];
+      if (i + j < n - 1) tris.push([[i + 1, j], [i + 1, j + 1], [i, j + 1]]);
+      tris.forEach(t => {
+        const pts = t.map(([ii, jj]) => { const s = ii / n, r = jj / n; return [a[0] + (b[0] - a[0]) * s + (d[0] - a[0]) * r, a[1] + (b[1] - a[1]) * s + (d[1] - a[1]) * r]; });
+        const order = flip ? [0, 2, 1] : [0, 1, 2];
+        order.forEach(k => { const [x, y] = pts[k]; const nn = normalAt(x); push(toWall(x, y, inset, v), flip ? nn.map(q => -q) : nn); });
+      });
+    }
+  }
+  for (let k = 0; k < poly.length; k++) {
+    const a = c, b = poly[k], d = poly[(k + 1) % poly.length];
+    tri(a, b, d, 0, true); tri(a, b, d, TH, false);
+  }
+  // the broken edges
+  for (let k = 0; k < poly.length; k++) {
+    const a = poly[k], b = poly[(k + 1) % poly.length];
+    const A0 = toWall(a[0], a[1], 0, new THREE.Vector3()), B0 = toWall(b[0], b[1], 0, new THREE.Vector3());
+    const A1 = toWall(a[0], a[1], TH, new THREE.Vector3()), B1 = toWall(b[0], b[1], TH, new THREE.Vector3());
+    const e = new THREE.Vector3().subVectors(B0, A0), out = new THREE.Vector3().subVectors(A1, A0);
+    const n = new THREE.Vector3().crossVectors(e, out).normalize();
+    const mid = new THREE.Vector3().addVectors(A0, B0).multiplyScalar(0.5).sub(center);
+    if (n.dot(mid) < 0) n.negate();
+    [[A0, B0, B1], [A0, B1, A1]].forEach(t => t.forEach(pt => push(pt, [n.x, n.y, n.z])));
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  return { g, center };
 }
 
-/* ---------- the story as keyframes ----------
-   elev/az: the camera's angle. depth: 0 is the funnel pressed flat, a 2D
-   funnel chart, 1 is the full solid. explode: tiers pulled apart. paper: the
-   report pages. shift: the second tier knocked off its axis (finding 02,
-   "the page doesn't continue the ad"). focus: which tier stays brass. */
-const K = [
-  { elev: 2,  az: 0,   depth: 0.04, explode: 0,    paper: 0, shift: 0, x: -0.62, zoom: 1.0,  focus: -1, lab: 1 },
-  { elev: 24, az: -32, depth: 1,    explode: 0,    paper: 0, shift: 0, x: -0.62, zoom: 1.0,  focus: -1, lab: 1 },
-  { elev: 30, az: -48, depth: 1,    explode: 0.25, paper: 0, shift: 0, x: -0.62, zoom: 0.95, focus: 1,  lab: 1 },
-  { elev: 16, az: -18, depth: 1,    explode: 1,    paper: 1, shift: 0, x: -0.62, zoom: 1.05, focus: 0,  lab: 1 },
-  { elev: 10, az: 24,  depth: 1,    explode: 1,    paper: 1, shift: 1, x: -0.62, zoom: 1.05, focus: 1,  lab: 1 },
-  { elev: 40, az: -70, depth: 1,    explode: 1,    paper: 1, shift: 0, x: -0.62, zoom: 0.95, focus: 2,  lab: 1 },
-  { elev: 20, az: -10, depth: 1,    explode: 0,    paper: 0, shift: 0, x: -0.62, zoom: 1.0,  focus: 1,  lab: 1 },
+// the body: a lathe with uv, and the patch masked out of it
+function coneGeometry() {
+  const NU = 160, NV = 24, P = [], N = [], U = [], I = [];
+  for (let side = 0; side < 2; side++) {
+    const base = P.length / 3, inset = side ? TH : 0, f = side ? -1 : 1;
+    for (let j = 0; j <= NV; j++) for (let i = 0; i <= NU; i++) {
+      const a = i / NU * Math.PI * 2, v = j / NV, p = wallPoint(a, v, inset, new THREE.Vector3());
+      P.push(p.x, p.y, p.z); N.push(f * Math.cos(a) * nx, f * ny, f * Math.sin(a) * nx); U.push(i / NU, v);
+    }
+    for (let j = 0; j < NV; j++) for (let i = 0; i < NU; i++) {
+      const q = base + j * (NU + 1) + i;
+      if (side) I.push(q, q + NU + 1, q + 1, q + 1, q + NU + 1, q + NU + 2); else I.push(q, q + 1, q + NU + 1, q + 1, q + NU + 2, q + NU + 1);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(U, 2));
+  g.setIndex(I);
+  return g;
+}
+const mask = document.createElement('canvas'); mask.width = 4096; mask.height = 512;
+{
+  const m = mask.getContext('2d');
+  m.fillStyle = '#fff'; m.fillRect(0, 0, mask.width, mask.height);
+  m.fillStyle = '#000'; m.beginPath();
+  outline.forEach(([x, y], k) => { const u = ((CRACK.a + x) / (Math.PI * 2)) * mask.width, v = (1 - y / VS) * mask.height; k ? m.lineTo(u, v) : m.moveTo(u, v); });
+  m.closePath(); m.fill();
+}
+const maskTex = new THREE.CanvasTexture(mask); maskTex.flipY = true;
+const bodyMat = steel.clone(); bodyMat.alphaMap = maskTex; bodyMat.alphaTest = 0.5;
+const funnel = new THREE.Group(); scene.add(funnel);
+const body = new THREE.Mesh(coneGeometry(), bodyMat);
+body.castShadow = true; funnel.add(body);
+const rimMesh = new THREE.Mesh(new THREE.TorusGeometry(R0 + 0.012, 0.026, 16, 160), steel);
+rimMesh.rotation.x = Math.PI / 2; rimMesh.position.y = Y0; rimMesh.castShadow = true; funnel.add(rimMesh);
+const spout = new THREE.Mesh(new THREE.CylinderGeometry(R1 - 0.004, 0.115, Y1 - FLOOR - 0.02, 64, 1, true), steel);
+spout.position.y = (Y1 + FLOOR) / 2 + 0.01; spout.castShadow = true; funnel.add(spout);
+
+const SEEDS = seeds;
+const shards = cellsPoly.map(poly => {
+  const { g, center } = shardGeometry(poly);
+  const m = new THREE.Mesh(g, steel); m.castShadow = true; m.position.copy(center); funnel.add(m);
+  const a = CRACK.a + center.x * 0;   // direction: out from the wall, a little up, a little scattered
+  const dir = new THREE.Vector3(center.x, 0, center.z).normalize();
+  const n = dir.clone().multiplyScalar(1).add(new THREE.Vector3((rnd() - 0.5) * 0.5, 0.25 + rnd() * 0.35, (rnd() - 0.5) * 0.5)).normalize();
+  return { m, home: center.clone(), n, sp: 0.45 + rnd() * 0.45, spin: new THREE.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).multiplyScalar(4), delay: rnd() * 0.3 };
+});
+
+/* The crack lines: the cells' edges, drawn just outside the wall. They glow
+   before it breaks, and stay as a gold seam once it is mended. */
+const crackPts = [];
+{
+  const p = new THREE.Vector3(), q = new THREE.Vector3(), seg = 6;
+  cellsPoly.forEach(poly => poly.forEach((a, k) => {
+    const b = poly[(k + 1) % poly.length];
+    for (let s = 0; s < seg; s++) {
+      const t0 = s / seg, t1 = (s + 1) / seg;
+      toWall(a[0] + (b[0] - a[0]) * t0, a[1] + (b[1] - a[1]) * t0, -0.004, p);
+      toWall(a[0] + (b[0] - a[0]) * t1, a[1] + (b[1] - a[1]) * t1, -0.004, q);
+      crackPts.push(p.x, p.y, p.z, q.x, q.y, q.z);
+    }
+  }));
+}
+const crackGeo = new THREE.BufferGeometry(); crackGeo.setAttribute('position', new THREE.Float32BufferAttribute(crackPts, 3));
+const crackMat = new THREE.LineBasicMaterial({ color: new THREE.Color(1.7, 1.05, 0.28), transparent: true, opacity: 0, toneMapped: false });
+funnel.add(new THREE.LineSegments(crackGeo, crackMat));
+
+/* ---------- the clicks: gold balls ----------
+   Each one falls in, runs down the inside of the wall, and leaves either by
+   the spout (a customer) or, once the wall is open, through the crack. The
+   route is decided when a ball starts its run, from the state of the wall at
+   that moment, so a ball never changes its mind in mid-air. Where it is on
+   that route is plain arithmetic: no physics engine, nothing to drift. */
+const NB = small ? 150 : 380, BR = 0.042;
+const gold = new THREE.MeshStandardMaterial({ color: 0xE0B04A, metalness: 1, roughness: 0.2 });
+const goldLit = new THREE.MeshStandardMaterial({ color: 0xFFD27A, metalness: 0.6, roughness: 0.25, emissive: 0xFFB43C, emissiveIntensity: 0.9 });
+const ballGeo = new THREE.SphereGeometry(BR, 20, 14);
+const nLit = Math.round(NB * 0.15);
+const balls = new THREE.InstancedMesh(ballGeo, gold, NB - nLit), lit = new THREE.InstancedMesh(ballGeo, goldLit, nLit);
+[balls, lit].forEach(m => { m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); m.castShadow = true; scene.add(m); });
+const D = 4.6;                                       // seconds per run
+const B = Array.from({ length: NB }, (_, i) => ({ ph: i / NB, a0: rnd() * Math.PI * 2, r0: 0.15 + rnd() * 0.55, sp: 0.9 + rnd() * 0.2, k: rnd(), k2: rnd(), cyc: -1, hole: false }));
+const G = 6.5;
+const m4 = new THREE.Matrix4(), quat = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
+
+let openNow = 0;                                     // how open the wall is right now, 0..1
+function ballAt(b, time, out) {
+  const T = (b.ph * D + time * b.sp), cyc = Math.floor(T / D), t = T - cyc * D;
+  if (cyc !== b.cyc) { b.cyc = cyc; b.hole = openNow > 0.35 && b.k2 > 0.04; }   // when the wall is open, nearly everything finds the crack
+  let s = 1;
+  if (t < 0.55) {                                    // falling in
+    const u = t / 0.55, h = Y0 + 2.4 * (1 - u * u);
+    out.set(Math.cos(b.a0) * b.r0, h, Math.sin(b.a0) * b.r0);
+  } else {
+    const vExit = b.hole ? 0.5 + (b.k - 0.5) * 0.3 : 1, runT = b.hole ? 1.0 : 1.35, aExit = b.hole ? CRACK.a + (b.k2 - 0.5) * 0.6 : b.a0 + 7;
+    const tr = t - 0.55;
+    if (tr < runT) {                                 // running down the wall, faster as it narrows
+      const u = easeOut(tr / runT * 0.9 + 0.1 * (tr / runT) * (tr / runT)), v = u * vExit;
+      let da = Math.atan2(Math.sin(aExit - b.a0), Math.cos(aExit - b.a0)) + Math.PI * 2 * (b.hole ? 1 : 2);
+      const a = b.a0 + da * u, r = coneR(v) - BR - TH;
+      out.set(Math.cos(a) * r, coneY(v) + BR * 1.2, Math.sin(a) * r);
+    } else {
+      const te = tr - runT;
+      let x0, y0, z0, vx, vy, vz;
+      if (b.hole) {                                  // out through the crack
+        const r = coneR(vExit);
+        x0 = Math.cos(aExit) * r; z0 = Math.sin(aExit) * r; y0 = coneY(vExit);
+        const spd = 0.7 + b.k * 0.9;
+        vx = Math.cos(aExit) * spd; vz = Math.sin(aExit) * spd * 0.8 + (b.k2 - 0.5) * 0.6; vy = 0.35 + b.k2 * 0.5;
+      } else {                                       // out of the spout
+        x0 = 0; z0 = 0; y0 = FLOOR + 0.12;
+        const ang = b.a0, spd = 0.25 + b.k * 0.5;
+        vx = Math.cos(ang) * spd; vz = Math.abs(Math.sin(ang)) * spd + 0.2; vy = 0;
+      }
+      // a fall, one bounce, then a roll that slows to a stop
+      const yF = FLOOR + BR, disc = vy * vy + 2 * G * (y0 - yF), t1 = (vy + Math.sqrt(Math.max(0, disc))) / G;
+      let x, y, z;
+      if (te < t1) { x = x0 + vx * te; z = z0 + vz * te; y = y0 + vy * te - G * te * te / 2; }
+      else {
+        const vb = (G * t1 - vy) * 0.32, t2 = 2 * vb / G, tt = te - t1;
+        const hx = x0 + vx * t1, hz = z0 + vz * t1;
+        if (tt < t2) { x = hx + vx * 0.7 * tt; z = hz + vz * 0.7 * tt; y = yF + vb * tt - G * tt * tt / 2; }
+        else { const tr2 = tt - t2, roll = (1 - Math.exp(-1.4 * tr2)) / 1.4; x = hx + vx * 0.7 * (t2 + roll); z = hz + vz * 0.7 * (t2 + roll); y = yF; }
+      }
+      out.set(x, y, z);
+      s = 1 - smooth((t - (D - 0.6)) / 0.6);          // sinks away at the end of its run
+    }
+  }
+  return s;
+}
+
+/* ---------- post: a soft bloom, only on what is actually bright ---------- */
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.5, 0.4, 1.15);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+/* ---------- the story ----------
+   u: how far the story has been scrolled, in screens.
+     0..1   the funnel, whole; the pour starts
+     1..2   cracks light up, then it opens (gently: shards slip out and drop)
+     2..3   the leak, and the camera comes round to look at it
+     3..4   the crack closes as the copy says it can, and leaves a gold seam */
+const shot = [   // camera per beat: azimuth, elevation (deg), distance, look-at height, funnel offset on screen
+  { az: 8,   el: 9,  d: 9.2, y: 0.55, off: -0.2 },
+  { az: -28, el: 13, d: 8.2, y: 0.6,  off: -0.18 },
+  { az: -52, el: 21, d: 9.4, y: 0.2,  off: -0.12 },
+  { az: -18, el: 11, d: 8.8, y: 0.55, off: -0.2 },
+  { az: -18, el: 11, d: 8.8, y: 0.55, off: -0.2 },
 ];
-const lerp = (a, b, t) => a + (b - a) * t, ss = t => t * t * (3 - 2 * t);
-function frameAt(p) {
-  const i = Math.max(0, Math.min(K.length - 1, Math.floor(p))), j = Math.min(K.length - 1, i + 1);
-  const t = ss(Math.max(0, Math.min(1, (p - i - 0.35) / 0.65)));    // hold, then move
-  const o = {}; for (const k in K[i]) o[k] = lerp(K[i][k], K[j][k], t);
-  o.step = Math.round(p - 0.15 < 0 ? 0 : Math.min(K.length - 1, p + 0.15) - 0.0001 | 0);
-  o.focusA = K[i].focus; o.focusB = K[j].focus; o.ft = t;
-  return o;
+const lerp = (a, b, t) => a + (b - a) * t;
+function camAt(u) {
+  const i = Math.min(shot.length - 2, Math.floor(u)), t = smooth((u - i - 0.25) / 0.75), A = shot[i], Bn = shot[i + 1];
+  const o = {}; for (const k in A) o[k] = lerp(A[k], Bn[k], t); return o;
 }
 
-/* ---------- layout ---------- */
-let W = 0, H = 0, small = false;
+/* ---------- copy pinned to the scene ---------- */
+const tx = [...document.querySelectorAll('[data-tx]')], leads = document.getElementById('leads');
+const lo = document.querySelector('[data-lo]'), strikes = [...document.querySelectorAll('[data-strike]')];
+const anchors = { rimR: new THREE.Vector3(), pour: new THREE.Vector3(), spout: new THREE.Vector3(), crack: new THREE.Vector3(), spill: new THREE.Vector3() };
+function updateAnchors() {
+  let best = -1e9;                                                               // the rim's edge nearest the copy, whatever the angle
+  for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2; sp.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0).project(camera); if (sp.x > best) { best = sp.x; anchors.rimR.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0); } }
+  anchors.pour.set(0.05, Y0 + 0.9, 0);
+  anchors.spout.set(0, FLOOR + 0.2, 0);
+  wallPoint(CRACK.a, 0.46, 0, anchors.crack);
+  anchors.spill.set(Math.cos(CRACK.a) * 2.0, FLOOR + 0.05, Math.sin(CRACK.a) * 1.4);
+}
+const sp = new THREE.Vector3();
+function screen(v) { sp.copy(v).project(camera); return { x: (sp.x * 0.5 + 0.5) * W, y: (-sp.y * 0.5 + 0.5) * H }; }
+function placeCopy(u) {
+  let svg = '';
+  tx.forEach(el => {
+    const from = +el.dataset.from, to = +el.dataset.to;
+    const vis = smooth((u - from) / 0.18) * (1 - smooth((u - to + 0.12) / 0.15));
+    el.style.opacity = vis.toFixed(3);
+    el.style.pointerEvents = vis > 0.6 ? 'auto' : 'none';
+    if (vis <= 0.001) return;
+    const s = screen(anchors[el.dataset.at]);
+    let x, y;
+    if (small) { x = 20; y = H - el.offsetHeight - 28; }   // phones: one block at the foot of the screen
+    else {
+      // the block stands to the copy side of its point; the right edge of an RTL block
+      // the copy keeps to its own column on the right; it moves up and down with the point it is about
+      x = W - Math.max(48, (W - 1180) / 2) - el.offsetWidth;
+      y = s.y + (+el.dataset.dy) * (H / 900);
+      y = Math.max(84, Math.min(H - el.offsetHeight - 40, y));
+    }
+    const drift = (1 - vis) * 14;                          // it settles into place as it arrives
+    el.style.transform = `translate(${x.toFixed(1)}px, ${(y + drift).toFixed(1)}px)`;
+    if (el.dataset.line && !small) {
+      const ex = x - 14, ey = y + Math.min(28, el.offsetHeight / 2);
+      svg += `<g opacity="${vis.toFixed(2)}"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="2.5"/><path d="M${s.x.toFixed(1)} ${s.y.toFixed(1)} L${ex.toFixed(1)} ${ey.toFixed(1)}"/></g>`;
+    }
+  });
+  leads.innerHTML = svg;
+}
+
+/* ---------- size ---------- */
+let W = 0, H = 0;
 function resize() {
-  W = innerWidth; H = innerHeight; small = W < 900;
-  renderer.setSize(W, H, false);
-  camera.aspect = W / H; camera.fov = small ? 38 : 30; camera.updateProjectionMatrix();
+  W = innerWidth; H = innerHeight;
+  renderer.setSize(W, H, false); composer.setSize(W, H);
+  bloom.resolution.set(W / 2, H / 2);
+  camera.aspect = W / H; camera.updateProjectionMatrix();
 }
 addEventListener('resize', resize);
 
-/* ---------- labels follow the 3D points they belong to ---------- */
-const anchor = new THREE.Vector3();
-function label(name, x, y, z, show) {
-  const el = labels[name]; anchor.set(x, y, z); funnel.localToWorld(anchor); anchor.project(camera);
-  const px = Math.max(el.offsetWidth / 2 + 16, (anchor.x * 0.5 + 0.5) * W), py = Math.max(80, (-anchor.y * 0.5 + 0.5) * H);
-  el.style.transform = `translate(${px}px, ${py}px) translate(-50%,-50%)`;
-  el.style.opacity = show ? 1 : 0;
-}
-
 /* ---------- each frame ---------- */
-let current = -1, last = performance.now(), clock = 0;
-function render(now) {
+let clock = 0, last = performance.now(), camAzNow = 0;
+function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
   if (!still) clock += dt;
-  const top = story.getBoundingClientRect().top, unit = innerHeight;
-  const p = Math.max(0, Math.min(K.length - 1, -top / unit));
-  const k = frameAt(p);
+  const u = Math.max(0, Math.min(4, -story.getBoundingClientRect().top / innerHeight));
 
-  // panels and page tone
-  const step = Math.min(STEPS - 1, Math.max(0, Math.round(p)));
-  if (step !== current) {
-    current = step;
-    panels.forEach((el, i) => el.classList.toggle('on', i === step));
-    [...rail.children].forEach((el, i) => el.classList.toggle('on', i === step));
-  }
-  document.body.classList.toggle('paper', k.paper > 0.5);
-
-  // camera: an orbit around the funnel, breathing a little
-  const breathe = still ? 0 : Math.sin(clock * 0.6) * 1.5;
-  const el = THREE.MathUtils.degToRad(k.elev + breathe * 0.4), az = THREE.MathUtils.degToRad(k.az + breathe);
-  const dist = (small ? 9.4 : 9.0) / k.zoom;
-  camera.position.set(Math.sin(az) * Math.cos(el) * dist, Math.sin(el) * dist + 0.1, Math.cos(az) * Math.cos(el) * dist);
-  camera.lookAt(0, 0, 0);
-  // the funnel sits on the left half (top part on a phone)
-  camera.setViewOffset(W, H, small ? 0 : W * 0.22, small ? H * 0.2 : 0, W, H);
-
-  // depth: pressed flat (a funnel chart) or full solid
-  funnel.scale.set(1, 1, Math.max(0.02, k.depth));
-  funnel.rotation.y = still ? 0 : clock * 0.08;   // slow turn, so the metal catches the light
-
-  // explode and misalign
-  T.forEach((t, i) => {
-    t.g.position.set(i === 1 ? k.shift * 0.55 : 0, t.y - i * k.explode * 0.35, i === 1 ? k.shift * 0.2 : 0);
-    t.g.rotation.z = i === 1 ? k.shift * 0.18 : 0;
-    const on = (k.focusA === -1 || k.focusA === i) ? 1 - k.ft : 0;
-    const on2 = (k.focusB === -1 || k.focusB === i) ? k.ft : 0;
-    t.outer.material = on + on2 > 0.5 ? brass : graphite;
+  // the wall
+  const crack = smooth((u - 0.85) / 0.3);                         // the lines light up
+  const open = smooth((u - 1.15) / 0.75) * (1 - smooth((u - 3.15) / 0.6));   // the shards slip out, and later come home
+  openNow = open;
+  crackMat.opacity = Math.max(crack * (1 - open * 0.6), smooth((u - 3.5) / 0.3) * 0.9);   // and stay on as a seam once mended
+  shards.forEach(sh => {
+    const s = clamp01((open - sh.delay) / (1 - sh.delay)), t = s * 1.1;   // "time" since it let go
+    const p = sh.home.clone().addScaledVector(sh.n, sh.sp * t);
+    p.y -= 0.5 * G * 0.55 * t * t;
+    const lowest = FLOOR + 0.03;
+    if (p.y < lowest) p.y = lowest;                               // it lands and lies there
+    sh.m.position.copy(p);
+    sh.m.rotation.set(sh.spin.x * s, sh.spin.y * s, sh.spin.z * s);
   });
-  spout.position.y = T[2].y - T[2].h / 2 - 0.25 - 2 * k.explode * 0.35;
+  glow.position.copy(anchors.crack).multiplyScalar(0.7);
+  glow.intensity = (crack * 0.5 + open * 1.0) * 1.2;
 
-  // the clicks
-  for (let i = 0; i < NP; i++) placeDot(P[i], still ? 4.2 : clock, k.explode, i);
-  dots.instanceMatrix.needsUpdate = true; if (dots.instanceColor) dots.instanceColor.needsUpdate = true;
+  // the balls
+  const vis = smooth(u / 0.05 + 0.6);                             // the pour is on from the start
+  let ni = 0, nl = 0;
+  B.forEach((b, i) => {
+    const s = ballAt(b, still ? 2.5 + i * 0.013 : clock, pos) * vis;
+    scl.setScalar(Math.max(0.0001, s)); m4.compose(pos, quat, scl);
+    if (i < nLit) lit.setMatrixAt(nl++, m4); else balls.setMatrixAt(ni++, m4);
+  });
+  balls.instanceMatrix.needsUpdate = true; lit.instanceMatrix.needsUpdate = true;
 
-  // labels
-  const f = fig(), t1 = T[0], t2 = T[1], t3 = T[2], rx = small ? 0.25 : 0.35;
-  labels.clicks.querySelector('.num').textContent = nf.format(f.c);
-  labels.leads.querySelector('.num').textContent = nf.format(f.l);
-  labels.deals.querySelector('.num').textContent = nf.format(f.d);
-  labels.lost.querySelector('.num').textContent = nf.format(f.lost);
-  label('clicks', -t1.rTop - rx - 0.35, t1.y + t1.h / 2 + 0.15, 0, true);
-  label('leads', -t2.rTop - rx - 0.15, t2.y - k.explode * 0.35, 0, true);
-  label('deals', -t3.rTop - rx, t3.y - 2 * k.explode * 0.35, 0, true);
-  label('lost', -t1.rTop - 0.2, t1.y - t1.h / 2 - 2.3, 0, true);
+  // the camera, breathing a little
+  const c = camAt(u), br = still ? 0 : Math.sin(clock * 0.5);
+  camAzNow = c.az + br * 1.2;
+  const az = THREE.MathUtils.degToRad(camAzNow), el = THREE.MathUtils.degToRad(c.el + br * 0.5);
+  const dist = c.d * (small ? 1.25 : 1);
+  camera.position.set(Math.sin(az) * Math.cos(el) * dist, c.y + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist);
+  camera.lookAt(0, c.y, 0);
+  if (small) camera.setViewOffset(W, H, 0, H * 0.16, W, H); else camera.setViewOffset(W, H, W * -c.off, 0, W, H);
 
-  renderer.setClearColor(k.paper > 0.5 ? 0xFAF8F3 : 0x1C1E24, 0);
-  renderer.render(scene, camera);
-  if (!still) requestAnimationFrame(render);
+  // the copy: the headline cracks with the wall; the "nots" are struck through as you read them
+  if (lo) lo.style.transform = `translate(${(-open * 7).toFixed(1)}px, ${(open * 9).toFixed(1)}px) rotate(${(-open * 1.6).toFixed(2)}deg)`;
+  strikes.forEach((li, k) => li.style.setProperty('--s', smooth((u - 3.2 - k * 0.15) / 0.2).toFixed(3)));
+  updateAnchors();
+  camera.updateMatrixWorld();
+  placeCopy(u);
+
+  composer.render();
+  if (!still) requestAnimationFrame(frame);
 }
-
-/* ---------- the slider talks to the funnel ---------- */
-const rate = document.getElementById('rate'), rateOut = document.getElementById('rateOut'), gain = document.getElementById('gain');
-function setRate() {
-  const base = fig().rev; M.rate = parseFloat(rate.value);
-  const f = fig(); passFrac = f.l / f.c; dealFrac = M.close / 100;
-  rateOut.textContent = M.rate.toFixed(1).replace('.0', '') + '%';
-  gain.textContent = '₪' + nf.format(f.rev - 9000);
-  shape(f);
-  if (still) requestAnimationFrame(render);
-}
-rate.addEventListener('input', setRate);
-
-resize(); shape(fig()); setRate();
-if (still) { addEventListener('scroll', () => requestAnimationFrame(render), { passive: true }); }
-requestAnimationFrame(render);
+resize();
+if (still) { addEventListener('scroll', () => requestAnimationFrame(frame), { passive: true }); }
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
