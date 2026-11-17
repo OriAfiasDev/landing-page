@@ -133,7 +133,7 @@ import { OutputPass } from './jsm/postprocessing/OutputPass.js';
 
 const story = document.getElementById('story'), canvas = document.getElementById('gl');
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches || /motion=off/.test(location.search);
-const small = innerWidth < 900;
+let small = innerWidth < 900;          // re-read on resize: a window can become a phone-sized one
 const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v, smooth = v => (v = clamp01(v), v * v * (3 - 2 * v));
 const easeOut = v => 1 - Math.pow(1 - clamp01(v), 3);
 
@@ -172,40 +172,64 @@ const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStan
 floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.receiveShadow = true; scene.add(floor);
 
 /* ---------- the backdrop: a campaign dashboard, barely there ----------
-   Far behind the funnel, at about a tenth of full strength: the charts
-   anyone running ads lives with. Impressions and clicks climbing, leads
-   lying flat along the bottom. It is the story in one glance for whoever
-   notices it, and wallpaper for whoever doesn't. */
-{
-  const c = document.createElement('canvas'); c.width = 2400; c.height = 1200;
-  const g = c.getContext('2d'), ink = 'rgba(250,248,243,1)';
-  g.strokeStyle = ink; g.fillStyle = ink; g.lineWidth = 2;
-  // the grid
-  g.globalAlpha = 0.35;
-  for (let x = 120; x <= 2280; x += 180) { g.beginPath(); g.moveTo(x, 120); g.lineTo(x, 1080); g.stroke(); }
-  for (let y = 120; y <= 1080; y += 120) { g.beginPath(); g.moveTo(120, y); g.lineTo(2280, y); g.stroke(); }
-  g.globalAlpha = 1;
-  // bars: daily clicks
-  let sd = 7;
-  const r = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
-  for (let k = 0; k < 24; k++) { const x = 150 + k * 89, h = 160 + k * 18 + r() * 120; g.globalAlpha = 0.45; g.fillRect(x, 1080 - h, 46, h); }
-  g.globalAlpha = 1; g.lineWidth = 6; g.lineJoin = 'round';
-  // impressions: a long climb
-  g.beginPath();
-  for (let k = 0; k <= 40; k++) { const x = 120 + k * 54, y = 980 - k * 18 - Math.sin(k * 0.9) * 30 - r() * 30; k ? g.lineTo(x, y) : g.moveTo(x, y); }
-  g.stroke();
-  // leads: flat along the bottom
-  g.setLineDash([18, 14]);
-  g.beginPath();
-  for (let k = 0; k <= 40; k++) { const x = 120 + k * 54, y = 1040 - Math.sin(k * 1.3) * 8 - r() * 10; k ? g.lineTo(x, y) : g.moveTo(x, y); }
-  g.stroke(); g.setLineDash([]);
-  // the labels a campaign report wears
-  g.font = '600 44px "JetBrains Mono", monospace'; g.globalAlpha = 0.8;
-  [['IMPRESSIONS', 140, 92], ['CTR 2.1%', 900, 92], ['CPC ₪4.10', 1400, 92], ['LEADS', 2040, 92]].forEach(([t, x, y]) => g.fillText(t, x, y));
+   A whole ads dashboard on the far wall, in a muted grey at a few percent:
+   KPI tiles, impressions climbing while leads lie flat, daily clicks, where
+   the traffic comes from, a table of ads. It hangs square to the camera
+   (it rides with it), so it never turns or slides off the screen; the floor
+   hides its lower part the way a horizon would. */
+const board = (() => {
+  const c = document.createElement('canvas'); c.width = 2400; c.height = 1350;
+  const g = c.getContext('2d'), col = '#AEB6BF';
+  g.strokeStyle = col; g.fillStyle = col; g.lineJoin = 'round'; g.lineCap = 'round';
+  let sd = 11; const r = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
+  const panel = (x, y, w, h, title) => {
+    g.globalAlpha = 0.55; g.lineWidth = 3; g.beginPath(); g.roundRect(x, y, w, h, 18); g.stroke();
+    g.globalAlpha = 0.9; g.font = '600 30px "JetBrains Mono", monospace'; g.fillText(title, x + 28, y + 52);
+  };
+  const line = (pts) => { g.beginPath(); pts.forEach(([x, y], k) => k ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); };
+  // KPI tiles
+  [['IMPRESSIONS', '84.2K'], ['CLICKS', '1,512'], ['CTR', '1.8%'], ['CPC', '₪3.96'], ['LEADS', '29']].forEach(([k, v], n) => {
+    const x = 60 + n * 460, y = 60; panel(x, y, 420, 230, k);
+    g.globalAlpha = 1; g.font = '700 84px "JetBrains Mono", monospace'; g.fillText(v, x + 28, y + 160);
+    g.lineWidth = 4; g.globalAlpha = 0.7;
+    const up = n < 2; line(Array.from({ length: 12 }, (_, q) => [x + 250 + q * 13, y + 190 - (up ? q * 6 : 0) - r() * 22]));
+  });
+  // impressions climbing, leads flat
+  panel(60, 330, 1380, 560, 'IMPRESSIONS / LEADS · 30D');
+  g.globalAlpha = 0.3; g.lineWidth = 2;
+  for (let q = 0; q < 5; q++) line([[100, 440 + q * 100], [1400, 440 + q * 100]]);
+  g.globalAlpha = 1; g.lineWidth = 6;
+  line(Array.from({ length: 31 }, (_, q) => [100 + q * 43, 830 - q * 11 - Math.sin(q * 0.8) * 26 - r() * 24]));
+  g.setLineDash([16, 14]); line(Array.from({ length: 31 }, (_, q) => [100 + q * 43, 850 - r() * 14])); g.setLineDash([]);
+  // traffic sources
+  panel(1480, 330, 860, 560, 'TRAFFIC SOURCE');
+  const cx = 1720, cy = 640, rr = 170; let a0 = -Math.PI / 2;
+  [0.46, 0.31, 0.15, 0.08].forEach((f, q) => {
+    g.globalAlpha = 0.9 - q * 0.18; g.lineWidth = 56; g.beginPath(); g.arc(cx, cy, rr, a0 + 0.03, a0 + f * Math.PI * 2 - 0.03); g.stroke(); a0 += f * Math.PI * 2;
+  });
+  g.globalAlpha = 0.9; g.font = '500 32px "JetBrains Mono", monospace';
+  ['META ADS', 'GOOGLE', 'ORGANIC', 'OTHER'].forEach((t, q) => g.fillText(t, 1980, 520 + q * 70));
+  // daily clicks
+  panel(60, 930, 1140, 360, 'CLICKS / DAY');
+  g.globalAlpha = 0.6;
+  for (let q = 0; q < 26; q++) { const h = 70 + q * 5 + r() * 90; g.fillRect(100 + q * 41, 1260 - h, 24, h); }
+  // ads table
+  panel(1240, 930, 1100, 360, 'ADS');
+  g.globalAlpha = 0.85; g.font = '500 30px "JetBrains Mono", monospace';
+  [['AD 01', '₪1,940', '0.9%'], ['AD 02', '₪1,610', '1.4%'], ['AD 03', '₪1,220', '2.6%'], ['AD 04', '₪870', '1.1%']].forEach((row, q) => {
+    row.forEach((t, k) => g.fillText(t, 1280 + k * 330, 1050 + q * 60));
+    g.globalAlpha = 0.3; g.lineWidth = 2; line([[1280, 1068 + q * 60], [2300, 1068 + q * 60]]); g.globalAlpha = 0.85;
+  });
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
-  const board = new THREE.Mesh(new THREE.PlaneGeometry(13, 6.5), new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.06, depthWrite: false, fog: false, toneMapped: false }));
-  board.position.set(0.6, 1.9, -5.5); scene.add(board);
-  window.afiasBoard = board;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1350 / 2400), new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.035, depthWrite: false, fog: false, toneMapped: false }));
+  m.renderOrder = -1;
+  camera.add(m); scene.add(camera);
+  return m;
+})();
+function fitBoard() {
+  const d = 16, h = 2 * d * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)), w = h * camera.aspect;
+  const s = Math.min(w * 0.9, h * 0.8 * 2400 / 1350);   // the whole board in view, its top a little under the bar
+  board.scale.set(s, s, 1); board.position.set(0, h * 0.5 - s * 1350 / 2400 / 2 - h * 0.09, -d);
 }
 
 /* ---------- the funnel ----------
@@ -567,7 +591,9 @@ function resize() {
   W = innerWidth; H = innerHeight;
   renderer.setSize(W, H, false); composer.setSize(W, H);
   bloom.resolution.set(W / 2, H / 2);
+  small = W < 900; camera.fov = small ? 34 : 26;
   camera.aspect = W / H; camera.updateProjectionMatrix();
+  fitBoard();
 }
 addEventListener('resize', resize);
 
@@ -619,14 +645,13 @@ function frame(now) {
   const c = camAt(u), br = still ? 0 : Math.sin(clock * 0.5);
   camAzNow = c.az + br * 1.2;
   const az = THREE.MathUtils.degToRad(camAzNow), el = THREE.MathUtils.degToRad(c.el + br * 0.5);
-  const dist = c.d * (small ? 1.25 : 1);
+  const dist = c.d * (small ? 1.5 : 1);
   camera.position.set(Math.sin(az) * Math.cos(el) * dist, c.y + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist);
   camera.lookAt(0, c.y, 0);
-  const bd = window.afiasBoard; bd.position.set(-Math.sin(az) * 5.5, 1.9, -Math.cos(az) * 5.5); bd.lookAt(camera.position.x, 1.9, camera.position.z);
-  if (small) camera.setViewOffset(W, H, 0, H * 0.16, W, H); else camera.setViewOffset(W, H, W * -c.off, 0, W, H);
+  if (small) camera.setViewOffset(W, H, 0, H * 0.02, W, H); else camera.setViewOffset(W, H, W * -c.off, 0, W, H);
 
   // the copy: the headline cracks with the wall; the "nots" are struck through as you read them
-  if (lo) lo.style.transform = `translate(${(-open * 7).toFixed(1)}px, ${(open * 9).toFixed(1)}px) rotate(${(-open * 1.6).toFixed(2)}deg)`;
+  if (lo) lo.style.transform = small ? '' : `translate(${(-open * 7).toFixed(1)}px, ${(open * 9).toFixed(1)}px) rotate(${(-open * 1.6).toFixed(2)}deg)`;
   strikes.forEach((li, k) => li.style.setProperty('--s', smooth((u - 3.15 - k * 0.12) / 0.15).toFixed(3)));
   updateAnchors();
   camera.updateMatrixWorld();
