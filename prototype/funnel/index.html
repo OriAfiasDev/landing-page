@@ -20,17 +20,20 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* Copy lives in the scene: each block is pinned by the script to a point on
    the funnel (the rim, the crack, the spill on the floor, the spout) and a
    hairline runs from that point to the words. */
-.layer{position:absolute;inset:0;pointer-events:none}
 .leads{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .leads path{fill:none;stroke:rgba(250,248,243,.45);stroke-width:1}
 .leads circle{fill:var(--paper)}
-.tx{position:absolute;left:0;top:0;width:max-content;max-width:min(34vw,440px);opacity:0;will-change:transform,opacity}
-.tx h1,.tx h2{margin:0;font-weight:800;line-height:1.02;letter-spacing:-.025em;text-wrap:balance}
-.tx h1{font-size:clamp(40px,4.6vw,72px)}
-.tx h2{font-size:clamp(32px,3.6vw,56px)}
-.tx p{margin:10px 0 0;font-size:clamp(16px,1.35vw,20px);line-height:1.5;color:rgba(250,248,243,.82)}
-.tx.small{max-width:240px}
-.tx.small p{margin:0;font-size:clamp(15px,1.15vw,17px);color:rgba(250,248,243,.78)}
+.layer{position:absolute;inset:0;pointer-events:none;perspective:1100px}
+.tx{position:absolute;left:0;top:0;width:max-content;max-width:min(40vw,580px);opacity:0;will-change:transform,opacity;transform-style:preserve-3d}
+.tx h1,.tx h2{margin:0;font-weight:900;line-height:.98;letter-spacing:-.03em;text-wrap:balance}
+.tx h1{font-size:clamp(56px,6.4vw,104px)}
+.tx h2{font-size:clamp(44px,4.9vw,80px)}
+.tx p{margin:16px 0 0;font-size:clamp(19px,1.6vw,24px);line-height:1.45;color:rgba(250,248,243,.84);max-width:28ch;text-wrap:pretty}
+/* Letters with a body: a crisp extrusion away from the key light, so the
+   words read as solid things standing in the same light as the funnel. */
+.deep{text-shadow:1px 1px 0 #3a3f47,2px 2px 0 #333840,3px 3px 0 #2d3138,4px 4px 0 #272b31,5px 5px 0 #22252b}
+.tx.tag{max-width:none}
+.tx.tag p{margin:0;max-width:none;white-space:nowrap;font-size:clamp(16px,1.25vw,19px);font-weight:500;color:var(--paper);background:rgba(27,31,37,.72);padding:6px 10px;border-radius:3px}
 /* The headline that breaks with the funnel: two copies of the same words,
    cut along one jagged line; the lower piece falls away as the wall does. */
 .split{position:relative;display:block}
@@ -38,20 +41,32 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .split .lo{position:absolute;inset:0}
 .split .up{clip-path:polygon(0 0,100% 0,100% 46%,78% 58%,61% 44%,44% 63%,27% 49%,12% 60%,0 52%)}
 .split .lo{clip-path:polygon(0 52%,12% 60%,27% 49%,44% 63%,61% 44%,78% 58%,100% 46%,100% 100%,0 100%);transform-origin:20% 60%}
-.not{list-style:none;margin:16px 0 0;padding:0;font-size:clamp(17px,1.45vw,21px);color:rgba(250,248,243,.78)}
-.not li{position:relative;width:max-content;padding:4px 0}
-.not li::after{content:"";position:absolute;inset-inline:0;top:56%;height:2px;background:var(--brass);transform-origin:right;transform:scaleX(var(--s,0))}
-.fix{margin-top:18px !important;font-size:clamp(28px,3vw,46px) !important;font-weight:800;line-height:1.08 !important;color:var(--paper) !important}
+.not{list-style:none;margin:20px 0 0;padding:0;font-size:clamp(20px,1.7vw,26px);color:rgba(250,248,243,.8)}
+.not li{position:relative;width:max-content;padding:5px 0}
+.not li::after{content:"";position:absolute;inset-inline:-4px;top:55%;height:3px;background:var(--brass);transform-origin:right;transform:scaleX(var(--s,0))}
+.fix{margin-top:22px !important;font-size:clamp(34px,3.6vw,58px) !important;font-weight:900;line-height:1.02 !important;color:var(--paper) !important;max-width:none !important}
 .fix em{font-style:normal;color:var(--brass)}
-.btn{display:inline-block;margin-top:24px;padding:16px 24px;background:var(--brass);color:var(--ink);font-weight:700;font-size:17px;border-radius:3px;text-decoration:none;pointer-events:auto}
+.btn{display:inline-block;margin-top:28px;padding:18px 26px;background:var(--brass);color:var(--ink);font-weight:700;font-size:18px;border-radius:3px;text-decoration:none;pointer-events:auto}
 .btn:hover{background:var(--paper)}
+/* The banking app: fictional, no bank's name or look. */
+.bank{position:absolute;left:0;top:0;width:250px;padding:16px 18px 14px;border-radius:18px;background:#F4F1EA;color:#1C1E24;opacity:0;will-change:transform,opacity;transform-origin:50% 100%}
+.bank-k{margin:0;display:flex;justify-content:space-between;font-size:13px;font-weight:500;color:#5b6068}
+.bank-k span{font-size:11px;padding:2px 7px;border-radius:999px;background:#e5e0d4}
+.bank-v{margin:6px 0 0;direction:ltr;text-align:right;font-size:34px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.bank-v .cur{font-size:.55em;vertical-align:.5em;margin-right:2px;font-weight:600}
+.bank-in{margin:6px 0 0;font-size:12.5px;color:#2f7a4a;opacity:0;transition:opacity .25s;direction:rtl}
+.bank-in.on{opacity:1}
+.bank.jump .bank-v b{color:#2f7a4a}
 .after{position:relative;z-index:1;padding:140px 32px;text-align:center;color:var(--muted);font-size:17px}
 .note{position:fixed;left:16px;bottom:14px;z-index:6;font:11px ui-monospace,monospace;color:rgba(250,248,243,.5)}
 @media (max-width:899px){
   .bar{padding:0 18px}
   .tx{max-width:calc(100vw - 40px)}
-  .tx h1{font-size:38px} .tx h2{font-size:30px}
-  .tx.small{display:none}
+  .tx h1{font-size:42px} .tx h2{font-size:34px}
+  .tx p{font-size:17px}
+  .tx.tag{display:none}
+  .bank{width:190px;padding:12px 14px}
+  .bank-v{font-size:26px}
   .leads{display:none}
   .note{display:none}
 }
@@ -68,31 +83,39 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       <svg class="leads" id="leads" aria-hidden="true"></svg>
 
       <!-- beat 1: the funnel, whole -->
-      <div class="tx" data-tx="b1" data-at="rimR" data-dx="40" data-dy="-10" data-from="-1" data-to="0.85">
-        <h1>זה המשפך שלך.</h1>
-        <p>כל מי שלוחץ על המודעה שלך, נכנס לכאן.</p>
+      <div class="tx" data-tx="b1" data-at="rimR" data-dy="-30" data-from="-1" data-to="0.9">
+        <h1 class="deep">זה המשפך שלך.</h1>
+        <p>כל לחיצה על המודעה היא בן אדם שהתעניין בך. ועל כל אחד מהם כבר שילמת.</p>
       </div>
-      <div class="tx small" data-tx="in" data-at="pour" data-dx="0" data-dy="140" data-line="1" data-from="0.08" data-to="0.85"><p>הלחיצות נכנסות מלמעלה</p></div>
-      <div class="tx small" data-tx="out" data-at="spout" data-dx="0" data-dy="-30" data-line="1" data-from="0.2" data-to="0.85"><p>ולמטה אמורים לצאת לקוחות</p></div>
+      <div class="tx tag" data-tx="in" data-at="pour" data-from="-1" data-to="0.9"><p>אנשים שלחצו על המודעה</p></div>
 
       <!-- beat 2: it breaks, and the words break with it -->
-      <div class="tx" data-tx="b2" data-at="crack" data-dx="0" data-dy="-90" data-line="1" data-from="1.0" data-to="1.95">
-        <h2 class="split" aria-label="ככה הוא נראה באמת."><span class="up" aria-hidden="true">ככה הוא נראה באמת.</span><span class="lo" aria-hidden="true" data-lo>ככה הוא נראה באמת.</span></h2>
-        <p>סדוק. ובמשפך סדוק, רוב מה שנכנס נשפך החוצה.</p>
+      <div class="tx" data-tx="b2" data-at="crack" data-dy="-120" data-from="1.0" data-to="1.95">
+        <h2 class="split deep" aria-label="רוב מי שלחץ, לא פנה."><span class="up" aria-hidden="true">רוב מי שלחץ, לא פנה.</span><span class="lo" aria-hidden="true" data-lo>רוב מי שלחץ, לא פנה.</span></h2>
+        <p>הוא נכנס, הסתכל שלוש שניות ויצא. ואתה? רואה בדוח עוד לחיצה, ומשלם עליה.</p>
       </div>
+      <div class="tx tag" data-tx="hole" data-at="crack" data-from="1.35" data-to="2.95"><p>כאן הם עוזבים</p></div>
 
-      <!-- beat 3: it keeps leaking -->
-      <div class="tx" data-tx="b3" data-at="spill" data-dx="0" data-dy="-160" data-line="1" data-from="2.05" data-to="2.95">
-        <h2>והוא ממשיך לנזול.</h2>
-        <p>כל יום, על כל שקל שאתה מוציא על פרסום. גם כשאתה לא רואה את זה.</p>
+      <!-- beat 3: and you are probably fixing the wrong thing -->
+      <div class="tx" data-tx="b3" data-at="rimR" data-dy="-10" data-from="2.05" data-to="2.95">
+        <h2 class="deep">ואתה כנראה מתקן את הדבר הלא נכון.</h2>
+        <p>מחליף קריאייטיב. מעלה תקציב. מחליף קמפיינר. והכסף ממשיך להישפך מאותו סדק.</p>
       </div>
+      <div class="tx tag" data-tx="lost" data-at="spill" data-from="2.1" data-to="2.95"><p>כסף שכבר שילמת עליו</p></div>
 
-      <!-- beat 4: you don't need a new funnel. The crack closes as you read. -->
-      <div class="tx" data-tx="b4" data-at="rimR" data-dx="40" data-dy="10" data-from="3.05" data-to="9">
-        <h2>אתה לא צריך משפך חדש.</h2>
-        <ul class="not"><li data-strike="0">לא קריאייטיב חדש.</li><li data-strike="1">לא תקציב גדול יותר.</li></ul>
-        <p class="fix">רק <em>לתקן את הנזילה.</em></p>
+      <!-- beat 4: the crack closes as you read -->
+      <div class="tx" data-tx="b4" data-at="rimR" data-dy="-40" data-from="3.05" data-to="9">
+        <h2 class="deep">לא צריך עוד לחיצות.</h2>
+        <ul class="not"><li data-strike="0">לא קריאייטיב חדש.</li><li data-strike="1">לא תקציב גדול יותר.</li><li data-strike="2">לא קמפיינר אחר.</li></ul>
+        <p class="fix deep">רק <em>לסתום את הסדק.</em></p>
         <a class="btn" href="#">אני רוצה אבחון מלא לקמפיין שלי</a>
+      </div>
+
+      <!-- Where the money ends up: a made-up banking app, pinned beside the spout. -->
+      <div class="bank" id="bank" aria-hidden="true">
+        <p class="bank-k">החשבון שלך <span>עסקי</span></p>
+        <p class="bank-v"><span class="cur">₪</span><b id="bal">12,480</b></p>
+        <p class="bank-in" id="bankIn">+<span class="cur">₪</span>120 · תשלום מלקוח</p>
       </div>
     </div>
   </div>
@@ -309,70 +332,113 @@ const crackGeo = new THREE.BufferGeometry(); crackGeo.setAttribute('position', n
 const crackMat = new THREE.LineBasicMaterial({ color: new THREE.Color(1.7, 1.05, 0.28), transparent: true, opacity: 0, toneMapped: false });
 funnel.add(new THREE.LineSegments(crackGeo, crackMat));
 
-/* ---------- the clicks: gold balls ----------
-   Each one falls in, runs down the inside of the wall, and leaves either by
-   the spout (a customer) or, once the wall is open, through the crack. The
-   route is decided when a ball starts its run, from the state of the wall at
-   that moment, so a ball never changes its mind in mid-air. Where it is on
-   that route is plain arithmetic: no physics engine, nothing to drift. */
-const NB = small ? 150 : 380, BR = 0.042;
-const gold = new THREE.MeshStandardMaterial({ color: 0xE0B04A, metalness: 1, roughness: 0.2 });
-const goldLit = new THREE.MeshStandardMaterial({ color: 0xFFD27A, metalness: 0.6, roughness: 0.25, emissive: 0xFFB43C, emissiveIntensity: 0.9 });
-const ballGeo = new THREE.SphereGeometry(BR, 20, 14);
-const nLit = Math.round(NB * 0.15);
-const balls = new THREE.InstancedMesh(ballGeo, gold, NB - nLit), lit = new THREE.InstancedMesh(ballGeo, goldLit, nLit);
-[balls, lit].forEach(m => { m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); m.castShadow = true; scene.add(m); });
-const D = 4.6;                                       // seconds per run
-const B = Array.from({ length: NB }, (_, i) => ({ ph: i / NB, a0: rnd() * Math.PI * 2, r0: 0.15 + rnd() * 0.55, sp: 0.9 + rnd() * 0.2, k: rnd(), k2: rnd(), cyc: -1, hole: false }));
-const G = 6.5;
-const m4 = new THREE.Matrix4(), quat = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
-
-let openNow = 0;                                     // how open the wall is right now, 0..1
-function ballAt(b, time, out) {
-  const T = (b.ph * D + time * b.sp), cyc = Math.floor(T / D), t = T - cyc * D;
-  if (cyc !== b.cyc) { b.cyc = cyc; b.hole = openNow > 0.35 && b.k2 > 0.04; }   // when the wall is open, nearly everything finds the crack
-  let s = 1;
-  if (t < 0.55) {                                    // falling in
-    const u = t / 0.55, h = Y0 + 2.4 * (1 - u * u);
-    out.set(Math.cos(b.a0) * b.r0, h, Math.sin(b.a0) * b.r0);
-  } else {
-    const vExit = b.hole ? 0.5 + (b.k - 0.5) * 0.3 : 1, runT = b.hole ? 1.0 : 1.35, aExit = b.hole ? CRACK.a + (b.k2 - 0.5) * 0.6 : b.a0 + 7;
-    const tr = t - 0.55;
-    if (tr < runT) {                                 // running down the wall, faster as it narrows
-      const u = easeOut(tr / runT * 0.9 + 0.1 * (tr / runT) * (tr / runT)), v = u * vExit;
-      let da = Math.atan2(Math.sin(aExit - b.a0), Math.cos(aExit - b.a0)) + Math.PI * 2 * (b.hole ? 1 : 2);
-      const a = b.a0 + da * u, r = coneR(v) - BR - TH;
-      out.set(Math.cos(a) * r, coneY(v) + BR * 1.2, Math.sin(a) * r);
-    } else {
-      const te = tr - runT;
-      let x0, y0, z0, vx, vy, vz;
-      if (b.hole) {                                  // out through the crack
-        const r = coneR(vExit);
-        x0 = Math.cos(aExit) * r; z0 = Math.sin(aExit) * r; y0 = coneY(vExit);
-        const spd = 0.7 + b.k * 0.9;
-        vx = Math.cos(aExit) * spd; vz = Math.sin(aExit) * spd * 0.8 + (b.k2 - 0.5) * 0.6; vy = 0.35 + b.k2 * 0.5;
-      } else {                                       // out of the spout
-        x0 = 0; z0 = 0; y0 = FLOOR + 0.12;
-        const ang = b.a0, spd = 0.25 + b.k * 0.5;
-        vx = Math.cos(ang) * spd; vz = Math.abs(Math.sin(ang)) * spd + 0.2; vy = 0;
-      }
-      // a fall, one bounce, then a roll that slows to a stop
-      const yF = FLOOR + BR, disc = vy * vy + 2 * G * (y0 - yF), t1 = (vy + Math.sqrt(Math.max(0, disc))) / G;
-      let x, y, z;
-      if (te < t1) { x = x0 + vx * te; z = z0 + vz * te; y = y0 + vy * te - G * te * te / 2; }
-      else {
-        const vb = (G * t1 - vy) * 0.32, t2 = 2 * vb / G, tt = te - t1;
-        const hx = x0 + vx * t1, hz = z0 + vz * t1;
-        if (tt < t2) { x = hx + vx * 0.7 * tt; z = hz + vz * 0.7 * tt; y = yF + vb * tt - G * tt * tt / 2; }
-        else { const tr2 = tt - t2, roll = (1 - Math.exp(-1.4 * tr2)) / 1.4; x = hx + vx * 0.7 * (t2 + roll); z = hz + vz * 0.7 * (t2 + roll); y = yF; }
-      }
-      out.set(x, y, z);
-      s = 1 - smooth((t - (D - 0.6)) / 0.6);          // sinks away at the end of its run
-    }
-  }
-  return s;
+/* ---------- the clicks ----------
+   What goes in is people: little round tokens, most of them faces, some of
+   them a view, a tap, a like. On the way out each one turns into what it
+   really is, money. Out of the spout it flies into the business's account.
+   Through the crack it drops to the floor, loses its colour and quietly
+   melts away. Every route is decided when a token starts its run, from the
+   state of the wall at that moment, and where it is on that route is plain
+   arithmetic: no physics engine, nothing to drift. */
+const NB = small ? 130 : 300, TOK = 0.17;
+function tokenTexture(draw) {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d');
+  g.save(); g.beginPath(); g.arc(64, 64, 60, 0, Math.PI * 2); g.clip(); draw(g); g.restore();
+  g.lineWidth = 7; g.strokeStyle = '#D9AC4E'; g.beginPath(); g.arc(64, 64, 59, 0, Math.PI * 2); g.stroke();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
 }
+// Faces drawn, not photographed: nobody's likeness, nothing to license.
+const FACES = [['#E8D9C4', '#C99A73', '#3B2A20'], ['#D7E2E8', '#8D5B3E', '#1E1712'], ['#E6DCE8', '#F0C9A6', '#B5793B'], ['#DDE7D8', '#E4B48C', '#2B2B2B'], ['#EFE1D2', '#6E4630', '#16100C'], ['#E2E4EE', '#F3D2B5', '#7A4A2A']];
+const textures = FACES.map(([bg, skin, hair]) => tokenTexture(g => {
+  g.fillStyle = bg; g.fillRect(0, 0, 128, 128);
+  g.fillStyle = skin; g.beginPath(); g.ellipse(64, 132, 46, 36, 0, 0, Math.PI * 2); g.fill();     // shoulders
+  g.beginPath(); g.ellipse(64, 60, 24, 28, 0, 0, Math.PI * 2); g.fill();                          // head
+  g.fillStyle = hair; g.beginPath(); g.ellipse(64, 44, 26, 16, 0, Math.PI, 0); g.fill();
+}));
+const GLYPHS = [
+  g => { g.beginPath(); g.moveTo(52, 40); g.lineTo(52, 88); g.lineTo(92, 64); g.closePath(); g.fill(); },                                  // a view
+  g => { g.beginPath(); g.moveTo(48, 34); g.lineTo(48, 92); g.lineTo(62, 79); g.lineTo(72, 98); g.lineTo(82, 93); g.lineTo(72, 74); g.lineTo(90, 74); g.closePath(); g.fill(); },   // a tap
+  g => { g.beginPath(); g.moveTo(64, 92); g.bezierCurveTo(20, 64, 36, 30, 64, 50); g.bezierCurveTo(92, 30, 108, 64, 64, 92); g.fill(); },     // a like
+];
+GLYPHS.forEach(draw => textures.push(tokenTexture(g => { g.fillStyle = '#2A2F37'; g.fillRect(0, 0, 128, 128); g.fillStyle = '#E7BE62'; draw(g); })));
+const tokenGeo = new THREE.PlaneGeometry(TOK, TOK);
+const B = Array.from({ length: NB }, (_, i) => ({ ph: i / NB, a0: rnd() * Math.PI * 2, r0: 0.15 + rnd() * 0.55, sp: 0.9 + rnd() * 0.2, k: rnd(), k2: rnd(), k3: rnd(), cyc: -1, hole: false, type: rnd() < 0.62 ? Math.floor(rnd() * FACES.length) : FACES.length + Math.floor(rnd() * GLYPHS.length) }));
+const counts = textures.map((_, t) => B.filter(b => b.type === t).length);
+const tokens = textures.map((map, t) => {
+  const m = new THREE.InstancedMesh(tokenGeo, new THREE.MeshBasicMaterial({ map, transparent: true, alphaTest: 0.4 }), Math.max(1, counts[t]));
+  m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); scene.add(m); return m;
+});
+// the coins: gold, a shekel struck on both faces
+const coinFace = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+  g.fillStyle = '#D8AE52'; g.fillRect(0, 0, 128, 128);
+  g.strokeStyle = '#B8902F'; g.lineWidth = 5; g.beginPath(); g.arc(64, 64, 52, 0, Math.PI * 2); g.stroke();
+  g.fillStyle = '#9C7621'; g.font = '700 64px Rubik, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('₪', 64, 68);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+})();
+const coinGeo = new THREE.CylinderGeometry(0.058, 0.058, 0.012, 36);
+const coinRim = new THREE.MeshStandardMaterial({ color: 0xD2A646, metalness: 1, roughness: 0.25 });
+const coinCap = new THREE.MeshStandardMaterial({ color: 0xffffff, map: coinFace, metalness: 0.85, roughness: 0.3 });
+const coins = new THREE.InstancedMesh(coinGeo, [coinRim, coinCap, coinCap], NB);
+coins.instanceMatrix.setUsage(THREE.DynamicDrawUsage); coins.castShadow = true; scene.add(coins);
+const D = 4.6, G = 6.5;
+const m4 = new THREE.Matrix4(), quat = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3(), eul = new THREE.Euler();
+const bankAt = new THREE.Vector3();       // where the account is, in the scene (set each frame from the card's place on screen)
+const S = { pos: new THREE.Vector3(), coin: 0, tok: 1, grey: 0, arrived: 0, spin: 0 };
 
+let openNow = 0;
+function ballAt(b, time, prevTime) {
+  const T = b.ph * D + time * b.sp, cyc = Math.floor(T / D), t = T - cyc * D;
+  const tp = b.ph * D + prevTime * b.sp - cyc * D;              // the same run's clock a frame ago
+  if (cyc !== b.cyc) { b.cyc = cyc; b.set = false; }
+  if (!b.set && t >= 0.5) { b.set = true; b.hole = openNow > 0.35 && b.k2 > 0.05; }   // decided as it lands in the funnel
+  S.coin = 0; S.tok = 1; S.grey = 0; S.arrived = 0; S.spin = 0;
+  const out = S.pos;
+  if (t < 0.55) {                                    // falling in
+    const u = t / 0.55; out.set(Math.cos(b.a0) * b.r0, Y0 + 2.4 * (1 - u * u), Math.sin(b.a0) * b.r0); return S;
+  }
+  const vExit = b.hole ? 0.5 + (b.k - 0.5) * 0.3 : 1, runT = b.hole ? 1.0 : 1.35, aExit = b.hole ? CRACK.a + (b.k2 - 0.5) * 0.6 : b.a0 + 7;
+  const tr = t - 0.55;
+  if (tr < runT) {                                   // running down the wall
+    const u = easeOut(tr / runT * 0.9 + 0.1 * (tr / runT) * (tr / runT)), v = u * vExit;
+    const da = Math.atan2(Math.sin(aExit - b.a0), Math.cos(aExit - b.a0)) + Math.PI * 2 * (b.hole ? 1 : 2);
+    const a = b.a0 + da * u, r = coneR(v) - TOK * 0.45 - TH;
+    out.set(Math.cos(a) * r, coneY(v) + TOK * 0.5, Math.sin(a) * r); return S;
+  }
+  const te = tr - runT;
+  if (!b.hole) {
+    // down the spout, out of the bottom as a coin, and into the account
+    if (te < 0.25) { out.set(0, Y1 - (Y1 - FLOOR - 0.1) * te / 0.25, 0); S.tok = 1 - te / 0.25; return S; }
+    const u = clamp01((te - 0.25) / 1.0), e = u * u * (3 - 2 * u);
+    const p0x = 0, p0y = FLOOR + 0.1, p0z = 0.05;
+    const cx = (p0x + bankAt.x) / 2 + (b.k - 0.5) * 0.4, cy = Math.max(p0y, bankAt.y) + 0.7 + b.k2 * 0.4, cz = (p0z + bankAt.z) / 2;
+    const q = 1 - e;
+    out.set(q * q * p0x + 2 * q * e * cx + e * e * bankAt.x, q * q * p0y + 2 * q * e * cy + e * e * bankAt.y, q * q * p0z + 2 * q * e * cz + e * e * bankAt.z);
+    S.tok = 0; S.coin = u >= 1 ? 0 : 1 - smooth((u - 0.85) / 0.15) * 0.6; S.spin = u * 9;
+    const ta = 0.55 + runT + 1.25;
+    if (tp < ta && t >= ta) S.arrived = 1;
+    if (u >= 1) S.coin = 0;
+    return S;
+  }
+  // out through the crack: it turns to money as it leaves, falls, and is lost
+  const r = coneR(vExit), x0 = Math.cos(aExit) * r, z0 = Math.sin(aExit) * r, y0 = coneY(vExit);
+  const spd = 0.7 + b.k * 0.9, vx = Math.cos(aExit) * spd, vz = Math.sin(aExit) * spd * 0.8 + (b.k2 - 0.5) * 0.6, vy = 0.35 + b.k2 * 0.5;
+  const m = smooth(te / 0.2); S.tok = 1 - m; S.coin = m; S.spin = te * 7;
+  const yF = FLOOR + 0.008, t1 = (vy + Math.sqrt(vy * vy + 2 * G * (y0 - yF))) / G;
+  let x, y, z;
+  if (te < t1) { x = x0 + vx * te; z = z0 + vz * te; y = y0 + vy * te - G * te * te / 2; }
+  else {
+    const tt = te - t1, roll = (1 - Math.exp(-2.2 * tt)) / 2.2;
+    x = x0 + vx * (t1 + roll * 0.5); z = z0 + vz * (t1 + roll * 0.5); y = yF;
+    S.spin = te * 7 * Math.exp(-3 * tt);
+    S.grey = smooth((tt - 0.25) / 0.7);                         // it goes grey...
+    S.coin *= 1 - smooth((tt - 0.7) / 0.9);                     // ...and melts away
+    y -= 0.02 * smooth((tt - 0.7) / 0.9);
+  }
+  out.set(x, y, z);
+  return S;
+}
 /* ---------- post: a soft bloom, only on what is actually bright ---------- */
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
@@ -402,43 +468,63 @@ function camAt(u) {
 /* ---------- copy pinned to the scene ---------- */
 const tx = [...document.querySelectorAll('[data-tx]')], leads = document.getElementById('leads');
 const lo = document.querySelector('[data-lo]'), strikes = [...document.querySelectorAll('[data-strike]')];
-const anchors = { rimR: new THREE.Vector3(), pour: new THREE.Vector3(), spout: new THREE.Vector3(), crack: new THREE.Vector3(), spill: new THREE.Vector3() };
+const anchors = { rimR: new THREE.Vector3(), pour: new THREE.Vector3(), crack: new THREE.Vector3(), spill: new THREE.Vector3(), bank: new THREE.Vector3() };
 function updateAnchors() {
   let best = -1e9;                                                               // the rim's edge nearest the copy, whatever the angle
   for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2; sp.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0).project(camera); if (sp.x > best) { best = sp.x; anchors.rimR.set(Math.cos(a) * R0, Y0, Math.sin(a) * R0); } }
-  anchors.pour.set(0.05, Y0 + 0.9, 0);
-  anchors.spout.set(0, FLOOR + 0.2, 0);
+  anchors.pour.set(0.18, Y0 + 0.75, 0);
+  anchors.bank.set(small ? 0.9 : 1.45, FLOOR + 0.02, 1.1);
   wallPoint(CRACK.a, 0.46, 0, anchors.crack);
-  anchors.spill.set(Math.cos(CRACK.a) * 2.0, FLOOR + 0.05, Math.sin(CRACK.a) * 1.4);
+  anchors.spill.set(Math.cos(CRACK.a) * 1.7, FLOOR + 0.02, Math.sin(CRACK.a) * 1.2);
 }
 const sp = new THREE.Vector3();
 function screen(v) { sp.copy(v).project(camera); return { x: (sp.x * 0.5 + 0.5) * W, y: (-sp.y * 0.5 + 0.5) * H }; }
 function placeCopy(u) {
   let svg = '';
+  const tilt = Math.max(-9, Math.min(9, (camAzNow + 18) * 0.22));       // the words turn a little with the camera, as if they stood in the scene
+  const cardTop = small ? 1e9 : screen(anchors.bank).y - bank.offsetHeight;
   tx.forEach(el => {
     const from = +el.dataset.from, to = +el.dataset.to;
     const vis = smooth((u - from) / 0.18) * (1 - smooth((u - to + 0.12) / 0.15));
     el.style.opacity = vis.toFixed(3);
     el.style.pointerEvents = vis > 0.6 ? 'auto' : 'none';
     if (vis <= 0.001) return;
-    const s = screen(anchors[el.dataset.at]);
+    const s = screen(anchors[el.dataset.at]), tag = el.classList.contains('tag');
     let x, y;
-    if (small) { x = 20; y = H - el.offsetHeight - 28; }   // phones: one block at the foot of the screen
+    if (small) { x = 20; y = H - el.offsetHeight - 28; }
+    else if (tag) { x = s.x + 26; y = s.y - el.offsetHeight / 2; }        // a tag sits right beside the thing it names
     else {
-      // the block stands to the copy side of its point; the right edge of an RTL block
-      // the copy keeps to its own column on the right; it moves up and down with the point it is about
-      x = W - Math.max(48, (W - 1180) / 2) - el.offsetWidth;
-      y = s.y + (+el.dataset.dy) * (H / 900);
-      y = Math.max(84, Math.min(H - el.offsetHeight - 40, y));
+      x = W - Math.max(48, (W - 1180) / 2) - el.offsetWidth;            // the copy column, moving with the part it talks about
+      y = Math.max(84, Math.min(H * 0.7 - el.offsetHeight * 0.5, s.y + (+el.dataset.dy || 0) * (H / 900)));
+      if (y + el.offsetHeight > cardTop - 24) y = Math.max(76, cardTop - 24 - el.offsetHeight);   // never under the account card
     }
-    const drift = (1 - vis) * 14;                          // it settles into place as it arrives
-    el.style.transform = `translate(${x.toFixed(1)}px, ${(y + drift).toFixed(1)}px)`;
-    if (el.dataset.line && !small) {
-      const ex = x - 14, ey = y + Math.min(28, el.offsetHeight / 2);
-      svg += `<g opacity="${vis.toFixed(2)}"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="2.5"/><path d="M${s.x.toFixed(1)} ${s.y.toFixed(1)} L${ex.toFixed(1)} ${ey.toFixed(1)}"/></g>`;
-    }
+    const z = (1 - vis) * -220;                                           // it comes forward out of the dark as it arrives
+    el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translateZ(${z.toFixed(1)}px) rotateY(${tag ? 0 : tilt.toFixed(2)}deg)`;
+    if (tag && !small) svg += `<g opacity="${vis.toFixed(2)}"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="3"/><path d="M${s.x.toFixed(1)} ${s.y.toFixed(1)} L${(x - 4).toFixed(1)} ${s.y.toFixed(1)}"/></g>`;
   });
   leads.innerHTML = svg;
+  // the account, standing beside the spout
+  const bs = screen(anchors.bank), bv = 1;
+  bank.style.opacity = bv.toFixed(3);
+  const bx = small ? W - bank.offsetWidth - 16 : bs.x - bank.offsetWidth / 2, by = small ? H * 0.47 : bs.y - bank.offsetHeight;
+  bank.style.transform = `translate(${bx.toFixed(1)}px, ${by.toFixed(1)}px) rotateY(${(-tilt * 0.6).toFixed(2)}deg)`;
+  // coins aim for the middle of the card
+  const ndc = new THREE.Vector3(((bx + bank.offsetWidth / 2) / W) * 2 - 1, -((by + bank.offsetHeight * 0.55) / H) * 2 + 1, 0);
+  sp.copy(anchors.bank).project(camera); ndc.z = sp.z; ndc.unproject(camera); bankAt.copy(ndc);
+}
+
+/* ---------- the balance ---------- */
+const bank = document.getElementById('bank'), balEl = document.getElementById('bal'), bankIn = document.getElementById('bankIn');
+let arrivals = 0, balance = 12480, shown = 12480, inTimer = 0;
+const nf = new Intl.NumberFormat('en-US');
+function tickBalance(dt, u) {
+  if (arrivals) {
+    balance += arrivals * 120; arrivals = 0;
+    bankIn.classList.add('on'); clearTimeout(inTimer); inTimer = setTimeout(() => bankIn.classList.remove('on'), 900);
+  }
+  shown += (balance - shown) * Math.min(1, dt * 6);
+  balEl.textContent = nf.format(Math.round(shown));
+  bank.classList.toggle('jump', u > 3.4);
 }
 
 /* ---------- size ---------- */
@@ -475,16 +561,25 @@ function frame(now) {
   glow.position.copy(anchors.crack).multiplyScalar(0.7);
   glow.intensity = (crack * 0.5 + open * 1.0) * 1.2;
 
-  // the balls
-  const vis = smooth(u / 0.05 + 0.6);                             // the pour is on from the start
-  let ni = 0, nl = 0;
-  B.forEach((b, i) => {
-    const s = ballAt(b, still ? 2.5 + i * 0.013 : clock, pos) * vis;
-    scl.setScalar(Math.max(0.0001, s)); m4.compose(pos, quat, scl);
-    if (i < nLit) lit.setMatrixAt(nl++, m4); else balls.setMatrixAt(ni++, m4);
-  });
-  balls.instanceMatrix.needsUpdate = true; lit.instanceMatrix.needsUpdate = true;
-
+  // the clicks: tokens going in, coins coming out
+  const vis = smooth(u / 0.05 + 0.6);
+  const fill = textures.map(() => 0), gold = new THREE.Color(1, 1, 1), ash = new THREE.Color(0.32, 0.33, 0.35), tint = new THREE.Color();
+  camera.updateMatrixWorld();
+  const camQ = camera.quaternion;
+  for (let i = 0; i < NB; i++) {
+    const b = B[i], st = ballAt(b, still ? 2.5 + i * 0.013 : clock, still ? 2.5 + i * 0.013 : clock - dt);
+    if (st.arrived) { arrivals++; }
+    // the token, facing the camera
+    scl.setScalar(Math.max(0.0001, st.tok * vis)); m4.compose(st.pos, camQ, scl);
+    tokens[b.type].setMatrixAt(fill[b.type]++, m4);
+    // the coin, tumbling
+    eul.set(1.2 + st.spin, st.spin * 0.6, 0.3); quat.setFromEuler(eul);
+    scl.setScalar(Math.max(0.0001, st.coin * vis)); m4.compose(st.pos, quat, scl);
+    coins.setMatrixAt(i, m4);
+    coins.setColorAt(i, tint.copy(gold).lerp(ash, st.grey));
+  }
+  tokens.forEach(m => { m.instanceMatrix.needsUpdate = true; });
+  coins.instanceMatrix.needsUpdate = true; if (coins.instanceColor) coins.instanceColor.needsUpdate = true;
   // the camera, breathing a little
   const c = camAt(u), br = still ? 0 : Math.sin(clock * 0.5);
   camAzNow = c.az + br * 1.2;
@@ -496,10 +591,11 @@ function frame(now) {
 
   // the copy: the headline cracks with the wall; the "nots" are struck through as you read them
   if (lo) lo.style.transform = `translate(${(-open * 7).toFixed(1)}px, ${(open * 9).toFixed(1)}px) rotate(${(-open * 1.6).toFixed(2)}deg)`;
-  strikes.forEach((li, k) => li.style.setProperty('--s', smooth((u - 3.2 - k * 0.15) / 0.2).toFixed(3)));
+  strikes.forEach((li, k) => li.style.setProperty('--s', smooth((u - 3.15 - k * 0.12) / 0.15).toFixed(3)));
   updateAnchors();
   camera.updateMatrixWorld();
   placeCopy(u);
+  tickBalance(dt, u);
 
   composer.render();
   if (!still) requestAnimationFrame(frame);
