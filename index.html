@@ -238,42 +238,27 @@ html:not(.gl-on) canvas.gl{opacity:0}
 @keyframes glIn{from{opacity:0}}
 html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100vw - 1180px) / 2));top:24vh}
 @media (max-width:899px){html:not(.gl-on) .tx[data-tx="b1"]{right:20px;top:auto;bottom:88px}}
-/* The loading screen: a funnel that fills, until the scene is up (or for
-   6.5 seconds at most). The first headline is already laid out under it. */
+/* The loading screen: a funnel that fills, in the middle of the screen, with
+   the word "טוען" under it, until the scene is up (or for 6.5 seconds at
+   most). It covers the first headline, which is laid out and painted
+   underneath all along, so it still counts as the page's first content. */
 .ld{display:none}
-.loading .ld{position:absolute;inset:0;z-index:0;display:block;background:var(--ink);transition:opacity .6s ease,visibility .6s}
-.ld-in{position:absolute;left:30%;top:50%;display:flex;flex-direction:column;align-items:center;gap:26px;transform:translate(-50%,-50%)}
+.loading .ld{position:absolute;inset:0;z-index:2;display:block;background:var(--ink);transition:opacity .6s ease,visibility .6s}
+.ld-in{position:absolute;left:50%;top:50%;display:flex;flex-direction:column;align-items:center;gap:20px;transform:translate(-50%,-50%)}
 .loading .layer{z-index:1}
-.ld-sp,.ld-t{display:none}
-
 .ld-done .ld{opacity:0;visibility:hidden;pointer-events:none}
-.ld-f{width:112px;height:auto;overflow:visible}
+.ld-f{width:104px;height:auto;overflow:visible}
+@media (min-width:900px){.ld-f{width:128px}}
+@media (max-width:899px){.ld-in{top:38%}}   /* a first visit opens the cookie panel at the bottom: keep the loader clear of it */
 .ld-o{fill:none;stroke:#8A8F99;stroke-width:2;stroke-linejoin:round}
 .ld-fill{fill:var(--brass);transform-box:view-box;transform-origin:50% 100%;animation:ldFill 2.2s cubic-bezier(.45,0,.3,1) infinite}
 .ld-drop{fill:var(--brass);animation:ldDrop 2.2s linear infinite}
 .ld-drop:nth-of-type(2){animation-delay:-.73s}
 .ld-drop:nth-of-type(3){animation-delay:-1.46s}
-.ld-logo{display:block;width:120px;height:auto;aspect-ratio:99.2/28;color:var(--paper);opacity:.9}
-@media (min-width:900px){.ld-f{width:150px}.ld-logo{width:136px}}
+.ld-t{font-size:16px;font-weight:500;letter-spacing:.02em;color:var(--text)}
 @keyframes ldFill{0%{transform:translateY(100%)}70%{transform:translateY(8%)}88%,100%{transform:translateY(8%);opacity:0}}
 @keyframes ldDrop{0%{transform:translateY(-34px);opacity:0}15%{opacity:1}60%{transform:translateY(30px);opacity:1}70%,100%{transform:translateY(36px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.ld-fill{animation:none;transform:translateY(40%)}.ld-drop{display:none}}
-/* On a phone the headline would sit right under a big filling funnel and read
-   as part of it, so the phone gets a plain loader instead: a small spinner in
-   the middle of the screen, the word "טוען", and nothing else. It covers the
-   headline, which is still painted underneath (so it still counts as the
-   page's first content), and lifts away when the scene is up. */
-@media (max-width:899px){
-  .loading .ld{z-index:2}
-  .ld-in{left:50%;top:50%;gap:16px}
-  .ld-f,.ld-logo{display:none}
-  .ld-sp{display:block;position:relative;width:56px;height:56px}
-  .ld-sp::before,.ld-sp::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--line)}
-  .ld-sp::after{border-color:var(--brass) transparent transparent transparent;animation:ldSpin .9s linear infinite}
-  .ld-t{display:block;font-size:16px;font-weight:500;letter-spacing:.02em;color:var(--text)}
-}
-@keyframes ldSpin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){.ld-sp::after{animation-duration:2.4s}}
 
 /* The bar keeps out of the opening, and comes in with the rest of the page. */
 .bar{transition:transform .45s ease,opacity .45s ease}
@@ -678,9 +663,8 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
   <!-- 1. The opening: a pinned stage the scroll plays through (see the scene script). -->
   <div class="story" id="story">
     <div class="stage">
-      <!-- The loading screen: on a computer, a funnel that fills where the real
-           one will stand, with the first headline already beside it; on a
-           phone, a plain spinner in the middle of the screen. -->
+      <!-- The loading screen: a funnel that fills and the word "טוען", in the
+           middle of the screen. -->
       <div class="ld" aria-hidden="true"><div class="ld-in">
         <svg class="ld-f" viewBox="0 0 120 124">
           <defs><clipPath id="ldc"><path d="M8 18H112L68 74V118H52V74Z"/></clipPath></defs>
@@ -688,8 +672,7 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
           <g clip-path="url(#ldc)"><rect class="ld-fill" x="0" y="18" width="120" height="100"/></g>
           <path class="ld-o" d="M8 18H112L68 74V118H52V74Z"/>
         </svg>
-        <svg class="ld-logo" viewBox="0 0 99.2 28"><use href="#logo"/></svg>
-        <span class="ld-sp"></span><span class="ld-t">טוען...</span>
+        <span class="ld-t">טוען...</span>
       </div></div>
       <p class="sr">המחשה: משפך מתכת שאנשים נופלים לתוכו ויוצאים ממנו ככסף לחשבון הבנק. המשפך נסדק, ורוב הכסף נשפך החוצה דרך הסדק. בסוף הסדק מתוקן, והכסף שוב זורם לחשבון.</p>
       <div class="layer">
