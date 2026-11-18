@@ -455,7 +455,7 @@ html:not(.gl-on) .tx[data-tx="b1"]{opacity:1;left:auto;right:max(48px,calc((100v
 .form-note{font-size:14px;color:var(--muted)}
 .form-note a{text-decoration-color:var(--brass);text-underline-offset:3px}
 .done{padding:20px;border:1px solid var(--brass);font-size:clamp(19px,1.8vw,22px);font-weight:700;line-height:1.35}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}   /* left, not inline-start: off the right edge an RTL page would grow a scrollbar */
+.hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;opacity:0;pointer-events:none}   /* clipped in place, never pushed off-screen: far off to one side, a phone zooms the whole page out to fit it */
 
 /* ---------- 6. process ---------- */
 .steps{display:grid}
@@ -2176,6 +2176,13 @@ function updateAnchors() {
   anchors.spill.set(Math.cos(CRACK.a) * 1.7, FLOOR + 0.02, Math.sin(CRACK.a) * 1.2);
 }
 const sp = new THREE.Vector3();
+// On a phone the copy sits above the WhatsApp button. While the cookie panel
+// is open (a first visit), the button rides on top of it, so the copy does too.
+const root = document.documentElement;
+function phoneFoot() {
+  if (!root.classList.contains('afc-open')) return 88;
+  return Math.max(88, (parseFloat(root.style.getPropertyValue('--afc-h')) || 0) + 88);
+}
 function screen(v) { sp.copy(v).project(camera); return { x: (sp.x * 0.5 + 0.5) * W, y: (-sp.y * 0.5 + 0.5) * H }; }
 function placeCopy(u) {
   let svg = '';
@@ -2188,7 +2195,7 @@ function placeCopy(u) {
     if (vis <= 0.001) return;
     const s = screen(anchors[el.dataset.at]), tag = el.classList.contains('tag');
     let x, y;
-    if (small) { x = 20; y = H - el.offsetHeight - 88; }   // above the WhatsApp button
+    if (small) { x = 20; y = H - el.offsetHeight - phoneFoot(); }   // above the WhatsApp button (and the cookie panel)
     else if (tag) { x = s.x + 26; y = s.y - el.offsetHeight / 2; }        // a tag sits right beside the thing it names
     else {
       x = W - Math.max(48, (W - 1180) / 2) - el.offsetWidth;            // the copy column, moving with the part it talks about
@@ -2220,7 +2227,7 @@ const rimTop = new THREE.Vector3();
 function fitPhone() {
   let copyH = 0;
   tx.forEach(el => { if (!el.classList.contains('tag') && +el.style.opacity > 0.02) copyH = Math.max(copyH, el.offsetHeight); });
-  const copyTop = H - 88 - (copyH || 120);
+  const copyTop = H - phoneFoot() - (copyH || 120);
   const cardFoot = screen(anchors.bank).y + bank.offsetHeight;
   const rim = screen(rimTop.set(0, Y0 + 0.28, -R0)).y;               // the far edge of the rim, with room for the pour above it
   const room = copyTop - 16 - 14, need = cardFoot - rim;               // 14px clear of the screen's top edge

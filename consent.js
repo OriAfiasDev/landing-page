@@ -193,6 +193,14 @@
     '.afc-btn.afc-ghost{background:transparent;border-color:#8A6420;color:#1C1E24}.afc-btn.afc-ghost:hover{background:#f1e9d6}' +
     '.afc-btn:focus-visible{outline:3px solid #1C1E24;outline-offset:2px}' +
     '.afc-btn[hidden]{display:none}' +
+    '.afc-short{display:none}' +
+    /* On a phone the panel stays small, so it never covers what the page is
+       showing: the short version of the text (the policy links carry the
+       rest), a smaller title and one row of equal buttons. */
+    '@media (max-width:699px){.afc{bottom:calc(8px + env(safe-area-inset-bottom,0px));inset-inline-start:8px;inset-inline-end:8px;padding:12px 14px;border-radius:14px;font-size:14px;line-height:1.45}' +
+    '.afc-title{margin:0 0 2px;font-size:15px}.afc-text{margin:0 0 10px}.afc-long{display:none}.afc-short{display:inline}' +
+    '.afc-actions{flex-wrap:nowrap;gap:6px}.afc-btn{flex:1 1 0;min-width:0;min-height:44px;padding:8px 10px;font-size:14px}' +
+    '.afc-prefs:not([hidden])~.afc-actions{flex-wrap:wrap}.afc-prefs:not([hidden])~.afc-actions .afc-btn{flex:1 1 40%}}' +
     '.afc-open .wa-float{bottom:calc(var(--afc-h,0px) + 24px)}' +
     /* Keep focused/scrolled-to content and the end of the page clear of the banner. */
     'html.afc-open{scroll-padding-bottom:calc(var(--afc-h,0px) + 24px)}html.afc-open body{padding-bottom:calc(var(--afc-h,0px) + 24px)}' +
@@ -212,7 +220,8 @@
     if (box) return;
     box = el('section', { id: 'afias-consent', 'class': 'afc', role: 'region', 'aria-labelledby': 'afc-title', dir: 'rtl', lang: 'he', hidden: '' },
       '<h2 class="afc-title" id="afc-title" tabindex="-1">עוגיות ומדידה באתר</h2>' +
-      '<p class="afc-text">בלי הסכמה האתר לא טוען כלי מדידה, ושומר בדפדפן רק את הבחירה שלכם. אם תאשרו, אפעיל כלי סטטיסטיקה (Google Analytics, Microsoft Clarity) וכלי שיווק (Meta) כדי להבין איך משתמשים באתר ולמדוד פרסום. אפשר לשנות את הבחירה בכל רגע דרך "הגדרות עוגיות" בתחתית העמוד. פרטים ב<a href="/cookies/">מדיניות העוגיות</a>, ב<a href="/privacy/">מדיניות הפרטיות</a> וב<a href="/accessibility/">הצהרת הנגישות</a>.</p>' +
+      '<p class="afc-text"><span class="afc-long">בלי הסכמה האתר לא טוען כלי מדידה, ושומר בדפדפן רק את הבחירה שלכם. אם תאשרו, אפעיל כלי סטטיסטיקה (Google Analytics, Microsoft Clarity) וכלי שיווק (Meta) כדי להבין איך משתמשים באתר ולמדוד פרסום. אפשר לשנות את הבחירה בכל רגע דרך "הגדרות עוגיות" בתחתית העמוד. פרטים ב<a href="/cookies/">מדיניות העוגיות</a>, ב<a href="/privacy/">מדיניות הפרטיות</a> וב<a href="/accessibility/">הצהרת הנגישות</a>.</span>' +
+      '<span class="afc-short">בלי הסכמה לא נטען שום כלי מדידה. אם תאשרו, אפעיל סטטיסטיקה (Google, Clarity) ושיווק (Meta). אפשר לשנות בכל רגע. פרטים ב<a href="/cookies/">מדיניות העוגיות</a> וב<a href="/privacy/">מדיניות הפרטיות</a>.</span></p>' +
       '<fieldset class="afc-prefs" id="afc-prefs" hidden><legend>בחירה לפי קטגוריה</legend>' +
       '<div class="afc-cat"><input type="checkbox" id="afc-nec" checked disabled><label for="afc-nec"><b>הכרחיות (תמיד פעילות)</b>: שמירת הבחירה הזו ושליחת טופס הדמו.</label></div>' +
       '<div class="afc-cat"><input type="checkbox" id="afc-stats"><label for="afc-stats"><b>סטטיסטיקה</b>: Google Analytics 4 ו-Microsoft Clarity (כולל הקלטת התנהגות בעמוד), כדי להבין איך משתמשים באתר.</label></div>' +

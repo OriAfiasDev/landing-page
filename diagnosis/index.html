@@ -108,7 +108,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--brass);outlin
 .msg{padding:14px 16px;border:1px solid var(--field);font-size:16px;line-height:1.5}
 .msg:focus{outline:2px solid var(--brass);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;opacity:0;pointer-events:none}   /* clipped in place, never pushed off-screen: far off to one side, a phone zooms the whole page out to fit it */
 
 /* Sent. With the script the form hides and this takes focus; without it the
    Worker redirects back to #sent and :target does the same. */
